@@ -1,0 +1,30 @@
+﻿<h3>Questa è una card</h3>
+@{
+  var VisibleProp = AttributesUtils.getPropertiesWithAttribute<Visible>(this);
+
+  foreach (var hd in VisibleProp)
+  {
+        <p>@(hd.Attribute.Caption ?? hd.Property.Name): @(hd.Property.GetValue(Data))</p>
+  }
+
+  var Subforms = AttributesUtils.getPropertiesWithAttribute<Subform>(this);
+
+  foreach (var item in Subforms)
+  {
+      <hr />
+      <h2>@item.Property.Name</h2>
+      var f = new RenderFragment(builder =>
+      {
+          builder.OpenComponent(0,item.Property.PropertyType);
+          builder.CloseComponent();
+      });
+
+      @f
+
+  }
+}
+
+
+@code {
+    public dynamic Data { get; set; }
+}

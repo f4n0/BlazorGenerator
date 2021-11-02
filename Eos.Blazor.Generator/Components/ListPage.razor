@@ -1,0 +1,56 @@
+﻿@{ 
+  var VisibleProp = AttributesUtils.getPropertiesWithAttribute<Visible>(this);
+  var PageActions = AttributesUtils.getMethodsWithAttribute<PageAction>(this);
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            @{
+
+              foreach (var hd in VisibleProp)
+              {
+                    <th>@(hd.Attribute.Caption ?? hd.Property.Name)</th>
+              }
+
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+
+            foreach (var item in Data)
+            {
+                <tr>
+                    @foreach (var prop in VisibleProp)
+                    {
+                        <td>@prop.Property.GetValue(item)</td>
+
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+<br />
+@{
+
+    foreach (var test in PageActions)
+    {
+        <button @onclick="@(() => test.Method.Invoke(this, null))">@(test.Attribute.Caption ?? test.Method.Name)</button>
+    }
+
+}
+
+@code { 
+  
+
+    public List<dynamic> Data { get; set; }
+
+  Task GenericExecute(System.Reflection.MethodInfo methodInfo)
+  {
+      methodInfo.Invoke(this, null);
+      return Task.CompletedTask;
+  }
+}

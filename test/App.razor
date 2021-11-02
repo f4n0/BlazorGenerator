@@ -1,0 +1,11 @@
+<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+    <Found Context="routeData">
+        
+        <DynamicRoute RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(DynamicMainLayout)">
+            <p>Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
