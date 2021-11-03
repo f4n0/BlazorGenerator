@@ -51,5 +51,17 @@ namespace test.Data
     {
       Data.Clear();
     }
+
+    [PageAction("Test")]
+    public void Action3()
+    {
+      if(SelectedRecs.Count > 0)
+      {
+        var index = Data.IndexOf(SelectedRecs.First());
+        var orig = (ComplexExample)Data[index];
+        orig.Test = "I've Changed It";
+        Data[index] = orig;
+      }      
+    }
   }
 }

@@ -13,11 +13,17 @@ namespace Eos.Blazor.Generator.Attributes
     {
       Caption = caption;
     }
+    public PageAction(string caption, string icon)
+    {
+      Caption = caption;
+      Icon = icon;
+    }
 
     public PageAction()
     {
     }
 
     public string? Caption { get; private set; }
+    public string? Icon { get; private set; } = "oi oi-play-circle";
   }
 }

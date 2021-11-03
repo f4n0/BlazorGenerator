@@ -31,5 +31,19 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $('body').on('focus', '[contenteditable]', function () {
+            const $this = $(this);
+            $this.data('before', $this.html());
+        }).on('blur keyup paste input', '[contenteditable]', function () {
+            const $this = $(this);
+            if ($this.data('before') !== $this.html()) {
+                $this.data('before', $this.html());
+                $this.trigger('change');
+                console.log($this);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,56 +1,104 @@
-﻿@{ 
-  var VisibleProp = AttributesUtils.getPropertiesWithAttribute<Visible>(this);
-  var PageActions = AttributesUtils.getMethodsWithAttribute<PageAction>(this);
+﻿@{
+    var VisibleProp = AttributesUtils.getPropertiesWithAttribute<Visible>(this);
+    var PageActions = AttributesUtils.getMethodsWithAttribute<PageAction>(this);
 }
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            @{
-
-              foreach (var hd in VisibleProp)
-              {
-                    <th>@(hd.Attribute.Caption ?? hd.Property.Name)</th>
-              }
-
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @{
-
-            foreach (var item in Data)
+<div class="ListPage">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link btn btn-light @(((isEditable? "active":"")))" @onclick="@(() => Edit())">Edit</a>
+            </li>
+            @foreach (var test in PageActions)
             {
+                <li class="nav-item">
+                    <a class="nav-link btn btn-light" @onclick="@(() => test.Method.Invoke(this, null))">
+                        <span class="@test.Attribute.Icon" aria-hidden="true"></span>
+                        @(test.Attribute.Caption ?? test.Method.Name)
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    @foreach (var prop in VisibleProp)
-                    {
-                        <td>@prop.Property.GetValue(item)</td>
+                    <th> </th>
+                    @{
+
+                        foreach (var hd in VisibleProp)
+                        {
+                            <th>@(hd.Attribute.Caption ?? hd.Property.Name)</th>
+                        }
 
                     }
                 </tr>
-            }
-        }
-    </tbody>
-</table>
-<br />
-<br />
-@{
+            </thead>
+            <tbody>
+                @{
 
-    foreach (var test in PageActions)
+                    foreach (var item in Data)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" value="test"
+                                       checked="@SelectedRecs.Contains(item)"
+                                       @onchange="@((e) => { if ((bool)e.Value) { SelectedRecs.Add(item); } else { SelectedRecs.Remove(item); } } )" />
+                            </td>
+
+                            @foreach (var prop in VisibleProp)
+                            {
+                                <td>
+
+                                    <input class="form-control" 
+                                           value="@prop.Property.GetValue(item)" 
+                                           @onchange="@((e)=> { SetPropertyValueFromString(item, prop.Property, (string)e.Value); })" 
+                                           readonly="@(!isEditable)" />
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@code {
+
+    public List<dynamic> SelectedRecs { get; private set; } = new List<dynamic>();
+    public List<dynamic> Data { get; set; }
+    bool isEditable = false;
+
+    void Edit()
     {
-        <button @onclick="@(() => test.Method.Invoke(this, null))">@(test.Attribute.Caption ?? test.Method.Name)</button>
+        isEditable = !isEditable;
     }
 
-}
 
-@code { 
-  
+    void SetPropertyValueFromString(object target, PropertyInfo oProp, string propertyValue)
+    {
+        Type tProp = oProp.PropertyType;
 
-    public List<dynamic> Data { get; set; }
+        //Nullable properties have to be treated differently, since we
+        //  use their underlying property to set the value in the object
+        if (tProp.IsGenericType
+            && tProp.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+        {
+            //if it's null, just set the value from the reserved word null, and return
+            if (propertyValue == null)
+            {
+                oProp.SetValue(target, null, null);
+                return;
+            }
 
-  Task GenericExecute(System.Reflection.MethodInfo methodInfo)
-  {
-      methodInfo.Invoke(this, null);
-      return Task.CompletedTask;
-  }
+            //Get the underlying type property instead of the nullable generic
+            tProp = new NullableConverter(oProp.PropertyType).UnderlyingType;
+        }
+
+        //use the converter to get the correct value
+        oProp.SetValue(target, Convert.ChangeType(propertyValue, tProp), null);
+    }
 }
