@@ -53,7 +53,7 @@
 
                                     <input class="form-control" 
                                            value="@prop.Property.GetValue(item)" 
-                                           @onchange="@((e)=> { SetPropertyValueFromString(item, prop.Property, (string)e.Value); })" 
+                                           @onchange="@((e)=> { ReflectionUtilites.SetPropertyValueFromString(item, prop.Property, (string)e.Value); })" 
                                            readonly="@(!isEditable)" />
                                 </td>
                             }
@@ -78,27 +78,5 @@
     }
 
 
-    void SetPropertyValueFromString(object target, PropertyInfo oProp, string propertyValue)
-    {
-        Type tProp = oProp.PropertyType;
-
-        //Nullable properties have to be treated differently, since we
-        //  use their underlying property to set the value in the object
-        if (tProp.IsGenericType
-            && tProp.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
-        {
-            //if it's null, just set the value from the reserved word null, and return
-            if (propertyValue == null)
-            {
-                oProp.SetValue(target, null, null);
-                return;
-            }
-
-            //Get the underlying type property instead of the nullable generic
-            tProp = new NullableConverter(oProp.PropertyType).UnderlyingType;
-        }
-
-        //use the converter to get the correct value
-        oProp.SetValue(target, Convert.ChangeType(propertyValue, tProp), null);
-    }
+    
 }

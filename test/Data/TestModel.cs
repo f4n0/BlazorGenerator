@@ -17,6 +17,10 @@ namespace test.Data
 
     [Visible("Summary")]
     public string Summary { get; set; }
+    [Visible("Summary2")]
+    public string Summary2 { get; set; }
+    [Visible("Summary3")]
+    public string? Summary3 { get; set; }
 
     private List<dynamic> GetData()
     {
@@ -29,7 +33,7 @@ namespace test.Data
 
     protected override void OnInitialized()
     {
-      Data = new TestModel() { Summary = "element 1" };
+      Data = new TestModel() { Summary = "element 1", Summary2="element2", Summary3="aa" };
     }
     
 
