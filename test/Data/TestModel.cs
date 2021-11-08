@@ -5,37 +5,32 @@ using Eos.Blazor.Generator;
 using Microsoft.AspNetCore.Components;
 using Eos.Blazor.Generator.Attributes;
 using Eos.Blazor.Generator.Components;
+using Eos.Blazor.Generator.Models;
 
 
 namespace test.Data
 {
   [AddToMenu("test", "/test", "oi oi-plus")]
   [Route(Route)]
-  public class TestModel : CardPage
+  public class TestModel : CardPage<TestModel>
   {
     const string Route = "/test";
 
-    /*[Visible("Summary")]
     public string Summary { get; set; }
-    [Visible("Summary2")]
     public string Summary2 { get; set; }
-    [Visible("Summary3")]
     public string? Summary3 { get; set; }
 
-    private List<dynamic> GetData()
-    {
-      return (new List<dynamic>(){
-        new TestModel() { Summary = "element 1" },
-        new TestModel() { Summary = "element 2" },
-        new TestModel() { Summary = "element 3" }
-      });
-    }
 
     protected override void OnInitialized()
     {
-      Data = new TestModel() { Summary = "element 1", Summary2="element2", Summary3="aa" };
+      VisibleFields = new List<VisibleField<TestModel>>() {
+        new VisibleField<TestModel>(nameof(Summary)){Getter = f => f.Summary, Setter = (f,v)=>f.Summary = v.ToString()},
+        new VisibleField<TestModel>(nameof(Summary2)){Getter = f => f.Summary2, Setter = (f,v)=>f.Summary2 = v.ToString()},
+        new VisibleField<TestModel>(nameof(Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString()}
+      };
+      Data = new TestModel() { Summary = "element 1", Summary2 = "element2", Summary3 = "aa" };
     }
-    */
+
 
   }
 }

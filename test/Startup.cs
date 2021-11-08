@@ -1,3 +1,4 @@
+using Eos.Blazor.Generator;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,7 @@ namespace test
     {
       services.AddRazorPages();
       services.AddServerSideBlazor();
+      services.AddEosBlazorGen();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

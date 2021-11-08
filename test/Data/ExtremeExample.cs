@@ -15,13 +15,9 @@ namespace test.Data
   {
     const string route = "/ExtremeExample";
 
-    [Visible]
     public string Test { get; set; }
-    [Visible]
     public int Test1 { get; set; }
-    [Visible]
     public DateTime Test2 { get; set; }
-    [Visible]
     public decimal Test3 { get; set; }
 
     [Subform]
@@ -29,11 +25,11 @@ namespace test.Data
 
     protected override void OnInitialized()
     {
-      VisibleFields = new List<VisibleField<ExtremeExample>>()        {
-      new VisibleField<ExtremeExample>(){Caption="Test", Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
-      new VisibleField<ExtremeExample>(){Caption="Test1", Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = Int32.Parse(v as string)},
-      new VisibleField<ExtremeExample>(){Caption="Test2", Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
-      new VisibleField<ExtremeExample>(){Caption="Test3", Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)}
+      VisibleFields = new List<VisibleField<ExtremeExample>>(){
+      new VisibleField<ExtremeExample>(nameof(Test)){Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
+      new VisibleField<ExtremeExample>(nameof(Test1)){Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = Int32.Parse(v as string)},
+      new VisibleField<ExtremeExample>(nameof(Test2)){Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
+      new VisibleField<ExtremeExample>(nameof(Test3)){Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)}
       };
 
 

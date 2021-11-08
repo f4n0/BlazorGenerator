@@ -2,64 +2,51 @@
     var PageActions = AttributesUtils.getMethodsWithAttribute<PageAction>(this);
 }
 @typeparam T
-<div class="ListPage">
-    <nav class="navbar navbar-expand-lg bg-light">
-        <!-- Links -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link btn btn-light @(((isEditable? "active":"")))" @onclick="@(() => Edit())">Edit</a>
-            </li>
-            @foreach (var test in PageActions)
+
+<Layout>
+    <LayoutHeader>
+        <Row>
+            @foreach (var action in PageActions)
             {
-                <li class="nav-item">
-                    <a class="nav-link btn btn-light" @onclick="@(() => test.Method.Invoke(this, null))">
-                        <span class="@test.Attribute.Icon" aria-hidden="true"></span>
-                        @(test.Attribute.Caption ?? test.Method.Name)
-                    </a>
-                </li>
+                <Button Color="Color.Dark" Outline="true" @onclick="@(() => action.Method.Invoke(this, null))">
+                    <span class="@action.Attribute.Icon" aria-hidden="true"></span>
+                    @(action.Attribute.Caption ?? action.Method.Name)
+                </Button>
             }
-        </ul>
-    </nav>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th> </th>
-                    @{
-                        foreach (var fld in VisibleFields)
-                        {
-                            <th>@(fld.Caption)</th>
-                        }
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @{
+        </Row>
+    </LayoutHeader>
+    <LayoutContent>
+        <DataGrid TItem="T"
+                  Data="@Data"
+                  SelectionMode="DataGridSelectionMode.Multiple"
+                  @bind-SelectedRows="@SelectedRecs"
+                  Resizable="true"
+                  Striped="true"
+                  ShowPager="false"
+                  ShowPageSizes="false"
+                  PageSize="int.MaxValue"
+                  Filterable="true"
+                  >
 
-                    foreach (var item in Data)
-                    {
-                        <tr>
-                            <td>
-                                <input type="checkbox" value="test"
-                                       checked="@SelectedRecs.Contains(item)"
-                                       @onchange="@((e) => { if ((bool)e.Value) { SelectedRecs.Add(item); } else { SelectedRecs.Remove(item); } } )" />
-                            </td>
-
-                            @foreach (var fld in VisibleFields)
-                            {
-                                <td>
-
-                                    <input class="form-control" 
-                                           value="@fld.Getter(item)" 
-                                           @onchange="@((e)=> { fld.Setter(item, e.Value); })" 
-                                           readonly="@(!isEditable)" />
-                                </td>
-                            }
-                        </tr>
-                    }
+            @foreach (var fld in VisibleFields)
+            {
+                switch (fld.Type)
+                {
+                    case Generator.Enum.FieldType.Numeric:
+                        <DataGridNumericColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true" />
+                        break;
+                    case Generator.Enum.FieldType.Boolean:
+                        <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true">
+                            <DisplayTemplate>
+                                <Check TValue="bool" Checked="@((bool)fld.Getter(context))" Disabled="true" ReadOnly="true" />
+                            </DisplayTemplate>
+                        </DataGridCheckColumn>
+                        break;
+                    default:
+                        <DataGridColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true" />
+                        break;
                 }
-            </tbody>
-        </table>
-    </div>
-</div>
-
+            }
+        </DataGrid>
+    </LayoutContent>
+</Layout>
