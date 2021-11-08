@@ -1,8 +1,8 @@
 ﻿@{
-    var VisibleProp = AttributesUtils.getPropertiesWithAttribute<Visible>(this);
     var PageActions = AttributesUtils.getMethodsWithAttribute<PageAction>(this);
     var Subforms = AttributesUtils.getPropertiesWithAttribute<Subform>(this);
 }
+@typeparam T
 
 <nav class="navbar navbar-expand-lg bg-light">
     <!-- Links -->
@@ -25,18 +25,18 @@
 <div class="container">
     @{
         <div class="row">
-            @foreach (var prop in VisibleProp)
+            @foreach (var fld in VisibleFields)
             {
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <label for="@prop.Property.Name" class="col-md-5 col-form-label">@(prop.Attribute.Caption ?? prop.Property.Name):</label>
-                    <input class="form-control col-md-6"
-                           name="@prop.Property.Name"
-                           value="@prop.Property.GetValue(Data)"
-                           @onchange="@((e) => { ReflectionUtilites.SetPropertyValueFromString(Data, prop.Property, (string)e.Value); })"
-                           readonly="@(!isEditable)" />
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="@fld.Caption" class="col-md-5 col-form-label">@(fld.Caption):</label>
+                        <input class="form-control col-md-6"
+                               name="@fld.Caption"
+                               value="@fld.Getter(Data)"
+                               @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+                               readonly="@(!isEditable)" />
+                    </div>
                 </div>
-            </div>
             }
         </div>
     }
@@ -57,15 +57,4 @@
         @f
 
     }
-}
-
-@code {
-    public dynamic Data { get; set; }
-    bool isEditable = false;
-
-    void Edit()
-    {
-        isEditable = !isEditable;
-    }
-
 }

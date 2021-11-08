@@ -15,7 +15,7 @@ namespace test.Data
   {
     const string Route = "/test";
 
-    [Visible("Summary")]
+    /*[Visible("Summary")]
     public string Summary { get; set; }
     [Visible("Summary2")]
     public string Summary2 { get; set; }
@@ -35,7 +35,7 @@ namespace test.Data
     {
       Data = new TestModel() { Summary = "element 1", Summary2="element2", Summary3="aa" };
     }
-    
+    */
 
   }
 }

@@ -1,7 +1,7 @@
 ﻿@{
-    var VisibleProp = AttributesUtils.getPropertiesWithAttribute<Visible>(this);
     var PageActions = AttributesUtils.getMethodsWithAttribute<PageAction>(this);
 }
+@typeparam T
 <div class="ListPage">
     <nav class="navbar navbar-expand-lg bg-light">
         <!-- Links -->
@@ -26,12 +26,10 @@
                 <tr>
                     <th> </th>
                     @{
-
-                        foreach (var hd in VisibleProp)
+                        foreach (var fld in VisibleFields)
                         {
-                            <th>@(hd.Attribute.Caption ?? hd.Property.Name)</th>
+                            <th>@(fld.Caption)</th>
                         }
-
                     }
                 </tr>
             </thead>
@@ -47,13 +45,13 @@
                                        @onchange="@((e) => { if ((bool)e.Value) { SelectedRecs.Add(item); } else { SelectedRecs.Remove(item); } } )" />
                             </td>
 
-                            @foreach (var prop in VisibleProp)
+                            @foreach (var fld in VisibleFields)
                             {
                                 <td>
 
                                     <input class="form-control" 
-                                           value="@prop.Property.GetValue(item)" 
-                                           @onchange="@((e)=> { ReflectionUtilites.SetPropertyValueFromString(item, prop.Property, (string)e.Value); })" 
+                                           value="@fld.Getter(item)" 
+                                           @onchange="@((e)=> { fld.Setter(item, e.Value); })" 
                                            readonly="@(!isEditable)" />
                                 </td>
                             }
@@ -65,18 +63,3 @@
     </div>
 </div>
 
-
-@code {
-
-    public List<dynamic> SelectedRecs { get; private set; } = new List<dynamic>();
-    public List<dynamic> Data { get; set; }
-    bool isEditable = false;
-
-    void Edit()
-    {
-        isEditable = !isEditable;
-    }
-
-
-    
-}

@@ -1,5 +1,6 @@
 ﻿using Eos.Blazor.Generator.Attributes;
 using Eos.Blazor.Generator.Components;
+using Eos.Blazor.Generator.Models;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace test.Data
 {
   [AddToMenu("Extreme Example", route)]
   [Route(route)]
-  public class ExtremeExample : CardPage
+  public class ExtremeExample : CardPage<ExtremeExample>
   {
     const string route = "/ExtremeExample";
 
@@ -28,6 +29,14 @@ namespace test.Data
 
     protected override void OnInitialized()
     {
+      VisibleFields = new List<VisibleField<ExtremeExample>>()        {
+      new VisibleField<ExtremeExample>(){Caption="Test", Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
+      new VisibleField<ExtremeExample>(){Caption="Test1", Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = Int32.Parse(v as string)},
+      new VisibleField<ExtremeExample>(){Caption="Test2", Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
+      new VisibleField<ExtremeExample>(){Caption="Test3", Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)}
+      };
+
+
       Data = new ExtremeExample() { Test = "TestString1", Test1 = 1, Test2 = DateTime.Now, Test3 = 0.1M };
     }
 
