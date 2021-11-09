@@ -24,8 +24,6 @@ namespace test.Data
 
     protected override Task OnInitializedAsync()
     {
-      var client = new RestClient("http://br-labsdev2:9462/api/v2/services/Integration/apps/all");
-      var res = client.Execute(new RestRequest());
       var test = new VisibleField<ServiceAppPackage>(nameof(ServiceAppPackage.Name)) { 
         Getter = f => f.Name,
         Setter = (f, v) =>
@@ -42,8 +40,21 @@ namespace test.Data
         new VisibleField<ServiceAppPackage>(nameof(ServiceAppPackage.Version)){Getter = f => f.Version.ToString()},
         new VisibleField<ServiceAppPackage>(nameof(ServiceAppPackage.DataVersion)){ Getter = f => f.DataVersion.ToString()}
       };
-      Data = JsonConvert.DeserializeObject<List<ServiceAppPackage>>(res.Content);
       return base.OnInitializedAsync();
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+      if (firstRender)
+      {
+        StartLoader();
+        var client = new RestClient("http://br-labsdev2:9462/api/v2/services/Integration/apps/all");
+        var res = client.Execute(new RestRequest());
+        Data = JsonConvert.DeserializeObject<List<ServiceAppPackage>>(res.Content);
+        StopLoader();
+        StateHasChanged();
+      }
+      return base.OnAfterRenderAsync(firstRender);
     }
   }
 

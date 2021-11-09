@@ -17,6 +17,7 @@
     </LayoutHeader>
     <LayoutContent>
         <DataGrid TItem="T"
+                  @ref="@_datagrid"
                   Data="@Data"
                   SelectionMode="DataGridSelectionMode.Multiple"
                   @bind-SelectedRows="@SelectedRecs"
@@ -26,24 +27,41 @@
                   ShowPageSizes="false"
                   PageSize="int.MaxValue"
                   Filterable="true"
-                  >
+                  Responsive="true"
+                  Narrow="true"
+                  Bordered="true">
 
             @foreach (var fld in VisibleFields)
             {
                 switch (fld.Type)
                 {
                     case Generator.Enum.FieldType.Numeric:
-                        <DataGridNumericColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true" />
+                        <DataGridNumericColumn TItem="T"
+                                               Field="@fld.Name"
+                                               Caption="@fld.Caption"
+                                               Sortable="true"
+                                               Filterable="true"
+                                               Editable="@fld.Editable"
+                                               Readonly="@(!fld.Editable)" />
                         break;
                     case Generator.Enum.FieldType.Boolean:
                         <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true">
                             <DisplayTemplate>
-                                <Check TValue="bool" Checked="@((bool)fld.Getter(context))" Disabled="true" ReadOnly="true" />
+                                <Check TValue="bool"
+                                       Checked="@((bool)fld.Getter(context))"
+                                       Disabled="@(!fld.Editable)"
+                                       ReadOnly="@(!fld.Editable)" />
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                         break;
                     default:
-                        <DataGridColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true" />
+                        <DataGridColumn TItem="T"
+                                        Field="@fld.Name"
+                                        Caption="@fld.Caption"
+                                        Sortable="true"
+                                        Filterable="true"
+                                        Editable="@fld.Editable"
+                                        Readonly="@(!fld.Editable)" />
                         break;
                 }
             }
