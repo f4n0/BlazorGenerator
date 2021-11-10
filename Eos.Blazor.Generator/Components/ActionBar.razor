@@ -4,7 +4,7 @@
     <Column>
         @foreach (var action in PageActions)
         {
-            <Button Color="Color.Dark" Outline="true" @onclick="@(() => action.Method.Invoke(this, null))">
+            <Button Color="Color.Dark" Outline="true" @onclick="@(() => action.Method.Invoke(Context, null))">
                 <span class="@action.Attribute.Icon" aria-hidden="true"></span>
                 @(action.Attribute.Caption ?? action.Method.Name)
             </Button>

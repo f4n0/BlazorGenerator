@@ -13,5 +13,8 @@ namespace Eos.Blazor.Generator.Components
   {
     [Parameter]
     public IEnumerable<(MethodInfo Method, PageAction Attribute)> PageActions { get; set; }
+
+    [Parameter]
+    public object Context { get; set; }
   }
 }

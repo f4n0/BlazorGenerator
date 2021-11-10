@@ -48,12 +48,14 @@ namespace test.Data
 				new ComplexExample(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
 				new ComplexExample(){Test = "TestString4", Test1= 4, Test2=DateTime.Now, Test3 = 0.4M}
 			  });
+			Refresh();
 		}
 
 		[PageAction("Delete all")]
 		public void Action2()
 		{
 			Data.Clear();
+			Refresh();
 		}
 
 		[PageAction("Test")]
@@ -65,6 +67,7 @@ namespace test.Data
 				var orig = Data[index];
 				orig.Test = "I've Changed It";
 				Data[index] = orig;
+				Refresh();
 			}
 		}
 	}
