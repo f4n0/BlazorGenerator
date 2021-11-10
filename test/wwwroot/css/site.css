@@ -48,9 +48,3 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
-
-
-    .form-control{
-        background: transparent !important;
-        border: 0px !important;
-    }

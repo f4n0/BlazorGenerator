@@ -5,15 +5,7 @@
 
 <Layout>
     <LayoutHeader>
-        <Row>
-            @foreach (var action in PageActions)
-            {
-                <Button Color="Color.Dark" Outline="true" @onclick="@(() => action.Method.Invoke(this, null))">
-                    <span class="@action.Attribute.Icon" aria-hidden="true"></span>
-                    @(action.Attribute.Caption ?? action.Method.Name)
-                </Button>
-            }
-        </Row>
+        <ActionBar T="@T" PageActions="@PageActions"></ActionBar>
     </LayoutHeader>
     <LayoutContent>
         <DataGrid TItem="T"
@@ -28,8 +20,7 @@
                   PageSize="int.MaxValue"
                   Filterable="true"
                   Responsive="true"
-                  Narrow="true"
-                  Bordered="true">
+                  Narrow="true">
 
             @foreach (var fld in VisibleFields)
             {

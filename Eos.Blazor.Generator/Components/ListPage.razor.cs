@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Eos.Blazor.Generator.Components
 {
   partial class ListPage<T> : ComponentBase
-  {
+  {    
     [Inject] 
     public IPageProgressService PageProgressService { get; set; }
     public List<T> SelectedRecs { get; private set; } = new List<T>();

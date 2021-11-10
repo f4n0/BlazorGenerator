@@ -4,57 +4,69 @@
 }
 @typeparam T
 
-<nav class="navbar navbar-expand-lg bg-light">
-    <!-- Links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link btn btn-light @(((isEditable ? "active" : "")))" @onclick="@(() => Edit())">Edit</a>
-        </li>
-        @foreach (var test in PageActions)
-        {
-            <li class="nav-item">
-                <a class="nav-link btn btn-light" @onclick="@(() => test.Method.Invoke(this, null))">
-                    <span class="@test.Attribute.Icon" aria-hidden="true"></span>
-                    @(test.Attribute.Caption ?? test.Method.Name)
-                </a>
-            </li>
-        }
-    </ul>
-</nav>
+<Layout>
+    <LayoutHeader>
+        <ActionBar T="@T" PageActions="@PageActions"></ActionBar>
+    </LayoutHeader>
+    <LayoutContent>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Form Row</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    @foreach (var fld in VisibleFields)
+                    {
+                        <Field ColumnSize="ColumnSize.Is6.OnDesktop" Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.Is4">@(fld.Caption): </FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.Is8">
+                                @switch (fld.Type)
+                                {
+                                    case Generator.Enum.FieldType.Numeric:
+                                        <NumericEdit Value="@(fld.Getter(Data))"
+                                                     @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+                                                     Placeholder="@fld.Caption"
+                                                     ReadOnly="@(!fld.Editable)" />
+                                        break;
+                                    case Generator.Enum.FieldType.Boolean:
+                                        <Check TValue="bool"
+                                               Checked="@((bool)fld.Getter(Data))"
+                                               ReadOnly="@(!fld.Editable)" />
+                                        break;
+                                    default:
+                                        <TextEdit Text="@((string) fld.Getter(Data))"
+                                                  @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+                                                  Placeholder="@fld.Caption"
+                                                  ReadOnly="@(!fld.Editable)" />
+                                        break;
+                                }
+                            </FieldBody>
+                        </Field>
+                    }
+                </Fields>
+            </CardBody>
+        </Card>
+    </LayoutContent>
+</Layout>
 
-<div class="container">
-    @{
-        <div class="row">
-            @foreach (var fld in VisibleFields)
-            {
-                <div class="col-md-6">
-                    <div class="form-group row">
-                        <label for="@fld.Caption" class="col-md-5 col-form-label">@(fld.Caption):</label>
-                        <input class="form-control col-md-6"
-                               name="@fld.Caption"
-                               value="@fld.Getter(Data)"
-                               @onchange="@((e) => { fld.Setter(Data, e.Value); })"
-                               readonly="@(!isEditable)" />
-                    </div>
-                </div>
-            }
-        </div>
-    }
-</div>
 
 @{
-
     foreach (var item in Subforms)
     {
-        <hr />
-        <h2>@item.Property.Name</h2>
-        var f = new RenderFragment(builder =>
-        {
-            builder.OpenComponent(0, item.Property.PropertyType);
-            builder.CloseComponent();
-        });
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>@item.Attribute.Caption</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @{var f = new RenderFragment(builder =>
+                    {
+                        builder.OpenComponent(0, item.Property.PropertyType);
+                        builder.CloseComponent();
+                    });
 
-        @f
-
+                    @f
+                }
+            </CardBody>
+        </Card>
     }
 }
