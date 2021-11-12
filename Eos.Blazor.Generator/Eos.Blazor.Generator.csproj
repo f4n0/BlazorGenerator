@@ -14,11 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.4.7" />
-    <PackageReference Include="Blazorise.DataGrid" Version="0.9.4.7" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.4.7" />
+    <PackageReference Include="Blazorise" Version="0.9.4.8" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.4.8" />
+    <PackageReference Include="Blazorise.DataGrid" Version="0.9.4.8" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.4.8" />
   </ItemGroup>
-  
-
 
 </Project>
