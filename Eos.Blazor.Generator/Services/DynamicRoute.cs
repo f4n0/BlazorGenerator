@@ -15,6 +15,7 @@ namespace Eos.Blazor.Generator.Services
     [Inject]
     protected NavigationManager NavigationManager { get; set; }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S3011:Reflection should not be used to increase accessibility of classes, methods, or fields", Justification = "<Pending>")]
     protected override void Render(RenderTreeBuilder builder)
     {
       var pageLayoutType = RouteData.PageType.GetCustomAttribute<LayoutAttribute>()?.LayoutType

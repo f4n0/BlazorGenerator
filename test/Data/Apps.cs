@@ -48,7 +48,9 @@ namespace test.Data
       if (firstRender)
       {
         StartLoader();
+#pragma warning disable S1075 // URIs should not be hardcoded
         var client = new RestClient("http://br-labsdev2:9462/api/v2/services/Integration/apps/all");
+#pragma warning restore S1075 // URIs should not be hardcoded
         var res = client.Execute(new RestRequest());
         Data = JsonConvert.DeserializeObject<List<ServiceAppPackage>>(res.Content);
         StopLoader();

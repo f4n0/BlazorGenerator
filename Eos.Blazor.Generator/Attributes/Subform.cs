@@ -7,17 +7,19 @@ using System.Threading.Tasks;
 namespace Eos.Blazor.Generator.Attributes
 {
   [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-  public class Subform : Attribute
+  public class SubformAttribute : Attribute
   {
-    public Subform(string caption)
+    public SubformAttribute(string caption)
     {
       Caption = caption;
     }
 
-    public Subform()
+    public SubformAttribute()
     {
     }
 
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     public string? Caption { get; private set; }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
   }
 }

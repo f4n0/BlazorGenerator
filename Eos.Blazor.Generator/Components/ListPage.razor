@@ -1,6 +1,6 @@
 ﻿@{
-    var PageActions = AttributesUtils.getMethodsWithAttribute<PageAction>(this);
-    var BasicActions = AttributesUtils.getModelsWithAttribute<BasicActions>(this).FirstOrDefault() ?? new BasicActions(false,false,false);
+  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+  var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false,false,false);
 }
 @typeparam T
 

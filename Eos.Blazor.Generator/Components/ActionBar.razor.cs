@@ -12,7 +12,7 @@ namespace Eos.Blazor.Generator.Components
   partial class ActionBar
   {
     [Parameter]
-    public IEnumerable<(MethodInfo Method, PageAction Attribute)> PageActions { get; set; }
+    public IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)> PageActions { get; set; }
 
     [Parameter]
     public object Context { get; set; }

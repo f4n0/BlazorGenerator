@@ -16,9 +16,11 @@ namespace test.Data
   {
     const string Route = "/test";
 
-    public string Summary { get; set; }
-    public string Summary2 { get; set; }
+#pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
+    public string? Summary { get; set; }
+    public string? Summary2 { get; set; }
     public string? Summary3 { get; set; }
+#pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
 
 
     protected override void OnInitialized()

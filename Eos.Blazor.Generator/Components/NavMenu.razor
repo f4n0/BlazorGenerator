@@ -9,9 +9,9 @@
     <ul class="nav flex-column">
        
         @{
-            
-            foreach (var hd in Utils.AttributesUtils.getModelsWithAttribute<AddToMenu>())
-            {
+
+          foreach (var hd in Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>())
+          {
                 <li class="nav-item px-3">
                     <NavLink class="nav-link" href="@hd.Attribute.Route">
                         <span class="@hd.Attribute.Icon" aria-hidden="true"></span> @hd.Attribute.Title
