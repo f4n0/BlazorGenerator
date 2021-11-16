@@ -11,6 +11,7 @@ namespace test.Data
 {
 	[AddToMenu("Complex", route)]
 	[Route(route)]
+	[BasicActions(true,true,true)]
 	public class ComplexExample : ListPage<ComplexExample>
 	{
 		const string route = "/complex";

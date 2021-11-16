@@ -11,19 +11,15 @@ using System.Threading.Tasks;
 namespace Eos.Blazor.Generator.Components
 {
   partial class ListPage<T> : ComponentBase
-  {    
-    [Inject] 
-    public IPageProgressService PageProgressService { get; set; }
+  {
+    [Inject] public IPageProgressService PageProgressService { get; set; }
+    [Inject] public IMessageService MessageService { get; set; }
+
     public List<T> SelectedRecs { get; private set; } = new List<T>();
     public List<T> Data { get; set; }
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
-    public bool isEditable = false;
     private DataGrid<T> _datagrid;
 
-    void Edit()
-    {
-      isEditable = !isEditable;
-    }
 
     public void StartLoader()
     {
@@ -38,5 +34,6 @@ namespace Eos.Blazor.Generator.Components
     {
       _datagrid.Reload();
     }
+    
   }
 }

@@ -1,11 +1,12 @@
 ﻿@{
     var PageActions = AttributesUtils.getMethodsWithAttribute<PageAction>(this);
+    var BasicActions = AttributesUtils.getModelsWithAttribute<BasicActions>(this).FirstOrDefault() ?? new BasicActions(false,false,false);
 }
 @typeparam T
 
 <Layout>
     <LayoutHeader>
-        <ActionBar T="@T" PageActions="@PageActions" Context="this"></ActionBar>
+         <ActionBar PageActions="@PageActions" Context="this"></ActionBar>
     </LayoutHeader>
     <LayoutContent>
         <DataGrid TItem="T"
@@ -20,42 +21,63 @@
                   PageSize="int.MaxValue"
                   Filterable="true"
                   Responsive="true"
-                  Narrow="true">
-
-            @foreach (var fld in VisibleFields)
-            {
-                switch (fld.Type)
+                  Narrow="true"
+                  Editable
+                  EditMode="DataGridEditMode.Inline"
+                  CommandMode="DataGridCommandMode.Commands">
+            
+            <DataGridColumns>
+                <DataGridCommandColumn TItem="T" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
+                    <NewCommandTemplate>
+                        <Button Size="Size.ExtraSmall" Color="Color.Dark" Outline="true" Clicked="@context.Clicked"><span class="oi oi-plus" aria-hidden="true"></span>&nbsp;@context.LocalizationString</Button>
+                    </NewCommandTemplate>
+                    <EditCommandTemplate>
+                        <Button Size="Size.ExtraSmall" Color="Color.Dark" Outline="true" Clicked="@context.Clicked"><span class="oi oi-pencil" aria-hidden="true"></span>&nbsp;@context.LocalizationString</Button>
+                    </EditCommandTemplate>
+                    <SaveCommandTemplate>
+                        <Button Size="Size.ExtraSmall" Color="Color.Dark" Outline="true" PreventDefaultOnSubmit Clicked="@context.Clicked">@context.LocalizationString</Button>
+                    </SaveCommandTemplate>
+                    <DeleteCommandTemplate>
+                        <Button Size="Size.ExtraSmall" Color="Color.Dark" Outline="true" Clicked="@context.Clicked"><span class="oi oi-trash" aria-hidden="true"></span>&nbsp;@context.LocalizationString</Button>
+                    </DeleteCommandTemplate>
+                    <CancelCommandTemplate>
+                        <Button Size="Size.ExtraSmall" Color="Color.Dark" Outline="true" Clicked="@context.Clicked">@context.LocalizationString</Button>
+                    </CancelCommandTemplate>
+                    <ClearFilterCommandTemplate>
+                        <Button Size="Size.ExtraSmall" Color="Color.Dark" Outline="true" Clicked="@context.Clicked"><span class="oi oi-cirlce-x" aria-hidden="true"></span>&nbsp;@context.LocalizationString</Button>
+                    </ClearFilterCommandTemplate>
+                </DataGridCommandColumn>
+                @foreach (var fld in VisibleFields)
                 {
-                    case Generator.Enum.FieldType.Numeric:
-                        <DataGridNumericColumn TItem="T"
-                                               Field="@fld.Name"
-                                               Caption="@fld.Caption"
-                                               Sortable="true"
-                                               Filterable="true"
-                                               Editable="@fld.Editable"
-                                               Readonly="@(!fld.Editable)" />
-                        break;
-                    case Generator.Enum.FieldType.Boolean:
-                        <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true">
-                            <DisplayTemplate>
-                                <Check TValue="bool"
-                                       Checked="@((bool)fld.Getter(context))"
-                                       Disabled="@(!fld.Editable)"
-                                       ReadOnly="@(!fld.Editable)" />
-                            </DisplayTemplate>
-                        </DataGridCheckColumn>
-                        break;
-                    default:
-                        <DataGridColumn TItem="T"
-                                        Field="@fld.Name"
-                                        Caption="@fld.Caption"
-                                        Sortable="true"
-                                        Filterable="true"
-                                        Editable="@fld.Editable"
-                                        Readonly="@(!fld.Editable)" />
-                        break;
+                    switch (fld.Type)
+                    {
+                        case Generator.Enum.FieldType.Numeric:
+                            <DataGridNumericColumn TItem="T"
+                                                   Field="@fld.Name"
+                                                   Caption="@fld.Caption"
+                                                   Sortable="true"
+                                                   Filterable="true" Editable="true">
+                            </DataGridNumericColumn>
+                            break;
+                        case Generator.Enum.FieldType.Boolean:
+                            <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true">
+                                <DisplayTemplate>
+                                    <Check TValue="bool"
+                                           Checked="@((bool)fld.Getter(context))" />
+                                </DisplayTemplate>
+                            </DataGridCheckColumn>
+                            break;
+                        default:
+                            <DataGridColumn TItem="T"
+                                            Field="@fld.Name"
+                                            Caption="@fld.Caption"
+                                            Sortable="true"
+                                            Filterable="true" Editable="true" />
+                            break;
+                    }
                 }
-            }
+            </DataGridColumns>
+
         </DataGrid>
     </LayoutContent>
 </Layout>

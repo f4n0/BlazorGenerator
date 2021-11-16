@@ -32,7 +32,11 @@ namespace Eos.Blazor.Generator.Utils
     {
       return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes().Where(t => t.IsDefined(typeof(TAttribute), true)))
         .Select(t => (Type: t, Attribute: (t.GetCustomAttribute(typeof(TAttribute), true) as TAttribute)));
+    }
 
+    internal static IEnumerable<TAttribute> getModelsWithAttribute<TAttribute>(object obj) where TAttribute : Attribute
+    {
+      return obj.GetType().GetCustomAttributes(typeof(TAttribute), true).Select(t => t as TAttribute);
     }
   }
 }

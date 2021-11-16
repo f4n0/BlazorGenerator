@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Eos.Blazor.Generator.Components
 {
-  partial class ActionBar <T> 
+  partial class ActionBar
   {
     [Parameter]
     public IEnumerable<(MethodInfo Method, PageAction Attribute)> PageActions { get; set; }

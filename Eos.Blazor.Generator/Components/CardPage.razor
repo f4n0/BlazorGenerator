@@ -6,7 +6,7 @@
 
 <Layout>
     <LayoutHeader>
-        <ActionBar T="@T" PageActions="@PageActions" Context="this"></ActionBar>
+        <ActionBar PageActions="@PageActions" Context="this"></ActionBar>
     </LayoutHeader>
     <LayoutContent>
         <Card Margin="Margin.Is4.FromBottom">
@@ -59,10 +59,10 @@
             </CardHeader>
             <CardBody>
                 @{var f = new RenderFragment(builder =>
-                    {
-                        builder.OpenComponent(0, item.Property.PropertyType);
-                        builder.CloseComponent();
-                    });
+                      {
+                          builder.OpenComponent(0, item.Property.PropertyType);
+                          builder.CloseComponent();
+                      });
 
                     @f
                 }
