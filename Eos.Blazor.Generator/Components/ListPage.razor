@@ -24,7 +24,10 @@
                   Narrow="true"
                   Editable
                   EditMode="DataGridEditMode.Inline"
-                  NewItemCreator="@(() => CreateNewItem())"
+                  NewItemCreator="@(() => CreateNewItem())"  
+                  RowInserted="@OnInsert"
+                  RowRemoved="@OnDelete"
+                  RowUpdated="@OnModify"
                   CommandMode="DataGridCommandMode.Commands">
             
             <DataGridColumns>

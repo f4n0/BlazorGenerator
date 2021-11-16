@@ -40,5 +40,18 @@ namespace Eos.Blazor.Generator.Components
     {
       return Expression.Lambda<Func<T>>(Expression.New(typeof(T))).Compile().Invoke();
     }
+
+
+    public virtual void OnInsert(SavedRowItem<T, Dictionary<string, object>> e)
+    {      
+    }
+
+    public virtual void OnModify(SavedRowItem<T, Dictionary<string, object>> e)
+    {
+    }
+
+    public virtual void OnDelete(T model)
+    {
+    }
   }
 }
