@@ -85,7 +85,10 @@
                                 </DisplayTemplate>
                                 <EditTemplate>
                                     <TextEdit Text="@((string) fld.Getter(context.Item))"
-                                              @onchange="@((e) => { fld.Setter(context.Item, e.Value); })"
+                                              TextChanged="@((v) => {
+                                                                        fld.Setter(context.Item, v);
+                                                                        context.CellValue = fld.Getter(context.Item);
+                                                                    })"
                                               Placeholder="@fld.Caption"></TextEdit>
                                 </EditTemplate>
                             </DataGridColumn>
