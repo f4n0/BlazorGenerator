@@ -1,12 +1,12 @@
 ﻿@{
-  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-  var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false,false,false);
+    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+    var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
 }
 @typeparam T
 
 <Layout>
     <LayoutHeader>
-         <ActionBar PageActions="@PageActions" Context="this"></ActionBar>
+        <ActionBar PageActions="@PageActions" Context="this"></ActionBar>
     </LayoutHeader>
     <LayoutContent>
         <DataGrid TItem="T"
@@ -23,13 +23,13 @@
                   Responsive="true"
                   Narrow="true"
                   Editable
-                  EditMode="DataGridEditMode.Inline"
-                  NewItemCreator="@(() => CreateNewItem())"  
+                  EditMode="@GetEditMode()"
+                  NewItemCreator="@(() => CreateNewItem())"
                   RowInserted="@OnInsert"
                   RowRemoved="@OnDelete"
                   RowUpdated="@OnModify"
                   CommandMode="DataGridCommandMode.Commands">
-            
+
             <DataGridColumns>
                 <DataGridCommandColumn TItem="T" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
                     <NewCommandTemplate>
@@ -53,30 +53,78 @@
                 </DataGridCommandColumn>
                 @foreach (var fld in VisibleFields)
                 {
-                    switch (fld.Type)
+                    switch (fld.FieldType)
                     {
                         case Generator.Enum.FieldType.Numeric:
                             <DataGridNumericColumn TItem="T"
                                                    Field="@fld.Name"
                                                    Caption="@fld.Caption"
                                                    Sortable="true"
-                                                   Filterable="true" Editable="true">
+                                                   Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
                             </DataGridNumericColumn>
                             break;
                         case Generator.Enum.FieldType.Boolean:
-                            <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Sortable="true" Filterable="true">
+                            <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
                                 <DisplayTemplate>
                                     <Check TValue="bool"
                                            Checked="@((bool)fld.Getter(context))" />
                                 </DisplayTemplate>
+                                <EditTemplate>
+                                    <Check TValue="bool"
+                                           Checked="@((bool)fld.Getter(context.Item))" @onchange="@((v)=> fld.Setter(context.Item,v.Value))" />
+                                </EditTemplate>
                             </DataGridCheckColumn>
+                            break;
+                        case Generator.Enum.FieldType.Custom:
+                            <DataGridColumn TItem="T"
+                                            Field="@fld.Name" Caption="@fld.Caption" Editable="true" Displayable="@(!fld.EditOnly)">
+                                <DisplayTemplate>
+                                    <TextEdit Text="@((string) fld.Getter(context))"
+                                              @onchange="@((e) => { fld.Setter(context, e.Value); })"
+                                              Placeholder="@fld.Caption" ReadOnly="true"></TextEdit>
+                                </DisplayTemplate>
+                                <EditTemplate>
+                                    <TextEdit Text="@((string) fld.Getter(context.Item))"
+                                              @onchange="@((e) => { fld.Setter(context.Item, e.Value); })"
+                                              Placeholder="@fld.Caption"></TextEdit>
+                                </EditTemplate>
+                            </DataGridColumn>
+                            break;
+                        case Generator.Enum.FieldType.Select:
+                            <DataGridSelectColumn TItem="T"
+                                                  Field="@fld.Name"
+                                                  Caption="@fld.Caption"
+                                                  Sortable="true"
+                                                  Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
+                                <DisplayTemplate>
+                                    <Select TValue="string" SelectedValue="@(fld.Getter(context).ToString())"
+                                            SelectedValueChanged="@((v) => fld.Setter(context, v))">
+                                        @foreach (string item in fld.Values)
+                                        {
+                                            <SelectItem Value="@item">@(item.ToString())</SelectItem>
+                                        }
+                                    </Select>
+                                </DisplayTemplate>
+                                <EditTemplate>
+                                    <Select TValue="string" SelectedValue="@(fld.Getter(context.Item).ToString())"
+                                            SelectedValueChanged="@((v) => {
+                                                                        fld.Setter(context.Item, v);
+                                                                        context.CellValue = fld.Getter(context.Item);
+                                                                    })">
+                                        @foreach (string item in fld.Values)
+                                        {
+                                            <SelectItem Value="@item">@(item.ToString())</SelectItem>
+                                        }
+                                    </Select>
+                                </EditTemplate>
+                            </DataGridSelectColumn>
                             break;
                         default:
                             <DataGridColumn TItem="T"
                                             Field="@fld.Name"
                                             Caption="@fld.Caption"
                                             Sortable="true"
-                                            Filterable="true" Editable="true" />
+                                            Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" />
                             break;
                     }
                 }

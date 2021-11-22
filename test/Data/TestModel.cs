@@ -10,11 +10,14 @@ using Eos.Blazor.Generator.Models;
 
 namespace test.Data
 {
+  
+
   [AddToMenu("test", "/test", "oi oi-plus")]
   [Route(Route)]
   public class TestModel : CardPage<TestModel>
   {
     const string Route = "/test";
+    [Inject] NavigationManager Manager { get; set; }
 
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     public string? Summary { get; set; }
@@ -33,6 +36,12 @@ namespace test.Data
       Data = new TestModel() { Summary = "element 1", Summary2 = "element2", Summary3 = "aa" };
     }
 
+    [PageAction]
+    public void Test()
+    {
+      Manager.NavigateTo("/test/prova");
+
+    }
 
   }
 }

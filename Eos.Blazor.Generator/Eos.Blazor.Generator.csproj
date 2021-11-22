@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
@@ -14,10 +14,10 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Blazorise" Version="0.9.4.8" />
-    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.4.8" />
-    <PackageReference Include="Blazorise.DataGrid" Version="0.9.4.8" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.4.8" />
+    <PackageReference Include="Blazorise" Version="0.9.5" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.5" />
+    <PackageReference Include="Blazorise.DataGrid" Version="0.9.5" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.5" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.14.0" />
     <PackageReference Include="Mono.Cecil" Version="0.11.4" />
   </ItemGroup>

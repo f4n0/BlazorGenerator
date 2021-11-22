@@ -53,5 +53,16 @@ namespace Eos.Blazor.Generator.Components
     public virtual void OnDelete(T model)
     {
     }
+
+    internal DataGridEditMode GetEditMode()
+    {
+      if(VisibleFields.Any(o => o.EditOnly))
+      {
+        return DataGridEditMode.Form;
+      } else
+      {
+        return DataGridEditMode.Inline;
+      }
+    }
   }
 }

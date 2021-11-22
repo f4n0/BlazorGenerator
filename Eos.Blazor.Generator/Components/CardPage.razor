@@ -20,7 +20,7 @@
                         <Field ColumnSize="ColumnSize.Is6.OnDesktop" Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.Is4">@(fld.Caption): </FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.Is8">
-                                @switch (fld.Type)
+                                @switch (fld.FieldType)
                                 {
                                     case Generator.Enum.FieldType.Numeric:
                                         <NumericEdit Value="@(fld.Getter(Data))"

@@ -14,29 +14,30 @@ namespace Eos.Blazor.Generator.Models
     public Action<T, object> Setter { get; set; }
     public Func<T, object> Getter { get; set; }
     public string Name { get; set; }
-    public FieldType Type { get; set; }
+    public FieldType FieldType { get; set; }
     public bool Editable { get; set; } = false;
+    public bool EditOnly { get; set; } = false;
+    public string[] Values { get; set; } 
 
 
     public VisibleField(string name, FieldType type, bool editable)
     {
       Name = name;
       Caption = name;
-      Type = type;
+      FieldType = type;
       Editable = editable;
     }
     public VisibleField(string name, FieldType type)
     {
       Name = name;
       Caption = name;
-      Type = type;
+      FieldType = type;
     }
     public VisibleField(string name)
     {
       Name = name;
       Caption = name;
-      Type = FieldType.Text;
+      FieldType = FieldType.Text;
     }
-
   }
 }

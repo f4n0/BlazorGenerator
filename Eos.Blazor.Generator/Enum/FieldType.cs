@@ -10,6 +10,8 @@ namespace Eos.Blazor.Generator.Enum
   {
     Text,
     Numeric,
-    Boolean
+    Boolean,
+    Select,
+    Custom
   }
 }
