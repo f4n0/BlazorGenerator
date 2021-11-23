@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Components;
 using Eos.Blazor.Generator.Attributes;
 using Eos.Blazor.Generator.Components;
 using Eos.Blazor.Generator.Models;
-
+using Blazorise;
 
 namespace test.Data
 {
   
 
-  [AddToMenu("test", "/test", "oi oi-plus")]
+  [AddToMenu("test", "/test", IconName.Tag)]
   [Route(Route)]
   public class TestModel : CardPage<TestModel>
   {

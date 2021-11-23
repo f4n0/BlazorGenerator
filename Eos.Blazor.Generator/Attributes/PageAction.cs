@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blazorise;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Eos.Blazor.Generator.Attributes
     {
       Caption = caption;
     }
-    public PageActionAttribute(string caption, string icon)
+    public PageActionAttribute(string caption, IconName icon)
     {
       Caption = caption;
       Icon = icon;
@@ -25,7 +26,7 @@ namespace Eos.Blazor.Generator.Attributes
 
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     public string? Caption { get; private set; }
-    public string? Icon { get; private set; } = "oi oi-play-circle";
+    public IconName Icon { get; private set; } = IconName.Add;
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
   }
 }

@@ -1,34 +1,30 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">test</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</div>
+﻿<Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
+     Breakpoint="Breakpoint.Desktop"
+     Background="Background.Light"
+     ThemeContrast="ThemeContrast.Light">
+    <BarToggler />
+    <BarBrand>
+        <BarItem>
+            <BarLink To="/">
+                <BarIcon IconName="IconName.Dashboard" />
+                Home
+            </BarLink>
+        </BarItem>
+    </BarBrand>
+    <BarMenu>
+        <BarStart>
+            @{
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-       
-        @{
-
-          foreach (var hd in Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>())
-          {
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="@hd.Attribute.Route">
-                        <span class="@hd.Attribute.Icon" aria-hidden="true"></span> @hd.Attribute.Title
-                    </NavLink>
-                </li>
+                foreach (var hd in Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>())
+                {
+                    <BarItem>
+                        <BarLink To="@hd.Attribute.Route">
+                            <BarIcon IconName="@hd.Attribute.Icon" />
+                            @hd.Attribute.Title
+                        </BarLink>
+                    </BarItem>
+                }
             }
-        }
-    </ul>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+        </BarStart>
+    </BarMenu>
+</Bar>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blazorise;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Eos.Blazor.Generator.Attributes
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
   public class AddToMenuAttribute : Attribute
   {
-    public AddToMenuAttribute(string title, string route, string icon = "oi oi-list-rich")
+    public AddToMenuAttribute(string title, string route, IconName icon = IconName.Add)
     {
       Title = title;
       Route = route;
@@ -18,6 +19,6 @@ namespace Eos.Blazor.Generator.Attributes
 
     public string Title { get; private set; }
     public string Route { get; private set; }
-    public string Icon { get; private set; }
+    public IconName Icon { get; private set; }
   }
 }
