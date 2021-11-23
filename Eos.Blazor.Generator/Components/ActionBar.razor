@@ -1,13 +1,17 @@
-﻿
-<Row>
-    <Column>
-        @foreach (var action in PageActions)
-        {
-            <Button Color="Color.Dark" Outline="true" @onclick="@(() => action.Method.Invoke(Context, null))">
-                <span class="@action.Attribute.Icon" aria-hidden="true"></span>
-                @(action.Attribute.Caption ?? action.Method.Name)
-            </Button>
-        }
-    </Column>
-</Row>
-
+﻿<Bar Breakpoint="Breakpoint.Desktop"
+     Background="Background.Light"
+     ThemeContrast="ThemeContrast.Light"     >
+    <BarMenu>
+        <BarStart>
+            @foreach (var action in PageActions)
+            {
+            <BarItem>
+                <Button Color="Color.Dark" Margin="Margin.Is1" Outline="true" @onclick="@(() => action.Method.Invoke(Context, null))">
+                        <Icon Name="@action.Attribute.Icon" />
+                    @(action.Attribute.Caption ?? action.Method.Name)
+                </Button>
+            </BarItem>
+            }
+            </BarStart>
+    </BarMenu>
+</Bar>

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Eos.Blazor.Generator\Eos.Blazor.Generator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
