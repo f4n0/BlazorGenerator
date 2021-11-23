@@ -22,8 +22,8 @@ namespace test.Data
     public int Test1 { get; set; }
     public DateTime Test2 { get; set; }
     public decimal Test3 { get; set; }
-    public Uri Test4 { get; set; }
-    public FieldType Test5 { get; set; }
+    public Uri? Test4 { get; set; }
+    public FieldType? Test5 { get; set; }
 
     protected override void OnInitialized()
     {
@@ -32,9 +32,17 @@ namespace test.Data
       new VisibleField<ComplexExample>(nameof(Test1)){ Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = int.Parse(v as string)},
       new VisibleField<ComplexExample>(nameof(Test2)){ Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
       new VisibleField<ComplexExample>(nameof(Test3)){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)},
-      new VisibleField<ComplexExample>(nameof(Test4), FieldType.Custom, true){ EditOnly=true, Caption="Test 4", Getter = f => (f.Test4?.ToString()), Setter = (f, v) =>  f.Test4 = new Uri(v.ToString())},
+      new VisibleField<ComplexExample>(nameof(Test4), FieldType.Custom, true)
+      { EditOnly=true,
+        Caption="Test 4",
+        Getter = f => f.Test4,
+        Setter = (f, v) =>  {
+          var builder = new UriBuilder(v.ToString());
+          f.Test4 = builder.Uri;
+        }
+      },
       new VisibleField<ComplexExample>(nameof(Test5), FieldType.Select){
-        Getter = f => f.Test5,
+        Getter = f => f.Test5.GetValueOrDefault(),
         Setter = (f, v) => f.Test5 = (FieldType)Enum.Parse(typeof(FieldType), v.ToString()),
         Values = Enum.GetNames(typeof(FieldType))
       }
@@ -84,7 +92,7 @@ namespace test.Data
 
     public override ComplexExample CreateNewItem()
     {
-      return (new ComplexExample() { Test = "DEFAULT!!" });
+      return (new ComplexExample());
     }
   }
 }
