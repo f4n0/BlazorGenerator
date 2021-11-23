@@ -17,7 +17,7 @@ namespace Eos.Blazor.Generator
       services
       .AddBlazorise(options =>
       {
-        options.ChangeTextOnKeyPress = true;
+        options.ChangeTextOnKeyPress = false;
       })
       .AddBootstrapProviders();
       services.AddFontAwesomeIcons();

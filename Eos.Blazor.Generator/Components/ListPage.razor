@@ -67,7 +67,7 @@
                             <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
                                 <DisplayTemplate>
                                     <Check TValue="bool"
-                                           Checked="@((bool)fld.Getter(context))" />
+                                           Checked="@((bool)fld.Getter(context))" ReadOnly="true"/>
                                 </DisplayTemplate>
                                 <EditTemplate>
                                     <Check TValue="bool"
@@ -79,12 +79,12 @@
                             <DataGridColumn TItem="T"
                                             Field="@fld.Name" Caption="@fld.Caption" Editable="true" Displayable="@(!fld.EditOnly)">
                                 <DisplayTemplate>
-                                    <TextEdit Text="@((string) fld.Getter(context))"
+                                    <TextEdit Text="@((string) fld.Getter(context).ToString())"
                                               @onchange="@((e) => { fld.Setter(context, e.Value); })"
                                               Placeholder="@fld.Caption" ReadOnly="true"></TextEdit>
                                 </DisplayTemplate>
                                 <EditTemplate>
-                                    <TextEdit Text="@((string) fld.Getter(context.Item))"
+                                    <TextEdit Text="@((string) fld.Getter(context.Item).ToString())"
                                               TextChanged="@((v) => {
                                                                         fld.Setter(context.Item, v);
                                                                         context.CellValue = fld.Getter(context.Item);
@@ -101,7 +101,7 @@
                                                   Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
                                 <DisplayTemplate>
                                     <Select TValue="string" SelectedValue="@(fld.Getter(context).ToString())"
-                                            SelectedValueChanged="@((v) => fld.Setter(context, v))">
+                                            SelectedValueChanged="@((v) => fld.Setter(context, v))" ReadOnly="true">
                                         @foreach (string item in fld.Values)
                                         {
                                             <SelectItem Value="@item">@(item.ToString())</SelectItem>
