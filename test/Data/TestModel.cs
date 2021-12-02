@@ -7,10 +7,11 @@ using Eos.Blazor.Generator.Attributes;
 using Eos.Blazor.Generator.Components;
 using Eos.Blazor.Generator.Models;
 using Blazorise;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace test.Data
 {
-  
+
 
   [AddToMenu("test", "/test", IconName.Tag)]
   [Route(Route)]
@@ -40,8 +41,21 @@ namespace test.Data
     public void Test()
     {
       Manager.NavigateTo("/test/prova");
+    }
+
+    [PageAction]
+    public void ShowModal()
+    {
+      var tmp = new MyModalContent() { Summary = "element aa", Summary2 = "elementbb", Summary3 = "cc" };
+      InitModal<MyModalContent, MyModalContent>(tmp);
+      OpenModal();
 
     }
 
+
+    protected override void BuildRenderTree(RenderTreeBuilder __builder)
+    {
+      base.BuildRenderTree(__builder);
+    }
   }
 }

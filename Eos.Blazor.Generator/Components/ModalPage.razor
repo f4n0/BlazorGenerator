@@ -1,0 +1,34 @@
+﻿@typeparam T
+
+
+@foreach (var fld in VisibleFields)
+{
+    <Field ColumnSize="ColumnSize.Is6.OnDesktop" Horizontal="true">
+        <FieldLabel ColumnSize="ColumnSize.Is4">@(fld.Caption): </FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is8">
+            @switch (fld.FieldType)
+            {
+                case Generator.Enum.FieldType.Numeric:
+                    <NumericEdit Value="@(fld.Getter(_data))"
+                                 @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+                                 Placeholder="@fld.Caption"
+                                 ReadOnly="@(!fld.Editable)" />
+                    break;
+                case Generator.Enum.FieldType.Boolean:
+                    <Check TValue="bool"
+                           Checked="@((bool)fld.Getter(_data))"
+                           ReadOnly="@(!fld.Editable)" />
+                    break;
+                default:
+                    <TextEdit Text="@((string) fld.Getter(_data)?.ToString())"
+                              TextChanged="@((v) => {
+                                                                        fld.Setter(_data, v);
+                                                                    })"
+                              Placeholder="@fld.Caption"></TextEdit>
+                    break;
+            }
+        </FieldBody>
+    </Field>
+}
+
+<Button Clicked="@(() => onSave.InvokeAsync(_data))" Color="Color.Secondary" Float="Float.Right">Save</Button>

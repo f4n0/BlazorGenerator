@@ -67,7 +67,7 @@
                             <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
                                 <DisplayTemplate>
                                     <Check TValue="bool"
-                                           Checked="@((bool)fld.Getter(context))" ReadOnly="true"/>
+                                           Checked="@((bool)fld.Getter(context))" ReadOnly="true" />
                                 </DisplayTemplate>
                                 <EditTemplate>
                                     <Check TValue="bool"
@@ -130,3 +130,5 @@
         </DataGrid>
     </LayoutContent>
 </Layout>
+
+<Modal @ref="@ModalRef"></Modal>

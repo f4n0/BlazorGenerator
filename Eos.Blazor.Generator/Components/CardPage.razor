@@ -1,6 +1,6 @@
 ﻿@{
-  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-  var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
+    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+    var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
 }
 @typeparam T
 
@@ -59,10 +59,10 @@
             </CardHeader>
             <CardBody>
                 @{var f = new RenderFragment(builder =>
-                      {
-                          builder.OpenComponent(0, item.Property.PropertyType);
-                          builder.CloseComponent();
-                      });
+                        {
+                            builder.OpenComponent(0, item.Property.PropertyType);
+                            builder.CloseComponent();
+                        });
 
                     @f
                 }
@@ -70,3 +70,6 @@
         </Card>
     }
 }
+
+
+<Modal @ref="@ModalRef"></Modal>
