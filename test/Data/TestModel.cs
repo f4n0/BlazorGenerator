@@ -17,6 +17,7 @@ namespace test.Data
   [Route(Route)]
   public class TestModel : CardPage<TestModel>
   {
+    public override string Title => "Test Model";
     const string Route = "/test";
     [Inject] NavigationManager Manager { get; set; }
 
@@ -31,7 +32,7 @@ namespace test.Data
     {
       VisibleFields = new List<VisibleField<TestModel>>() {
         new VisibleField<TestModel>(nameof(Summary)){Getter = f => f.Summary, Setter = (f,v)=>f.Summary = v.ToString()},
-        new VisibleField<TestModel>(nameof(Summary2)){Getter = f => f.Summary2, Setter = (f,v)=>f.Summary2 = v.ToString()},
+        new VisibleField<TestModel>(nameof(Summary2)){Getter = f => f.Summary2, Setter = (f,v)=>f.Summary2 = v.ToString(), TextRole = TextRole.Password},
         new VisibleField<TestModel>(nameof(Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString()}
       };
       Data = new TestModel() { Summary = "element 1", Summary2 = "element2", Summary3 = "aa" };

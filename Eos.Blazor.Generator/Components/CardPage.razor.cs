@@ -13,6 +13,8 @@ namespace Eos.Blazor.Generator.Components
   partial class CardPage<T> : ComponentBase
   {
     public T Data { get; set; }
+    public virtual string Title => "";
+
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
     Modal ModalRef;
 

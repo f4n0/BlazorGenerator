@@ -1,34 +1,53 @@
 ﻿@typeparam T
 
 
-@foreach (var fld in VisibleFields)
-{
-    <Field ColumnSize="ColumnSize.Is6.OnDesktop" Horizontal="true">
-        <FieldLabel ColumnSize="ColumnSize.Is4">@(fld.Caption): </FieldLabel>
-        <FieldBody ColumnSize="ColumnSize.Is8">
-            @switch (fld.FieldType)
+<Card>
+    <CardHeader>
+        <CardTitle>@Title</CardTitle>
+    </CardHeader>
+    <CardBody>
+        <Fields>
+            @foreach (var fld in VisibleFields)
             {
-                case Generator.Enum.FieldType.Numeric:
-                    <NumericEdit Value="@(fld.Getter(_data))"
-                                 @onchange="@((e) => { fld.Setter(Data, e.Value); })"
-                                 Placeholder="@fld.Caption"
-                                 ReadOnly="@(!fld.Editable)" />
-                    break;
-                case Generator.Enum.FieldType.Boolean:
-                    <Check TValue="bool"
-                           Checked="@((bool)fld.Getter(_data))"
-                           ReadOnly="@(!fld.Editable)" />
-                    break;
-                default:
-                    <TextEdit Text="@((string) fld.Getter(_data)?.ToString())"
-                              TextChanged="@((v) => {
+                <Field ColumnSize="ColumnSize.Is6.OnDesktop" Horizontal="true">
+                    <FieldLabel ColumnSize="ColumnSize.Is4">@(fld.Caption): </FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is8">
+                        @switch (fld.FieldType)
+                        {
+                            case Generator.Enum.FieldType.Numeric:
+                                <NumericEdit Value="@(fld.Getter(_data))"
+                                             @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+                                             Placeholder="@fld.Caption"
+                                             ReadOnly="@(!fld.Editable)" />
+                                break;
+                            case Generator.Enum.FieldType.Boolean:
+                                <Check TValue="bool"
+                                       Checked="@((bool)fld.Getter(_data))"
+                                       ReadOnly="@(!fld.Editable)" />
+                                break;
+                            case Generator.Enum.FieldType.Select:
+                                <Select TValue="string" SelectedValue="@(fld.Getter(_data)?.ToString())"
+                                        SelectedValueChanged="@((v) => { fld.Setter(_data, v); })" ReadOnly="@(!fld.Editable)">
+                                    @foreach (string item in fld.Values)
+                                    {
+                                        <SelectItem Value="@item">@(item.ToString())</SelectItem>
+                                    }
+                                </Select>
+                                break;
+                            default:
+                                <TextEdit Text="@((string) fld.Getter(_data)?.ToString())"
+                                          TextChanged="@((v) => {
                                                                         fld.Setter(_data, v);
                                                                     })"
-                              Placeholder="@fld.Caption"></TextEdit>
-                    break;
+                                          Placeholder="@fld.Caption" Role="fld.TextRole" ReadOnly="@(!fld.Editable)"></TextEdit>
+                                break;
+                        }
+                    </FieldBody>
+                </Field>
             }
-        </FieldBody>
-    </Field>
-}
+        </Fields>
 
-<Button Clicked="@(() => onSave.InvokeAsync(_data))" Color="Color.Secondary" Float="Float.Right">Save</Button>
+        <Button Clicked="@(() => onSave.InvokeAsync(_data))" Color="Color.Secondary" Float="Float.Right">Save</Button>
+
+    </CardBody>
+</Card>

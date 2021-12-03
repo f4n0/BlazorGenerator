@@ -16,6 +16,7 @@ namespace test.Data
   [BasicActions(true, true, true)]
   public class ComplexExample : ListPage<ComplexExample>
   {
+    public override string Title => "Is that a list?"; 
     const string route = "/complex";
 
     public string Test { get; set; }
@@ -94,5 +95,6 @@ namespace test.Data
     {
       return (new ComplexExample());
     }
+
   }
 }

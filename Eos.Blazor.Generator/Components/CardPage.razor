@@ -11,7 +11,7 @@
     <LayoutContent>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>Form Row</CardTitle>
+                <CardTitle>@Title</CardTitle>
             </CardHeader>
             <CardBody>
                 <Fields>
@@ -33,11 +33,20 @@
                                                Checked="@((bool)fld.Getter(Data))"
                                                ReadOnly="@(!fld.Editable)" />
                                         break;
+                                    case Generator.Enum.FieldType.Select:
+                                        <Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
+                                                SelectedValueChanged="@((v) => { fld.Setter(Data, v); })" ReadOnly="@(!fld.Editable)">
+                                            @foreach (string item in fld.Values)
+                                            {
+                                                <SelectItem Value="@item">@(item.ToString())</SelectItem>
+                                            }
+                                        </Select>
+                                        break;
                                     default:
                                         <TextEdit Text="@((string) fld.Getter(Data))"
                                                   @onchange="@((e) => { fld.Setter(Data, e.Value); })"
                                                   Placeholder="@fld.Caption"
-                                                  ReadOnly="@(!fld.Editable)" />
+                                                  ReadOnly="@(!fld.Editable)" Role="fld.TextRole" />
                                         break;
                                 }
                             </FieldBody>

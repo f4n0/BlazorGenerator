@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Blazorise;
 using Eos.Blazor.Generator.Enum;
 
 namespace Eos.Blazor.Generator.Models
@@ -17,7 +18,8 @@ namespace Eos.Blazor.Generator.Models
     public FieldType FieldType { get; set; }
     public bool Editable { get; set; } = false;
     public bool EditOnly { get; set; } = false;
-    public string[] Values { get; set; } 
+    public string[] Values { get; set; }
+    public TextRole TextRole { get; set; } = TextRole.Text;
 
 
     public VisibleField(string name, FieldType type, bool editable)

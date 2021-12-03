@@ -20,6 +20,7 @@ namespace Eos.Blazor.Generator.Components
     public List<T> Data { get; set; }
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
     private DataGrid<T> _datagrid;
+    public virtual string Title => "";
 
 
     public void StartLoader()
@@ -113,5 +114,6 @@ namespace Eos.Blazor.Generator.Components
     public virtual void OnModalSave(object data)
     {
     }
+
   }
 }
