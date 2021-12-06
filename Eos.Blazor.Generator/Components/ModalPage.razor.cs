@@ -11,6 +11,7 @@ namespace Eos.Blazor.Generator.Components
   public partial class ModalPage<T> : ComponentBase
   {
     public virtual string Title => "";
+    public virtual bool ShowSave => false;
 
     private T _data;
     [Parameter]

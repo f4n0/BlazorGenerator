@@ -46,8 +46,9 @@
                 </Field>
             }
         </Fields>
-
-        <Button Clicked="@(() => onSave.InvokeAsync(_data))" Color="Color.Secondary" Float="Float.Right">Save</Button>
-
+        @if (ShowSave)
+        {
+            <Button Clicked="@(() => onSave.InvokeAsync(_data))" Color="Color.Secondary" Float="Float.Right">Save</Button>
+        }
     </CardBody>
 </Card>

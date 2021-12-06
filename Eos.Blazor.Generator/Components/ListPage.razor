@@ -33,6 +33,7 @@
                   CommandMode="DataGridCommandMode.Commands">
 
             <DataGridColumns>
+                <DataGridMultiSelectColumn TItem="T" Width="30px"></DataGridMultiSelectColumn>
                 <DataGridCommandColumn TItem="T" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
                     <NewCommandTemplate>
                         <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Add"></Icon>&nbsp;@context.LocalizationString</Button>
