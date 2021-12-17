@@ -1,17 +1,20 @@
-﻿<Bar Breakpoint="Breakpoint.Desktop"
-     Background="Background.Light"
-     ThemeContrast="ThemeContrast.Light"     >
-    <BarMenu>
-        <BarStart>
-            @foreach (var action in PageActions)
-            {
-            <BarItem>
-                <Button Color="Color.Dark" Margin="Margin.Is1" Outline="true" @onclick="@(() => action.Method.Invoke(Context, null))">
-                        <Icon Name="@action.Attribute.Icon" />
-                    @(action.Attribute.Caption ?? action.Method.Name)
-                </Button>
-            </BarItem>
-            }
-            </BarStart>
-    </BarMenu>
-</Bar>
+﻿@if (PageActions.Count() > 0)
+{
+    <Bar Breakpoint="Breakpoint.Desktop"
+         Background="Background.Light"
+         ThemeContrast="ThemeContrast.Light"     >
+        <BarMenu>
+            <BarStart>
+                @foreach (var action in PageActions)
+                {
+                <BarItem>
+                    <Button Color="Color.Dark" Margin="Margin.Is1" Outline="true" @onclick="@(() => action.Method.Invoke(Context, null))">
+                            <Icon Name="@action.Attribute.Icon" />
+                        @(action.Attribute.Caption ?? action.Method.Name)
+                    </Button>
+                </BarItem>
+                }
+                </BarStart>
+        </BarMenu>
+    </Bar>
+}
