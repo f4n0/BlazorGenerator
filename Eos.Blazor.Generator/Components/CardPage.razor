@@ -1,6 +1,7 @@
 ﻿@{
-    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-    var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
+  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+  var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
+  var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
 }
 @typeparam T
 
@@ -56,6 +57,11 @@
                                 }
                             </FieldBody>
                         </Field>
+                    }
+
+                    @if (BasicActions.EditAction || BasicActions.NewAction)
+                    {
+                        <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.Right">Save</Button>
                     }
                 </Fields>
             </CardBody>

@@ -65,5 +65,9 @@ namespace Eos.Blazor.Generator.Components
     {
     }
 
+    public virtual void OnModify(T Data)
+    {
+    }
+
   }
 }
