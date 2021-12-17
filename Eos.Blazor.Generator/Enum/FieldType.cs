@@ -12,6 +12,7 @@ namespace Eos.Blazor.Generator.Enum
     Numeric,
     Boolean,
     Select,
-    Custom
+    Custom,
+    Button
   }
 }

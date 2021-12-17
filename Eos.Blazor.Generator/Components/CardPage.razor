@@ -31,7 +31,7 @@
                                     case Generator.Enum.FieldType.Boolean:
                                         <Check TValue="bool"
                                                Checked="@((bool)fld.Getter(Data))"
-                                               ReadOnly="@(!fld.Editable)" />
+                                               ReadOnly="@(!fld.Editable)" @onchange="@((v)=> fld.Setter(Data, v.Value))" />
                                         break;
                                     case Generator.Enum.FieldType.Select:
                                         <Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
@@ -41,6 +41,11 @@
                                                 <SelectItem Value="@item">@(item.ToString())</SelectItem>
                                             }
                                         </Select>
+                                        break;
+                                    case Generator.Enum.FieldType.Button:
+                                        <Button @onclick="@(() => fld.Setter(Data, null))" Color="Color.Dark" Outline="true">
+                                            @fld.Caption
+                                        </Button>
                                         break;
                                     default:
                                         <TextEdit Text="@((string) fld.Getter(Data))"

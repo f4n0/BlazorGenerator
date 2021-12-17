@@ -8,6 +8,7 @@ using Eos.Blazor.Generator.Components;
 using Eos.Blazor.Generator.Models;
 using Blazorise;
 using Microsoft.AspNetCore.Components.Rendering;
+using Eos.Blazor.Generator.Enum;
 
 namespace test.Data
 {
@@ -33,7 +34,9 @@ namespace test.Data
       VisibleFields = new List<VisibleField<TestModel>>() {
         new VisibleField<TestModel>(nameof(Summary)){Getter = f => f.Summary, Setter = (f,v)=>f.Summary = v.ToString()},
         new VisibleField<TestModel>(nameof(Summary2)){Getter = f => f.Summary2, Setter = (f,v)=>f.Summary2 = v.ToString(), TextRole = TextRole.Password},
-        new VisibleField<TestModel>(nameof(Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString()}
+        new VisibleField<TestModel>(nameof(Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString()},
+
+      new VisibleField<TestModel>("My BTN", FieldType.Button){ Setter = (f,v) => throw new Exception("prova") }
       };
       Data = new TestModel() { Summary = "element 1", Summary2 = "element2", Summary3 = "aa" };
     }

@@ -115,5 +115,7 @@ namespace Eos.Blazor.Generator.Components
     {
     }
 
+
+    public ListPage() { } //For EF Core
   }
 }
