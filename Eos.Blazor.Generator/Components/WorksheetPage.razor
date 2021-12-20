@@ -3,6 +3,7 @@
     var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
 }
 @typeparam T
+@typeparam TList
 
 <h3>@Title</h3>
 
@@ -63,7 +64,7 @@
 
                 </Fields>
                 <br />
-                <DataGrid TItem="T"
+                <DataGrid TItem="TList"
                           @ref="@_datagrid"
                           Data="@ListData"
                           SelectionMode="DataGridSelectionMode.Multiple"
@@ -111,7 +112,7 @@
                             switch (fld.FieldType)
                             {
                                 case Generator.Enum.FieldType.Numeric:
-                                    <DataGridNumericColumn TItem="T"
+                                    <DataGridNumericColumn TItem="TList"
                                                            Field="@fld.Name"
                                                            Caption="@fld.Caption"
                                                            Sortable="true"
@@ -119,7 +120,7 @@
                                     </DataGridNumericColumn>
                                     break;
                                 case Generator.Enum.FieldType.Boolean:
-                                    <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
+                                    <DataGridCheckColumn TItem="TList" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
                                         <DisplayTemplate>
                                             <Check TValue="bool"
                                                    Checked="@((bool)fld.Getter(context))" ReadOnly="true" />
@@ -131,7 +132,7 @@
                                     </DataGridCheckColumn>
                                     break;
                                 case Generator.Enum.FieldType.Custom:
-                                    <DataGridColumn TItem="T"
+                                    <DataGridColumn TItem="TList"
                                                     Field="@fld.Name" Caption="@fld.Caption" Editable="true" Displayable="@(!fld.EditOnly)">
                                         <DisplayTemplate>
                                             <TextEdit Text="@((string) fld.Getter(context)?.ToString())"
@@ -149,7 +150,7 @@
                                     </DataGridColumn>
                                     break;
                                 case Generator.Enum.FieldType.Select:
-                                    <DataGridSelectColumn TItem="T"
+                                    <DataGridSelectColumn TItem="TList"
                                                           Field="@fld.Name"
                                                           Caption="@fld.Caption"
                                                           Sortable="true"
@@ -174,7 +175,7 @@
                                 case Generator.Enum.FieldType.Button:
                                     break;
                                 default:
-                                    <DataGridColumn TItem="T"
+                                    <DataGridColumn TItem="TList"
                                                     Field="@fld.Name"
                                                     Caption="@fld.Caption"
                                                     Sortable="true"

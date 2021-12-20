@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace Eos.Blazor.Generator.Components
 {
-  partial class WorksheetPage<T> : ComponentBase
+  partial class WorksheetPage<T, TList> : ComponentBase
   {
     [Inject] public IPageProgressService PageProgressService { get; set; }
     [Inject] public IMessageService MessageService { get; set; }
 
-    public List<T> SelectedRecs { get; private set; } = new List<T>();
-    public List<T> ListData { get; set; }
-    public List<VisibleField<T>> ListVisibleFields { get; set; } = new List<VisibleField<T>>();
-    private DataGrid<T> _datagrid;
+    public List<TList> SelectedRecs { get; private set; } = new List<TList>();
+    public List<TList> ListData { get; set; }
+    public List<VisibleField<TList>> ListVisibleFields { get; set; } = new List<VisibleField<TList>>();
+    private DataGrid<TList> _datagrid;
     public virtual string Title => "";
 
     public T Data { get; set; }
@@ -40,21 +40,21 @@ namespace Eos.Blazor.Generator.Components
       _datagrid.Reload();
     }
 
-    public virtual T CreateNewItem()
+    public virtual TList CreateNewItem()
     {
-      return Expression.Lambda<Func<T>>(Expression.New(typeof(T))).Compile().Invoke();
+      return Expression.Lambda<Func<TList>>(Expression.New(typeof(TList))).Compile().Invoke();
     }
 
 
-    public virtual void OnInsert(SavedRowItem<T, Dictionary<string, object>> e)
+    public virtual void OnInsert(SavedRowItem<TList, Dictionary<string, object>> e)
     {
     }
 
-    public virtual void OnModify(SavedRowItem<T, Dictionary<string, object>> e)
+    public virtual void OnModify(SavedRowItem<TList, Dictionary<string, object>> e)
     {
     }
 
-    public virtual void OnDelete(T model)
+    public virtual void OnDelete(TList model)
     {
     }
 
