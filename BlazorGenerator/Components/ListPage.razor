@@ -121,6 +121,15 @@
                             break;
                         case BlazorGenerator.Enum.FieldType.Button:
                             break;
+
+                        case BlazorGenerator.Enum.FieldType.Icon:
+                            <DataGridColumn TItem="T"
+                                            Field="@fld.Name" Caption="@fld.Caption" Editable="false">
+                                <DisplayTemplate>
+                                    <Icon Name="@((Blazorise.IconName) fld.Getter(context))"></Icon>
+                                </DisplayTemplate>
+                            </DataGridColumn>
+                            break;
                         default:
                             <DataGridColumn TItem="T"
                                             Field="@fld.Name"

@@ -22,7 +22,7 @@ namespace BlazorGenerator.Components
     {
       ModalRef.ChildContent = new RenderFragment(builder =>
       {
-        builder.OpenComponent<Blazorise.ModalContent>(0);
+        builder.OpenComponent<ModalContent>(0);
         builder.AddAttribute(1, "Centered", true);
         builder.AddAttribute(1, "Size", ModalSize.ExtraLarge);
         builder.AddAttribute(2, "ChildContent", (RenderFragment)((builder2) =>
@@ -35,7 +35,7 @@ namespace BlazorGenerator.Components
           }));
           builder2.CloseComponent();
 
-          builder2.OpenComponent<Blazorise.ModalBody>(4);
+          builder2.OpenComponent<ModalBody>(4);
           builder2.AddAttribute(4, "ChildContent", (RenderFragment)((builder3) =>
           {
             builder3.OpenComponent<TModalType>(5);

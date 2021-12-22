@@ -49,7 +49,7 @@
         <br />
         @if (ShowSave)
         {
-            <Button Clicked="@(() => onSave.InvokeAsync(_data))" Color="Color.Secondary" Float="Float.End">Save</Button>
+            <Button Clicked="@(() => onSave.InvokeAsync(_data))" Color="Color.Secondary" Float="Float.End" Type="ButtonType.Submit" PreventDefaultOnSubmit="true" >Save</Button>
         }
     </CardBody>
 </Card>

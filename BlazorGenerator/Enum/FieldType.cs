@@ -13,6 +13,7 @@ namespace BlazorGenerator.Enum
     Boolean,
     Select,
     Custom,
+    Icon,
     Button
   }
 }
