@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Eos.Blazor.Generator\Eos.Blazor.Generator.csproj" />
+    <ProjectReference Include="..\BlazorGenerator\BlazorGenerator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

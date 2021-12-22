@@ -1,14 +1,14 @@
 using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using Eos.Blazor.Generator;
+using BlazorGenerator;
 using Microsoft.AspNetCore.Components;
-using Eos.Blazor.Generator.Attributes;
-using Eos.Blazor.Generator.Components;
-using Eos.Blazor.Generator.Models;
+using BlazorGenerator.Attributes;
+using BlazorGenerator.Components;
+using BlazorGenerator.Models;
 using Blazorise;
 using Microsoft.AspNetCore.Components.Rendering;
-using Eos.Blazor.Generator.Enum;
+using BlazorGenerator.Enum;
 
 namespace test.Data
 {

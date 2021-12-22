@@ -5,6 +5,9 @@
     <Version>1.0.21</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AssemblyName>BlazorGenerator</AssemblyName>
+    <RootNamespace>BlazorGenerator</RootNamespace>
+    <Authors>f4n0</Authors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>

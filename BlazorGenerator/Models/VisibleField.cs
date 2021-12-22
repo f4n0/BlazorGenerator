@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Blazorise;
-using Eos.Blazor.Generator.Enum;
+using BlazorGenerator.Enum;
 
-namespace Eos.Blazor.Generator.Models
+namespace BlazorGenerator.Models
 {
   public class VisibleField<T>
   {

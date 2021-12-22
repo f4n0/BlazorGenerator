@@ -1,4 +1,4 @@
-﻿using Eos.Blazor.Generator.Attributes;
+﻿using BlazorGenerator.Attributes;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eos.Blazor.Generator.Services
+namespace BlazorGenerator.Services
 {
   public class DynamicRoute : RouteView
   {

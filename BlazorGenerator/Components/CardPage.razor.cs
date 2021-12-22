@@ -1,5 +1,5 @@
 ﻿using Blazorise;
-using Eos.Blazor.Generator.Models;
+using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eos.Blazor.Generator.Components
+namespace BlazorGenerator.Components
 {
   partial class CardPage<T> : ComponentBase
   {

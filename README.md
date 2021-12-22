@@ -1,11 +1,11 @@
-# Eos.BlazorGenerator
+# BlazorGenerator
 It will autogenerate at runtime blazor pages according to attributes and properties
 
 ## Getting Started
 Edit `_Imports.razor` and add: 
 ```
-@using Eos.Blazor.Generator.Components
-@using Eos.Blazor.Generator.Services
+@using BlazorGenerator.Components
+@using BlazorGenerator.Services
 ```
 Edit `App.razor`:
 ```

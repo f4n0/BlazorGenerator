@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{5383916A-B2C6-4DB4-921B-8ED5D0A25EC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eos.Blazor.Generator", "Eos.Blazor.Generator\Eos.Blazor.Generator.csproj", "{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGenerator", "BlazorGenerator\BlazorGenerator.csproj", "{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

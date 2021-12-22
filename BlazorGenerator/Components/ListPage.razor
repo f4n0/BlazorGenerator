@@ -58,7 +58,7 @@
                 {
                     switch (fld.FieldType)
                     {
-                        case Generator.Enum.FieldType.Numeric:
+                        case BlazorGenerator.Enum.FieldType.Numeric:
                             <DataGridNumericColumn TItem="T"
                                                    Field="@fld.Name"
                                                    Caption="@fld.Caption"
@@ -66,7 +66,7 @@
                                                    Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
                             </DataGridNumericColumn>
                             break;
-                        case Generator.Enum.FieldType.Boolean:
+                        case BlazorGenerator.Enum.FieldType.Boolean:
                             <DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
                                 <DisplayTemplate>
                                     <Check TValue="bool"
@@ -78,7 +78,7 @@
                                 </EditTemplate>
                             </DataGridCheckColumn>
                             break;
-                        case Generator.Enum.FieldType.Custom:
+                        case BlazorGenerator.Enum.FieldType.Custom:
                             <DataGridColumn TItem="T"
                                             Field="@fld.Name" Caption="@fld.Caption" Editable="true" Displayable="@(!fld.EditOnly)">
                                 <DisplayTemplate>
@@ -96,7 +96,7 @@
                                 </EditTemplate>
                             </DataGridColumn>
                             break;
-                        case Generator.Enum.FieldType.Select:
+                        case BlazorGenerator.Enum.FieldType.Select:
                             <DataGridSelectColumn TItem="T"
                                                   Field="@fld.Name"
                                                   Caption="@fld.Caption"
@@ -119,7 +119,7 @@
                                 </EditTemplate>
                             </DataGridSelectColumn>
                             break;
-                        case Generator.Enum.FieldType.Button:
+                        case BlazorGenerator.Enum.FieldType.Button:
                             break;
                         default:
                             <DataGridColumn TItem="T"

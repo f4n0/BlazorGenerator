@@ -1,4 +1,4 @@
-﻿using Eos.Blazor.Generator.Attributes;
+﻿using BlazorGenerator.Attributes;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eos.Blazor.Generator.Components
+namespace BlazorGenerator.Components
 {
   partial class ActionBar
   {

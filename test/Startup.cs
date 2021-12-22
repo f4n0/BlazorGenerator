@@ -1,4 +1,4 @@
-using Eos.Blazor.Generator;
+using BlazorGenerator;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;

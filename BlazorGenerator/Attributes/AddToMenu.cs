@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eos.Blazor.Generator.Attributes
+namespace BlazorGenerator.Attributes
 {
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
   public class AddToMenuAttribute : Attribute

@@ -1,7 +1,7 @@
-﻿using Eos.Blazor.Generator.Attributes;
-using Eos.Blazor.Generator.Components;
-using Eos.Blazor.Generator.Enum;
-using Eos.Blazor.Generator.Models;
+﻿using BlazorGenerator.Attributes;
+using BlazorGenerator.Components;
+using BlazorGenerator.Enum;
+using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;

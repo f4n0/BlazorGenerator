@@ -1,6 +1,6 @@
 ﻿using Blazorise;
 using Blazorise.DataGrid;
-using Eos.Blazor.Generator.Models;
+using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eos.Blazor.Generator.Components
+namespace BlazorGenerator.Components
 {
   partial class WorksheetPage<T, TList> : ComponentBase
   {

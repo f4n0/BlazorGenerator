@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Eos.Blazor.Generator.Utils
+namespace BlazorGenerator.Utils
 {
   internal static class ReflectionUtilites
   {

@@ -23,18 +23,18 @@
                             <FieldBody ColumnSize="ColumnSize.Is8">
                                 @switch (fld.FieldType)
                                 {
-                                    case Generator.Enum.FieldType.Numeric:
+                                    case BlazorGenerator.Enum.FieldType.Numeric:
                                         <NumericEdit Value="@(fld.Getter(Data))"
                                                      @onchange="@((e) => { fld.Setter(Data, e.Value); })"
                                                      Placeholder="@fld.Caption"
                                                      ReadOnly="@(!fld.Editable)" />
                                         break;
-                                    case Generator.Enum.FieldType.Boolean:
+                                    case BlazorGenerator.Enum.FieldType.Boolean:
                                         <Check TValue="bool"
                                                Checked="@((bool)fld.Getter(Data))"
                                                ReadOnly="@(!fld.Editable)" @onchange="@((v)=> fld.Setter(Data, v.Value))" />
                                         break;
-                                    case Generator.Enum.FieldType.Select:
+                                    case BlazorGenerator.Enum.FieldType.Select:
                                         <Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
                                                 SelectedValueChanged="@((v) => { fld.Setter(Data, v); })" ReadOnly="@(!fld.Editable)">
                                             @foreach (string item in fld.Values)
@@ -43,7 +43,7 @@
                                             }
                                         </Select>
                                         break;
-                                    case Generator.Enum.FieldType.Button:
+                                    case BlazorGenerator.Enum.FieldType.Button:
                                         <Button @onclick="@(() => fld.Setter(Data, null))" Color="Color.Dark" Outline="true">
                                             @fld.Caption
                                         </Button>
@@ -58,12 +58,12 @@
                             </FieldBody>
                         </Field>
                     }
-
-                    @if (BasicActions.EditAction || BasicActions.NewAction)
-                    {
-                        <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.Right">Save</Button>
-                    }
                 </Fields>
+                <br />
+                @if (BasicActions.EditAction || BasicActions.NewAction)
+                {
+                    <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
+                }
             </CardBody>
         </Card>
     </LayoutContent>

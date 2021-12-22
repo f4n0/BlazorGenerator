@@ -1,18 +1,18 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using Eos.Blazor.Generator;
+using BlazorGenerator;
 using Microsoft.AspNetCore.Components;
-using Eos.Blazor.Generator.Attributes;
-using Eos.Blazor.Generator.Components;
+using BlazorGenerator.Attributes;
+using BlazorGenerator.Components;
 using System.Threading.Tasks;
 using RestSharp;
 using System.Runtime.Serialization;
 using Eos.Nav.Common.Apps;
 using Newtonsoft.Json.Converters;
 using System.Linq;
-using Eos.Blazor.Generator.Models;
-using Eos.Blazor.Generator.Enum;
+using BlazorGenerator.Models;
+using BlazorGenerator.Enum;
 using Eos.Bare.Client.Model;
 
 namespace test.Data
