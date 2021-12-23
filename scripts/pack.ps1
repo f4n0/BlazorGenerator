@@ -16,14 +16,17 @@ dotnet restore "$ProjectRoot\BlazorGenerator.sln" --configfile "$ProjectRoot\nug
 if ($LASTEXITCODE -ne 0) { throw "Failed" }
 
 Write-Host "$spacer Increase Build Number $spacer"
-[xml]$csprojcontents = Get-Content -Path "$ProjectRoot\BlazorGenerator\BlazorGenerator.csproj"
-$versionNo = [version] $csprojcontents.Project.PropertyGroup[0].Version
+$doc = [Xml.XmlDocument]::new()
+$doc.Load("$ProjectRoot\BlazorGenerator\BlazorGenerator.csproj")
+$VersionNode = $doc.SelectSingleNode('Project/PropertyGroup/Version')
+if (-not $VersionNode) {
+    throw "'Version' node not found in project file"
+}
+$versionNo = [version] $VersionNode.InnerText
 $newVersion = "{0}.{1}.{2}" -f $versionNo.Major, $versionNo.Minor, ($versionNo.Build+1)
 Write-Host $newVersion
-$csprojcontents.Project.PropertyGroup[0].Version = $newVersion
-$csprojcontents.Save("$ProjectRoot\BlazorGenerator\BlazorGenerator.csproj")
-if ($LASTEXITCODE -ne 0) { throw "Failed" }
-
+$VersionNode.InnerText = "$newVersion"
+$doc.Save("$ProjectRoot\BlazorGenerator\BlazorGenerator.csproj")
 
 Write-Host "$spacer Building solution $spacer"
 dotnet build "$ProjectRoot\BlazorGenerator.sln" -c Release
