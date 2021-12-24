@@ -1,20 +1,52 @@
 ﻿@if (PageActions.Count() > 0)
 {
-    <Bar Breakpoint="Breakpoint.Desktop"
-         Background="Background.Light"
-         ThemeContrast="ThemeContrast.Light"     >
-        <BarMenu>
-            <BarStart>
-                @foreach (var action in PageActions)
-                {
-                <BarItem>
-                    <Button Color="Color.Dark" Margin="Margin.Is1" Outline="true" @onclick="@(() => action.Method.Invoke(Context, null))">
-                            <Icon Name="@action.Attribute.Icon" />
-                        @(action.Attribute.Caption ?? action.Method.Name)
-                    </Button>
+  <Bar Breakpoint="Breakpoint.Desktop"
+       Background="Background.Light"
+       ThemeContrast="ThemeContrast.Light"
+       TextColor="TextColor.Dark">
+    <BarMenu>
+      <BarStart>
+        @{
+          PopulateDictionary();
+
+          foreach (var item in ActionGroups)
+          {
+            var filtered = PageActions.Where(o => o.Attribute.Group == item.Key);
+            if (item.Key.ToLower() == "default" || item.Value == 1)
+            {
+              foreach (var action in filtered)
+              {
+                <BarItem TextColor="TextColor.Dark" Border="Border.Is1.Rounded.Dark" Margin="Margin.Is1">
+                  <BarLink TextColor="TextColor.Dark" Outline="true" @onclick="@(() => action.Method.Invoke(Context, null))">
+                    <Icon Name="@action.Attribute.Icon" />
+                    @(action.Attribute.Caption ?? action.Method.Name)
+                  </BarLink>
                 </BarItem>
-                }
-                </BarStart>
-        </BarMenu>
-    </Bar>
+              }
+            }
+            else
+            {
+              <BarItem  Border="Border.Is1.Rounded.Dark" Margin="Margin.Is1">
+                <BarDropdown TextColor="TextColor.Dark">
+                  <BarDropdownToggle TextColor="TextColor.Dark">@item.Key</BarDropdownToggle>
+                  <BarDropdownMenu>
+                    @foreach (var action in filtered)
+                    {
+                      <BarDropdownItem TextColor="TextColor.Dark">
+                        <BarLink TextColor="TextColor.Dark" @onclick="@(() => action.Method.Invoke(Context, null))">
+                          <Icon Name="@action.Attribute.Icon" />
+                          @(action.Attribute.Caption ?? action.Method.Name)
+                        </BarLink>
+                      </BarDropdownItem>
+                    }
+                  </BarDropdownMenu>
+                </BarDropdown>
+              </BarItem>
+            }
+          }
+
+        }
+      </BarStart>
+    </BarMenu>
+  </Bar>
 }

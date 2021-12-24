@@ -16,5 +16,23 @@ namespace BlazorGenerator.Components
 
     [Parameter]
     public object Context { get; set; }
+
+    public Dictionary<string, int> ActionGroups { get; set; }
+
+    void PopulateDictionary()
+    {
+      ActionGroups = new Dictionary<string, int>();
+      foreach (var item in PageActions)
+      {
+        if (ActionGroups.ContainsKey(item.Attribute.Group))
+        {          
+          ActionGroups[item.Attribute.Group]++;
+        }
+        else
+        {
+          ActionGroups.Add(item.Attribute.Group, 1);
+        }
+      }
+    }
   }
 }

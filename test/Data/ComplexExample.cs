@@ -70,15 +70,27 @@ namespace test.Data
         });
       Refresh();
     }
+    [PageAction("Restore2")]
+    public void Action4()
+    {
+      Data.AddRange(new List<ComplexExample>()
+        {
+        new ComplexExample(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
+        new ComplexExample(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
+        new ComplexExample(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
+        new ComplexExample(){Test = "TestString4", Test1= 4, Test2=DateTime.Now, Test3 = 0.4M}
+        });
+      Refresh();
+    }
 
-    [PageAction("Delete all")]
+    [PageAction("Delete all", "gruppo1")]
     public void Action2()
     {
       Data.Clear();
       Refresh();
     }
 
-    [PageAction("Test")]
+    [PageAction("Test","gruppo1")]
     public void Action3()
     {
       if (SelectedRecs.Count > 0)

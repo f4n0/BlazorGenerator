@@ -19,6 +19,17 @@ namespace BlazorGenerator.Attributes
       Caption = caption;
       Icon = icon;
     }
+    public PageActionAttribute(string caption, IconName icon, string group)
+    {
+      Caption = caption;
+      Icon = icon;
+      Group = group;
+    }
+    public PageActionAttribute(string caption, string group)
+    {
+      Caption = caption;
+      Group = group;
+    }
 
     public PageActionAttribute()
     {
@@ -26,6 +37,7 @@ namespace BlazorGenerator.Attributes
 
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     public string? Caption { get; private set; }
+    public string Group { get; private set; } = "Default";
     public IconName Icon { get; private set; } = IconName.Add;
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
   }
