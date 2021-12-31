@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{5383916A-B2C6-4DB4-921B-8ED5D0A25EC2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGenerator", "BlazorGenerator\BlazorGenerator.csproj", "{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestNet6", "TestNet6\TestNet6.csproj", "{42538E38-892E-418C-B5B7-99AA8E8938F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,13 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5383916A-B2C6-4DB4-921B-8ED5D0A25EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5383916A-B2C6-4DB4-921B-8ED5D0A25EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5383916A-B2C6-4DB4-921B-8ED5D0A25EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42538E38-892E-418C-B5B7-99AA8E8938F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42538E38-892E-418C-B5B7-99AA8E8938F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42538E38-892E-418C-B5B7-99AA8E8938F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42538E38-892E-418C-B5B7-99AA8E8938F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

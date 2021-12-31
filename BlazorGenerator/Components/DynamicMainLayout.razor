@@ -1,17 +1,42 @@
 ﻿@inherits LayoutComponentBase
 <Layout Sider="true">
-    <LayoutSider>
-        <LayoutSiderContent>
-            <NavMenu />
-        </LayoutSiderContent>
-    </LayoutSider>
-    <Layout>
-        <LayoutContent>
-            <Blazorise.Container Padding="Padding.Is4.OnY" Fluid="true">
-                <PageProgressAlert />
-                <MessageAlert />
-                @Body
-            </Blazorise.Container>
-        </LayoutContent>
-    </Layout>
+	<LayoutSider>
+		<LayoutSiderContent>
+			<NavMenu />
+		</LayoutSiderContent>
+	</LayoutSider>
+	<Layout>
+		<LayoutContent>
+			<Blazorise.Container Padding="Padding.Is4.OnY" Fluid="true">
+				<PageProgressAlert />
+				<MessageAlert />
+				<NotificationAlert />
+				<ErrorBoundary @ref="errorBoundary">
+					<ErrorContent>
+						<DynamicErrorHandler errorBoundary="errorBoundary" />
+					</ErrorContent>
+					<ChildContent>
+						@Body
+					</ChildContent>
+				</ErrorBoundary>
+			</Blazorise.Container>
+		</LayoutContent>
+	</Layout>
 </Layout>
+
+<HeadContent>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+	<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+	<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
+	<link href="_content/Blazorise.Snackbar/blazorise.snackbar.css" rel="stylesheet" />	
+</HeadContent>
+
+@code {
+	ErrorBoundary errorBoundary;
+
+	protected override void OnParametersSet()
+	{
+		errorBoundary?.Recover();
+	}
+}

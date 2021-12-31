@@ -12,7 +12,7 @@ namespace BlazorGenerator
 {
   public static class BlazorGenServices
   {
-    public static IServiceCollection AddEosBlazorGen(this IServiceCollection services)
+    public static IServiceCollection AddBlazorGen(this IServiceCollection services)
     {
       services
       .AddBlazorise(options =>

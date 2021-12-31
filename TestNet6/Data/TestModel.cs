@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using BlazorGenerator;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +9,7 @@ using Blazorise;
 using Microsoft.AspNetCore.Components.Rendering;
 using BlazorGenerator.Enum;
 
-namespace test.Data
+namespace TestNet6.Data
 {
 
 
@@ -56,10 +55,5 @@ namespace test.Data
 
     }
 
-
-    protected override void BuildRenderTree(RenderTreeBuilder __builder)
-    {
-      base.BuildRenderTree(__builder);
-    }
   }
 }

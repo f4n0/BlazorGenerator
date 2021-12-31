@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using BlazorGenerator;
 using Microsoft.AspNetCore.Components;
@@ -8,7 +7,7 @@ using BlazorGenerator.Components;
 using BlazorGenerator.Models;
 using Blazorise;
 
-namespace test.Data
+namespace TestNet6.Data
 {
   public class MyModalContent : ModalPage<MyModalContent>
   {

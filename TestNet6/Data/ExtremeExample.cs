@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace test.Data
+namespace TestNet6.Data
 {
   [AddToMenu("Extreme Example", route)]
   [Route(route)]

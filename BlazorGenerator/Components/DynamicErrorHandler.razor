@@ -1,0 +1,12 @@
+﻿
+@inject INotificationService NotificationService;
+
+@code {
+	[Parameter]
+	public ErrorBoundary errorBoundary { get; set; }
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		NotificationService.Error("An Unexpected error occurred! Please, refresh the page", "Error");
+	}
+}
