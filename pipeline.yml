@@ -24,7 +24,11 @@ stages:
 - stage: Build
   jobs:
   - template: 'dotNet/jobs/build-and-test.yml@templates'
+    parameters:
+      dotNetVersion: 6.x
 - stage: Deploy
   dependsOn: Build
   jobs:
   - template: 'dotNet/jobs/deploy-nuget.yml@templates'
+    parameters:
+      dotNetVersion: 6.x
