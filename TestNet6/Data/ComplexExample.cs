@@ -20,6 +20,7 @@ namespace TestNet6.Data
     const string route = "/complex";
 
     public string Test { get; set; }
+    public bool Test6 { get; set; }
     public int Test1 { get; set; }
     public DateTime Test2 { get; set; }
     public decimal Test3 { get; set; }
@@ -30,6 +31,7 @@ namespace TestNet6.Data
     {
       VisibleFields = new List<VisibleField<ComplexExample>>()        {
       new VisibleField<ComplexExample>(nameof(Test)){ Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
+      new VisibleField<ComplexExample>(nameof(Test6), FieldType.Boolean){Getter = f => f.Test6, Setter = (f,v) => f.Test6 = (bool)v },
       new VisibleField<ComplexExample>(nameof(Test1)){ Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = int.Parse(v as string)},
       new VisibleField<ComplexExample>(nameof(Test2)){ Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
       new VisibleField<ComplexExample>(nameof(Test3)){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)},

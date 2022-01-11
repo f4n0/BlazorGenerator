@@ -1,94 +1,111 @@
 ﻿@{
-  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-  var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
-  var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
+	var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+	var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
+	var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
 }
 @typeparam T
 
 <Layout>
-    <LayoutHeader Fixed="true">
-        <ActionBar PageActions="@PageActions" Context="this"></ActionBar>
-    </LayoutHeader>
-    <LayoutContent>
-        <Card Margin="Margin.Is4.FromBottom">
-            <CardHeader>
-                <CardTitle>@Title</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Fields>
-                    @foreach (var fld in VisibleFields)
-                    {
-                        <Field ColumnSize="ColumnSize.Is6.OnDesktop" Horizontal="true">
-                            <FieldLabel ColumnSize="ColumnSize.Is4">@(fld.Caption): </FieldLabel>
-                            <FieldBody ColumnSize="ColumnSize.Is8">
-                                @switch (fld.FieldType)
-                                {
-                                    case BlazorGenerator.Enum.FieldType.Numeric:
-                                        <NumericEdit Value="@(fld.Getter(Data))"
-                                                     @onchange="@((e) => { fld.Setter(Data, e.Value); })"
-                                                     Placeholder="@fld.Caption"
-                                                     ReadOnly="@(!fld.Editable)" />
-                                        break;
-                                    case BlazorGenerator.Enum.FieldType.Boolean:
-                                        <Check TValue="bool"
-                                               Checked="@((bool)fld.Getter(Data))"
-                                               ReadOnly="@(!fld.Editable)" @onchange="@((v)=> fld.Setter(Data, v.Value))" />
-                                        break;
-                                    case BlazorGenerator.Enum.FieldType.Select:
-                                        <Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
-                                                SelectedValueChanged="@((v) => { fld.Setter(Data, v); })" ReadOnly="@(!fld.Editable)">
-                                            @foreach (string item in fld.Values)
-                                            {
-                                                <SelectItem Value="@item">@(item.ToString())</SelectItem>
-                                            }
-                                        </Select>
-                                        break;
-                                    case BlazorGenerator.Enum.FieldType.Button:
-                                        <Button @onclick="@(() => fld.Setter(Data, null))" Color="Color.Dark" Outline="true">
-                                            @fld.Caption
-                                        </Button>
-                                        break;
-                                    default:
-                                        <TextEdit Text="@((string) fld.Getter(Data))"
-                                                  @onchange="@((e) => { fld.Setter(Data, e.Value); })"
-                                                  Placeholder="@fld.Caption"
-                                                  ReadOnly="@(!fld.Editable)" Role="fld.TextRole" />
-                                        break;
-                                }
-                            </FieldBody>
-                        </Field>
-                    }
-                </Fields>
-                <br />
-                @if (BasicActions.EditAction || BasicActions.NewAction)
-                {
-                    <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
-                }
-            </CardBody>
-        </Card>
-    </LayoutContent>
+	<LayoutHeader Fixed="true">
+		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
+	</LayoutHeader>
+	<LayoutContent>
+		<Card Margin="Margin.Is4.FromBottom">
+			<CardHeader>
+				<CardTitle>@Title</CardTitle>
+			</CardHeader>
+			<CardBody>
+				<Fields>
+					@foreach (var fld in VisibleFields)
+					{
+						<Field ColumnSize="ColumnSize.Is6.OnDesktop" Horizontal="true">
+							<FieldLabel ColumnSize="ColumnSize.Is4">@(fld.Caption): </FieldLabel>
+							<FieldBody ColumnSize="ColumnSize.Is8">
+								@switch (fld.FieldType)
+								{
+									case BlazorGenerator.Enum.FieldType.Numeric:
+										if (fld.Getter(Data).GetType() == typeof(int))
+										{
+											<NumericEdit TValue="int" Value="@((int)fld.Getter(Data))"
+										 @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+										 ValueChanged="@((e) => { fld.Setter(Data, e); })"
+										 Placeholder="@fld.Caption"
+										 ReadOnly="@(!fld.Editable)" />
+										}
+										else if (fld.Getter(Data).GetType() == typeof(decimal))
+										{
+											<NumericEdit TValue="decimal" Value="@((decimal)fld.Getter(Data))"
+											 @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+											 ValueChanged="@((e) => { fld.Setter(Data, e); })"
+											 Placeholder="@fld.Caption"
+											 ReadOnly="@(!fld.Editable)" />
+										}
+										break;
+									case BlazorGenerator.Enum.FieldType.Boolean:
+										<Check TValue="bool"
+								   Checked="@((bool)fld.Getter(Data))"
+								   ReadOnly="@(!fld.Editable)"
+								   CheckedChanged="@((v) => {
+											   fld.Setter(Data,v);
+										   })" />
+
+										break;
+									case BlazorGenerator.Enum.FieldType.Select:
+										<Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
+									SelectedValueChanged="@((v) => { fld.Setter(Data, v); })" ReadOnly="@(!fld.Editable)">
+											@foreach (string item in fld.Values)
+											{
+												<SelectItem Value="@item">@(item.ToString())</SelectItem>
+											}
+										</Select>
+										break;
+									case BlazorGenerator.Enum.FieldType.Button:
+										<Button @onclick="@(() => fld.Setter(Data, null))" Color="Color.Dark" Outline="true">
+											@fld.Caption
+										</Button>
+										break;
+									default:
+										<TextEdit Text="@((string) fld.Getter(Data))"
+									  @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+									  Placeholder="@fld.Caption"
+									  ReadOnly="@(!fld.Editable)" Role="fld.TextRole" />
+										break;
+								}
+							</FieldBody>
+						</Field>
+					}
+				</Fields>
+				<br />
+				@if (BasicActions.EditAction || BasicActions.NewAction)
+				{
+					<Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
+				}
+			</CardBody>
+		</Card>
+	</LayoutContent>
 </Layout>
 
 
 @{
-    foreach (var item in Subforms)
-    {
-        <Card Margin="Margin.Is4.FromBottom">
-            <CardHeader>
-                <CardTitle>@item.Attribute.Caption</CardTitle>
-            </CardHeader>
-            <CardBody>
-                @{var f = new RenderFragment(builder =>
-                        {
-                            builder.OpenComponent(0, item.Property.PropertyType);
-                            builder.CloseComponent();
-                        });
+	foreach (var item in Subforms)
+	{
+		<Card Margin="Margin.Is4.FromBottom">
+			<CardHeader>
+				<CardTitle>@item.Attribute.Caption</CardTitle>
+			</CardHeader>
+			<CardBody>
+				@{
+					var f = new RenderFragment(builder =>
+								{
+									builder.OpenComponent(0, item.Property.PropertyType);
+									builder.CloseComponent();
+								});
 
-                    @f
-                }
-            </CardBody>
-        </Card>
-    }
+					@f
+				}
+			</CardBody>
+		</Card>
+	}
 }
 
 
