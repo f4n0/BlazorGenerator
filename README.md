@@ -9,33 +9,52 @@ Edit `_Imports.razor` and add:
 ```
 Edit `App.razor`:
 ```
-<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
-        <Found Context="routeData">
-            <DynamicRoute RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
-        </Found>
-        <NotFound>
-            <LayoutView Layout="@typeof(DynamicMainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
-            </LayoutView>
-        </NotFound>
-    </Router>
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(DynamicMainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
 ```
     
-In `Startup.cs` add BlazorGen Services:`services.AddEosBlazorGen();`
+In `Program.cs` add BlazorGen Services:
+```
+using BlazorGenerator;
+builder.Services.AddBlazorGen();
+```
 
-BlazorGen use Blazorise for its components, so edit the `_Host.cshtml` adding:
-#### In Head tag
-```
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-    <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
-```
+BlazorGen use Blazorise for its components, so edit the `_Layout_.cshtml` adding:
 #### Before body closing:    
-```<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+```
+	<!-- inside of body section and after the div/app tag  -->
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+
 ```
 
+# Available Pages type:
+- CardPage
+- ListPage
+- WorksheetPage
+
+To add the page in the menu, use the class' attribute `AddToMenu`
+
+## Others:
+### Modal Pages:
+to use a modal (available in every pages):
+1. Call InitModal where ModalType is the model to use (the model must implement `ModalPage`) and ModalData the data to show
+2. Call OpenModal
+3. If you need to save the data eventually edited in the modal, override the trigger `OnModalSave`
+
+### Actions
+The actions are available in all pages (excluded modals)
+To create the action create a void method and add the attribute `PageAction`
 ## Basic Usage
 see `Test` project

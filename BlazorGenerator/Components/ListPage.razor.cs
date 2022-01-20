@@ -21,6 +21,7 @@ namespace BlazorGenerator.Components
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
     private DataGrid<T> _datagrid;
     public virtual string Title => "";
+    public virtual DataGridSelectionMode SelectionMode => DataGridSelectionMode.Multiple;
 
 
     public void StartLoader()
