@@ -74,7 +74,7 @@
 						case BlazorGenerator.Enum.FieldType.Boolean:
 							<DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
 								<DisplayTemplate>
-									<Tooltip Text="@fld.ToolTip">
+									<Tooltip Text="@fld.ToolTip(context)">
 										<Check TValue="bool" Checked="@((bool)fld.Getter(context))" ReadOnly="true" Disabled />
 									</Tooltip>
 								</DisplayTemplate>
@@ -92,7 +92,7 @@
 							<DataGridColumn TItem="T"
 								Field="@fld.Name" Caption="@fld.Caption" Editable="true" Displayable="@(!fld.EditOnly)">
 								<DisplayTemplate>
-									<Tooltip Text="@fld.ToolTip">
+									<Tooltip Text="@fld.ToolTip(context)">
 										<TextEdit Text="@((string) fld.Getter(context)?.ToString())" Placeholder="@fld.Caption" ReadOnly="true"></TextEdit>
 									</Tooltip>
 								</DisplayTemplate>
@@ -113,7 +113,7 @@
 									  Sortable="true"
 									  Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
 								<DisplayTemplate>
-									<Tooltip Text="@fld.ToolTip">
+									<Tooltip Text="@fld.ToolTip(context)">
 										<Text>@((string) fld.Getter(context)?.ToString())</Text>
 									</Tooltip>
 								</DisplayTemplate>
@@ -138,7 +138,7 @@
 							<DataGridColumn TItem="T"
 								Field="@fld.Name" Caption="@fld.Caption" Editable="false">
 								<DisplayTemplate>
-									<Tooltip Text="@fld.ToolTip">
+									<Tooltip Text="@fld.ToolTip(context)">
 										<Icon Name="@((Blazorise.IconName) fld.Getter(context))"></Icon>
 									</Tooltip>
 								</DisplayTemplate>
