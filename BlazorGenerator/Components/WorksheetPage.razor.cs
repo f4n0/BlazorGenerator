@@ -118,6 +118,5 @@ namespace BlazorGenerator.Components
     public virtual void OnModalSave(object data)
     {
     }
-
   }
 }
