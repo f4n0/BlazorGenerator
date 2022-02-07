@@ -16,7 +16,9 @@ namespace BlazorGenerator.Components
     [Inject] public IPageProgressService PageProgressService { get; set; }
     [Inject] public IMessageService MessageService { get; set; }
 
+
     public List<T> SelectedRecs { get; private set; } = new List<T>();
+    public T SelectedRec { get; private set; }
     public List<T> Data { get; set; }
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
     private DataGrid<T> _datagrid;
