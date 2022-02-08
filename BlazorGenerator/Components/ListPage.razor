@@ -3,6 +3,7 @@
 	var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
 }
 @typeparam T
+@inherits BlazorgenBaseComponent
 
 <h3>@Title</h3>
 
@@ -139,9 +140,10 @@
 							<DataGridColumn TItem="T"
 								Field="@fld.Name" Caption="@fld.Caption" Editable="false">
 								<DisplayTemplate>
-									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
-										<Icon Name="@((Blazorise.IconName) fld.Getter(context))"></Icon>
-									</Tooltip>
+									<Icon Name="@((Blazorise.IconName) fld.Getter(context))">
+										<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)"></Tooltip>
+									</Icon>
+
 								</DisplayTemplate>
 							</DataGridColumn>
 							break;

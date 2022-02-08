@@ -4,6 +4,7 @@
 	var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
 }
 @typeparam T
+@inherits BlazorgenBaseComponent
 
 <Layout>
 	<LayoutHeader Fixed="true">

@@ -4,6 +4,7 @@
 }
 @typeparam T
 @typeparam TList
+@inherits BlazorgenBaseComponent
 
 <h3>@Title</h3>
 
@@ -124,7 +125,7 @@
 									<DataGridCheckColumn TItem="TList" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
 										<DisplayTemplate>
 											
-									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)" >
 											<Check TValue="bool"
 									   Checked="@((bool)fld.Getter(context))" ReadOnly="true" />
 									   </Tooltip>
@@ -186,10 +187,11 @@
 								case BlazorGenerator.Enum.FieldType.Icon:
 									<DataGridColumn TItem="TList"
 										Field="@fld.Name" Caption="@fld.Caption" Editable="false">
-										<DisplayTemplate>
-											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
-												<Icon Name="@((Blazorise.IconName) fld.Getter(context))"></Icon>
-											</Tooltip>
+										<DisplayTemplate>											
+												<Icon Name="@((Blazorise.IconName) fld.Getter(context))">
+													<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+													</Tooltip>
+												</Icon>
 										</DisplayTemplate>
 									</DataGridColumn>
 									break;
