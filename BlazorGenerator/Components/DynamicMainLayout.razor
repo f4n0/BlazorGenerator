@@ -6,21 +6,26 @@
 		</LayoutSiderContent>
 	</LayoutSider>
 	<Layout>
-		<LayoutContent>
-			<Blazorise.Container Padding="Padding.Is4.OnY" Fluid="true">
-				<PageProgressAlert />
-				<MessageAlert />
-				<NotificationAlert />
-				<ErrorBoundary @ref="errorBoundary">
-					<ErrorContent>
-						<DynamicErrorHandler errorBoundary="errorBoundary" />
-					</ErrorContent>
-					<ChildContent>
-						@Body
-					</ChildContent>
-				</ErrorBoundary>
-			</Blazorise.Container>
-		</LayoutContent>
+		<CascadingValue Value="@this">
+			<LayoutContent>
+				<Blazorise.Container Padding="Padding.Is4.OnY" Fluid="true">
+					<PageProgressAlert />
+					<MessageAlert />
+					<NotificationAlert />
+					<ErrorBoundary @ref="errorBoundary">
+						<ErrorContent>
+							<DynamicErrorHandler errorBoundary="errorBoundary" />
+						</ErrorContent>
+						<ChildContent>
+							@Body
+						</ChildContent>
+					</ErrorBoundary>
+				</Blazorise.Container>
+			</LayoutContent>
+			<LayoutFooter Fixed=true Visibility="GetLogVisibility()">
+				<Log></Log>
+			</LayoutFooter>
+		</CascadingValue>
 	</Layout>
 </Layout>
 
@@ -33,10 +38,25 @@
 </HeadContent>
 
 @code {
+	private bool showLog = false;
+
 	ErrorBoundary errorBoundary;
+
+	private Visibility GetLogVisibility()
+	{
+		return showLog ? Visibility.Visible : Visibility.Invisible;
+	}
+
+
+	public void setLogVisibility(bool show)
+	{
+		showLog = show;
+		StateHasChanged();
+	}
 
 	protected override void OnParametersSet()
 	{
+		showLog = false;
 		errorBoundary?.Recover();
 	}
 }

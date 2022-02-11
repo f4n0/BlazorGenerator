@@ -11,6 +11,14 @@ namespace BlazorGenerator.Components
 {
   public class BlazorgenBaseComponent: ComponentBase
   {
+    [CascadingParameter]
+    protected DynamicMainLayout layout { get; set; }
+
+    public void setLogVisibility(bool show)
+    {
+      layout.setLogVisibility(show);
+    }
+
     [Inject] 
     public IPageProgressService PageProgressService { get; set; }
     [Inject] 
@@ -66,6 +74,8 @@ namespace BlazorGenerator.Components
 
         builder.CloseComponent();
       });
+
+      StateHasChanged();
     }
     Task ModalCallback(object response)
     {
@@ -75,8 +85,8 @@ namespace BlazorGenerator.Components
     }
 
     public void OpenModal()
-    {
-      ModalRef.Show();
+    {      
+      ModalRef.Show().Wait();
     }
 
     public virtual void OnModalSave(object data)
