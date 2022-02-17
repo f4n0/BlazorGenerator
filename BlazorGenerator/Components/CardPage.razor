@@ -68,6 +68,7 @@
 									default:
 										<TextEdit Text="@((string) fld.Getter(Data))"
 									  @onchange="@((e) => { fld.Setter(Data, e.Value); })"
+									  TextChanged="@((v) => { fld.Setter(Data, v);})"
 									  Placeholder="@fld.Caption"
 									  ReadOnly="@(!fld.Editable)" Role="fld.TextRole" />
 										break;
@@ -83,10 +84,7 @@
 				}
 			</CardBody>
 		</Card>
-	</LayoutContent>
-</Layout>
-
-
+		
 @{
 	foreach (var item in Subforms)
 	{
@@ -108,6 +106,9 @@
 		</Card>
 	}
 }
+	</LayoutContent>
+</Layout>
+
 
 
 <Modal @ref="@ModalRef"></Modal>

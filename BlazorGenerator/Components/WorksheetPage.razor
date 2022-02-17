@@ -13,7 +13,6 @@
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
 	<LayoutContent>
-
 		<Card Margin="Margin.Is4.FromBottom">
 			<CardHeader>
 				<CardTitle>@Title</CardTitle>
@@ -56,6 +55,7 @@
 										<TextEdit Text="@((string) fld.Getter(Data))"
 									  @onchange="@((e) => { fld.Setter(Data, e.Value); })"
 									  Placeholder="@fld.Caption"
+									  TextChanged="@((v) => { fld.Setter(Data, v);})"
 									  ReadOnly="@(!fld.Editable)" Role="fld.TextRole" />
 										break;
 								}
@@ -124,11 +124,11 @@
 								case BlazorGenerator.Enum.FieldType.Boolean:
 									<DataGridCheckColumn TItem="TList" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
 										<DisplayTemplate>
-											
-									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)" >
-											<Check TValue="bool"
-									   Checked="@((bool)fld.Getter(context))" ReadOnly="true" />
-									   </Tooltip>
+
+											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+												<Check TValue="bool"
+										   Checked="@((bool)fld.Getter(context))" ReadOnly="true" />
+											</Tooltip>
 										</DisplayTemplate>
 										<EditTemplate>
 											<Check TValue="bool"
@@ -140,11 +140,11 @@
 									<DataGridColumn TItem="TList"
 										Field="@fld.Name" Caption="@fld.Caption" Editable="true" Displayable="@(!fld.EditOnly)">
 										<DisplayTemplate>
-									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
-											<TextEdit Text="@((string) fld.Getter(context)?.ToString())"
-										  @onchange="@((e) => { fld.Setter(context, e.Value); })"
-										  Placeholder="@fld.Caption" ReadOnly="true"></TextEdit>
-										  </Tooltip>
+											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+												<TextEdit Text="@((string) fld.Getter(context)?.ToString())"
+											  @onchange="@((e) => { fld.Setter(context, e.Value); })"
+											  Placeholder="@fld.Caption" ReadOnly="true"></TextEdit>
+											</Tooltip>
 										</DisplayTemplate>
 										<EditTemplate>
 											<TextEdit Text="@((string) fld.Getter(context.Item)?.ToString())"
@@ -163,8 +163,8 @@
 											  Sortable="true"
 											  Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
 										<DisplayTemplate>
-									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
-											<Text>@((string) fld.Getter(context)?.ToString())</Text>
+											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+												<Text>@((string) fld.Getter(context)?.ToString())</Text>
 											</Tooltip>
 										</DisplayTemplate>
 										<EditTemplate>
@@ -187,11 +187,11 @@
 								case BlazorGenerator.Enum.FieldType.Icon:
 									<DataGridColumn TItem="TList"
 										Field="@fld.Name" Caption="@fld.Caption" Editable="false">
-										<DisplayTemplate>											
+										<DisplayTemplate>
+											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
 												<Icon Name="@((Blazorise.IconName) fld.Getter(context))">
-													<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
-													</Tooltip>
 												</Icon>
+											</Tooltip>
 										</DisplayTemplate>
 									</DataGridColumn>
 									break;

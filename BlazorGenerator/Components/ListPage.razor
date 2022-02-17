@@ -26,7 +26,6 @@
 				  Filterable="true"
 				  Responsive="true"
 				  FixedHeader="true"
-				  FixedHeaderDataGridHeight="90%"
 				  Narrow="true"
 				  Editable
 				  EditMode="@GetEditMode()"
@@ -140,10 +139,10 @@
 							<DataGridColumn TItem="T"
 								Field="@fld.Name" Caption="@fld.Caption" Editable="false">
 								<DisplayTemplate>
-									<Icon Name="@((Blazorise.IconName) fld.Getter(context))">
-										<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)"></Tooltip>
-									</Icon>
-
+									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
+										<Icon Name="@((Blazorise.IconName) fld.Getter(context))">
+										</Icon>
+									</Tooltip>
 								</DisplayTemplate>
 							</DataGridColumn>
 							break;

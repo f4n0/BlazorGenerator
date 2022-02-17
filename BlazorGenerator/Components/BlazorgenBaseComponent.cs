@@ -46,6 +46,7 @@ namespace BlazorGenerator.Components
 
     public void InitModal<TModalType, TModalData>(object ModalData) where TModalType : ModalPage<TModalData>
     {
+      ModalRef.Closing += OnModalClose;
       ModalRef.ChildContent = new RenderFragment(builder =>
       {
         builder.OpenComponent<ModalContent>(0);
@@ -77,10 +78,20 @@ namespace BlazorGenerator.Components
 
       StateHasChanged();
     }
+
+    Task OnModalClose(ModalClosingEventArgs e)
+    {
+      if (e.CloseReason != CloseReason.None)
+      {
+        OnModalSave(null);
+      }
+      return Task.CompletedTask;
+    }
+
     Task ModalCallback(object response)
     {
       OnModalSave(response);
-      ModalRef.Close(CloseReason.UserClosing);
+      ModalRef.Close(CloseReason.None);
       return Task.CompletedTask;
     }
 

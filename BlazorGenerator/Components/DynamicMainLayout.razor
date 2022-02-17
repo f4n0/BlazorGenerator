@@ -5,13 +5,13 @@
 			<NavMenu />
 		</LayoutSiderContent>
 	</LayoutSider>
-	<Layout>
+	<Layout Height="Height.Is100">
 		<CascadingValue Value="@this">
 			<LayoutContent>
-				<Blazorise.Container Padding="Padding.Is4.OnY" Fluid="true">
+				<Blazorise.Container Fluid="true" Height="Height.Is75" Margin="Margin.Is4.FromTop">
 					<PageProgressAlert />
 					<MessageAlert />
-					<NotificationAlert />
+					<NotificationAlert Style="z-index:99999999" />
 					<ErrorBoundary @ref="errorBoundary">
 						<ErrorContent>
 							<DynamicErrorHandler errorBoundary="errorBoundary" />
@@ -22,7 +22,7 @@
 					</ErrorBoundary>
 				</Blazorise.Container>
 			</LayoutContent>
-			<LayoutFooter Fixed=true Visibility="GetLogVisibility()">
+			<LayoutFooter Fixed=true Visibility="GetLogVisibility()" Height="Height.Is25">
 				<Log></Log>
 			</LayoutFooter>
 		</CascadingValue>
@@ -34,7 +34,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 	<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
 	<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
-	<link href="_content/Blazorise.Snackbar/blazorise.snackbar.css" rel="stylesheet" />	
+	<link href="_content/Blazorise.Snackbar/blazorise.snackbar.css" rel="stylesheet" />
 </HeadContent>
 
 @code {
