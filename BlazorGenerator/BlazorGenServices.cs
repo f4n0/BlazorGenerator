@@ -17,7 +17,7 @@ namespace BlazorGenerator
       services
       .AddBlazorise(options =>
       {
-        options.ChangeTextOnKeyPress = false;
+        options.Immediate = false;
       })
       .AddBootstrapProviders();
       services.AddFontAwesomeIcons();
