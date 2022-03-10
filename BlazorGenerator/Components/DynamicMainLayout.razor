@@ -5,22 +5,27 @@
 			<NavMenu />
 		</LayoutSiderContent>
 	</LayoutSider>
-	<Layout>
-		<LayoutContent>
-			<Blazorise.Container Padding="Padding.Is4.OnY" Fluid="true">
-				<PageProgressAlert />
-				<MessageAlert />
-				<NotificationAlert />
-				<ErrorBoundary @ref="errorBoundary">
-					<ErrorContent>
-						<DynamicErrorHandler errorBoundary="errorBoundary" />
-					</ErrorContent>
-					<ChildContent>
-						@Body
-					</ChildContent>
-				</ErrorBoundary>
-			</Blazorise.Container>
-		</LayoutContent>
+	<Layout Height="Height.Is100">
+		<CascadingValue Value="@this">
+			<LayoutContent>
+				<Blazorise.Container Fluid="true" Height="Height.Is75" Margin="Margin.Is4.FromTop">
+					<PageProgressAlert />
+					<MessageAlert />
+					<NotificationAlert Style="z-index:99999999" />
+					<ErrorBoundary @ref="errorBoundary">
+						<ErrorContent>
+							<DynamicErrorHandler errorBoundary="errorBoundary" />
+						</ErrorContent>
+						<ChildContent>
+							@Body
+						</ChildContent>
+					</ErrorBoundary>
+				</Blazorise.Container>
+			</LayoutContent>
+			<LayoutFooter Fixed=true Visibility="GetLogVisibility()" Height="Height.Is25">
+				<Log></Log>
+			</LayoutFooter>
+		</CascadingValue>
 	</Layout>
 </Layout>
 
@@ -29,14 +34,29 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 	<link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
 	<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
-	<link href="_content/Blazorise.Snackbar/blazorise.snackbar.css" rel="stylesheet" />	
+	<link href="_content/Blazorise.Snackbar/blazorise.snackbar.css" rel="stylesheet" />
 </HeadContent>
 
 @code {
+	private bool showLog = false;
+
 	ErrorBoundary errorBoundary;
+
+	private Visibility GetLogVisibility()
+	{
+		return showLog ? Visibility.Visible : Visibility.Invisible;
+	}
+
+
+	public void setLogVisibility(bool show)
+	{
+		showLog = show;
+		StateHasChanged();
+	}
 
 	protected override void OnParametersSet()
 	{
+		showLog = false;
 		errorBoundary?.Recover();
 	}
 }

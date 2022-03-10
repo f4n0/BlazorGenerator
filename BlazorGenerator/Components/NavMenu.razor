@@ -1,30 +1,79 @@
 ﻿<Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
-     Breakpoint="Breakpoint.Desktop"
-     Background="Background.Light"
-     ThemeContrast="ThemeContrast.Light">
-    <BarToggler />
-    <BarBrand>
-        <BarItem>
-            <BarLink To="/">
-                <BarIcon IconName="IconName.Dashboard" />
-                Home
-            </BarLink>
-        </BarItem>
-    </BarBrand>
-    <BarMenu>
-        <BarStart>
-            @{
+	 Breakpoint="Breakpoint.Desktop"
+	 Background="Background.Light"
+	 ThemeContrast="ThemeContrast.Light">
+	<BarToggler />
+	<BarBrand>
+		<BarItem>
+			<BarLink To="/">
+				<BarIcon IconName="IconName.Dashboard" />
+				Home
+			</BarLink>
+		</BarItem>
+	</BarBrand>
+	<BarMenu>
+		<BarStart>
+			@{
+				PopulateDictionary();
 
-                foreach (var hd in Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>())
-                {
-                    <BarItem>
-                        <BarLink To="@hd.Attribute.Route">
-                            <BarIcon IconName="@hd.Attribute.Icon" />
-                            @hd.Attribute.Title
-                        </BarLink>
-                    </BarItem>
-                }
-            }
-        </BarStart>
-    </BarMenu>
+				foreach (var item in MenuGroups)
+				{
+					var filtered = menus.Where(o => o.Group == item.Key);
+					if (item.Key.ToLower() == "default" || item.Value == 1)
+					{
+						foreach (var elem in filtered)
+						{
+							<BarItem>
+								<BarLink To="@elem.Route">
+									<BarIcon IconName="@elem.Icon" />
+									@elem.Title
+								</BarLink>
+							</BarItem>
+						}
+					}
+					else
+					{
+						<BarItem>
+							<BarDropdown>
+								<BarDropdownToggle>@item.Key</BarDropdownToggle>
+								<BarDropdownMenu>
+									@foreach (var elem in filtered)
+									{
+										<BarDropdownItem>
+											<BarLink To="@elem.Route">
+												<BarIcon IconName="@elem.Icon" />
+												@elem.Title
+											</BarLink>
+										</BarDropdownItem>
+									}
+								</BarDropdownMenu>
+							</BarDropdown>
+						</BarItem>
+					}
+				}
+			}
+		</BarStart>
+	</BarMenu>
 </Bar>
+
+@code {
+	Dictionary<string, int> MenuGroups { get; set; }
+	IEnumerable<AddToMenuAttribute> menus { get; set; }
+
+	void PopulateDictionary()
+	{
+		menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute);
+		MenuGroups = new Dictionary<string, int>();
+		foreach (var item in menus)
+		{
+			if (MenuGroups.ContainsKey(item.Group))
+			{
+				MenuGroups[item.Group]++;
+			}
+			else
+			{
+				MenuGroups.Add(item.Group, 1);
+			}
+		}
+	}
+}

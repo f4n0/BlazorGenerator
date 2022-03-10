@@ -20,6 +20,7 @@ namespace BlazorGenerator.Models
     public bool EditOnly { get; set; } = false;
     public string[] Values { get; set; }
     public TextRole TextRole { get; set; } = TextRole.Text;
+    public Func<T, string> ToolTip { get; set; }
 
 
     public VisibleField(string name, FieldType type, bool editable)

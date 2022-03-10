@@ -3,6 +3,7 @@
 	var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
 }
 @typeparam T
+@inherits BlazorgenBaseComponent
 
 <h3>@Title</h3>
 
@@ -14,8 +15,9 @@
 		<DataGrid TItem="T"
 				  @ref="@_datagrid"
 				  Data="@Data"
-				  SelectionMode="DataGridSelectionMode.Multiple"
+				  SelectionMode="@SelectionMode"
 				  @bind-SelectedRows="@SelectedRecs"
+				  @bind-SelectedRow="@SelectedRec"
 				  Resizable="true"
 				  Striped="true"
 				  ShowPager="false"
@@ -34,7 +36,10 @@
 				  CommandMode="DataGridCommandMode.Commands">
 
 			<DataGridColumns>
-				<DataGridMultiSelectColumn TItem="T" Width="30px"></DataGridMultiSelectColumn>
+				@if (SelectionMode == DataGridSelectionMode.Multiple)
+				{
+					<DataGridMultiSelectColumn TItem="T" Width="30px"></DataGridMultiSelectColumn>
+				}
 				<DataGridCommandColumn TItem="T" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
 					<NewCommandTemplate>
 						<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Add"></Icon>&nbsp;@context.LocalizationString</Button>
@@ -70,7 +75,9 @@
 						case BlazorGenerator.Enum.FieldType.Boolean:
 							<DataGridCheckColumn TItem="T" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
 								<DisplayTemplate>
-									<Check TValue="bool" Checked="@((bool)fld.Getter(context))" ReadOnly="true" Disabled />
+									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+										<Check TValue="bool" Checked="@((bool)fld.Getter(context))" ReadOnly="true" Disabled />
+									</Tooltip>
 								</DisplayTemplate>
 								<EditTemplate>
 									<Check TValue="bool"
@@ -86,7 +93,9 @@
 							<DataGridColumn TItem="T"
 								Field="@fld.Name" Caption="@fld.Caption" Editable="true" Displayable="@(!fld.EditOnly)">
 								<DisplayTemplate>
-									<TextEdit Text="@((string) fld.Getter(context)?.ToString())" Placeholder="@fld.Caption" ReadOnly="true"></TextEdit>
+									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+										<TextEdit Text="@((string) fld.Getter(context)?.ToString())" Placeholder="@fld.Caption" ReadOnly="true"></TextEdit>
+									</Tooltip>
 								</DisplayTemplate>
 								<EditTemplate>
 									<TextEdit Text="@((string) fld.Getter(context.Item)?.ToString())"
@@ -105,7 +114,9 @@
 									  Sortable="true"
 									  Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
 								<DisplayTemplate>
-									<Text>@((string) fld.Getter(context)?.ToString())</Text>
+									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+										<Text>@((string) fld.Getter(context)?.ToString())</Text>
+									</Tooltip>
 								</DisplayTemplate>
 								<EditTemplate>
 									<Select TValue="string" SelectedValue="@(fld.Getter(context.Item)?.ToString())"
@@ -128,7 +139,10 @@
 							<DataGridColumn TItem="T"
 								Field="@fld.Name" Caption="@fld.Caption" Editable="false">
 								<DisplayTemplate>
-									<Icon Name="@((Blazorise.IconName) fld.Getter(context))"></Icon>
+									<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
+										<Icon Name="@((Blazorise.IconName) fld.Getter(context))">
+										</Icon>
+									</Tooltip>
 								</DisplayTemplate>
 							</DataGridColumn>
 							break;

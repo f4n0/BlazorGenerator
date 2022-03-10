@@ -11,26 +11,14 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Components
 {
-  partial class ListPage<T> : ComponentBase
+  partial class ListPage<T> : BlazorgenBaseComponent
   {
-    [Inject] public IPageProgressService PageProgressService { get; set; }
-    [Inject] public IMessageService MessageService { get; set; }
-
     public List<T> SelectedRecs { get; private set; } = new List<T>();
+    public T SelectedRec { get; private set; }
     public List<T> Data { get; set; }
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
     private DataGrid<T> _datagrid;
-    public virtual string Title => "";
-
-
-    public void StartLoader()
-    {
-      PageProgressService.Go(null, options => { options.Color = Color.Danger; });
-    }
-    public void StopLoader()
-    {
-      PageProgressService.Go(-1);
-    }
+    public virtual DataGridSelectionMode SelectionMode => DataGridSelectionMode.Multiple;
 
     public void Refresh()
     {
@@ -42,9 +30,8 @@ namespace BlazorGenerator.Components
       return Expression.Lambda<Func<T>>(Expression.New(typeof(T))).Compile().Invoke();
     }
 
-
     public virtual void OnInsert(SavedRowItem<T, Dictionary<string, object>> e)
-    {      
+    {
     }
 
     public virtual void OnModify(SavedRowItem<T, Dictionary<string, object>> e)
@@ -57,65 +44,14 @@ namespace BlazorGenerator.Components
 
     internal DataGridEditMode GetEditMode()
     {
-      if(VisibleFields.Any(o => o.EditOnly))
+      if (VisibleFields.Any(o => o.EditOnly))
       {
         return DataGridEditMode.Form;
-      } else
+      }
+      else
       {
         return DataGridEditMode.Inline;
       }
     }
-
-    Modal ModalRef;
-
-    public void InitModal<TModalType, TModalData>(object ModalData) where TModalType : ModalPage<TModalData>
-    {
-      ModalRef.ChildContent = new RenderFragment(builder =>
-      {
-        builder.OpenComponent<Blazorise.ModalContent>(0);
-        builder.AddAttribute(1, "Centered", true);
-        builder.AddAttribute(1, "Size", ModalSize.ExtraLarge);
-        builder.AddAttribute(2, "ChildContent", (RenderFragment)((builder2) =>
-        {
-          builder2.OpenComponent(3, typeof(ModalHeader));
-          builder2.AddAttribute(4, "ChildContent", (RenderFragment)((builder3) =>
-          {
-            builder3.OpenComponent(5, typeof(CloseButton));
-            builder3.CloseComponent();
-          }));
-          builder2.CloseComponent();
-
-          builder2.OpenComponent<Blazorise.ModalBody>(4);
-          builder2.AddAttribute(4, "ChildContent", (RenderFragment)((builder3) =>
-          {
-            builder3.OpenComponent<TModalType>(5);
-            builder3.AddAttribute(6, "Data", ModalData);
-            builder3.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
-            builder3.CloseComponent();
-          }));
-          builder2.CloseComponent();
-        }));
-
-        builder.CloseComponent();
-      });
-    }
-    Task ModalCallback(object response)
-    {
-      OnModalSave(response);
-      ModalRef.Close(CloseReason.UserClosing);
-      return Task.CompletedTask;
-    }
-
-    public void OpenModal()
-    {
-      ModalRef.Show();
-    }
-
-    public virtual void OnModalSave(object data)
-    {
-    }
-
-
-    public ListPage() { } //For EF Core
   }
 }
