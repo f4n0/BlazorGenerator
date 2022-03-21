@@ -11,7 +11,7 @@
 				<Blazorise.Container Fluid="true" Height="Height.Is75" Margin="Margin.Is4.FromTop">
 					<PageProgressAlert />
 					<MessageAlert />
-					<NotificationAlert Style="z-index:99999999" />
+					<NotificationAlert Style="z-index:99999999 !important;"/>
 					<ErrorBoundary @ref="errorBoundary">
 						<ErrorContent>
 							<DynamicErrorHandler errorBoundary="errorBoundary" />

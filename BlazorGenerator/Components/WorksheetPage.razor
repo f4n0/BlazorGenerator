@@ -41,10 +41,10 @@
 										<Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
 									SelectedValueChanged="@((v) => { fld.Setter(Data, v); })" ReadOnly="@(!fld.Editable)">
 											@foreach (string item in fld.Values)
-											{
-												<SelectItem Value="@item">@(item.ToString())</SelectItem>
-											}
-										</Select>
+										{
+											<SelectItem Value="@item">@(item.ToString())</SelectItem>
+										}
+									</Select>
 										break;
 									case BlazorGenerator.Enum.FieldType.Button:
 										<Button @onclick="@(() => fld.Setter(Data, null))" Color="Color.Dark" Outline="true">
@@ -77,6 +77,8 @@
 						  PageSize="int.MaxValue"
 						  Filterable="true"
 						  FixedHeader="true"
+						  FixedHeaderDataGridHeight="70vh"
+						  FixedHeaderDataGridMaxHeight="70vh"
 						  Responsive="true"
 						  Narrow="true"
 						  Editable
@@ -110,101 +112,101 @@
 							</ClearFilterCommandTemplate>
 						</DataGridCommandColumn>
 						@foreach (var fld in ListVisibleFields)
+								{
+						switch (fld.FieldType)
 						{
-							switch (fld.FieldType)
-							{
-								case BlazorGenerator.Enum.FieldType.Numeric:
-									<DataGridNumericColumn TItem="TList"
+							case BlazorGenerator.Enum.FieldType.Numeric:
+								<DataGridNumericColumn TItem="TList"
 											   Field="@fld.Name"
 											   Caption="@fld.Caption"
 											   Sortable="true"
 											   Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
-									</DataGridNumericColumn>
-									break;
-								case BlazorGenerator.Enum.FieldType.Boolean:
-									<DataGridCheckColumn TItem="TList" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
-										<DisplayTemplate>
+								</DataGridNumericColumn>
+								break;
+							case BlazorGenerator.Enum.FieldType.Boolean:
+								<DataGridCheckColumn TItem="TList" Field="@fld.Name" Caption="@fld.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!fld.EditOnly)">
+									<DisplayTemplate>
 
-											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
-												<Check TValue="bool"
-										   Checked="@((bool)fld.Getter(context))" ReadOnly="true" />
-											</Tooltip>
-										</DisplayTemplate>
-										<EditTemplate>
+										<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
 											<Check TValue="bool"
+										   Checked="@((bool)fld.Getter(context))" ReadOnly="true" />
+										</Tooltip>
+									</DisplayTemplate>
+									<EditTemplate>
+										<Check TValue="bool"
 									   Checked="@((bool)fld.Getter(context.Item))" @onchange="@((v)=> fld.Setter(context.Item,v.Value))" />
-										</EditTemplate>
-									</DataGridCheckColumn>
-									break;
-								case BlazorGenerator.Enum.FieldType.Custom:
-									<DataGridColumn TItem="TList"
+									</EditTemplate>
+								</DataGridCheckColumn>
+								break;
+							case BlazorGenerator.Enum.FieldType.Custom:
+								<DataGridColumn TItem="TList"
 										Field="@fld.Name" Caption="@fld.Caption" Editable="true" Displayable="@(!fld.EditOnly)">
-										<DisplayTemplate>
-											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
-												<TextEdit Text="@((string) fld.Getter(context)?.ToString())"
+									<DisplayTemplate>
+										<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+											<TextEdit Text="@((string) fld.Getter(context)?.ToString())"
 											  @onchange="@((e) => { fld.Setter(context, e.Value); })"
 											  Placeholder="@fld.Caption" ReadOnly="true"></TextEdit>
-											</Tooltip>
-										</DisplayTemplate>
-										<EditTemplate>
-											<TextEdit Text="@((string) fld.Getter(context.Item)?.ToString())"
+										</Tooltip>
+									</DisplayTemplate>
+									<EditTemplate>
+										<TextEdit Text="@((string) fld.Getter(context.Item)?.ToString())"
 										  TextChanged="@((v) => {
                                                                         fld.Setter(context.Item, v);
                                                                         context.CellValue = fld.Getter(context.Item);
                                                                     })"
 										  Placeholder="@fld.Caption"></TextEdit>
-										</EditTemplate>
-									</DataGridColumn>
-									break;
-								case BlazorGenerator.Enum.FieldType.Select:
-									<DataGridSelectColumn TItem="TList"
+									</EditTemplate>
+								</DataGridColumn>
+								break;
+							case BlazorGenerator.Enum.FieldType.Select:
+								<DataGridSelectColumn TItem="TList"
 											  Field="@fld.Name"
 											  Caption="@fld.Caption"
 											  Sortable="true"
 											  Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)">
-										<DisplayTemplate>
-											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
-												<Text>@((string) fld.Getter(context)?.ToString())</Text>
-											</Tooltip>
-										</DisplayTemplate>
-										<EditTemplate>
-											<Select TValue="string" SelectedValue="@(fld.Getter(context.Item)?.ToString())"
+									<DisplayTemplate>
+										<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)">
+											<Text>@((string) fld.Getter(context)?.ToString())</Text>
+										</Tooltip>
+									</DisplayTemplate>
+									<EditTemplate>
+										<Select TValue="string" SelectedValue="@(fld.Getter(context.Item)?.ToString())"
 										SelectedValueChanged="@((v) => {
                                                                         fld.Setter(context.Item, v);
                                                                         context.CellValue = fld.Getter(context.Item);
                                                                     })">
-												@foreach (string item in fld.Values)
-												{
-													<SelectItem Value="@item">@(item.ToString())</SelectItem>
-												}
-											</Select>
-										</EditTemplate>
-									</DataGridSelectColumn>
-									break;
-								case BlazorGenerator.Enum.FieldType.Button:
-									break;
+											@foreach (string item in fld.Values)
+										{
+											<SelectItem Value="@item">@(item.ToString())</SelectItem>
+										}
+									</Select>
+								</EditTemplate>
+							</DataGridSelectColumn>
+								break;
+							case BlazorGenerator.Enum.FieldType.Button:
+								break;
 
-								case BlazorGenerator.Enum.FieldType.Icon:
-									<DataGridColumn TItem="TList"
+							case BlazorGenerator.Enum.FieldType.Icon:
+								<DataGridColumn TItem="TList"
 										Field="@fld.Name" Caption="@fld.Caption" Editable="false">
-										<DisplayTemplate>
-											<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
-												<Icon Name="@((Blazorise.IconName) fld.Getter(context))">
-												</Icon>
-											</Tooltip>
-										</DisplayTemplate>
-									</DataGridColumn>
-									break;
+									<DisplayTemplate>
+										<Tooltip Text="@(fld.ToolTip?.Invoke(context) ?? fld.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
+											<Icon Name="@((Blazorise.IconName) fld.Getter(context))">
+											</Icon>
+										</Tooltip>
+									</DisplayTemplate>
+								</DataGridColumn>
+								break;
 
-								default:
-									<DataGridColumn TItem="TList"
+							default:
+								<DataGridColumn TItem="TList"
 										Field="@fld.Name"
 										Caption="@fld.Caption"
 										Sortable="true"
 										Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" />
-									break;
-							}
+								break;
 						}
+								}
 					</DataGridColumns>
 
 				</DataGrid>
