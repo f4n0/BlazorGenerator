@@ -60,15 +60,6 @@ namespace TestNet6.Data
         };
     }
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-
-      StartLoader();
-      //get saved services
-      StopLoader();
-      StateHasChanged();
-    }
-
     [PageAction("Restore")]
     public void Action1()
     {
