@@ -43,43 +43,21 @@ namespace BlazorGenerator.Components
     }
 
     internal Modal ModalRef;
+    internal RenderFragment ChildModalContent;
 
     public void InitModal<TModalType, TModalData>(object ModalData) where TModalType : ModalPage<TModalData>
     {
-      ModalRef.Closing += OnModalClose;
-      ModalRef.ChildContent = new RenderFragment(builder =>
-      {
-        builder.OpenComponent<ModalContent>(0);
-        builder.AddAttribute(1, "Centered", true);
-        builder.AddAttribute(1, "Size", ModalSize.ExtraLarge);
-        builder.AddAttribute(2, "ChildContent", (RenderFragment)((builder2) =>
-        {
-          builder2.OpenComponent(3, typeof(ModalHeader));
-          builder2.AddAttribute(4, "ChildContent", (RenderFragment)((builder3) =>
-          {
-            builder3.OpenComponent(5, typeof(CloseButton));
-            builder3.CloseComponent();
-          }));
-          builder2.CloseComponent();
-
-          builder2.OpenComponent<ModalBody>(4);
-          builder2.AddAttribute(4, "ChildContent", (RenderFragment)((builder3) =>
-          {
-            builder3.OpenComponent<TModalType>(5);
-            builder3.AddAttribute(6, "Data", ModalData);
-            builder3.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
-            builder3.CloseComponent();
-          }));
-          builder2.CloseComponent();
-        }));
-
+      ChildModalContent = new RenderFragment(builder => {
+        builder.OpenComponent<TModalType>(5);
+        builder.AddAttribute(6, "Data", ModalData);
+        builder.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
         builder.CloseComponent();
       });
 
       StateHasChanged();
     }
 
-    Task OnModalClose(ModalClosingEventArgs e)
+    public Task OnModalClose(ModalClosingEventArgs e)
     {
       if (e.CloseReason != CloseReason.None)
       {
@@ -97,7 +75,7 @@ namespace BlazorGenerator.Components
 
     public void OpenModal()
     {      
-      ModalRef.Show().Wait();
+      ModalRef.Show();
     }
 
     public virtual void OnModalSave(object data)

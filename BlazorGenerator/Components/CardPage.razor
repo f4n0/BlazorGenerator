@@ -111,4 +111,11 @@
 
 
 
-<Modal @ref="@ModalRef"></Modal>
+<Modal @ref="@ModalRef" Closing="OnModalClose">
+	<ModalContent Centered Size="ModalSize.ExtraLarge">
+		<ModalHeader>
+			<CloseButton/>
+		</ModalHeader>
+		<ModalBody ChildContent="@ChildModalContent"/>
+	</ModalContent>
+</Modal>
