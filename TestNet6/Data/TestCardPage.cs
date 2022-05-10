@@ -14,13 +14,13 @@ namespace TestNet6.Data
 {
 
 
-  [AddToMenu("test", "/test", IconName.Tag)]
+  [AddToMenu("Card Page", Route, IconName.Tag)]
   [Route(Route)]
-  public class TestModel : CardPage<TestModel>
+  public class TestCardPage : CardPage<TestCardPage>
   {
     
-    public override string Title => "Test Model";
-    const string Route = "/test";
+    public override string Title => "Card Page";
+    const string Route = "/Card";
 
     [Inject] public BlazorGenLogger blazorGenLogger { get; set; }
 
@@ -35,14 +35,14 @@ namespace TestNet6.Data
     {
       setLogVisibility(true);
 
-      VisibleFields = new List<VisibleField<TestModel>>() {
-        new VisibleField<TestModel>(nameof(Summary)){Getter = f => f.Summary, Setter = (f,v)=>f.Summary = v.ToString()},
-        new VisibleField<TestModel>(nameof(Summary2)){Getter = f => f.Summary2, Setter = (f,v)=>f.Summary2 = v.ToString(), TextRole = TextRole.Password},
-        new VisibleField<TestModel>(nameof(Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString()},
+      VisibleFields = new List<VisibleField<TestCardPage>>() {
+        new VisibleField<TestCardPage>(nameof(Summary)){Getter = f => f.Summary, Setter = (f,v)=>f.Summary = v.ToString()},
+        new VisibleField<TestCardPage>(nameof(Summary2)){Getter = f => f.Summary2, Setter = (f,v)=>f.Summary2 = v.ToString(), TextRole = TextRole.Password},
+        new VisibleField<TestCardPage>(nameof(Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString()},
 
-      new VisibleField<TestModel>("My BTN", FieldType.Button){ Setter = (f,v) => throw new Exception("prova") }
+      new VisibleField<TestCardPage>("My BTN", FieldType.Button){ Setter = (f,v) => throw new Exception("prova") }
       };
-      Data = new TestModel() { Summary = "element 1", Summary2 = "element2", Summary3 = "aa" };
+      Data = new TestCardPage() { Summary = "element 1", Summary2 = "element2", Summary3 = "aa" };
 
     }
 

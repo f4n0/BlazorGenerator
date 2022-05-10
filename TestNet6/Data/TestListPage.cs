@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace TestNet6.Data
 {
-  [AddToMenu("Worksheet Page", route)]
+  [AddToMenu("List Page", route)]
   [Route(route)]
   [BasicActions(true, true, true)]
-  public class ComplexExample2 : WorksheetPage<TestCardPage, TestListPage>
+  public class TestListPage : ListPage<TestListPage>
   {
-    public override string Title => "My Worksheet Page"; 
-    const string route = "/Worksheet";
+    public override string Title => "My List"; 
+    const string route = "/List";
 
     public string Test { get; set; }
     public bool Test6 { get; set; }
@@ -29,7 +29,7 @@ namespace TestNet6.Data
 
     protected override void OnInitialized()
     {
-      ListVisibleFields = new List<VisibleField<TestListPage>>()        {
+      VisibleFields = new List<VisibleField<TestListPage>>()        {
       new VisibleField<TestListPage>(nameof(Test)){ Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
       new VisibleField<TestListPage>(nameof(Test6), FieldType.Boolean){Getter = f => f.Test6, Setter = (f,v) => f.Test6 = (bool)v },
       new VisibleField<TestListPage>(nameof(Test1)){ Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = int.Parse(v as string)},
@@ -51,26 +51,8 @@ namespace TestNet6.Data
       }
       };
 
-      ListData = new List<TestListPage>()
+      Data = new List<TestListPage>()
         {
-        new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
-        new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
-        new TestListPage(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
-        new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
-        new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
-        new TestListPage(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
-        new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
-        new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
-        new TestListPage(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
-        new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
-        new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
-        new TestListPage(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
-        new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
-        new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
-        new TestListPage(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
-        new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
-        new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
-        new TestListPage(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
         new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
         new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
         new TestListPage(){Test = "TestString3", Test1= 3, Test2=DateTime.Now, Test3 = 0.3M},
@@ -81,7 +63,7 @@ namespace TestNet6.Data
     [PageAction("Restore")]
     public void Action1()
     {
-      ListData.AddRange(new List<TestListPage>()
+      Data.AddRange(new List<TestListPage>()
         {
         new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
         new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
@@ -93,7 +75,7 @@ namespace TestNet6.Data
     [PageAction("Restore2")]
     public void Action4()
     {
-      ListData.AddRange(new List<TestListPage>()
+      Data.AddRange(new List<TestListPage>()
         {
         new TestListPage(){Test = "TestString1", Test1= 1, Test2=DateTime.Now, Test3 = 0.1M},
         new TestListPage(){Test = "TestString2", Test1= 2, Test2=DateTime.Now, Test3 = 0.2M},
@@ -106,7 +88,7 @@ namespace TestNet6.Data
     [PageAction("Delete all", "gruppo1")]
     public void Action2()
     {
-      ListData.Clear();
+      Data.Clear();
       Refresh();
     }
 
@@ -115,10 +97,10 @@ namespace TestNet6.Data
     {
       if (SelectedRecs.Count > 0)
       {
-        var index = ListData.IndexOf(SelectedRecs.First());
-        var orig = ListData[index];
+        var index = Data.IndexOf(SelectedRecs.First());
+        var orig = Data[index];
         orig.Test = "I've Changed It";
-        ListData[index] = orig;
+        Data[index] = orig;
         Refresh();
       }
     }
