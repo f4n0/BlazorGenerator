@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <RepositoryUrl>https://github.com/f4n0/BlazorGenerator</RepositoryUrl>
     <Version>1.1.17.11</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
