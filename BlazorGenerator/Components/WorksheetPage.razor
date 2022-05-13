@@ -40,7 +40,7 @@
 									case BlazorGenerator.Enum.FieldType.Select:
 										<Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
 									SelectedValueChanged="@((v) => { fld.Setter(Data, v); })" ReadOnly="@(!fld.Editable)">
-											<SelectItem Value="null">Select ...</SelectItem>
+											<SelectItem Value="@(string.Empty)">Select ...</SelectItem>
 											@foreach (string item in fld.Values)
 										{
 											<SelectItem Value="@item">@(item.ToString())</SelectItem>
@@ -174,7 +174,7 @@
                                                                         context.CellValue = fld.Getter(context.Item);
                                                                     })">
 																	
-									<SelectItem Value="null">Select ...</SelectItem>
+									<SelectItem Value="@(string.Empty)">Select ...</SelectItem>
 											@foreach (string item in fld.Values)
 										{
 											<SelectItem Value="@item">@(item.ToString())</SelectItem>

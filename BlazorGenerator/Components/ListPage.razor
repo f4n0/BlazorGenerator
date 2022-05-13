@@ -124,7 +124,7 @@
                                                                         context.CellValue = fld.Getter(context.Item);
                                                                     })">
 																	
-									<SelectItem Value="null">Select ...</SelectItem>
+									<SelectItem Value="@(string.Empty)">Select ...</SelectItem>
 									@foreach (string item in fld.Values)
 								{
 									<SelectItem Value="@item">@(item.ToString())</SelectItem>
