@@ -25,7 +25,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Pack
       run: dotnet pack "BlazorGenerator/BlazorGenerator.csproj" -c Release -o out -p:PackageVersion=1.2.${{ github.run_number }}
-    - name: Prep packages
-      run: dotnet nuget add source --username f4n0 --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/f4n0/index.json"
     - name: Push generated package to GitHub registry
-      run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+      run: dotnet nuget push ./out/*.nupkg --source "https://nuget.pkg.github.com/f4n0/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} 
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}  
