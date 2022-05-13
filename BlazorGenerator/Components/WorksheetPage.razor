@@ -40,6 +40,7 @@
 									case BlazorGenerator.Enum.FieldType.Select:
 										<Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
 									SelectedValueChanged="@((v) => { fld.Setter(Data, v); })" ReadOnly="@(!fld.Editable)">
+											<SelectItem Value="null">Select ...</SelectItem>
 											@foreach (string item in fld.Values)
 										{
 											<SelectItem Value="@item">@(item.ToString())</SelectItem>
@@ -172,6 +173,8 @@
                                                                         fld.Setter(context.Item, v);
                                                                         context.CellValue = fld.Getter(context.Item);
                                                                     })">
+																	
+									<SelectItem Value="null">Select ...</SelectItem>
 											@foreach (string item in fld.Values)
 										{
 											<SelectItem Value="@item">@(item.ToString())</SelectItem>
@@ -215,8 +218,8 @@
 <Modal @ref="@ModalRef" Closing="OnModalClose">
 	<ModalContent Centered Size="ModalSize.ExtraLarge">
 		<ModalHeader>
-			<CloseButton/>
+			<CloseButton />
 		</ModalHeader>
-		<ModalBody ChildContent="@ChildModalContent"/>
+		<ModalBody ChildContent="@ChildModalContent" />
 	</ModalContent>
 </Modal>

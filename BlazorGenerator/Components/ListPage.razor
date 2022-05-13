@@ -118,11 +118,13 @@
 								</Tooltip>
 							</DisplayTemplate>
 							<EditTemplate>
-								<Select TValue="string" SelectedValue="@(fld.Getter(context.Item)?.ToString())"
+								<Select  TValue="string" SelectedValue="@(fld.Getter(context.Item)?.ToString())"
 								SelectedValueChanged="@((v) => {
                                                                         fld.Setter(context.Item, v);
                                                                         context.CellValue = fld.Getter(context.Item);
                                                                     })">
+																	
+									<SelectItem Value="null">Select ...</SelectItem>
 									@foreach (string item in fld.Values)
 								{
 									<SelectItem Value="@item">@(item.ToString())</SelectItem>
