@@ -1,0 +1,23 @@
+﻿@typeparam T
+
+
+<DataGridCheckColumn TItem="T" Field="@Field.Name" Caption="@Field.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!Field.EditOnly)">
+	<DisplayTemplate>
+		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
+			<Check TValue="bool" Checked="@((bool)Field.Getter(context))" ReadOnly="true" Disabled />
+		</Tooltip>
+	</DisplayTemplate>
+	<EditTemplate>
+
+		<Check TValue="bool"
+			   Checked="@((bool)Field.Getter(context.Item))"
+			   CheckedChanged="@((v) => {
+											   Field.Setter(context.Item,v);
+												context.CellValue = Field.Getter(context.Item);
+										   })" />
+	</EditTemplate>
+</DataGridCheckColumn>
+@code {
+	[Parameter]
+	public VisibleField<T> Field { get; set; }
+}

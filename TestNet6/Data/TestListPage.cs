@@ -2,6 +2,7 @@
 using BlazorGenerator.Components;
 using BlazorGenerator.Enum;
 using BlazorGenerator.Models;
+using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -108,6 +109,16 @@ namespace TestNet6.Data
     public override TestListPage CreateNewItem()
     {
       return (new TestListPage());
+    }
+
+    public override void OnModify(SavedRowItem<TestListPage, Dictionary<string, object>> e)
+    {
+      Data[Data.IndexOf(e.Item)] = e.Item;
+    }
+
+    public override void OnInsert(SavedRowItem<TestListPage, Dictionary<string, object>> e)
+    {
+      Data[Data.IndexOf(e.Item)] = e.Item;
     }
 
   }

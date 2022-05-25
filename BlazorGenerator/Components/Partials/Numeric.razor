@@ -1,0 +1,29 @@
+﻿@typeparam T
+
+
+if (fld.Getter(Data).GetType() == typeof(int))
+{
+<NumericEdit TValue="int"
+			 Value="@((int)Field.Getter(Data))"
+			 @onchange="@((e) => { Field.Setter(Data, e.Value); })"
+			 ValueChanged="@((e) => { Field.Setter(Data, e); })"
+			 Placeholder="@Field.Caption"
+			 ReadOnly="@(!Field.Editable)" />
+} else if (fld.Getter(Data).GetType() == typeof(decimal))
+{
+<NumericEdit TValue="decimal"
+			 Value="@((decimal)Field.Getter(Data))"
+			 @onchange="@((e) => { Field.Setter(Data, e.Value); })"
+			 ValueChanged="@((e) => { Field.Setter(Data, e); })"
+			 Placeholder="@Field.Caption"
+			 ReadOnly="@(!Field.Editable)" />
+}
+
+
+@code {
+	[Parameter]
+	public VisibleField<T> Field { get; set; }
+
+	[Parameter]
+	public T Data { get; set; }
+}

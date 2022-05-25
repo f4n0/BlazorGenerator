@@ -1,0 +1,14 @@
+﻿@typeparam T
+
+
+<DataGridNumericColumn TItem="T"
+					   Field="@Field.Name"
+					   Caption="@Field.Caption"
+					   Sortable="true"
+					   Filterable="true" Editable="true" Displayable="@(!Field.EditOnly)">
+</DataGridNumericColumn>
+
+@code {
+	[Parameter]
+	public VisibleField<T> Field { get; set; }
+}

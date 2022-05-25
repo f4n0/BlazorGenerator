@@ -1,0 +1,21 @@
+﻿@typeparam T
+
+
+<DataGridSelectColumn TItem="T"
+					  Field="@Field.Name"
+					  Caption="@Field.Caption"
+					  Sortable="true"
+					  Filterable="true" Editable="true" Displayable="@(!Field.EditOnly)">
+	<DisplayTemplate>
+		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
+			<Text>@((string) Field.Getter(context)?.ToString())</Text>
+		</Tooltip>
+	</DisplayTemplate>
+	<EditTemplate>
+	  <BlazorGenerator.Components.Partials.Dropdown T="T" Data="context.Item" Field="Field" />	
+	</EditTemplate>
+</DataGridSelectColumn>
+@code {
+	[Parameter]
+	public VisibleField<T> Field { get; set; }
+}

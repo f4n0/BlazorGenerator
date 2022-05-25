@@ -25,53 +25,19 @@
 								@switch (fld.FieldType)
 								{
 									case BlazorGenerator.Enum.FieldType.Numeric:
-										if (fld.Getter(Data).GetType() == typeof(int))
-										{
-											<NumericEdit TValue="int" Value="@((int)fld.Getter(Data))"
-										 @onchange="@((e) => { fld.Setter(Data, e.Value); })"
-										 ValueChanged="@((e) => { fld.Setter(Data, e); })"
-										 Placeholder="@fld.Caption"
-										 ReadOnly="@(!fld.Editable)" />
-										}
-										else if (fld.Getter(Data).GetType() == typeof(decimal))
-										{
-											<NumericEdit TValue="decimal" Value="@((decimal)fld.Getter(Data))"
-											 @onchange="@((e) => { fld.Setter(Data, e.Value); })"
-											 ValueChanged="@((e) => { fld.Setter(Data, e); })"
-											 Placeholder="@fld.Caption"
-											 ReadOnly="@(!fld.Editable)" />
-										}
+										<BlazorGenerator.Components.Partials.Numeric T="T" Data="Data" Field="fld"/>
 										break;
 									case BlazorGenerator.Enum.FieldType.Boolean:
-										<Check TValue="bool"
-								   Checked="@((bool)fld.Getter(Data))"
-								   ReadOnly="@(!fld.Editable)"
-								   CheckedChanged="@((v) => {
-											   fld.Setter(Data,v);
-										   })" />
-
+										<BlazorGenerator.Components.Partials.Checkbox T="T" Data="Data" Field="fld"/>
 										break;
 									case BlazorGenerator.Enum.FieldType.Select:
-										<Select TValue="string" SelectedValue="@(fld.Getter(Data)?.ToString())"
-									SelectedValueChanged="@((v) => { fld.Setter(Data, v); })" ReadOnly="@(!fld.Editable)">
-											<SelectItem Value="@(string.Empty)">Select ...</SelectItem>
-											@foreach (string item in fld.Values)
-											{
-												<SelectItem Value="@item">@(item.ToString())</SelectItem>
-											}
-										</Select>
+										<BlazorGenerator.Components.Partials.Dropdown T="T" Data="Data" Field="fld"/>
 										break;
 									case BlazorGenerator.Enum.FieldType.Button:
-										<Button @onclick="@(() => fld.Setter(Data, null))" Color="Color.Dark" Outline="true">
-											@fld.Caption
-										</Button>
+										<BlazorGenerator.Components.Partials.Btn T="T" Data="Data" Field="fld"/>
 										break;
 									default:
-										<TextEdit Text="@((string) fld.Getter(Data))"
-									  @onchange="@((e) => { fld.Setter(Data, e.Value); })"
-									  TextChanged="@((v) => { fld.Setter(Data, v);})"
-									  Placeholder="@fld.Caption"
-									  ReadOnly="@(!fld.Editable)" Role="fld.TextRole" />
+										<BlazorGenerator.Components.Partials.Txt T="T" Data="Data" Field="fld"/>
 										break;
 								}
 							</FieldBody>

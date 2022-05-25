@@ -1,0 +1,14 @@
+﻿@typeparam T
+
+
+<Button @onclick="@(() => Field.Setter(Data, null))" Color="Color.Dark" Outline="true">
+	@Field.Caption
+</Button>
+
+@code {
+	[Parameter]
+	public VisibleField<T> Field { get; set; }
+
+	[Parameter]
+	public T Data { get; set; }
+}

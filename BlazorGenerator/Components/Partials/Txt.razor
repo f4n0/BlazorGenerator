@@ -1,0 +1,16 @@
+﻿@typeparam T
+
+
+<TextEdit Text="@((string) Field.Getter(Data))"
+		  @onchange="@((e) => { Field.Setter(Data, e.Value); })"
+		  Placeholder="@Field.Caption"
+		  TextChanged="@((v) => { Field.Setter(Data, v);})"
+		  ReadOnly="@(!Field.Editable)" Role="Field.TextRole" />
+
+@code {
+	[Parameter]
+	public VisibleField<T> Field { get; set; }
+
+	[Parameter]
+	public T Data { get; set; }
+}
