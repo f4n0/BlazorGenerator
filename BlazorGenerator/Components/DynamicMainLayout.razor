@@ -9,9 +9,13 @@
 		<CascadingValue Value="@this">
 			<LayoutContent>
 				<Blazorise.Container Fluid="true" Height="Height.Is75" Margin="Margin.Is4.FromTop">
+					@if (Options.ShowBreaddcrumbs)
+					{
+						<DynamicBreadcrumbs />
+					}
 					<PageProgressAlert />
 					<MessageAlert />
-					<NotificationAlert Style="z-index:99999999 !important;"/>
+					<NotificationAlert Style="z-index:99999999 !important;" />
 					<ErrorBoundary @ref="errorBoundary">
 						<ErrorContent>
 							<DynamicErrorHandler errorBoundary="errorBoundary" />
@@ -38,6 +42,10 @@
 </HeadContent>
 
 @code {
+
+	[Inject] protected BlazorGenOptions Options { get; set; }
+
+
 	private bool showLog = false;
 
 	ErrorBoundary errorBoundary;
@@ -53,6 +61,7 @@
 		showLog = show;
 		StateHasChanged();
 	}
+
 
 	protected override void OnParametersSet()
 	{

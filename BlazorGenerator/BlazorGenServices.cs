@@ -15,7 +15,7 @@ namespace BlazorGenerator
 {
   public static class BlazorGenServices
   {
-    public static IServiceCollection AddBlazorGen(this IServiceCollection services)
+    public static IServiceCollection AddBlazorGen(this IServiceCollection services, Action<BlazorGenOptions> configureOptions = null)
     {
       services
       .AddBlazorise(options =>
@@ -26,7 +26,16 @@ namespace BlazorGenerator
       services.AddFontAwesomeIcons();
 
       services.AddSingleton<BlazorGenLogger>();
+
+
+      configureOptions ??= _ => { };
+      services.AddSingleton(configureOptions);
+      services.AddSingleton<BlazorGenOptions>();
+
+
       return services;
     }
+
+
   }
 }
