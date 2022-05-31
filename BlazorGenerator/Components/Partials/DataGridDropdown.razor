@@ -12,7 +12,18 @@
 		</Tooltip>
 	</DisplayTemplate>
 	<EditTemplate>
-	  <BlazorGenerator.Components.Partials.Dropdown T="T" Data="context.Item" Field="Field" />	
+		<Select TValue="string"
+				SelectedValue="@(Field.Getter(context.Item)?.ToString())"
+				SelectedValueChanged="@((v) => { Field.Setter(context.Item, v); 
+												context.CellValue = Field.Getter(context.Item);})"
+				ReadOnly="@(!Field.Editable)">
+
+			<SelectItem Value="@(string.Empty)">Select ...</SelectItem>
+			@foreach (string item in Field.Values)
+			{
+				<SelectItem Value="@item">@(item.ToString())</SelectItem>
+			}
+		</Select>
 	</EditTemplate>
 </DataGridSelectColumn>
 @code {

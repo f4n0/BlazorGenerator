@@ -46,6 +46,7 @@ namespace TestNet6.Data
         }
       },
       new VisibleField<TestListPage>(nameof(Test5), FieldType.Select){
+        Editable = true,
         Getter = f => f.Test5.GetValueOrDefault(),
         Setter = (f, v) => f.Test5 = (FieldType)Enum.Parse(typeof(FieldType), v.ToString()),
         Values = Enum.GetNames(typeof(FieldType))
