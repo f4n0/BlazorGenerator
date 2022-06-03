@@ -7,7 +7,7 @@
 	</LayoutSider>
 	<Layout Height="Height.Is100">
 		<CascadingValue Value="@this">
-			<LayoutContent  Height="Height.Is100">
+			<LayoutContent Height="Height.Is75" Overflow="Overflow.Auto">
 				<Blazorise.Container Fluid="true" Height="Height.Is75" Margin="Margin.Is4.FromTop">
 					@if (Options.ShowBreaddcrumbs)
 					{
@@ -26,7 +26,7 @@
 					</ErrorBoundary>
 				</Blazorise.Container>
 			</LayoutContent>
-			<LayoutFooter Fixed=true Visibility="GetLogVisibility()" Height="Height.Is25">
+			<LayoutFooter Fixed=true Visibility="GetLogVisibility()" Height="Height.Is25" >
 				<Log></Log>
 			</LayoutFooter>
 		</CascadingValue>
