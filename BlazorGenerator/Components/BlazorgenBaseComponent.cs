@@ -44,6 +44,8 @@ namespace BlazorGenerator.Components
 
     internal Modal ModalRef;
     internal RenderFragment ChildModalContent;
+    internal ModalSize modalSize = ModalSize.ExtraLarge;
+
 
     public void InitModal<TModalType, TModalData>(object ModalData) where TModalType : ModalPage<TModalData>
     {
@@ -57,11 +59,15 @@ namespace BlazorGenerator.Components
       StateHasChanged();
     }
 
-    public void InitFileUploadModal()
+    // Summary:
+    //     Specifies the types of files that the input accepts. https://www.w3schools.com/tags/att_input_accept.asp"
+    public void InitFileUploadModal(string fileFilters = "")
     {
+      modalSize = ModalSize.Default;
       ChildModalContent = new RenderFragment(builder => {
         builder.OpenComponent<UploadFileDialog>(5);
         builder.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
+        builder.AddAttribute(8, "FileFilters", fileFilters);
         builder.CloseComponent();
       });
 

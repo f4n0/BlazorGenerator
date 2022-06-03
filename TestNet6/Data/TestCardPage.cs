@@ -65,12 +65,15 @@ namespace TestNet6.Data
     [PageAction]
     public void ShowUpload()
     {
-      InitFileUploadModal(); 
+      InitFileUploadModal(".txt"); 
       OpenModal();
     }
 
     public override void OnModalSave(object data)
     {
+      if (data == null)
+        return;
+
       if(data.GetType() == typeof(byte[]))
       {
         var content = System.Text.Encoding.Default.GetString((byte[])data);

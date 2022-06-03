@@ -1,44 +1,47 @@
 ﻿@using System.IO
 
-
-<h3>Upload file</h3>
-<p>Choose a file to upload</p>
-<FileEdit @ref="FileRef" Changed="OnFileChanged"></FileEdit>
+<Card>
+	<CardHeader>
+		<CardTitle>Upload file</CardTitle>
+	</CardHeader>
+	<CardBody>
+		<p>Choose a file to upload</p>
+		<FileEdit @ref="FileRef" Changed="OnFileChanged" Filter="@FileFilters"></FileEdit>
+	</CardBody>
+</Card>
 
 @code {
 	FileEdit FileRef;
 
-	[Parameter] 
+	[Parameter]
+	public string FileFilters { get; set; }
+
+	[Parameter]
 	public EventCallback<object> onSave { get; set; }
 
-	async Task OnFileChanged( FileChangedEventArgs e )
+	async Task OnFileChanged(FileChangedEventArgs e)
 	{
-		string fileContent;
+		List<byte[]> data = new List<byte[]>();
 		try
 		{
-			foreach ( var file in e.Files )
+			foreach (var file in e.Files)
 			{
-				using ( var stream = new System.IO.MemoryStream() )
-                {
-                    await file.WriteToStreamAsync( stream );
-                    stream.Seek( 0, SeekOrigin.Begin );	
-					onSave.InvokeAsync(stream.ToArray());
-				//	stream.by
-
-    //                using ( var reader = new StreamReader( stream ) )
-    //                {
-    //                    fileContent = await reader.ReadToEndAsync();
-    //                }
-                }
-            }
-        }
-        catch ( Exception exc )
-        {
-            Console.WriteLine( exc.Message );
-        }
-        finally
-        {
-            this.StateHasChanged();
-        }
-    }
+				using (var stream = new System.IO.MemoryStream())
+				{
+					await file.WriteToStreamAsync(stream);
+					stream.Seek(0, SeekOrigin.Begin);
+					data.Add(stream.ToArray());
+				}
+			}
+		}
+		catch (Exception exc)
+		{
+			Console.WriteLine(exc.Message);
+		}
+		finally
+		{
+			await onSave.InvokeAsync(data);
+			this.StateHasChanged();
+		}
+	}
 }
