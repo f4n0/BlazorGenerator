@@ -61,6 +61,24 @@ namespace TestNet6.Data
 
     }
 
+
+    [PageAction]
+    public void ShowUpload()
+    {
+      InitFileUploadModal(); 
+      OpenModal();
+    }
+
+    public override void OnModalSave(object data)
+    {
+      if(data.GetType() == typeof(byte[]))
+      {
+        var content = System.Text.Encoding.Default.GetString((byte[])data);
+         MessageService.Success(content);
+      }
+    }
+
+
     [PageAction]
     public void AddLog()
     {

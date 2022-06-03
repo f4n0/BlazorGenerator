@@ -37,7 +37,8 @@ namespace TestNet6.Data
       new VisibleField<TestListPage>(nameof(Test2)){ Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
       new VisibleField<TestListPage>(nameof(Test3)){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)},
       new VisibleField<TestListPage>(nameof(Test4), FieldType.Custom, true)
-      { EditOnly=true,
+      { 
+        EditOnly=true,
         Caption="Test 4",
         Getter = f => f.Test4,
         Setter = (f, v) =>  {

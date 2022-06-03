@@ -1,0 +1,44 @@
+﻿@using System.IO
+
+
+<h3>Upload file</h3>
+<p>Choose a file to upload</p>
+<FileEdit @ref="FileRef" Changed="OnFileChanged" Written="@((e) => onSave.InvokeAsync(e.Data))"></FileEdit>
+
+@code {
+	FileEdit FileRef;
+
+	[Parameter] 
+	public EventCallback<object> onSave { get; set; }
+
+	async Task OnFileChanged( FileChangedEventArgs e )
+	{
+		string fileContent;
+		try
+		{
+			foreach ( var file in e.Files )
+			{
+				using ( var stream = new System.IO.MemoryStream() )
+                {
+                    await file.WriteToStreamAsync( stream );
+                    stream.Seek( 0, SeekOrigin.Begin );	
+					onSave.InvokeAsync(stream);
+				//	stream.by
+
+    //                using ( var reader = new StreamReader( stream ) )
+    //                {
+    //                    fileContent = await reader.ReadToEndAsync();
+    //                }
+                }
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}

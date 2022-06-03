@@ -57,6 +57,17 @@ namespace BlazorGenerator.Components
       StateHasChanged();
     }
 
+    public void InitFileUploadModal()
+    {
+      ChildModalContent = new RenderFragment(builder => {
+        builder.OpenComponent<UploadFileDialog>(5);
+        builder.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
+        builder.CloseComponent();
+      });
+
+      StateHasChanged();
+    }
+
     public Task OnModalClose(ModalClosingEventArgs e)
     {
       if (e.CloseReason != CloseReason.None)

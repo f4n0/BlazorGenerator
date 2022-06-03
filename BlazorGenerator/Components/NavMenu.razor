@@ -1,4 +1,6 @@
-﻿<Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
+﻿@inject BlazorGenOptions options;
+
+<Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
 	 Breakpoint="Breakpoint.Desktop"
 	 Background="Background.Light"
 	 ThemeContrast="ThemeContrast.Light">
@@ -8,9 +10,10 @@
 			<BarLink To="/">
 				<BarIcon IconName="IconName.Dashboard" />
 				Home
-			</BarLink>
+			</BarLink>			
 		</BarItem>
 	</BarBrand>
+
 	<BarMenu>
 		<BarStart>
 			@{
@@ -23,32 +26,32 @@
 					{
 						foreach (var elem in filtered)
 						{
-							<BarItem>
-								<BarLink To="@elem.Route">
-									<BarIcon IconName="@elem.Icon" />
-									@elem.Title
-								</BarLink>
-							</BarItem>
+								<BarItem>
+									<BarLink To="@elem.Route">
+										<BarIcon IconName="@elem.Icon" />
+										@elem.Title
+									</BarLink>
+								</BarItem>
 						}
 					}
 					else
 					{
-						<BarItem>
-							<BarDropdown>
-								<BarDropdownToggle>@item.Key</BarDropdownToggle>
-								<BarDropdownMenu>
-									@foreach (var elem in filtered)
+							<BarItem>
+								<BarDropdown>
+									<BarDropdownToggle>@item.Key</BarDropdownToggle>
+									<BarDropdownMenu>
+										@foreach (var elem in filtered)
 									{
-										<BarDropdownItem>
-											<BarLink To="@elem.Route">
-												<BarIcon IconName="@elem.Icon" />
-												@elem.Title
-											</BarLink>
-										</BarDropdownItem>
+											<BarDropdownItem>
+												<BarLink To="@elem.Route">
+													<BarIcon IconName="@elem.Icon" />
+													@elem.Title
+												</BarLink>
+											</BarDropdownItem>
 									}
-								</BarDropdownMenu>
-							</BarDropdown>
-						</BarItem>
+									</BarDropdownMenu>
+								</BarDropdown>
+							</BarItem>
 					}
 				}
 			}
@@ -56,7 +59,7 @@
 	</BarMenu>
 </Bar>
 
-@code {
+@code {	
 	Dictionary<string, int> MenuGroups { get; set; }
 	IEnumerable<AddToMenuAttribute> menus { get; set; }
 

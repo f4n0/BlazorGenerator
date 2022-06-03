@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazorise;
 using BlazorGenerator.Enum;
+using BlazorGenerator.Utils;
 
 namespace BlazorGenerator.Models
 {
@@ -41,6 +42,25 @@ namespace BlazorGenerator.Models
       Name = name;
       Caption = name;
       FieldType = FieldType.Text;
+    }
+
+    public static List<VisibleField<T>> loadAllFields()
+    {
+      var propertyInfos = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+      List<VisibleField<T>> list = new List<VisibleField<T>>();
+      foreach (var item in propertyInfos)
+      {
+        list.Add(
+            new VisibleField<T>(item.Name)
+            {
+              Editable = true,
+              Getter = f => item.GetValue(f),
+              Setter = (f, v) => item.SetValue(f,v),
+            }  
+        );
+      }
+
+      return list;
     }
   }
 }
