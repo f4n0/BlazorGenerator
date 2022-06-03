@@ -7,7 +7,7 @@
 	</LayoutSider>
 	<Layout Height="Height.Is100">
 		<CascadingValue Value="@this">
-			<LayoutContent >
+			<LayoutContent  Height="Height.Is100">
 				<Blazorise.Container Fluid="true" Height="Height.Is75" Margin="Margin.Is4.FromTop">
 					@if (Options.ShowBreaddcrumbs)
 					{
@@ -20,7 +20,7 @@
 						<ErrorContent>
 							<DynamicErrorHandler errorBoundary="errorBoundary" />
 						</ErrorContent>
-						<ChildContent>
+						<ChildContent >
 							@Body
 						</ChildContent>
 					</ErrorBoundary>

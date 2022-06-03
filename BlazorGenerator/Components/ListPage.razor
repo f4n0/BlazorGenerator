@@ -5,11 +5,11 @@
 @typeparam T
 @inherits BlazorgenBaseComponent
 
-<Layout>
+<Layout  Height="Height.Is100">
 	<LayoutHeader Fixed="true">
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
-	<LayoutContent Height="Height.Is100">
+	<LayoutContent>
 		<DataGrid TItem="T"
 				  @ref="@_datagrid"
 				  Data="@Data"
