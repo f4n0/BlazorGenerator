@@ -3,7 +3,7 @@
 
 <h3>Upload file</h3>
 <p>Choose a file to upload</p>
-<FileEdit @ref="FileRef" Changed="OnFileChanged" Written="@((e) => onSave.InvokeAsync(e.Data))"></FileEdit>
+<FileEdit @ref="FileRef" Changed="OnFileChanged"></FileEdit>
 
 @code {
 	FileEdit FileRef;
@@ -22,7 +22,7 @@
                 {
                     await file.WriteToStreamAsync( stream );
                     stream.Seek( 0, SeekOrigin.Begin );	
-					onSave.InvokeAsync(stream);
+					onSave.InvokeAsync(stream.ToArray());
 				//	stream.by
 
     //                using ( var reader = new StreamReader( stream ) )
