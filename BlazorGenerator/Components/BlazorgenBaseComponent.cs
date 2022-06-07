@@ -94,9 +94,9 @@ namespace BlazorGenerator.Components
     {      
       ModalRef.Show();
     }
-    public async void OpenModalAsync()
+    public async Task<void> OpenModalAsync()
     {
-      await ModalRef.Show();
+      return await ModalRef.Show();
     }
 
 
