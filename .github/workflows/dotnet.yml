@@ -23,9 +23,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Pack
+    - name: Pack    
+      if: github.event_name != 'pull_request'
       run: dotnet pack "BlazorGenerator/BlazorGenerator.csproj" -c Release -o out -p:PackageVersion=1.2.${{ github.run_number }}
     - name: Push generated package to GitHub registry
+      if: github.event_name != 'pull_request'
       run: dotnet nuget push ./out/*.nupkg --source "https://nuget.pkg.github.com/f4n0/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} 
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}  
