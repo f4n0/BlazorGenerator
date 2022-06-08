@@ -19,6 +19,11 @@ namespace BlazorGenerator.Components
       layout.setLogVisibility(show);
     }
 
+    public async Task<string> ShowChoose(string header, string[] options, string cancelText = "Cancel")
+    {
+      return await layout.ChooseService.ChoseAsync(header,options,cancelText);
+    }
+
     [Inject] 
     public IPageProgressService PageProgressService { get; set; }
     [Inject] 

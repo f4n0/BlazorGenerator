@@ -52,6 +52,14 @@ namespace TestNet6.Data
       NavManager.NavigateTo("/test/prova");
     }
 
+
+    [PageAction]
+    public async Task ChoseAsync()
+    {
+      var res = await ShowChoose("Title", new[] { "Opzione 1", "Opzione 2", "Opzione 3" });
+      MessageService.Success(res);
+    }
+
     [PageAction]
     public void ShowModal()
     {

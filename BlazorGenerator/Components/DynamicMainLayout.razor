@@ -15,6 +15,7 @@
 					}
 					<PageProgressAlert />
 					<MessageAlert />
+					<Choose @ref="ChooseService"/>
 					<NotificationAlert Style="z-index:99999999 !important;" />
 					<ErrorBoundary @ref="errorBoundary">
 						<ErrorContent>
@@ -45,6 +46,7 @@
 
 	[Inject] protected BlazorGenOptions Options { get; set; }
 
+	public Choose ChooseService { get; set; }
 
 	private bool showLog = false;
 
