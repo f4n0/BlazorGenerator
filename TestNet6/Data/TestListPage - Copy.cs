@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace TestNet6.Data
 {
-  [AddToMenu("List Page 2", route)]
+  [AddToMenu(Title = "List Page 2", Route = route, OrderSequence = 2)]
   [Route(route)]
   [BasicActions(true, true, true)]
   public class TestListPage2 : ListPage<TestModel>

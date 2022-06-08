@@ -23,6 +23,10 @@ namespace BlazorGenerator.Models
     public TextRole TextRole { get; set; } = TextRole.Text;
     public Func<T, string> ToolTip { get; set; }
 
+    public bool FullWidht { get; set; } = false;
+
+    internal IFluentColumn ColumnSize => FullWidht ? Blazorise.ColumnSize.Is12.OnDesktop : Blazorise.ColumnSize.Is6.OnDesktop;
+
 
     public VisibleField(string name, FieldType type, bool editable)
     {
@@ -55,8 +59,8 @@ namespace BlazorGenerator.Models
             {
               Editable = true,
               Getter = f => item.GetValue(f),
-              Setter = (f, v) => item.SetValue(f,v),
-            }  
+              Setter = (f, v) => item.SetValue(f, v),
+            }
         );
       }
 
