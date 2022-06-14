@@ -10,9 +10,9 @@
 			<Fields>
 				@foreach (var fld in VisibleFields)
 				{
-					<Field ColumnSize="ColumnSize.Is6.OnDesktop" Horizontal="true">
-						<FieldLabel ColumnSize="ColumnSize.Is4">@(fld.Caption): </FieldLabel>
-						<FieldBody ColumnSize="ColumnSize.Is8">
+					<Field ColumnSize="@fld.ColumnSize" Horizontal="true">
+						<FieldLabel ColumnSize="ColumnSize.Is3">@(fld.Caption): </FieldLabel>
+						<FieldBody ColumnSize="ColumnSize.Is9">
 							@switch (fld.FieldType)
 							{
 								case BlazorGenerator.Enum.FieldType.Numeric:
