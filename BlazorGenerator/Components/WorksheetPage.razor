@@ -68,6 +68,7 @@
 						  RowInserted="@OnInsert"
 						  RowRemoved="@OnDelete"
 						  RowUpdated="@OnModify"
+						  RowStyling="@RowStyling"
 						  CommandMode="DataGridCommandMode.Commands">
 
 					<DataGridColumns>
@@ -97,22 +98,22 @@
 							switch (fld.FieldType)
 							{
 								case BlazorGenerator.Enum.FieldType.Numeric:
-									<BlazorGenerator.Components.Partials.DataGridNumeric T="TList" Field="fld"/>
+									<BlazorGenerator.Components.Partials.DataGridNumeric T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
 									break;
 								case BlazorGenerator.Enum.FieldType.Boolean:
-									<BlazorGenerator.Components.Partials.DataGridCheckbox T="TList" Field="fld" />
+									<BlazorGenerator.Components.Partials.DataGridCheckbox T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
 									break;
 								case BlazorGenerator.Enum.FieldType.Custom:
-									<BlazorGenerator.Components.Partials.DataGridCustom T="TList" Field="fld" />
+									<BlazorGenerator.Components.Partials.DataGridCustom T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
 									break;
 								case BlazorGenerator.Enum.FieldType.Select:
-									<BlazorGenerator.Components.Partials.DataGridDropdown T="TList" Field="fld" />
+									<BlazorGenerator.Components.Partials.DataGridDropdown T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
 									break;
 								case BlazorGenerator.Enum.FieldType.Button:
 									break;
 
 								case BlazorGenerator.Enum.FieldType.Icon:
-									<BlazorGenerator.Components.Partials.DataGridIcon T="TList" Field="fld" />
+									<BlazorGenerator.Components.Partials.DataGridIcon T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
 									break;
 
 								default:
@@ -120,7 +121,7 @@
 										Field="@fld.Name"
 										Caption="@fld.Caption"
 										Sortable="true"
-										Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" />
+										Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" DisplayOrder="@(ListVisibleFields.IndexOf(fld))" />
 									break;
 							}
 						}

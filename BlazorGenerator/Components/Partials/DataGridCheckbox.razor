@@ -1,7 +1,8 @@
 ﻿@typeparam T
 
 
-<DataGridCheckColumn TItem="T" Field="@Field.Name" Caption="@Field.Caption" Editable="true" Sortable="true" Filterable="true" Displayable="@(!Field.EditOnly)">
+<DataGridCheckColumn TItem="T" Field="@Field.Name" Caption="@Field.Caption" Editable="true" Sortable="true"
+					   DisplayOrder="@Order" Filterable="true" Displayable="@(!Field.EditOnly)">
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
 			<Check TValue="bool" Checked="@((bool)Field.Getter(context))" ReadOnly="true" Disabled />
@@ -20,4 +21,6 @@
 @code {
 	[Parameter]
 	public VisibleField<T> Field { get; set; }
+	[Parameter]
+	public int Order { get; set; }
 }

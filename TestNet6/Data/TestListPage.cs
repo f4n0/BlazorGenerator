@@ -28,12 +28,20 @@ namespace TestNet6.Data
     public Uri? Test4 { get; set; }
     public FieldType? Test5 { get; set; }
 
+    public override Action<TestListPage, DataGridRowStyling> RowStyling => (row, style) =>
+    {
+      if ((row as TestListPage).Test == "TestString1")
+      {
+        style.Background = Blazorise.Background.Success;
+      }
+    };
+
     protected override void OnInitialized()
     {
       VisibleFields = new List<VisibleField<TestListPage>>()        {
       new VisibleField<TestListPage>(nameof(Test)){ Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
-      new VisibleField<TestListPage>(nameof(Test6), FieldType.Boolean){Getter = f => f.Test6, Setter = (f,v) => f.Test6 = (bool)v },
       new VisibleField<TestListPage>(nameof(Test1)){ Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = int.Parse(v as string)},
+      new VisibleField<TestListPage>(nameof(Test6), FieldType.Boolean){Getter = f => f.Test6, Setter = (f,v) => f.Test6 = (bool)v },
       new VisibleField<TestListPage>(nameof(Test2)){ Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
       new VisibleField<TestListPage>(nameof(Test3)){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)},
       new VisibleField<TestListPage>(nameof(Test4), FieldType.Custom, true)

@@ -5,6 +5,7 @@
 				Field="@Field.Name"
 				Caption="@Field.Caption"
 				Editable="true"
+					   DisplayOrder="@Order"
 				Displayable="@(!Field.EditOnly)">
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
@@ -28,4 +29,6 @@
 @code {
 	[Parameter]
 	public VisibleField<T> Field { get; set; }
+	[Parameter]
+	public int Order { get; set; }
 }

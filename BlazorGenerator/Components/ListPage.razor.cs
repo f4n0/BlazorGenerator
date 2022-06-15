@@ -42,6 +42,9 @@ namespace BlazorGenerator.Components
     {
     }
 
+
+    public virtual Action<T, DataGridRowStyling> RowStyling => null;
+
     internal DataGridEditMode GetEditMode()
     {
       if (VisibleFields.Any(o => o.EditOnly))

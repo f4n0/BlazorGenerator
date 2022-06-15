@@ -2,7 +2,8 @@
 
 
 
-<DataGridColumn TItem="T" Caption="@Field.Caption" Editable="false">
+<DataGridColumn TItem="T" Caption="@Field.Caption" Editable="false"
+					   DisplayOrder="@Order">
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
 			<Icon Name="@((Blazorise.IconName) Field.Getter(context))">
@@ -13,4 +14,6 @@
 @code {
 	[Parameter]
 	public VisibleField<T> Field { get; set; }
+	[Parameter]
+	public int Order { get; set; }
 }
