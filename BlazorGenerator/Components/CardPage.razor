@@ -25,19 +25,22 @@
 								@switch (fld.FieldType)
 								{
 									case BlazorGenerator.Enum.FieldType.Numeric:
-										<BlazorGenerator.Components.Partials.Numeric T="T" Data="Data" Field="fld"/>
+										<BlazorGenerator.Components.Partials.Numeric T="T" Data="Data" Field="fld" />
 										break;
 									case BlazorGenerator.Enum.FieldType.Boolean:
-										<BlazorGenerator.Components.Partials.Checkbox T="T" Data="Data" Field="fld"/>
+										<BlazorGenerator.Components.Partials.Checkbox T="T" Data="Data" Field="fld" />
 										break;
 									case BlazorGenerator.Enum.FieldType.Select:
-										<BlazorGenerator.Components.Partials.Dropdown T="T" Data="Data" Field="fld"/>
+										<BlazorGenerator.Components.Partials.Dropdown T="T" Data="Data" Field="fld" />
 										break;
 									case BlazorGenerator.Enum.FieldType.Button:
-										<BlazorGenerator.Components.Partials.Btn T="T" Data="Data" Field="fld"/>
+										<BlazorGenerator.Components.Partials.Btn T="T" Data="Data" Field="fld" />
+										break;
+									case BlazorGenerator.Enum.FieldType.Custom:
+										<BlazorGenerator.Components.Partials.Custom T="T" Data="Data" Field="fld" />
 										break;
 									default:
-										<BlazorGenerator.Components.Partials.Txt T="T" Data="Data" Field="fld"/>
+										<BlazorGenerator.Components.Partials.Txt T="T" Data="Data" Field="fld" />
 										break;
 								}
 							</FieldBody>
@@ -51,28 +54,28 @@
 				}
 			</CardBody>
 		</Card>
-		
-@{
-	foreach (var item in Subforms)
-	{
-		<Card Margin="Margin.Is4.FromBottom">
-			<CardHeader>
-				<CardTitle>@item.Attribute.Caption</CardTitle>
-			</CardHeader>
-			<CardBody>
-				@{
-					var f = new RenderFragment(builder =>
-								{
-									builder.OpenComponent(0, item.Property.PropertyType);
-									builder.CloseComponent();
-								});
 
-					@f
-				}
-			</CardBody>
-		</Card>
-	}
-}
+		@{
+			foreach (var item in Subforms)
+			{
+				<Card Margin="Margin.Is4.FromBottom">
+					<CardHeader>
+						<CardTitle>@item.Attribute.Caption</CardTitle>
+					</CardHeader>
+					<CardBody>
+						@{
+							var f = new RenderFragment(builder =>
+							{
+								builder.OpenComponent(0, item.Property.PropertyType);
+								builder.CloseComponent();
+							});
+
+							@f
+						}
+					</CardBody>
+				</Card>
+			}
+		}
 	</LayoutContent>
 </Layout>
 
@@ -81,8 +84,8 @@
 <Modal @ref="@ModalRef" Closing="OnModalClose">
 	<ModalContent Centered Size="@modalSize">
 		<ModalHeader>
-			<CloseButton/>
+			<CloseButton />
 		</ModalHeader>
-		<ModalBody ChildContent="@ChildModalContent"/>
+		<ModalBody ChildContent="@ChildModalContent" />
 	</ModalContent>
 </Modal>
