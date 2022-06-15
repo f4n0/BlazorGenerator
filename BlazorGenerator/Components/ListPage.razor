@@ -5,7 +5,7 @@
 @typeparam T
 @inherits BlazorgenBaseComponent
 
-<Layout  Height="Height.Is100">
+<Layout>
 	<LayoutHeader Fixed="true">
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
@@ -24,6 +24,9 @@
 				  Filterable="true"
 				  Responsive="true"
 				  Narrow="true"
+				  FixedHeader="true"
+				  FixedHeaderDataGridHeight="75vh"
+				  FixedHeaderDataGridMaxHeight="75vh"
 				  Editable
 				  EditMode="@GetEditMode()"
 				  NewItemCreator="@CreateNewItem"

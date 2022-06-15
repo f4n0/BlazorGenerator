@@ -7,8 +7,8 @@
 	</LayoutSider>
 	<Layout Height="Height.Is100">
 		<CascadingValue Value="@this">
-			<LayoutContent Height="Height.Is75" Overflow="Overflow.Auto">
-				<Blazorise.Container Fluid="true" Height="Height.Is75" Margin="Margin.Is4.FromTop">
+			<LayoutContent Height="GetContentHeight()" Overflow="Overflow.Auto">
+				<Blazorise.Container Fluid="true" Margin="Margin.Is4.FromTop">
 					@if (Options.ShowBreaddcrumbs)
 					{
 						<DynamicBreadcrumbs />
@@ -27,7 +27,7 @@
 					</ErrorBoundary>
 				</Blazorise.Container>
 			</LayoutContent>
-			<LayoutFooter Fixed=true Visibility="GetLogVisibility()" Height="Height.Is25" >
+			<LayoutFooter Fixed=true Visibility="GetLogVisibility()" Display="GetLogDisplay()" Height="GetFooterHeight()" >
 				<Log></Log>
 			</LayoutFooter>
 		</CascadingValue>
@@ -55,6 +55,20 @@
 	private Visibility GetLogVisibility()
 	{
 		return showLog ? Visibility.Visible : Visibility.Invisible;
+	}
+
+	private IFluentDisplay GetLogDisplay()
+	{
+		return showLog ? Display.Always : Display.None;
+	}
+
+	private IFluentSizing GetContentHeight()
+	{
+		return showLog ? Height.Is75 : Height.Is100;
+	}
+	private IFluentSizing GetFooterHeight()
+	{
+		return showLog ? Height.Is25 : new FluentSizing( SizingType.Height ).WithSize( SizingSize.Default );
 	}
 
 

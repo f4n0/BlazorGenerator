@@ -38,6 +38,8 @@ namespace TestNet6.Data
 
     protected override void OnInitialized()
     {
+      setLogVisibility(true);
+
       VisibleFields = new List<VisibleField<TestListPage>>()        {
       new VisibleField<TestListPage>(nameof(Test)){ Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
       new VisibleField<TestListPage>(nameof(Test1)){ Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = int.Parse(v as string)},

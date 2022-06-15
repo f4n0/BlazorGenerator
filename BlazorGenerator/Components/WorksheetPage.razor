@@ -9,7 +9,7 @@
 <h3>@Title</h3>
 
 <Layout>
-	<LayoutHeader Fixed="true">
+	<LayoutHeader Position="Position.Sticky">
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
 	<LayoutContent>
@@ -62,6 +62,9 @@
 						  Filterable="true"
 						  Responsive="true"
 						  Narrow="true"
+						  FixedHeader="true"
+						  FixedHeaderDataGridHeight="75vh"
+						  FixedHeaderDataGridMaxHeight="75vh"
 						  Editable
 						  EditMode="@GetEditMode()"
 						  NewItemCreator="@CreateNewItem"
