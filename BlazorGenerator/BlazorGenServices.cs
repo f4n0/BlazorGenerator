@@ -21,6 +21,7 @@ namespace BlazorGenerator
       .AddBlazorise(options =>
       {
         options.Immediate = false;
+        options.ThemeCacheSize = 0;
       })
       .AddBootstrapProviders();
       services.AddFontAwesomeIcons();

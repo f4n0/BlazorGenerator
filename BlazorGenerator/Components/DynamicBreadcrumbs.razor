@@ -2,7 +2,7 @@
 
 @if (UriParts.Count > 0)
 {
-	<Breadcrumb>
+	<Breadcrumb Background="@BackgroundColor" TextColor="@TextColor">
 		<BreadcrumbItem>
 			<BreadcrumbLink To="/">Home</BreadcrumbLink>
 		</BreadcrumbItem>
@@ -15,7 +15,17 @@
 	</Breadcrumb>
 }
 
-@code {
+@code {	
+    [Inject]
+    public BlazorGenOptions options { get; set; }
+
+    private Blazorise.TextColor TextColor => options.UseDarkTheme ? Blazorise.TextColor.White : Blazorise.TextColor.Dark;
+
+    private Blazorise.Background BackgroundColor => options.UseDarkTheme ? Blazorise.Background.Secondary : Blazorise.Background.Light;
+
+    private Blazorise.IFluentBorder Borders => options.UseDarkTheme ? Blazorise.Border.Is1.Rounded.White : Blazorise.Border.Is1.Rounded.Dark;
+
+
 	Dictionary<string, string> UriParts { get; set; }
 
 	protected override void OnParametersSet()

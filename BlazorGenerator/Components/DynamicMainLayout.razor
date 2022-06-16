@@ -1,12 +1,14 @@
 ﻿@inherits LayoutComponentBase
+
+<Blazorise.ThemeProvider Theme="@theme" @ref="themeProvider">
+		<CascadingValue Value="@this">
 <Layout Sider="true">
 	<LayoutSider>
-		<LayoutSiderContent>
-			<NavMenu />
+		<LayoutSiderContent>			
+			<NavMenu />			
 		</LayoutSiderContent>
 	</LayoutSider>
 	<Layout Height="Height.Is100">
-		<CascadingValue Value="@this">
 			<LayoutContent Height="GetContentHeight()" Overflow="Overflow.Auto">
 				<Blazorise.Container Fluid="true" Margin="Margin.Is4.FromTop">
 					@if (Options.ShowBreaddcrumbs)
@@ -30,9 +32,11 @@
 			<LayoutFooter Fixed=true Visibility="GetLogVisibility()" Display="GetLogDisplay()" Height="GetFooterHeight()" >
 				<Log></Log>
 			</LayoutFooter>
-		</CascadingValue>
 	</Layout>
 </Layout>
+
+		</CascadingValue>
+</Blazorise.ThemeProvider>
 
 <HeadContent>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -43,8 +47,16 @@
 </HeadContent>
 
 @code {
+	private Theme theme = new Theme();
+	private ThemeProvider themeProvider { get; set; }
 
 	[Inject] protected BlazorGenOptions Options { get; set; }
+
+	protected override Task OnInitializedAsync()
+	{
+		theme = Options.UseDarkTheme ? Options.DarkTheme : Options.LightTheme;
+		return base.OnInitializedAsync();
+	}
 
 	public Choose ChooseService { get; set; }
 
@@ -78,10 +90,24 @@
 		StateHasChanged();
 	}
 
+	public void UpdateTheme()
+	{
+		theme = Options.UseDarkTheme ? Options.DarkTheme : Options.LightTheme;
+		themeProvider.Theme = theme;
+
+		//theme.ThemeHasChanged();
+		StateHasChanged();
+		InvokeAsync(theme.ThemeHasChanged);
+	}
 
 	protected override void OnParametersSet()
 	{
 		showLog = false;
 		errorBoundary?.Recover();
+	}
+
+	public ThemeContrast GetThemeContrast()
+	{
+		return Options.UseDarkTheme ? ThemeContrast.Dark : ThemeContrast.Light;
 	}
 }

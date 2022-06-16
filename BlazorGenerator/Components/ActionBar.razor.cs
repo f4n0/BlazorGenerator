@@ -17,6 +17,15 @@ namespace BlazorGenerator.Components
     [Parameter]
     public object Context { get; set; }
 
+    [Inject]
+    public BlazorGenOptions options { get; set; }
+
+    private Blazorise.TextColor TextColor => options.UseDarkTheme ? Blazorise.TextColor.White : Blazorise.TextColor.Dark;
+
+    private Blazorise.Background BackgroundColor => options.UseDarkTheme ? Blazorise.Background.Secondary : Blazorise.Background.Light;
+
+    private Blazorise.IFluentBorder Borders => options.UseDarkTheme ? Blazorise.Border.Is1.Rounded.White : Blazorise.Border.Is1.Rounded.Dark;
+
     public Dictionary<string, int> ActionGroups { get; set; }
 
     void PopulateDictionary()

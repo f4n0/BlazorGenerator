@@ -1,16 +1,16 @@
 ﻿@inject BlazorGenOptions options;
 
-<Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
+<Bar Mode="BarMode.VerticalInline"
+	 CollapseMode="BarCollapseMode.Small"
 	 Breakpoint="Breakpoint.Desktop"
-	 Background="Background.Light"
-	 ThemeContrast="ThemeContrast.Light">
+	 ThemeContrast="layout.GetThemeContrast()">
 	<BarToggler />
 	<BarBrand>
 		<BarItem>
 			<BarLink To="/">
 				<BarIcon IconName="IconName.Dashboard" />
 				Home
-			</BarLink>			
+			</BarLink>
 		</BarItem>
 	</BarBrand>
 
@@ -26,48 +26,66 @@
 					{
 						foreach (var elem in filtered)
 						{
-								<BarItem>
-									<BarLink To="@elem.Route">
-										<BarIcon IconName="@elem.Icon" />
-										@elem.Title
-									</BarLink>
-								</BarItem>
+							<BarItem>
+								<BarLink To="@elem.Route">
+									<BarIcon IconName="@elem.Icon" />
+									@elem.Title
+								</BarLink>
+							</BarItem>
 						}
 					}
 					else
 					{
-							<BarItem>
-								<BarDropdown>
-									<BarDropdownToggle>@item.Key</BarDropdownToggle>
-									<BarDropdownMenu>
-										@foreach (var elem in filtered)
+						<BarItem>
+							<BarDropdown>
+								<BarDropdownToggle>@item.Key</BarDropdownToggle>
+								<BarDropdownMenu>
+									@foreach (var elem in filtered)
 									{
-											<BarDropdownItem>
-												<BarLink To="@elem.Route">
-													<BarIcon IconName="@elem.Icon" />
-													@elem.Title
-												</BarLink>
-											</BarDropdownItem>
+										<BarDropdownItem>
+											<BarLink To="@elem.Route">
+												<BarIcon IconName="@elem.Icon" />
+												@elem.Title
+											</BarLink>
+										</BarDropdownItem>
 									}
-									</BarDropdownMenu>
-								</BarDropdown>
-							</BarItem>
+								</BarDropdownMenu>
+							</BarDropdown>
+						</BarItem>
 					}
 				}
 			}
 		</BarStart>
+
+		<BarEnd>
+			<BarItem>
+				<Switch TValue="bool" Checked="options.UseDarkTheme" CheckedChanged="@OnDarkThemeChanged">Enable dark theme</Switch>
+			</BarItem>
+		</BarEnd>
 	</BarMenu>
 </Bar>
 
-@code {	
+@code {
 	Dictionary<string, int> MenuGroups { get; set; }
 	IEnumerable<AddToMenuAttribute> menus { get; set; }
 
+	//ThemeContrast BarColors { get; set; }
+
+
+	[CascadingParameter]
+	protected DynamicMainLayout layout { get; set; }
+
+	protected override Task OnParametersSetAsync()
+	{
+		//BarColors = options.UseDarkTheme ? ThemeContrast.Dark : ThemeContrast.Light;
+		return base.OnParametersSetAsync();
+	}
+
 	void PopulateDictionary()
 	{
-		menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute).OrderBy((o)=>o.OrderSequence);;
+		menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute).OrderBy((o) => o.OrderSequence); ;
 		MenuGroups = new Dictionary<string, int>();
-		
+
 		foreach (var item in menus)
 		{
 			if (MenuGroups.ContainsKey(item.Group))
@@ -79,5 +97,13 @@
 				MenuGroups.Add(item.Group, 1);
 			}
 		}
+	}
+
+	Task OnDarkThemeChanged(bool value)
+	{
+		//BarColors = options.UseDarkTheme ? ThemeContrast.Dark : ThemeContrast.Light;
+		options.UseDarkTheme = value;
+		layout.UpdateTheme();
+		return Task.CompletedTask;
 	}
 }
