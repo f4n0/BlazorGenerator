@@ -13,6 +13,7 @@ namespace BlazorGenerator.Components
 {
   partial class WorksheetPage<T, TList> : BlazorgenBaseComponent
   {
+    bool FieldVisible { get;set; } = true;
 
     public List<TList> SelectedRecs { get; private set; } = new List<TList>();
     public List<TList> ListData { get; set; }

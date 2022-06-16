@@ -1,38 +1,36 @@
 ﻿@inherits LayoutComponentBase
-<Layout Sider="true">
+<Layout Sider>
 	<LayoutSider>
 		<LayoutSiderContent>
 			<NavMenu />
 		</LayoutSiderContent>
 	</LayoutSider>
-	<Layout Height="Height.Is100">
+	<Layout>
 		<CascadingValue Value="@this">
-			<LayoutContent Height="GetContentHeight()" Overflow="Overflow.Auto">
-				<Blazorise.Container Fluid="true" Margin="Margin.Is4.FromTop">
-					@if (Options.ShowBreaddcrumbs)
-					{
-						<DynamicBreadcrumbs />
-					}
-					<PageProgressAlert />
-					<MessageAlert />
-					<Choose @ref="ChooseService"/>
-					<NotificationAlert Style="z-index:99999999 !important;" />
-					<ErrorBoundary @ref="errorBoundary">
-						<ErrorContent>
-							<DynamicErrorHandler errorBoundary="errorBoundary" />
-						</ErrorContent>
-						<ChildContent >
-							@Body
-						</ChildContent>
-					</ErrorBoundary>
-				</Blazorise.Container>
-			</LayoutContent>
-			<LayoutFooter Fixed=true Visibility="GetLogVisibility()" Display="GetLogDisplay()" Height="GetFooterHeight()" >
-				<Log></Log>
-			</LayoutFooter>
+				<Layout>
+					<Layout Padding="Padding.Is2.FromEnd.FromStart">
+						<ErrorBoundary @ref="errorBoundary">
+							<ErrorContent>
+								<DynamicErrorHandler errorBoundary="errorBoundary" />
+							</ErrorContent>
+							<ChildContent>
+								@Body
+							</ChildContent>
+						</ErrorBoundary>
+					</Layout>
+					<LayoutFooter Fixed Visibility="GetLogVisibility()" Display="GetLogDisplay()">
+						<Log></Log>
+					</LayoutFooter>
+				</Layout>
 		</CascadingValue>
 	</Layout>
 </Layout>
+
+
+<PageProgressAlert />
+<MessageAlert />
+<Choose @ref="ChooseService" />
+<NotificationAlert Style="z-index:99999999 !important;" />
 
 <HeadContent>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -68,7 +66,7 @@
 	}
 	private IFluentSizing GetFooterHeight()
 	{
-		return showLog ? Height.Is25 : new FluentSizing( SizingType.Height ).WithSize( SizingSize.Default );
+		return showLog ? Height.Is25 : Height.Is100;
 	}
 
 

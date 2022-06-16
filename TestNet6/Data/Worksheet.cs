@@ -29,6 +29,19 @@ namespace TestNet6.Data
 
     protected override void OnInitialized()
     {
+      setLogVisibility(true);
+
+
+      VisibleFields = new List<VisibleField<TestCardPage>>() {
+        new VisibleField<TestCardPage>(nameof(TestCardPage.Summary)){Getter = f => f.Summary, Setter = (f,v)=>f.Summary = v.ToString(), FullWidht=true},
+        new VisibleField<TestCardPage>(nameof(TestCardPage.Summary2)){Getter = f => f.Summary2, Setter = (f,v)=>f.Summary2 = v.ToString(), TextRole = Blazorise.TextRole.Password},
+        new VisibleField<TestCardPage>(nameof(TestCardPage.Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString()},
+
+      new VisibleField<TestCardPage>("My BTN", FieldType.Button){ Setter = (f,v) => throw new Exception("prova") }
+      };
+      Data = new TestCardPage() { Summary = "element 1", Summary2 = "element2", Summary3 = "aa" };
+
+
       ListVisibleFields = new List<VisibleField<TestListPage>>()        {
       new VisibleField<TestListPage>(nameof(Test)){ Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
       new VisibleField<TestListPage>(nameof(Test6), FieldType.Boolean){Getter = f => f.Test6, Setter = (f,v) => f.Test6 = (bool)v },

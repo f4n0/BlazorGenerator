@@ -6,18 +6,23 @@
 @typeparam TList
 @inherits BlazorgenBaseComponent
 
-<h3>@Title</h3>
 
 <Layout>
-	<LayoutHeader Position="Position.Sticky">
+	<LayoutHeader Fixed>
+		@if (Options.ShowBreaddcrumbs)
+		{
+			<DynamicBreadcrumbs />
+		}
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
-	<LayoutContent>
-		<Card Margin="Margin.Is4.FromBottom">
-			<CardHeader>
-				<CardTitle>@Title</CardTitle>
-			</CardHeader>
-			<CardBody>
+	<Layout>
+		<Collapse Visible="@FieldVisible">
+			<CollapseHeader @onclick="(()=>FieldVisible = !FieldVisible)" Class="customHand">
+				<Heading Size="HeadingSize.Is5">
+					@Title
+				</Heading>
+			</CollapseHeader>
+			<CollapseBody>
 				<Fields>
 					@foreach (var fld in VisibleFields)
 					{
@@ -48,92 +53,93 @@
 					}
 
 				</Fields>
-				<br />
-				<DataGrid TItem="TList"
-						  @ref="@_datagrid"
-						  Data="@ListData"
-						  SelectionMode="DataGridSelectionMode.Multiple"
-						  @bind-SelectedRows="@SelectedRecs"
-						  Resizable="true"
-						  Striped="true"
-						  ShowPager="false"
-						  ShowPageSizes="false"
-						  PageSize="int.MaxValue"
-						  Filterable="true"
-						  Responsive="true"
-						  Narrow="true"
-						  FixedHeader="true"
-						  FixedHeaderDataGridHeight="75vh"
-						  FixedHeaderDataGridMaxHeight="75vh"
-						  Editable
-						  EditMode="@GetEditMode()"
-						  NewItemCreator="@CreateNewItem"
-						  RowInserted="@OnInsert"
-						  RowRemoved="@OnDelete"
-						  RowUpdated="@OnModify"
-						  RowStyling="@RowStyling"
-						  CommandMode="DataGridCommandMode.Commands">
+			</CollapseBody>
+		</Collapse>
 
-					<DataGridColumns>
-						<DataGridMultiSelectColumn TItem="TList" Width="30px"></DataGridMultiSelectColumn>
-						<DataGridCommandColumn TItem="TList" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
-							<NewCommandTemplate>
-								<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Add"></Icon>&nbsp;@context.LocalizationString</Button>
-							</NewCommandTemplate>
-							<EditCommandTemplate>
-								<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Edit"></Icon>&nbsp;@context.LocalizationString</Button>
-							</EditCommandTemplate>
-							<SaveCommandTemplate>
-								<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" PreventDefaultOnSubmit Clicked="@context.Clicked">@context.LocalizationString</Button>
-							</SaveCommandTemplate>
-							<DeleteCommandTemplate>
-								<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Delete"></Icon>&nbsp;@context.LocalizationString</Button>
-							</DeleteCommandTemplate>
-							<CancelCommandTemplate>
-								<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked">@context.LocalizationString</Button>
-							</CancelCommandTemplate>
-							<ClearFilterCommandTemplate>
-								<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Clear"></Icon>&nbsp;@context.LocalizationString</Button>
-							</ClearFilterCommandTemplate>
-						</DataGridCommandColumn>
-						@foreach (var fld in ListVisibleFields)
-						{
-							switch (fld.FieldType)
-							{
-								case BlazorGenerator.Enum.FieldType.Numeric:
-									<BlazorGenerator.Components.Partials.DataGridNumeric T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
-									break;
-								case BlazorGenerator.Enum.FieldType.Boolean:
-									<BlazorGenerator.Components.Partials.DataGridCheckbox T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
-									break;
-								case BlazorGenerator.Enum.FieldType.Custom:
-									<BlazorGenerator.Components.Partials.DataGridCustom T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
-									break;
-								case BlazorGenerator.Enum.FieldType.Select:
-									<BlazorGenerator.Components.Partials.DataGridDropdown T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
-									break;
-								case BlazorGenerator.Enum.FieldType.Button:
-									break;
+		<br />
+		<DataGrid TItem="TList"
+				  @ref="@_datagrid"
+				  Data="@ListData"
+				  SelectionMode="DataGridSelectionMode.Multiple"
+				  @bind-SelectedRows="@SelectedRecs"
+				  Resizable="true"
+				  Striped="true"
+				  ShowPager="false"
+				  ShowPageSizes="false"
+				  PageSize="int.MaxValue"
+				  Filterable="true"
+				  Responsive="true"
+				  Narrow="true"
+				  FixedHeader="true"
+				  FixedHeaderDataGridHeight="75vh"
+				  FixedHeaderDataGridMaxHeight="75vh"
+				  Editable
+				  EditMode="@GetEditMode()"
+				  NewItemCreator="@CreateNewItem"
+				  RowInserted="@OnInsert"
+				  RowRemoved="@OnDelete"
+				  RowUpdated="@OnModify"
+				  RowStyling="@RowStyling"
+				  CommandMode="DataGridCommandMode.Commands">
 
-								case BlazorGenerator.Enum.FieldType.Icon:
-									<BlazorGenerator.Components.Partials.DataGridIcon T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
-									break;
+			<DataGridColumns>
+				<DataGridMultiSelectColumn TItem="TList" Width="30px"></DataGridMultiSelectColumn>
+				<DataGridCommandColumn Width="150px" TItem="TList" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
+					<NewCommandTemplate>
+						<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Add"></Icon>&nbsp;@context.LocalizationString</Button>
+					</NewCommandTemplate>
+					<EditCommandTemplate>
+						<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Edit"></Icon>&nbsp;@context.LocalizationString</Button>
+					</EditCommandTemplate>
+					<SaveCommandTemplate>
+						<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" PreventDefaultOnSubmit Clicked="@context.Clicked">@context.LocalizationString</Button>
+					</SaveCommandTemplate>
+					<DeleteCommandTemplate>
+						<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Delete"></Icon>&nbsp;@context.LocalizationString</Button>
+					</DeleteCommandTemplate>
+					<CancelCommandTemplate>
+						<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked">@context.LocalizationString</Button>
+					</CancelCommandTemplate>
+					<ClearFilterCommandTemplate>
+						<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Clear"></Icon>&nbsp;@context.LocalizationString</Button>
+					</ClearFilterCommandTemplate>
+				</DataGridCommandColumn>
+				@foreach (var fld in ListVisibleFields)
+				{
+					switch (fld.FieldType)
+					{
+						case BlazorGenerator.Enum.FieldType.Numeric:
+							<BlazorGenerator.Components.Partials.DataGridNumeric T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
+							break;
+						case BlazorGenerator.Enum.FieldType.Boolean:
+							<BlazorGenerator.Components.Partials.DataGridCheckbox T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
+							break;
+						case BlazorGenerator.Enum.FieldType.Custom:
+							<BlazorGenerator.Components.Partials.DataGridCustom T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
+							break;
+						case BlazorGenerator.Enum.FieldType.Select:
+							<BlazorGenerator.Components.Partials.DataGridDropdown T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
+							break;
+						case BlazorGenerator.Enum.FieldType.Button:
+							break;
 
-								default:
-									<DataGridColumn TItem="TList"
-										Field="@fld.Name"
-										Caption="@fld.Caption"
-										Sortable="true"
-										Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" DisplayOrder="@(ListVisibleFields.IndexOf(fld))" />
-									break;
-							}
-						}
-					</DataGridColumns>
+						case BlazorGenerator.Enum.FieldType.Icon:
+							<BlazorGenerator.Components.Partials.DataGridIcon T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
+							break;
 
-				</DataGrid>
-			</CardBody>
-		</Card>
-	</LayoutContent>
+						default:
+							<DataGridColumn TItem="TList"
+								Field="@fld.Name"
+								Caption="@fld.Caption"
+								Sortable="true"
+								Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" DisplayOrder="@(ListVisibleFields.IndexOf(fld))" />
+							break;
+					}
+				}
+			</DataGridColumns>
+
+		</DataGrid>
+	</Layout>
 </Layout>
 
 <Modal @ref="@ModalRef" Closing="OnModalClose">

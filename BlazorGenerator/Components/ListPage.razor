@@ -6,7 +6,11 @@
 @inherits BlazorgenBaseComponent
 
 <Layout>
-	<LayoutHeader Fixed="true">
+	<LayoutHeader Fixed >
+		@if (Options.ShowBreaddcrumbs)
+		{
+			<DynamicBreadcrumbs />
+		}
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
 	<LayoutContent>
@@ -41,7 +45,7 @@
 				{
 					<DataGridMultiSelectColumn TItem="T" Width="30px"></DataGridMultiSelectColumn>
 				}
-				<DataGridCommandColumn TItem="T" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
+				<DataGridCommandColumn  Width="150px" TItem="T" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
 					<NewCommandTemplate>
 						<Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Add"></Icon>&nbsp;@context.LocalizationString</Button>
 					</NewCommandTemplate>

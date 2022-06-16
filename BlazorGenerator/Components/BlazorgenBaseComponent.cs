@@ -35,6 +35,9 @@ namespace BlazorGenerator.Components
     [Inject]
     public NavigationManager NavManager { get; set; }
 
+    [Inject]
+    public BlazorGenOptions Options { get; set; }
+
     public virtual string Title => "";
 
 
