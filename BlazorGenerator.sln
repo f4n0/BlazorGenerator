@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGenerator", "BlazorGe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestNet6", "TestNet6\TestNet6.csproj", "{42538E38-892E-418C-B5B7-99AA8E8938F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebAssembly", "TestWebAssembly\TestWebAssembly.csproj", "{0699B60B-11F9-4352-AAF3-937BA0FA7BC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,9 +20,12 @@ Global
 		{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B9FC2EB-A758-45FD-BB40-2695B878A3D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{42538E38-892E-418C-B5B7-99AA8E8938F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42538E38-892E-418C-B5B7-99AA8E8938F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42538E38-892E-418C-B5B7-99AA8E8938F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42538E38-892E-418C-B5B7-99AA8E8938F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0699B60B-11F9-4352-AAF3-937BA0FA7BC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0699B60B-11F9-4352-AAF3-937BA0FA7BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0699B60B-11F9-4352-AAF3-937BA0FA7BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0699B60B-11F9-4352-AAF3-937BA0FA7BC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

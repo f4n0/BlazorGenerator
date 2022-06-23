@@ -3,16 +3,18 @@
     <TargetFramework>net6.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <RepositoryUrl>https://github.com/f4n0/BlazorGenerator</RepositoryUrl>
-    <Version>1.1.19.0</Version>
+    <Version>1.2.52.3</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <AssemblyName>BlazorGenerator</AssemblyName>
     <RootNamespace>BlazorGenerator</RootNamespace>
     <Authors>f4n0</Authors>
   </PropertyGroup>
+
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Blazorise" Version="1.0.5" />
     <PackageReference Include="Blazorise.Bootstrap" Version="1.0.5" />
