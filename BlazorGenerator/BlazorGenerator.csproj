@@ -16,7 +16,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Blazorise" Version="1.0.5" />
+    <PackageReference Include="Blazorise" Version="1.0.6" />
     <PackageReference Include="Blazorise.Bootstrap" Version="1.0.5" />
     <PackageReference Include="Blazorise.Components" Version="1.0.5" />
     <PackageReference Include="Blazorise.DataGrid" Version="1.0.5" />
