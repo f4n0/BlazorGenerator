@@ -20,9 +20,9 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}  
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore BlazorGenerator/BlazorGenerator.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore BlazorGenerator/BlazorGenerator.csproj
     - name: Pack    
       if: github.event_name != 'pull_request'
       run: dotnet pack "BlazorGenerator/BlazorGenerator.csproj" -c Release -o out -p:PackageVersion=1.2.${{ github.run_number }}
