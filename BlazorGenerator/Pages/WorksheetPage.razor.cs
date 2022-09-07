@@ -8,8 +8,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using BlazorGenerator.Infrastructure;
 
-namespace BlazorGenerator.Components
+namespace BlazorGenerator.Pages
 {
   partial class WorksheetPage<T, TList> : BlazorgenBaseComponent
   {

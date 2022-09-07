@@ -1,5 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Components;
+using BlazorGenerator.Pages;
 using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 using System;

@@ -1,6 +1,6 @@
 ﻿using BlazorGenerator.Services;
 using Blazorise;
-using Blazorise.Bootstrap;
+using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -22,7 +22,7 @@ namespace BlazorGenerator
       {
         options.Immediate = false;
       })
-      .AddBootstrapProviders();
+      .AddBootstrap5Providers();
       services.AddFontAwesomeIcons();
 
       services.AddSingleton<BlazorGenLogger>();

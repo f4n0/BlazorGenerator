@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BlazorGenerator;
 using Microsoft.AspNetCore.Components;
 using BlazorGenerator.Attributes;
-using BlazorGenerator.Components;
+using BlazorGenerator.Pages;
 using BlazorGenerator.Models;
 using Blazorise;
 using Microsoft.AspNetCore.Components.Rendering;

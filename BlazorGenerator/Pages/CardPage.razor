@@ -29,22 +29,22 @@
 								@switch (fld.FieldType)
 								{
 									case BlazorGenerator.Enum.FieldType.Numeric:
-										<BlazorGenerator.Components.Partials.Numeric T="T" Data="Data" Field="fld" />
+										<BlazorGenerator.Pages.Partials.Numeric T="T" Data="Data" Field="fld" />
 										break;
 									case BlazorGenerator.Enum.FieldType.Boolean:
-										<BlazorGenerator.Components.Partials.Checkbox T="T" Data="Data" Field="fld" />
+                                        <BlazorGenerator.Pages.Partials.Checkbox T="T" Data="Data" Field="fld" />
 										break;
 									case BlazorGenerator.Enum.FieldType.Select:
-										<BlazorGenerator.Components.Partials.Dropdown T="T" Data="Data" Field="fld" />
+										<BlazorGenerator.Pages.Partials.Dropdown T="T" Data="Data" Field="fld" />
 										break;
 									case BlazorGenerator.Enum.FieldType.Button:
-										<BlazorGenerator.Components.Partials.Btn T="T" Data="Data" Field="fld" />
+                                        <BlazorGenerator.Pages.Partials.Btn T="T" Data="Data" Field="fld" />
 										break;
 									case BlazorGenerator.Enum.FieldType.Custom:
-										<BlazorGenerator.Components.Partials.Custom T="T" Data="Data" Field="fld" />
+                                        <BlazorGenerator.Pages.Partials.Custom T="T" Data="Data" Field="fld" />
 										break;
 									default:
-										<BlazorGenerator.Components.Partials.Txt T="T" Data="Data" Field="fld" />
+                                        <BlazorGenerator.Pages.Partials.Txt T="T" Data="Data" Field="fld" />
 										break;
 								}
 							</FieldBody>

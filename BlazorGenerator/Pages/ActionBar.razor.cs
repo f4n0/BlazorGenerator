@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorGenerator.Components
+namespace BlazorGenerator.Pages
 {
   partial class ActionBar
   {

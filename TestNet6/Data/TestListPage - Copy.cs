@@ -1,5 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Components;
+using BlazorGenerator.Infrastructure;
 using BlazorGenerator.Enum;
 using BlazorGenerator.Models;
 using Blazorise.DataGrid;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using BlazorGenerator.Pages;
 
 namespace TestNet6.Data
 {

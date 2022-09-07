@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
+using BlazorGenerator.Infrastructure;
 
-namespace BlazorGenerator.Components
+namespace BlazorGenerator.Pages
 {
   partial class CardPage<T> : BlazorgenBaseComponent
   {

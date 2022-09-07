@@ -5,9 +5,13 @@
 <Accordion>
 	<Collapse Visible="@LogVisible">
 		<CollapseHeader @onclick="(()=>LogVisible = !LogVisible)" Class="customHand"> 
-			<Heading Size="HeadingSize.Is5">
+			<Heading Size="HeadingSize.Is5" Padding="Padding.Is2.OnX">
 				Log
-				@*<Button Clicked="@(()=>LogVisible = !LogVisible)" Padding="Padding.Is0">Logs</Button>*@
+                @if(LogVisible){
+                    <Icon Name="IconName.ExpandMore"></Icon>
+                }else{
+                    <Icon Name="IconName.ExpandLess"></Icon>
+                }
 			</Heading>
 		</CollapseHeader>
 		<CollapseBody Overflow="Overflow.Auto" Style="max-height:150px">			

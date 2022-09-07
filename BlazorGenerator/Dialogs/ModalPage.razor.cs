@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorGenerator.Components
+namespace BlazorGenerator.Dialogs
 {
   public partial class ModalPage<T> : ComponentBase
   {

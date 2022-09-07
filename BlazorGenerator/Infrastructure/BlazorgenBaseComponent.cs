@@ -1,4 +1,5 @@
-﻿using Blazorise;
+﻿using BlazorGenerator.Dialogs;
+using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -7,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorGenerator.Components
+namespace BlazorGenerator.Infrastructure
 {
-  public class BlazorgenBaseComponent: ComponentBase
+  public class BlazorgenBaseComponent : ComponentBase
   {
     [CascadingParameter]
     protected DynamicMainLayout layout { get; set; }
@@ -21,12 +22,12 @@ namespace BlazorGenerator.Components
 
     public async Task<string> ShowChoose(string header, string[] options, string cancelText = "Cancel")
     {
-      return await layout.ChooseService.ChoseAsync(header,options,cancelText);
+      return await layout.ChooseService.ChoseAsync(header, options, cancelText);
     }
 
-    [Inject] 
+    [Inject]
     public IPageProgressService PageProgressService { get; set; }
-    [Inject] 
+    [Inject]
     public IMessageService MessageService { get; set; }
     [Inject]
     public IJSRuntime JSRuntime { get; set; }
@@ -57,7 +58,8 @@ namespace BlazorGenerator.Components
 
     public void InitModal<TModalType, TModalData>(object ModalData) where TModalType : ModalPage<TModalData>
     {
-      ChildModalContent = new RenderFragment(builder => {
+      ChildModalContent = new RenderFragment(builder =>
+      {
         builder.OpenComponent<TModalType>(5);
         builder.AddAttribute(6, "Data", ModalData);
         builder.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
@@ -72,7 +74,8 @@ namespace BlazorGenerator.Components
     public void InitFileUploadModal(string fileFilters = "")
     {
       modalSize = ModalSize.Default;
-      ChildModalContent = new RenderFragment(builder => {
+      ChildModalContent = new RenderFragment(builder =>
+      {
         builder.OpenComponent<UploadFileDialog>(5);
         builder.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
         builder.AddAttribute(8, "FileFilters", fileFilters);
@@ -99,7 +102,7 @@ namespace BlazorGenerator.Components
     }
 
     public void OpenModal()
-    {      
+    {
       ModalRef.Show();
     }
     public Task OpenModalAsync()

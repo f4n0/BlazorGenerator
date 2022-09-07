@@ -1,0 +1,86 @@
+﻿@inherits LayoutComponentBase
+<Layout Sider>
+    <LayoutSider>
+        <LayoutSiderContent>
+            <NavMenu />
+        </LayoutSiderContent>
+    </LayoutSider>
+    <LayoutContent>
+        <CascadingValue Value="@this">
+            <Layout Height="Height.Max100" Padding="Padding.Is2.OnX">
+                <LayoutContent  Height="Height.Is75">
+                    <ErrorBoundary @ref="errorBoundary">
+                        <ErrorContent>
+                            <DynamicErrorHandler errorBoundary="errorBoundary" />
+                        </ErrorContent>
+                        <ChildContent>
+                            @Body
+                        </ChildContent>
+                    </ErrorBoundary>
+                </LayoutContent>
+                <LayoutFooter Fixed Visibility="GetLogVisibility()" Display="GetLogDisplay()" Height="Height.Is25">
+                    <Log></Log>
+                </LayoutFooter>
+            </Layout>
+        </CascadingValue>
+    </LayoutContent>
+</Layout>
+
+
+<PageProgressAlert />
+<MessageAlert />
+<Choose @ref="ChooseService" />
+<NotificationAlert Style="z-index:99999999 !important;" />
+
+<HeadContent>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
+    <link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css" rel="stylesheet" />
+    <link href="_content/BlazorGenerator/Styles/BlazorGen.css" rel="stylesheet" />
+</HeadContent>
+
+
+@code {
+
+    [Inject] protected BlazorGenOptions Options { get; set; }
+
+    public Choose ChooseService { get; set; }
+
+    private bool showLog = false;
+
+    ErrorBoundary errorBoundary;
+
+    private Visibility GetLogVisibility()
+    {
+        return showLog ? Visibility.Visible : Visibility.Invisible;
+    }
+
+    private IFluentDisplay GetLogDisplay()
+    {
+        return showLog ? Display.Always : Display.None;
+    }
+
+    private IFluentSizing GetContentHeight()
+    {
+        return showLog ? Height.Is75 : Height.Is100;
+    }
+    private IFluentSizing GetFooterHeight()
+    {
+        return showLog ? Height.Is25 : Height.Auto;
+    }
+
+
+    public void setLogVisibility(bool show)
+    {
+        showLog = show;
+        StateHasChanged();
+    }
+
+
+    protected override void OnParametersSet()
+    {
+        showLog = false;
+        errorBoundary?.Recover();
+    }
+}
