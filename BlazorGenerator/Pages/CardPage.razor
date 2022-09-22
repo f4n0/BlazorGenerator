@@ -20,12 +20,13 @@
 				<CardTitle>@Title</CardTitle>
 			</CardHeader>
 			<CardBody>
+              <br />
 				<Fields>
 					@foreach (var fld in VisibleFields)
 					{
-						<Field ColumnSize="@fld.ColumnSize" Horizontal="true">
+						<Field ColumnSize="@fld.ColumnSize" Horizontal="true" >
 							<FieldLabel ColumnSize="ColumnSize.Is3">@(fld.Caption): </FieldLabel>
-							<FieldBody ColumnSize="ColumnSize.Is9">
+							<FieldBody ColumnSize="ColumnSize.Is9" Float="Float.Start">
 								@switch (fld.FieldType)
 								{
 									case BlazorGenerator.Enum.FieldType.Numeric:

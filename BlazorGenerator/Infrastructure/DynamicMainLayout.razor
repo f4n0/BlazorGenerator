@@ -7,8 +7,8 @@
     </LayoutSider>
     <LayoutContent>
         <CascadingValue Value="@this">
-            <Layout Height="Height.Max100" Padding="Padding.Is2.OnX">
-                <LayoutContent  Height="Height.Is75">
+            <Layout Height="Height.Is100" Padding="Padding.Is2.OnX">
+                <LayoutContent Height="Height.Auto">
                     <ErrorBoundary @ref="errorBoundary">
                         <ErrorContent>
                             <DynamicErrorHandler errorBoundary="errorBoundary" />
@@ -27,10 +27,10 @@
 </Layout>
 
 
-<PageProgressAlert />
-<MessageAlert />
+<PageProgressProvider />
+<MessageProvider />
 <Choose @ref="ChooseService" />
-<NotificationAlert Style="z-index:99999999 !important;" />
+<NotificationProvider Style="z-index:99999999 !important;" />
 
 <HeadContent>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">

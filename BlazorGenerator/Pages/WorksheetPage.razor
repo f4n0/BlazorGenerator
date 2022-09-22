@@ -15,7 +15,7 @@
 		}
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
-	<Layout>
+	<LayoutContent>
 		<Collapse Visible="@FieldVisible">
 			<CollapseHeader @onclick="(()=>FieldVisible = !FieldVisible)" Class="customHand">
 				<Heading Size="HeadingSize.Is5">
@@ -72,7 +72,7 @@
 				  Narrow="true"
 				  FixedHeader="true"
 				  FixedHeaderDataGridHeight="75vh"
-				  FixedHeaderDataGridMaxHeight="75vh"
+                  FixedHeaderDataGridMaxHeight="75vh"
 				  Editable
 				  EditMode="@GetEditMode()"
 				  NewItemCreator="@CreateNewItem"
@@ -140,7 +140,7 @@
 			</DataGridColumns>
 
 		</DataGrid>
-	</Layout>
+	</LayoutContent>
 </Layout>
 
 <Modal @ref="@ModalRef" Closing="OnModalClose">
