@@ -8,17 +8,11 @@
 
 <Layout>
 	<LayoutHeader>
-		@if (Options.ShowBreaddcrumbs)
-		{
-			<DynamicBreadcrumbs />
-		}
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
 	<LayoutContent>
+      <br />
 		<Card Margin="Margin.Is4.FromBottom">
-			<CardHeader>
-				<CardTitle>@Title</CardTitle>
-			</CardHeader>
 			<CardBody>
               <br />
 				<Fields>

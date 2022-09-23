@@ -7,13 +7,10 @@
 
 <Layout>
 	<LayoutHeader Fixed >
-		@if (Options.ShowBreaddcrumbs)
-		{
-			<DynamicBreadcrumbs />
-		}
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
 	<LayoutContent>
+      <br />
 		<DataGrid TItem="T"
 				  @ref="@_datagrid"
 				  Data="@Data"
