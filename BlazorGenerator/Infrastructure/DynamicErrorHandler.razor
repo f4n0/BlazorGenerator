@@ -1,7 +1,6 @@
 ﻿@inject INotificationService NotificationService;
 @inject IMessageService MessageService;
 <Div>
-
 </Div>
 
 @code {
@@ -10,15 +9,18 @@
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        ErrorBoundaryBase tmp = errorBoundary;
-        //var fields = tmp.GetType().GetFields();
-        var test = (Exception)GetInstanceField(tmp.GetType().BaseType,tmp, "CurrentException");
+        try
+        {
+            ErrorBoundaryBase tmp = errorBoundary;
+            var test = (Exception)GetInstanceField(tmp.GetType().BaseType, tmp, "CurrentException");
+            ConsoleLog("Start Error Logging");
+            ConsoleLog(test.Message);
+            ConsoleLog(test.StackTrace);
+            ConsoleLog("End Error Logging");
+        }
+        catch { }
         errorBoundary.Recover();
         MessageService.Error("An Unexpected error occurred!", "Error");
-        ConsoleLog("Start Error Logging");
-        ConsoleLog(test.Message);
-        ConsoleLog(test.StackTrace);
-        ConsoleLog("End Error Logging");
         return base.OnAfterRenderAsync(firstRender);
     }
 

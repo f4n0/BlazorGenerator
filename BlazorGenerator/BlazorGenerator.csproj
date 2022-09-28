@@ -19,12 +19,12 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Blazorise" Version="1.1.0-rc1" />
-    <PackageReference Include="Blazorise.Bootstrap" Version="1.1.0-rc1" />
-    <PackageReference Include="Blazorise.Bootstrap5" Version="1.1.0-rc1" />
-    <PackageReference Include="Blazorise.Components" Version="1.1.0-rc1" />
-    <PackageReference Include="Blazorise.DataGrid" Version="1.1.0-rc1" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.0-rc1" />
+    <PackageReference Include="Blazorise" Version="1.1.0" />
+    <PackageReference Include="Blazorise.Bootstrap" Version="1.1.0" />
+    <PackageReference Include="Blazorise.Bootstrap5" Version="1.1.0" />
+    <PackageReference Include="Blazorise.Components" Version="1.1.0" />
+    <PackageReference Include="Blazorise.DataGrid" Version="1.1.0" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.9" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.18.0" />
