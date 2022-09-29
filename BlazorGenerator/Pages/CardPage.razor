@@ -1,90 +1,94 @@
 ﻿@{
-	var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-	var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
-	var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
+    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+    var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
+    var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
 }
 @typeparam T
 @inherits BlazorgenBaseComponent
 
 <Layout>
-	<LayoutHeader>
-		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
-	</LayoutHeader>
-	<LayoutContent>
-      <br />
-		<Card Margin="Margin.Is4.FromBottom">
-			<CardBody>
-              <br />
-				<Fields>
-					@foreach (var fld in VisibleFields)
-					{
-						<Field ColumnSize="@fld.ColumnSize" Horizontal="true" >
-							<FieldLabel ColumnSize="ColumnSize.Is3">@(fld.Caption): </FieldLabel>
-							<FieldBody ColumnSize="ColumnSize.Is9" Float="Float.Start">
-								@switch (fld.FieldType)
-								{
-									case BlazorGenerator.Enum.FieldType.Numeric:
-										<BlazorGenerator.Pages.Partials.Numeric T="T" Data="Data" Field="fld" />
-										break;
-									case BlazorGenerator.Enum.FieldType.Boolean:
-                                        <BlazorGenerator.Pages.Partials.Checkbox T="T" Data="Data" Field="fld" />
-										break;
-									case BlazorGenerator.Enum.FieldType.Select:
-										<BlazorGenerator.Pages.Partials.Dropdown T="T" Data="Data" Field="fld" />
-										break;
-									case BlazorGenerator.Enum.FieldType.Button:
-                                        <BlazorGenerator.Pages.Partials.Btn T="T" Data="Data" Field="fld" />
-										break;
-									case BlazorGenerator.Enum.FieldType.Custom:
-                                        <BlazorGenerator.Pages.Partials.Custom T="T" Data="Data" Field="fld" />
-										break;
-									default:
-                                        <BlazorGenerator.Pages.Partials.Txt T="T" Data="Data" Field="fld" />
-										break;
-								}
-							</FieldBody>
-						</Field>
-					}
-				</Fields>
-				<br />
-				@if (BasicActions.EditAction || BasicActions.NewAction)
-				{
-					<Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
-				}
-			</CardBody>
-		</Card>
+    <LayoutHeader>
+        <ActionBar PageActions="@PageActions" Context="this"></ActionBar>
+    </LayoutHeader>
+    <LayoutContent Padding="Padding.Is2.OnX">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardBody>
+                <Row>
+                    @foreach (var fld in VisibleFields)
+                    {
 
-		@{
-			foreach (var item in Subforms)
-			{
-				<Card Margin="Margin.Is4.FromBottom">
-					<CardHeader>
-						<CardTitle>@item.Attribute.Caption</CardTitle>
-					</CardHeader>
-					<CardBody>
-						@{
-							var f = new RenderFragment(builder =>
-							{
-								builder.OpenComponent(0, item.Property.PropertyType);
-								builder.CloseComponent();
-							});
+                        <Column ColumnSize="@fld.ColumnSize">
+                            <Field Horizontal="true">
+                                <FieldLabel>@(fld.Caption): </FieldLabel>
+                                <FieldBody>
+                                    @switch (fld.FieldType)
+                                    {
+                                        case BlazorGenerator.Enum.FieldType.Numeric:
+                                            <BlazorGenerator.Pages.Partials.Numeric T="T" Data="Data" Field="fld" />
+                                            break;
+                                        case BlazorGenerator.Enum.FieldType.Boolean:
+                                            <BlazorGenerator.Pages.Partials.Checkbox T="T" Data="Data" Field="fld" />
+                                            break;
+                                        case BlazorGenerator.Enum.FieldType.Select:
+                                            <BlazorGenerator.Pages.Partials.Dropdown T="T" Data="Data" Field="fld" />
+                                            break;
+                                        case BlazorGenerator.Enum.FieldType.Button:
+                                            <BlazorGenerator.Pages.Partials.Btn T="T" Data="Data" Field="fld" />
+                                            break;
+                                        case BlazorGenerator.Enum.FieldType.Custom:
+                                            <BlazorGenerator.Pages.Partials.Custom T="T" Data="Data" Field="fld" />
+                                            break;
+                                        default:
+                                            <BlazorGenerator.Pages.Partials.Txt T="T" Data="Data" Field="fld" />
+                                            break;
+                                    }
+                                </FieldBody>
+                            </Field>
 
-							@f
-						}
-					</CardBody>
-				</Card>
-			}
-		}
-	</LayoutContent>
+                        </Column>
+                    }
+
+                </Row>
+
+                <br />
+                @if (BasicActions.EditAction || BasicActions.NewAction)
+                {
+                    <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
+                }
+            </CardBody>
+        </Card>
+
+        @{
+            foreach (var item in Subforms)
+            {
+                <Card Margin="Margin.Is4.FromBottom">
+                    <CardHeader>
+                        <CardTitle>@item.Attribute.Caption</CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        @{
+                            var f = new RenderFragment(builder =>
+                            {
+                                builder.OpenComponent(0, item.Property.PropertyType);
+                                builder.CloseComponent();
+                            });
+
+                            @f
+                        }
+                    </CardBody>
+                </Card>
+            }
+        }
+    </LayoutContent>
 </Layout>
 
 
 
 <Modal @ref="@ModalRef" Closing="OnModalClose">
-	<ModalContent Centered Size="@modalSize">
-		<ModalHeader>
-			<CloseButton />
-		</ModalHeader>
-		<ModalBody ChildContent="@ChildModalContent" />
-	</ModalContent>
+    <ModalContent Centered Size="@modalSize">
+        <ModalHeader>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody ChildContent="@ChildModalContent" />
+    </ModalContent>
 </Modal>

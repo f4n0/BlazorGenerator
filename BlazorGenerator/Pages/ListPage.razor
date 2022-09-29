@@ -9,8 +9,7 @@
 	<LayoutHeader Fixed >
 		<ActionBar PageActions="@PageActions" Context="this"></ActionBar>
 	</LayoutHeader>
-	<LayoutContent>
-      <br />
+	<LayoutContent Padding="Padding.Is2.OnX">
 		<DataGrid TItem="T"
 				  @ref="@_datagrid"
 				  Data="@Data"

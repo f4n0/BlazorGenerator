@@ -1,31 +1,32 @@
 ﻿@inherits LayoutComponentBase
-<Layout Sider>
-    <LayoutSider>
-        <LayoutSiderContent>
-            <NavMenu />
-        </LayoutSiderContent>
-    </LayoutSider>
-    <LayoutContent>
-        <CascadingValue Value="@this">
-            <Layout Height="Height.Is100" Padding="Padding.Is2.OnX">
-                <LayoutContent Height="Height.Auto">
-                    <ErrorBoundary @ref="errorBoundary">
-                        <ErrorContent>
-                            <DynamicErrorHandler errorBoundary="errorBoundary" />
-                        </ErrorContent>
-                        <ChildContent>
-                            @Body
-                        </ChildContent>
-                    </ErrorBoundary>
-                </LayoutContent>
-                <LayoutFooter Fixed Visibility="GetLogVisibility()" Display="GetLogDisplay()" Height="Height.Is25">
-                    <Log></Log>
-                </LayoutFooter>
-            </Layout>
-        </CascadingValue>
-    </LayoutContent>
-</Layout>
-
+<ThemeProvider Theme="@theme">
+    <Layout Sider>
+        <LayoutSider>
+            <LayoutSiderContent>
+                <NavMenu />
+            </LayoutSiderContent>
+        </LayoutSider>
+        <LayoutContent>
+            <CascadingValue Value="@this">
+                <Layout Height="Height.Is100">
+                    <LayoutContent Height="Height.Auto">
+                        <ErrorBoundary @ref="errorBoundary">
+                            <ErrorContent>
+                                <DynamicErrorHandler errorBoundary="errorBoundary" />
+                            </ErrorContent>
+                            <ChildContent>
+                                @Body
+                            </ChildContent>
+                        </ErrorBoundary>
+                    </LayoutContent>
+                    <LayoutFooter Fixed Visibility="GetLogVisibility()" Display="GetLogDisplay()" Height="Height.Is25">
+                        <Log></Log>
+                    </LayoutFooter>
+                </Layout>
+            </CascadingValue>
+        </LayoutContent>
+    </Layout>
+</ThemeProvider>
 
 <PageProgressProvider />
 <MessageProvider />
@@ -40,10 +41,18 @@
     <link href="_content/BlazorGenerator/Styles/BlazorGen.css" rel="stylesheet" />
 </HeadContent>
 
+<style>
+	.fa, .fas {
+		color: #1e88e5;
+	}
+</style>
+
 
 @code {
 
     [Inject] protected BlazorGenOptions Options { get; set; }
+
+    private Theme theme { get; set; }
 
     public Choose ChooseService { get; set; }
 
@@ -82,5 +91,8 @@
     {
         showLog = false;
         errorBoundary?.Recover();
+
+        theme = Options.Theme;
+        theme.ThemeHasChanged();
     }
 }

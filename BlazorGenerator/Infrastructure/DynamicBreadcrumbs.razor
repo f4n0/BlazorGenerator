@@ -2,9 +2,9 @@
 
 @if (UriParts.Count > 0)
 {
-	<Breadcrumb Margin="Margin.Is2.FromTop" Background="Background.Light">
+	<Breadcrumb Padding="Padding.Is2.OnX" Style="--bs-breadcrumb-divider: '>';">
 		<BreadcrumbItem>
-			<BreadcrumbLink To="/">Home</BreadcrumbLink>
+            <BreadcrumbLink To="/">Home</BreadcrumbLink>
 		</BreadcrumbItem>
 
 		<Repeater Items="UriParts">

@@ -39,7 +39,7 @@ namespace BlazorGenerator.Infrastructure
     [Inject]
     public BlazorGenOptions Options { get; set; }
 
-    public virtual string Title => "";
+    public virtual string Title => this.GetType().Name;
 
 
     public void StartLoader()
