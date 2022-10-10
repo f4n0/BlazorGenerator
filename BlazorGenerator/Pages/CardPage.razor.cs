@@ -22,5 +22,13 @@ namespace BlazorGenerator.Pages
     {
     }
 
+    public override void Dispose()
+    {
+      if (IsModal)
+      {
+        ModalSuccess(Data);
+      }
+    }
+
   }
 }

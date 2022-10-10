@@ -1,4 +1,6 @@
 ﻿@using System.IO
+@inherits BlazorgenBaseComponent
+
 
 <Card>
 	<CardHeader>
@@ -11,37 +13,34 @@
 </Card>
 
 @code {
-	FileEdit FileRef;
+    FileEdit FileRef;
 
-	[Parameter]
-	public string FileFilters { get; set; }
+    [Parameter]
+    public string FileFilters { get; set; }
 
-	[Parameter]
-	public EventCallback<object> onSave { get; set; }
+    List<byte[]> data = new List<byte[]>();
 
-	async Task OnFileChanged(FileChangedEventArgs e)
-	{
-		List<byte[]> data = new List<byte[]>();
-		try
-		{
-			foreach (var file in e.Files)
-			{
-				using (var stream = new System.IO.MemoryStream())
-				{
-					await file.WriteToStreamAsync(stream);
-					stream.Seek(0, SeekOrigin.Begin);
-					data.Add(stream.ToArray());
-				}
-			}
-		}
-		catch (Exception exc)
-		{
-			Console.WriteLine(exc.Message);
-		}
-		finally
-		{
-			await onSave.InvokeAsync(data);
-			this.StateHasChanged();
-		}
-	}
+    async Task OnFileChanged(FileChangedEventArgs e)
+    {
+        try
+        {
+            foreach (var file in e.Files)
+            {
+                using (var stream = new System.IO.MemoryStream())
+                {
+                    await file.WriteToStreamAsync(stream);
+                    stream.Seek(0, SeekOrigin.Begin);
+                    data.Add(stream.ToArray());
+                }
+            }
+        }
+        catch (Exception exc)
+        {
+            Console.WriteLine(exc.Message);
+        }
+        finally{          
+           ModalSuccess(data);
+        }
+    }
+
 }

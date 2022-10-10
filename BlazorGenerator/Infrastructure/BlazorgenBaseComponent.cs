@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.Dialogs;
+using BlazorGenerator.Services;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -10,14 +11,18 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Infrastructure
 {
-  public class BlazorgenBaseComponent : ComponentBase
+  public class BlazorgenBaseComponent : ComponentBase, IDisposable
   {
+
     [CascadingParameter]
     protected DynamicMainLayout layout { get; set; }
 
+    [Inject]
+    protected BlazorGenLogger logger { get; set; }
+
     public void setLogVisibility(bool show)
     {
-      layout.setLogVisibility(show);
+      layout?.setLogVisibility(show);
     }
 
     public async Task<string> ShowChoose(string header, string[] options, string cancelText = "Cancel")
@@ -51,68 +56,100 @@ namespace BlazorGenerator.Infrastructure
       PageProgressService.Go(-1);
     }
 
-    internal Modal ModalRef;
-    internal RenderFragment ChildModalContent;
-    internal ModalSize modalSize = ModalSize.ExtraLarge;
 
 
-    public void InitModal<TModalType, TModalData>(object ModalData) where TModalType : ModalPage<TModalData>
+
+    #region Modal
+
+    [Inject]
+    public IModalService ModalService { get; set; }
+    [Parameter]
+    public bool IsModal { get; set; }
+
+    TaskCompletionSource<object> AwaitModal;
+    [Parameter] public Func<object, Task> ModalSuccess { get; set; }
+
+
+    public void OpenModal<TComponent>()
     {
-      ChildModalContent = new RenderFragment(builder =>
-      {
-        builder.OpenComponent<TModalType>(5);
-        builder.AddAttribute(6, "Data", ModalData);
-        builder.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
-        builder.CloseComponent();
-      });
-
-      StateHasChanged();
+      Dictionary<string, object> parameters = new();
+      OpenModal<TComponent>(parameters);
     }
 
-    // Summary:
-    //     Specifies the types of files that the input accepts. https://www.w3schools.com/tags/att_input_accept.asp"
-    public void InitFileUploadModal(string fileFilters = "")
+    public void OpenModal<TComponent>(Dictionary<string, object> parameters)
     {
-      modalSize = ModalSize.Default;
-      ChildModalContent = new RenderFragment(builder =>
+      parameters.Add(nameof(BlazorgenBaseComponent.IsModal), true);
+      ModalService.Show<TComponent>(o =>
       {
-        builder.OpenComponent<UploadFileDialog>(5);
-        builder.AddAttribute(7, "onSave", EventCallback.Factory.Create<object>(this, ModalCallback));
-        builder.AddAttribute(8, "FileFilters", fileFilters);
-        builder.CloseComponent();
+        foreach (var item in parameters)
+        {
+          o.Add(item.Key, item.Value);
+        }
+      }, new ModalInstanceOptions
+      {
+        Width = Width.Max100,
+        Size = ModalSize.ExtraLarge
       });
-
-      StateHasChanged();
     }
 
-    public Task OnModalClose(ModalClosingEventArgs e)
+    public async Task<object> OpenModalAsync<TComponent>()
     {
-      if (e.CloseReason != CloseReason.None)
+      Dictionary<string, object> parameters = new();
+      return await OpenModalAsync<TComponent>(parameters);
+    }
+
+    public async Task<object> OpenModalAsync<TComponent>(Dictionary<string, object> parameters)
+    {
+      parameters.Add(nameof(BlazorgenBaseComponent.IsModal), true);
+
+      var Instance = await ModalService.Show<TComponent>(o =>
       {
-        OnModalSave(null);
-      }
+        foreach (var item in parameters)
+        {
+          o.Add(item.Key, item.Value);
+        }
+        o.Add(nameof(BlazorgenBaseComponent.ModalSuccess), ModalData);
+      }, new ModalInstanceOptions
+      {
+        Size = ModalSize.ExtraLarge
+      });
+      AwaitModal = new();
+      var returnData = await AwaitModal.Task;
+      await ModalService.Hide();
+      return returnData;
+    }
+
+    Task ModalData(object response)
+    {
+      AwaitModal.SetResult(response);
       return Task.CompletedTask;
     }
-
-    Task ModalCallback(object response)
+    
+    public virtual void Dispose()
     {
-      OnModalSave(response);
-      ModalRef.Close(CloseReason.None);
-      return Task.CompletedTask;
     }
 
-    public void OpenModal()
+    #endregion
+
+
+    #region FilePicker
+      
+    public Task<object> ShowFilePicker()
     {
-      ModalRef.Show();
+     return OpenModalAsync<UploadFileDialog>();
     }
-    public Task OpenModalAsync()
+    #endregion
+
+    public void SendLogMessage(string message, Enum.LogType logType = Enum.LogType.Info)
     {
-      return ModalRef.Show();
+      logger.SendLogMessage(message, logType);
     }
 
 
     public virtual void OnModalSave(object data)
     {
     }
+
+
   }
 }

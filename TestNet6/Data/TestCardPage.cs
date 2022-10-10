@@ -52,6 +52,15 @@ namespace TestNet6.Data
       NavManager.NavigateTo("/test/prova");
     }
 
+    [PageAction]
+    public async Task TestModalAsync()
+    {
+      var t = new Dictionary<string, object>();
+      t.Add(nameof(TestNewModal.test), "stanislav");
+      var test = (TestNewModal) await OpenModalAsync<TestNewModal>(t);
+      MessageService.Success(test.test);
+    }
+
 
     [PageAction]
     public async Task ChoseAsync()
@@ -60,34 +69,14 @@ namespace TestNet6.Data
       MessageService.Success(res);
     }
 
-    [PageAction]
-    public void ShowModal()
-    {
-      var tmp = new MyModalContent() { Summary = "element aa", Summary2 = "elementbb", Summary3 = "cc" };
-      InitModal<MyModalContent, MyModalContent>(tmp);
-      OpenModal();
-
-    }
-
+   
 
     [PageAction]
-    public void ShowUpload()
+    public async Task ShowUploadAsync()
     {
-      InitFileUploadModal(".txt"); 
-      OpenModal();
+      var data = await ShowFilePicker();
     }
 
-    public override void OnModalSave(object data)
-    {
-      if (data == null)
-        return;
-
-      if(data.GetType() == typeof(byte[]))
-      {
-        var content = System.Text.Encoding.Default.GetString((byte[])data);
-         MessageService.Success(content);
-      }
-    }
 
 
     [PageAction]
