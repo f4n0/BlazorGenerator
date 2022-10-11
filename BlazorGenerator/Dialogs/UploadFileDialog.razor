@@ -3,13 +3,15 @@
 
 
 <Card>
-	<CardHeader>
-		<CardTitle>Upload file</CardTitle>
-	</CardHeader>
-	<CardBody>
-		<p>Choose a file to upload</p>
-		<FileEdit @ref="FileRef" Changed="OnFileChanged" Filter="@FileFilters"></FileEdit>
-	</CardBody>
+    <CardHeader>
+        else
+        {
+            <CardTitle>Upload file</CardTitle>
+        }
+    </CardHeader>
+    <CardBody>
+        <FileEdit @ref="FileRef" Changed="OnFileChanged" Filter="@FileFilters"></FileEdit>
+    </CardBody>
 </Card>
 
 @code {
@@ -17,6 +19,7 @@
 
     [Parameter]
     public string FileFilters { get; set; }
+
 
     List<byte[]> data = new List<byte[]>();
 
@@ -38,8 +41,9 @@
         {
             Console.WriteLine(exc.Message);
         }
-        finally{          
-           ModalSuccess(data);
+        finally
+        {
+            ModalSuccess(data);
         }
     }
 

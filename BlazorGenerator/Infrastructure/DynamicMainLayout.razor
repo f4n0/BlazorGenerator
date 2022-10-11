@@ -1,4 +1,7 @@
 ﻿@inherits LayoutComponentBase
+
+
+
 <ThemeProvider Theme="@theme">
     <Layout Sider>
         <LayoutSider>
@@ -6,33 +9,33 @@
                 <NavMenu />
             </LayoutSiderContent>
         </LayoutSider>
-        <LayoutContent>
-            <CascadingValue Value="@this">
-                <Layout Height="Height.Is100">
-                    <LayoutContent Height="Height.Auto">
-                        <ErrorBoundary @ref="errorBoundary">
-                            <ErrorContent>
-                                <DynamicErrorHandler errorBoundary="errorBoundary" />
-                            </ErrorContent>
-                            <ChildContent>
-                                    @Body
-                            </ChildContent>
-                        </ErrorBoundary>
-                    </LayoutContent>
-                    <LayoutFooter Fixed Visibility="GetLogVisibility()" Display="GetLogDisplay()" Height="Height.Is25">
-                        <Log></Log>
-                    </LayoutFooter>
-                </Layout>
-            </CascadingValue>
-        </LayoutContent>
+        <CascadingValue Value="@this">
+            <Layout>
+                <LayoutContent>
+                    <PageProgressProvider />
+                    <MessageProvider />
+                    <Choose @ref="ChooseService" />
+                    <NotificationProvider Style="z-index:99999999 !important;" />
+                    <ModalProvider Size="ModalSize.Large" />
+                    <ErrorBoundary @ref="errorBoundary">
+                        <ErrorContent>
+                            <DynamicErrorHandler errorBoundary="errorBoundary" />
+                        </ErrorContent>
+                        <ChildContent>
+                            @Body
+                        </ChildContent>
+                    </ErrorBoundary>
+
+                </LayoutContent>
+                <LayoutFooter Fixed=true>
+                    <Log></Log>
+                </LayoutFooter>
+            </Layout>
+        </CascadingValue>
     </Layout>
 </ThemeProvider>
 
-<PageProgressProvider />
-<MessageProvider />
-<Choose @ref="ChooseService" />
-<ModalProvider />
-<NotificationProvider Style="z-index:99999999 !important;" />
+
 
 <HeadContent>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
@@ -73,7 +76,7 @@
 
     private IFluentSizing GetContentHeight()
     {
-        return showLog ? Height.Is75 : Height.Is100;
+        return showLog ? Height.Is75 : Height.Auto;
     }
     private IFluentSizing GetFooterHeight()
     {

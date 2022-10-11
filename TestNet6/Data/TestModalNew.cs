@@ -30,8 +30,6 @@ namespace TestNet6.Data
 
     protected override void OnInitialized()
     {
-      setLogVisibility(true);
-
       VisibleFields = new List<VisibleField<TestNewModal>>() {
         new VisibleField<TestNewModal>(nameof(test)){Getter = f => f.test, Setter = (f,v)=>f.test = v.ToString(), FullWidht=true, Editable= true}
 

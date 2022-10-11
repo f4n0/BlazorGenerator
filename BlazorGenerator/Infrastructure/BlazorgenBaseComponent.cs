@@ -111,7 +111,7 @@ namespace BlazorGenerator.Infrastructure
         o.Add(nameof(BlazorgenBaseComponent.ModalSuccess), ModalData);
       }, new ModalInstanceOptions
       {
-        Size = ModalSize.ExtraLarge
+
       });
       AwaitModal = new();
       var returnData = await AwaitModal.Task;
@@ -121,7 +121,7 @@ namespace BlazorGenerator.Infrastructure
 
     Task ModalData(object response)
     {
-      AwaitModal.SetResult(response);
+      AwaitModal.TrySetResult(response);
       return Task.CompletedTask;
     }
     
@@ -129,11 +129,19 @@ namespace BlazorGenerator.Infrastructure
     {
     }
 
+    protected override void OnInitialized()
+    {
+      if(IsModal)
+      {
+        setLogVisibility(false);
+      }
+    }
+
     #endregion
 
 
-    #region FilePicker
-      
+    #region Files
+
     public Task<object> ShowFilePicker()
     {
      return OpenModalAsync<UploadFileDialog>();
