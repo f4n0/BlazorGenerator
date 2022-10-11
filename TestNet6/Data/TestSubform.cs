@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TestNet6.Data
 {
-  [AddToMenu(Title = "Card with Subform", Route = route, OrderSequence = 4)]
+  [AddToMenu(Title = "Card with Subform", Route = route, OrderSequence = 4, Group = "Group")]
   [Route(route)]
   public class TestSubform : CardPage<TestSubform>
   {

@@ -24,8 +24,6 @@ namespace BlazorGenerator
       LuminanceThreshold = 170,
       BarOptions = new()
       {
-        HorizontalHeight = "64px",
-        VerticalBrandHeight = "64px",
         LightColors = new()
         {
           ItemColorOptions = new()

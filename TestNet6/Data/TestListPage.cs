@@ -117,6 +117,26 @@ namespace TestNet6.Data
         Refresh();
       }
     }
+    [PageAction("Delete all 2", "gruppo1")]
+    public void Action22()
+    {
+      Data.Clear();
+      Refresh();
+    }
+
+    [PageAction("Test2", "gruppo1")]
+    public void Action32()
+    {
+      if (SelectedRecs.Count > 0)
+      {
+        var index = Data.IndexOf(SelectedRecs.First());
+        var orig = Data[index];
+        orig.Test = "I've Changed It";
+        Data[index] = orig;
+        Refresh();
+      }
+    }
+
 
     public override TestListPage CreateNewItem()
     {

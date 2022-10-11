@@ -1,83 +1,90 @@
 ﻿@inject BlazorGenOptions options;
 
-<Bar Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Small"
-	 Breakpoint="Breakpoint.Desktop"
-	 Background="Background.Light"
-	 ThemeContrast="ThemeContrast.Light">
-	<BarToggler />
-	<BarBrand>
-		<BarItem>
-			<BarLink To="/">
-				<BarIcon IconName="IconName.Dashboard" />
-				Home
-			</BarLink>			
-		</BarItem>
-	</BarBrand>
+<Bar Mode="BarMode.VerticalInline"
+     CollapseMode="BarCollapseMode.Small"
+     Breakpoint="Breakpoint.Desktop"
+     Background="Background.Light"
+     ThemeContrast="ThemeContrast.Light"
+@ref="Menu">
+    <BarToggler />
+    <BarBrand>
+        <BarItem>
+            <BarLink To="/">
+                <BarIcon IconName="IconName.Dashboard" />
+                Home
+            </BarLink>
+        </BarItem>
+    </BarBrand>
 
-	<BarMenu>
-		<BarStart>
-			@{
-				PopulateDictionary();
+    <BarMenu>
+        <BarStart>
+            @{
+                PopulateDictionary();
 
-				foreach (var item in MenuGroups)
-				{
-					var filtered = menus.Where(o => o.Group == item.Key);
-					if (item.Key.ToLower() == "default" || item.Value == 1)
-					{
-						foreach (var elem in filtered)
-						{
-								<BarItem>
-									<BarLink To="@elem.Route">
-										<BarIcon IconName="@elem.Icon" />
-										@elem.Title
-									</BarLink>
-								</BarItem>
-						}
-					}
-					else
-					{
-							<BarItem>
-								<BarDropdown>
-									<BarDropdownToggle>@item.Key</BarDropdownToggle>
-									<BarDropdownMenu>
-										@foreach (var elem in filtered)
-									{
-											<BarDropdownItem>
-												<BarLink To="@elem.Route">
-													<BarIcon IconName="@elem.Icon" />
-													@elem.Title
-												</BarLink>
-											</BarDropdownItem>
-									}
-									</BarDropdownMenu>
-								</BarDropdown>
-							</BarItem>
-					}
-				}
-			}
-		</BarStart>
-	</BarMenu>
+                foreach (var item in MenuGroups)
+                {
+                    var filtered = menus.Where(o => o.Group == item.Key);
+                    if (item.Key.ToLower() == "default" || item.Value == 1)
+                    {
+                        foreach (var elem in filtered)
+                        {
+                            <BarItem TextOverflow="TextOverflow.Truncate">
+                                <BarLink To="@elem.Route">
+                                        <BarIcon IconName="@elem.Icon" />
+                                        @elem.Title
+                                </BarLink>
+                            </BarItem>
+                        }
+                    }
+                    else
+                    {
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                        <BarIcon IconName="IconName.AlignJustify" />
+                                        @item.Key
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    @foreach (var elem in filtered)
+                                    {
+                                        <BarDropdownItem Padding="Padding.Is0.OnAll.Is2.FromStart">
+                                            <BarLink To="@elem.Route">
+                                                    <BarIcon IconName="@elem.Icon" />
+                                                    @elem.Title
+                                            </BarLink>
+                                        </BarDropdownItem>
+                                    }
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                    }
+                }
+            }
+        </BarStart>
+    </BarMenu>
 </Bar>
 
-@code {	
-	Dictionary<string, int> MenuGroups { get; set; }
-	IEnumerable<AddToMenuAttribute> menus { get; set; }
+@code {
+    Dictionary<string, int> MenuGroups { get; set; }
+    IEnumerable<AddToMenuAttribute> menus { get; set; }
+    Bar Menu { get; set; }
 
-	void PopulateDictionary()
-	{
-		menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute).OrderBy((o)=>o.OrderSequence);;
-		MenuGroups = new Dictionary<string, int>();
-		
-		foreach (var item in menus)
-		{
-			if (MenuGroups.ContainsKey(item.Group))
-			{
-				MenuGroups[item.Group]++;
-			}
-			else
-			{
-				MenuGroups.Add(item.Group, 1);
-			}
-		}
-	}
+    void PopulateDictionary()
+    {
+        
+        menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute).OrderBy((o) => o.OrderSequence); 
+        MenuGroups = new Dictionary<string, int>();
+
+        foreach (var item in menus)
+        {
+            if (MenuGroups.ContainsKey(item.Group))
+            {
+                MenuGroups[item.Group]++;
+            }
+            else
+            {
+                MenuGroups.Add(item.Group, 1);
+            }
+        }
+    }
 }
