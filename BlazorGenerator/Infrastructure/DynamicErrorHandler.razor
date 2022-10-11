@@ -19,7 +19,7 @@
             ConsoleLog("End Error Logging");
         }
         catch { }
-        errorBoundary.Recover();
+        //errorBoundary.Recover();
         MessageService.Error("An Unexpected error occurred!", "Error");
         return base.OnAfterRenderAsync(firstRender);
     }

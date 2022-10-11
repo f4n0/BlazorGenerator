@@ -127,6 +127,7 @@ namespace BlazorGenerator.Infrastructure
     
     public virtual void Dispose()
     {
+      
     }
 
     protected override void OnInitialized()
@@ -153,10 +154,6 @@ namespace BlazorGenerator.Infrastructure
       logger.SendLogMessage(message, logType);
     }
 
-
-    public virtual void OnModalSave(object data)
-    {
-    }
 
 
   }
