@@ -16,9 +16,21 @@ namespace BlazorGenerator.Infrastructure
 
     [CascadingParameter]
     protected DynamicMainLayout layout { get; set; }
-
     [Inject]
     protected BlazorGenLogger logger { get; set; }
+    [Inject]
+    public IPageProgressService PageProgressService { get; set; }
+    [Inject]
+    public IMessageService MessageService { get; set; }
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+    [Inject]
+    public INotificationService NotificationService { get; set; }
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+    [Inject]
+    public BlazorGenOptions Options { get; set; }
+
 
     public void setLogVisibility(bool show)
     {
@@ -30,22 +42,7 @@ namespace BlazorGenerator.Infrastructure
       return await layout.ChooseService.ChoseAsync(header, options, cancelText);
     }
 
-    [Inject]
-    public IPageProgressService PageProgressService { get; set; }
-    [Inject]
-    public IMessageService MessageService { get; set; }
-    [Inject]
-    public IJSRuntime JSRuntime { get; set; }
-    [Inject]
-    public INotificationService NotificationService { get; set; }
-    [Inject]
-    public NavigationManager NavManager { get; set; }
-
-    [Inject]
-    public BlazorGenOptions Options { get; set; }
-
     public virtual string Title => this.GetType().Name;
-
 
     public void StartLoader()
     {
@@ -124,18 +121,19 @@ namespace BlazorGenerator.Infrastructure
       AwaitModal.TrySetResult(response);
       return Task.CompletedTask;
     }
-    
+
     public virtual void Dispose()
     {
-      
+      GC.SuppressFinalize(this);
     }
 
-    protected override void OnInitialized()
+    protected override Task OnParametersSetAsync()
     {
-      if(IsModal)
+      if (IsModal)
       {
         setLogVisibility(false);
       }
+      return base.OnParametersSetAsync();
     }
 
     #endregion
@@ -145,7 +143,7 @@ namespace BlazorGenerator.Infrastructure
 
     public Task<object> ShowFilePicker()
     {
-     return OpenModalAsync<UploadFileDialog>();
+      return OpenModalAsync<UploadFileDialog>();
     }
     #endregion
 

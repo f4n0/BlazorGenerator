@@ -9,14 +9,9 @@
                 <NavMenu />
             </LayoutSiderContent>
         </LayoutSider>
-        <CascadingValue Value="@this">
-            <Layout>
-                <LayoutContent>
-                    <PageProgressProvider />
-                    <MessageProvider />
-                    <Choose @ref="ChooseService" />
-                    <NotificationProvider Style="z-index:99999999 !important;" />
-                    <ModalProvider Size="ModalSize.Large" />
+        <Layout>
+            <LayoutContent>
+                <CascadingValue Value="@this">
                     <ErrorBoundary @ref="errorBoundary">
                         <ErrorContent>
                             <DynamicErrorHandler errorBoundary="errorBoundary" />
@@ -26,15 +21,20 @@
                         </ChildContent>
                     </ErrorBoundary>
 
-                </LayoutContent>
-                <LayoutFooter Fixed=true Display="GetLogDisplay()" Visibility="GetLogVisibility()">
-                    <Log></Log>
-                </LayoutFooter>
-            </Layout>
-        </CascadingValue>
+                </CascadingValue>
+                    <ModalProvider Size="ModalSize.Large" RenderMode="ModalRenderMode.LazyLoad"/>
+            </LayoutContent>
+            <LayoutFooter Fixed=true Display="GetLogDisplay()" Visibility="GetLogVisibility()">
+                <Log></Log>
+            </LayoutFooter>
+        </Layout>
     </Layout>
 </ThemeProvider>
 
+<PageProgressProvider />
+<MessageProvider />
+<Choose @ref="ChooseService" />
+<NotificationProvider Style="z-index:99999999 !important;" />
 
 
 <HeadContent>

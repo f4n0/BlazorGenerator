@@ -34,7 +34,8 @@ namespace BlazorGenerator
             HoverColor = "#000000",
 
           },
-        }        
+        },
+        HorizontalHeight = "72px"        
       },
       ColorOptions = new()
       {
@@ -54,7 +55,7 @@ namespace BlazorGenerator
       InputOptions = new()
       {
         CheckColor = "#1e88e5",
-      }      
+      }
 
     };
 

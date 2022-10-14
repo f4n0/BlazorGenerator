@@ -5,11 +5,11 @@
 @typeparam T
 @inherits BlazorgenBaseComponent
 
-<Layout Height="Height.Is100">
+<Layout>    
     <LayoutHeader Fixed>
         <ActionBar PageActions="@PageActions" Context="this"></ActionBar>
     </LayoutHeader>
-    <LayoutContent>
+    <Layout>
         <Container Fluid>
             <DataGrid TItem="T"
                       @ref="@_datagrid"
@@ -26,8 +26,8 @@
                       Responsive="true"
                       Narrow="true"
                       FixedHeader="true"
-                      FixedHeaderDataGridHeight="100%"
-                      FixedHeaderDataGridMaxHeight="85svh"                      
+                      FixedHeaderDataGridHeight="80vh"       
+                      FixedHeaderDataGridMaxHeight="90vh"                
                       Editable
                       EditMode="@GetEditMode()"
                       NewItemCreator="@CreateNewItem"
@@ -98,5 +98,5 @@
 
             </DataGrid>
         </Container>
-    </LayoutContent>
+    </Layout>
 </Layout>
