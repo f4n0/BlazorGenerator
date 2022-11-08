@@ -23,8 +23,8 @@
                             foreach (var action in filtered)
                             {
                                 <BarItem Border="Border.Is1.OnStart.OnStart">
-                                    <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" To="#">
-                                        <Icon Name="@action.Attribute.Icon" />
+                                    <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link">
+                                        <BarIcon IconName="@action.Attribute.Icon" />
                                         @(action.Attribute.Caption ?? action.Method.Name)
                                     </BarLink>
                                 </BarItem>
@@ -38,8 +38,8 @@
                                     <BarDropdownMenu>
                                         @foreach (var action in filtered)
                                         {
-                                            <BarDropdownItem>
-                                                <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" To="#">
+                                            <BarDropdownItem Padding="Padding.Is0.OnAll.Is2.FromStart">
+                                                <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link">
                                                     <Icon Name="@action.Attribute.Icon" />
                                                     @(action.Attribute.Caption ?? action.Method.Name)
                                                 </BarLink>
