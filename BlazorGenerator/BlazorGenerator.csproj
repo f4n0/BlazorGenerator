@@ -26,7 +26,7 @@
     <PackageReference Include="Blazorise.DataGrid" Version="1.1.5" />
     <PackageReference Include="Blazorise.Generator.Features" Version="1.1.5" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.1" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.19.0" />
     <PackageReference Include="Mono.Cecil" Version="0.11.4" />
