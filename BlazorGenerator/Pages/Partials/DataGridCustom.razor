@@ -9,10 +9,9 @@
 				Displayable="@(!Field.EditOnly)">
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
-			<TextEdit Text="@((string) Field.Getter(context)?.ToString())"
-					  Placeholder="@Field.Caption"
-					  ReadOnly="true">
-			</TextEdit>
+			<Text>
+                @((string)Field.Getter(context)?.ToString())
+			</Text>
 		</Tooltip>
 	</DisplayTemplate>
 	<EditTemplate>

@@ -47,7 +47,7 @@ namespace TestNet6.Data
       new VisibleField<TestListPage>(nameof(Test6), FieldType.Boolean){Getter = f => f.Test6, Setter = (f,v) => f.Test6 = (bool)v },
       new VisibleField<TestListPage>(nameof(Test1)){ Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = int.Parse(v as string)},
       new VisibleField<TestListPage>(nameof(Test2)){ Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
-      new VisibleField<TestListPage>(nameof(Test3)){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)},
+      new VisibleField<TestListPage>(nameof(Test3), FieldType.Custom){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)},
       new VisibleField<TestListPage>(nameof(Test4), FieldType.Custom, true)
       { EditOnly=true,
         Caption="Test 4",
