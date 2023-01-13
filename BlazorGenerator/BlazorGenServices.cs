@@ -20,7 +20,7 @@ namespace BlazorGenerator
       services
       .AddBlazorise(options =>
       {
-        options.Immediate = false;
+        options.Immediate = false;        
       })
       .AddBootstrap5Providers();
       services.AddFontAwesomeIcons();

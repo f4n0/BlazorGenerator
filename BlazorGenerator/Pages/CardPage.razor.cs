@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using BlazorGenerator.Infrastructure;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazorGenerator.Pages
 {
@@ -25,6 +26,17 @@ namespace BlazorGenerator.Pages
     public override void Dispose()
     {
       if (IsModal)
+      {
+        ModalSuccess(Data);
+      }
+    }
+
+
+    public void Enter(KeyboardEventArgs e)
+    {
+      if (!IsModal) return;
+
+      if (e.Code == "Enter" || e.Code == "NumpadEnter")
       {
         ModalSuccess(Data);
       }

@@ -85,7 +85,8 @@ namespace BlazorGenerator.Infrastructure
       }, new ModalInstanceOptions
       {
         Width = Width.Max100,
-        Size = ModalSize.ExtraLarge
+        Size = ModalSize.ExtraLarge,
+        
       });
     }
 

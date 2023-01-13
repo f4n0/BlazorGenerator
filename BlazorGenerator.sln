@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestNet6", "TestNet6\TestNe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebAssembly", "TestWebAssembly\TestWebAssembly.csproj", "{0699B60B-11F9-4352-AAF3-937BA0FA7BC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiApp1", "MauiApp1\MauiApp1.csproj", "{5382FE1E-3FAD-4B1B-9C3D-4A33952BC8B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiApp1", "MauiApp1\MauiApp1.csproj", "{5382FE1E-3FAD-4B1B-9C3D-4A33952BC8B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -14,49 +14,52 @@
         <Container Fluid>
             <Card Margin="Margin.Is4.FromBottom">
                 <CardBody>
-                    <Row>
-                        @foreach (var fld in VisibleFields)
+                    <Div @onkeydown="@Enter">
+                        <Row>
+                            @foreach (var fld in VisibleFields)
+                            {
+
+                                <Column ColumnSize="@fld.ColumnSize">
+                                    <Field Horizontal="true">
+                                        <FieldLabel>@(fld.Caption): </FieldLabel>
+                                        <FieldBody>
+                                            @switch (fld.FieldType)
+                                            {
+                                                case BlazorGenerator.Enum.FieldType.Numeric:
+                                                    <BlazorGenerator.Pages.Partials.Numeric T="T" Data="Data" Field="fld" />
+                                                    break;
+                                                case BlazorGenerator.Enum.FieldType.Boolean:
+                                                    <BlazorGenerator.Pages.Partials.Checkbox T="T" Data="Data" Field="fld" />
+                                                    break;
+                                                case BlazorGenerator.Enum.FieldType.Select:
+                                                    <BlazorGenerator.Pages.Partials.Dropdown T="T" Data="Data" Field="fld" />
+                                                    break;
+                                                case BlazorGenerator.Enum.FieldType.Button:
+                                                    <BlazorGenerator.Pages.Partials.Btn T="T" Data="Data" Field="fld" />
+                                                    break;
+                                                case BlazorGenerator.Enum.FieldType.Custom:
+                                                    <BlazorGenerator.Pages.Partials.Custom T="T" Data="Data" Field="fld" />
+                                                    break;
+                                                default:
+                                                    <BlazorGenerator.Pages.Partials.Txt T="T" Data="Data" Field="fld" />
+                                                    break;
+                                            }
+                                        </FieldBody>
+                                    </Field>
+
+                                </Column>
+                            }
+
+                        </Row>
+
+                        <br />
+                        @if (BasicActions.EditAction || BasicActions.NewAction)
                         {
-
-                            <Column ColumnSize="@fld.ColumnSize">
-                                <Field Horizontal="true">
-                                    <FieldLabel>@(fld.Caption): </FieldLabel>
-                                    <FieldBody>
-                                        @switch (fld.FieldType)
-                                        {
-                                            case BlazorGenerator.Enum.FieldType.Numeric:
-                                                <BlazorGenerator.Pages.Partials.Numeric T="T" Data="Data" Field="fld" />
-                                                break;
-                                            case BlazorGenerator.Enum.FieldType.Boolean:
-                                                <BlazorGenerator.Pages.Partials.Checkbox T="T" Data="Data" Field="fld" />
-                                                break;
-                                            case BlazorGenerator.Enum.FieldType.Select:
-                                                <BlazorGenerator.Pages.Partials.Dropdown T="T" Data="Data" Field="fld" />
-                                                break;
-                                            case BlazorGenerator.Enum.FieldType.Button:
-                                                <BlazorGenerator.Pages.Partials.Btn T="T" Data="Data" Field="fld" />
-                                                break;
-                                            case BlazorGenerator.Enum.FieldType.Custom:
-                                                <BlazorGenerator.Pages.Partials.Custom T="T" Data="Data" Field="fld" />
-                                                break;
-                                            default:
-                                                <BlazorGenerator.Pages.Partials.Txt T="T" Data="Data" Field="fld" />
-                                                break;
-                                        }
-                                    </FieldBody>
-                                </Field>
-
-                            </Column>
+                            <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
                         }
-
-                    </Row>
-
-                    <br />
-                    @if (BasicActions.EditAction || BasicActions.NewAction)
-                    {
-                        <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
-                    }
+                    </Div>
                 </CardBody>
+
             </Card>
 
             @{

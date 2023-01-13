@@ -1,7 +1,7 @@
 ﻿@typeparam T
 
 
-<Button @onclick="@(() => Field.Setter(Data, null))" Color="Color.Dark" Outline="true">
+<Button @onclick="@(() => Field.Setter(Data, null))" Color="Color.Dark" Outline="true" PreventDefaultOnSubmit="true">
 	@Field.Caption
 </Button>
 
