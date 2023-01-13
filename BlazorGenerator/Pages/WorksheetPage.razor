@@ -73,11 +73,11 @@
                   RowInserted="@OnInsert"
                   RowRemoved="@OnDelete"
                   RowUpdated="@OnModify"
-                  RowStyling="@RowStyling"
+                  RowStyling="@RowStyling"                  
                   HeaderThemeContrast="ThemeContrast.Light"
                   CommandMode="DataGridCommandMode.Commands">
 
-            <DataGridColumns>
+            <DataGridColumns > 
                 <DataGridMultiSelectColumn TItem="TList" Width="30px"></DataGridMultiSelectColumn>
                 <DataGridCommandColumn Width="150px" TItem="TList" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
                     <NewCommandTemplate>
@@ -127,7 +127,7 @@
                                 Field="@fld.Name"
                                 Caption="@fld.Caption"
                                 Sortable="true"
-                                Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" DisplayOrder="@(ListVisibleFields.IndexOf(fld))" />
+                                Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" DisplayOrder="@(ListVisibleFields.IndexOf(fld))" Width="@fld.Width" />
                             break;
                     }
                 }

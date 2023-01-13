@@ -26,8 +26,8 @@ namespace BlazorGenerator.Pages
 
     public void Refresh()
     {
-     // _datagrid.Reload();
-      _datagrid.Refresh();
+      _datagrid.Reload();
+      //_datagrid.Refresh();
     }
 
     public virtual TList CreateNewItem()

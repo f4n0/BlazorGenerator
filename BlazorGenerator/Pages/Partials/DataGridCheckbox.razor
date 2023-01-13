@@ -1,7 +1,7 @@
 ﻿@typeparam T
 
 
-<DataGridCheckColumn TItem="T" Field="@Field.Name" Caption="@Field.Caption" Editable="true" Sortable="true"
+<DataGridCheckColumn TItem="T" Field="@Field.Name" Caption="@Field.Caption" Editable="true" Sortable="true" Width="@Field.Width"
 					   DisplayOrder="@Order" Filterable="true" Displayable="@(!Field.EditOnly)">
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
@@ -15,7 +15,7 @@
 			   CheckedChanged="@((v) => {
 											   Field.Setter(context.Item,v);
 												context.CellValue = Field.Getter(context.Item);
-										   })" />
+										   })"/>
 	</EditTemplate>
 </DataGridCheckColumn>
 @code {

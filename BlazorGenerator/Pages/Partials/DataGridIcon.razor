@@ -3,7 +3,7 @@
 
 
 <DataGridColumn TItem="T" Caption="@Field.Caption" Editable="false"
-					   DisplayOrder="@Order">
+                DisplayOrder="@Order" Width="@Field.Width">
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
 			<Icon Name="@((Blazorise.IconName) Field.Getter(context))">

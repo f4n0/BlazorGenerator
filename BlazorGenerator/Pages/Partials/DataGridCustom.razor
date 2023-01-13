@@ -6,7 +6,7 @@
 				Caption="@Field.Caption"
 				Editable="true"
 					   DisplayOrder="@Order"
-				Displayable="@(!Field.EditOnly)">
+                Displayable="@(!Field.EditOnly)" Width="@Field.Width">
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
 			<Text>
