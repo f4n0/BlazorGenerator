@@ -125,7 +125,7 @@ namespace BlazorGenerator.Infrastructure
 
     public virtual void Dispose()
     {
-      GC.SuppressFinalize(this);
+      //GC.Collect();
     }
 
     protected override Task OnParametersSetAsync()
@@ -152,7 +152,6 @@ namespace BlazorGenerator.Infrastructure
     {
       logger.SendLogMessage(message, logType);
     }
-
 
 
   }
