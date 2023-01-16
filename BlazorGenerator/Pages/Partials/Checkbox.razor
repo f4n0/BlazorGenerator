@@ -5,7 +5,7 @@
 	   Checked="@((bool)Field.Getter(Data))"
 	   ReadOnly="@(!Field.Editable)"
 	   @onchange="@((v)=> Field.Setter(Data, v.Value))"
-	   CheckedChanged="@((v) => {Field.Setter(Data,v);})" />
+       CheckedChanged="@((v) => {Field.Setter(Data,v);})" Disabled="@(!Field.Editable)" />
 
 @code {
 	[Parameter]

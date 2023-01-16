@@ -7,8 +7,8 @@
 		  TextChanged="@((v) => {
               Field.Setter(Data, v);
           })"
-		  ReadOnly="@(!Field.Editable)" 
-		  Role="Field.TextRole" />
+		  ReadOnly="@(!Field.Editable)"
+          Role="Field.TextRole" Disabled="@(!Field.Editable)" />
 
 
 @code {

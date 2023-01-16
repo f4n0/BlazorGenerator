@@ -8,7 +8,7 @@ if (fld.Getter(Data).GetType() == typeof(int))
 			 @onchange="@((e) => { Field.Setter(Data, e.Value); })"
 			 ValueChanged="@((e) => { Field.Setter(Data, e); })"
 			 Placeholder="@Field.Caption"
-			 ReadOnly="@(!Field.Editable)" />
+             ReadOnly="@(!Field.Editable)" Disabled="@(!Field.Editable)" />
 } else if (fld.Getter(Data).GetType() == typeof(decimal))
 {
 <NumericEdit TValue="decimal"
@@ -16,7 +16,7 @@ if (fld.Getter(Data).GetType() == typeof(int))
 			 @onchange="@((e) => { Field.Setter(Data, e.Value); })"
 			 ValueChanged="@((e) => { Field.Setter(Data, e); })"
 			 Placeholder="@Field.Caption"
-			 ReadOnly="@(!Field.Editable)" />
+             ReadOnly="@(!Field.Editable)" Disabled="@(!Field.Editable)" />
 }
 
 

@@ -4,7 +4,7 @@
 <Select TValue="string"
 		SelectedValue="@(Field.Getter(Data)?.ToString())"
 		SelectedValueChanged="@((v) => { Field.Setter(Data, v); })"
-		ReadOnly="@(!Field.Editable)">
+        ReadOnly="@(!Field.Editable)" Disabled="@(!Field.Editable)">
 
 	<SelectItem Value="@(string.Empty)">Select ...</SelectItem>
 	@foreach (string item in Field.Values)
