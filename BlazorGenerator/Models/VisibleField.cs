@@ -22,6 +22,7 @@ namespace BlazorGenerator.Models
     public string[] Values { get; set; }
     public TextRole TextRole { get; set; } = TextRole.Text;
     public Func<T, string> ToolTip { get; set; }
+    public SortDirection Sort { get; set; } = SortDirection.Default;
 
     public bool FullWidht { get; set; } = false;
 

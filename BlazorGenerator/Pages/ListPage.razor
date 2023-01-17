@@ -89,7 +89,7 @@
                                 <DataGridColumn TItem="T"
                                     Field="@fld.Name"
                                     Caption="@fld.Caption"
-                                    Sortable="true"
+                                    Sortable="true" SortDirection="@fld.Sort"
                                     Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" DisplayOrder="@(VisibleFields.IndexOf(fld))" Width="@fld.Width" />
                                 break;
                         }

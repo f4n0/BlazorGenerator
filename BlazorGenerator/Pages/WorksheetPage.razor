@@ -125,7 +125,8 @@
                             <DataGridColumn TItem="TList"
                                 Field="@fld.Name"
                                 Caption="@fld.Caption"
-                                Sortable="true"
+                                Sortable="true"                                 
+                                SortDirection="@fld.Sort"
                                 Filterable="true" Editable="true" Displayable="@(!fld.EditOnly)" DisplayOrder="@(ListVisibleFields.IndexOf(fld))" Width="@fld.Width" />
                             break;
                     }
