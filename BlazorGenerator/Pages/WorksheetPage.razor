@@ -74,7 +74,9 @@
                   RowUpdated="@OnModify"
                   RowStyling="@RowStyling"                  
                   HeaderThemeContrast="ThemeContrast.Light"
-                  CommandMode="DataGridCommandMode.Commands">
+                  CommandMode="DataGridCommandMode.Commands"
+                  Groupable
+                  GroupBy="@ListGroupBy">
 
             <DataGridColumns > 
                 <DataGridMultiSelectColumn TItem="TList" Width="30px"></DataGridMultiSelectColumn>

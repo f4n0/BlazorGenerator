@@ -36,7 +36,9 @@
                       RowStyling="@RowStyling"
                       RowRemoved="@OnDelete"
                       RowUpdated="@OnModify"
-                      CommandMode="DataGridCommandMode.Commands">
+                      CommandMode="DataGridCommandMode.Commands"
+                      Groupable
+                      GroupBy="@GroupBy">
 
                 <DataGridColumns>
                     @if (SelectionMode == DataGridSelectionMode.Multiple)

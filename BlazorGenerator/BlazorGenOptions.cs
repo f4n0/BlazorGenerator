@@ -21,41 +21,6 @@ namespace BlazorGenerator
 
     public Theme Theme { get; set; } = new Theme()
     {
-      LuminanceThreshold = 170,
-      BarOptions = new()
-      {
-        LightColors = new()
-        {
-          ItemColorOptions = new()
-          {
-            ActiveBackgroundColor = "#dedede",
-            ActiveColor = "#000000",
-            HoverBackgroundColor = "#dedede",
-            HoverColor = "#000000",
-
-          },
-        },
-        HorizontalHeight = "72px"        
-      },
-      ColorOptions = new()
-      {
-        Primary = "#1e88e5",
-        Secondary = "#382F2D",
-      },
-      BackgroundOptions = new()
-      {
-        Primary = "#1e88e5",
-        Secondary = "#382F2D",
-      },
-      TextColorOptions = new()
-      {
-        Primary = "#1e88e5",
-        Secondary = "#382F2D",
-      },
-      InputOptions = new()
-      {
-        CheckColor = "#1e88e5",
-      }
 
     };
 

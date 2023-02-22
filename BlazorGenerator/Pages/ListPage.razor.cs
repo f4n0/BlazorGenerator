@@ -57,5 +57,8 @@ namespace BlazorGenerator.Pages
         return DataGridEditMode.Inline;
       }
     }
+
+
+    public virtual object GroupBy(T item) => new { };
   }
 }

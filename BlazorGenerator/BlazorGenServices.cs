@@ -22,8 +22,8 @@ namespace BlazorGenerator
       {
         options.Immediate = false;        
       })
-      .AddBootstrap5Providers();
-      services.AddFontAwesomeIcons();
+      .AddBootstrap5Providers()
+      .AddFontAwesomeIcons();
 
       services.AddSingleton<BlazorGenLogger>();
 

@@ -61,5 +61,8 @@ namespace BlazorGenerator.Pages
         return DataGridEditMode.Inline;
       }
     }   
+
+    public virtual object ListGroupBy(TList item) => new { };
+    
   }
 }
