@@ -59,6 +59,6 @@ namespace BlazorGenerator.Pages
     }
 
 
-    public virtual object GroupBy(T item) => new { };
+    public virtual object GroupBy(T item) => null;
   }
 }

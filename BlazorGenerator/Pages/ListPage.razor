@@ -38,6 +38,7 @@
                       RowUpdated="@OnModify"
                       CommandMode="DataGridCommandMode.Commands"
                       Groupable
+                      Virtualize
                       GroupBy="@GroupBy">
 
                 <DataGridColumns>
@@ -47,10 +48,16 @@
                     }
                     <DataGridCommandColumn Width="150px" TItem="T" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
                         <NewCommandTemplate>
-                            <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Add"></Icon>&nbsp;@context.LocalizationString</Button>
+                            <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked">
+                              <Icon Name="IconName.Add"></Icon>
+                              &nbsp;@context.LocalizationString
+                             </Button>
                         </NewCommandTemplate>
                         <EditCommandTemplate>
-                            <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Edit"></Icon>&nbsp;@context.LocalizationString</Button>
+                            <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked">
+                              <Icon Name="IconName.Edit"></Icon>
+                              &nbsp;@context.LocalizationString
+                              </Button>
                         </EditCommandTemplate>
                         <SaveCommandTemplate>
                             <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" PreventDefaultOnSubmit Clicked="@context.Clicked">@context.LocalizationString</Button>

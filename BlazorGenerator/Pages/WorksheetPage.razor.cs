@@ -62,7 +62,7 @@ namespace BlazorGenerator.Pages
       }
     }   
 
-    public virtual object ListGroupBy(TList item) => new { };
+    public virtual object ListGroupBy(TList item) => null;
     
   }
 }
