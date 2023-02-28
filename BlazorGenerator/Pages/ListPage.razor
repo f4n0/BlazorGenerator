@@ -5,7 +5,7 @@
 @typeparam T
 @inherits BlazorgenBaseComponent
 
-<Layout>    
+<Layout>
     <LayoutHeader Fixed>
         <ActionBar PageActions="@PageActions" Context="this"></ActionBar>
     </LayoutHeader>
@@ -26,8 +26,8 @@
                       Responsive="true"
                       Narrow="true"
                       FixedHeader="true"
-                      FixedHeaderDataGridHeight="80vh"       
-                      FixedHeaderDataGridMaxHeight="90vh"                
+                      FixedHeaderDataGridHeight="80vh"
+                      FixedHeaderDataGridMaxHeight="90vh"
                       Editable
                       EditMode="@GetEditMode()"
                       NewItemCreator="@CreateNewItem"
@@ -39,6 +39,11 @@
                       CommandMode="DataGridCommandMode.Commands"
                       Groupable
                       Virtualize
+                      VirtualizeOptions="@(new VirtualizeOptions(){
+DataGridHeight = "80vh",
+DataGridMaxHeight = "90vh",
+ScrollRowOnEdit = false
+})"
                       GroupBy="@GroupBy">
 
                 <DataGridColumns>
@@ -47,29 +52,32 @@
                         <DataGridMultiSelectColumn TItem="T" Width="30px"></DataGridMultiSelectColumn>
                     }
                     <DataGridCommandColumn Width="150px" TItem="T" NewCommandAllowed="BasicActions.NewAction" EditCommandAllowed="BasicActions.EditAction" DeleteCommandAllowed="BasicActions.DeleteAction">
-                        <NewCommandTemplate>
+                        
+                      <NewCommandTemplate>
                             <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked">
-                              <Icon Name="IconName.Add"></Icon>
-                              &nbsp;@context.LocalizationString
-                             </Button>
+                                <Span>
+                                    <Icon Display="Display.Inline" Name="IconName.Add"></Icon>&nbsp;@context.LocalizationString
+                                </Span>
+                            </Button>
                         </NewCommandTemplate>
                         <EditCommandTemplate>
                             <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked">
-                              <Icon Name="IconName.Edit"></Icon>
-                              &nbsp;@context.LocalizationString
-                              </Button>
+
+                                <Icon Display="Display.Inline" Name="IconName.Edit"></Icon>&nbsp;@context.LocalizationString
+                                
+                            </Button>
                         </EditCommandTemplate>
                         <SaveCommandTemplate>
                             <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" PreventDefaultOnSubmit Clicked="@context.Clicked">@context.LocalizationString</Button>
                         </SaveCommandTemplate>
                         <DeleteCommandTemplate>
-                            <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Delete"></Icon>&nbsp;@context.LocalizationString</Button>
+                            <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Display="Display.Inline" Name="IconName.Delete"></Icon>&nbsp;@context.LocalizationString</Button>
                         </DeleteCommandTemplate>
                         <CancelCommandTemplate>
                             <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked">@context.LocalizationString</Button>
                         </CancelCommandTemplate>
                         <ClearFilterCommandTemplate>
-                            <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Name="IconName.Clear"></Icon>&nbsp;@context.LocalizationString</Button>
+                            <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Display="Display.Inline" Name="IconName.Clear"></Icon>&nbsp;@context.LocalizationString</Button>
                         </ClearFilterCommandTemplate>
                     </DataGridCommandColumn>
                     @foreach (var fld in VisibleFields)
