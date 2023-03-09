@@ -37,14 +37,9 @@
                       RowRemoved="@OnDelete"
                       RowUpdated="@OnModify"
                       CommandMode="DataGridCommandMode.Commands"
-                      Groupable
-                      Virtualize
-                      VirtualizeOptions="@(new VirtualizeOptions(){
-DataGridHeight = "80vh",
-DataGridMaxHeight = "90vh",
-ScrollRowOnEdit = false
-})"
-                      GroupBy="@GroupBy">
+                      Groupable="GroupByEnabled()"    
+
+                      GroupBy="GroupBy">
 
                 <DataGridColumns>
                     @if (SelectionMode == DataGridSelectionMode.Multiple)

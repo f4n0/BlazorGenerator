@@ -61,17 +61,27 @@
                 }
             }
         </BarStart>
+        <BarEnd>
+          <BarItem>
+                <Label>Made with Blazorgen</Label>
+        </BarItem>
+        </BarEnd>
     </BarMenu>
 </Bar>
+
+@inject NavigationManager NavigationManager;
+
 
 @code {
     Dictionary<string, int> MenuGroups { get; set; }
     IEnumerable<AddToMenuAttribute> menus { get; set; }
     Bar Menu { get; set; }
 
+
+
     void PopulateDictionary()
     {
-        
+
         menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute).OrderBy((o) => o.OrderSequence); 
         MenuGroups = new Dictionary<string, int>();
 
@@ -87,4 +97,5 @@
             }
         }
     }
+
 }

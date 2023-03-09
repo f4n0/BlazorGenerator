@@ -28,6 +28,12 @@ namespace TestNet6.Data
     public Uri? Test4 { get; set; }
     public FieldType? Test5 { get; set; }
 
+    public override bool GroupByEnabled() => true;
+    public override object GroupBy(TestListPage item)
+    {
+      return new { item.Test };
+    }
+
     public override Action<TestListPage, DataGridRowStyling> RowStyling => (row, style) =>
     {
       if ((row as TestListPage).Test == "TestString1")

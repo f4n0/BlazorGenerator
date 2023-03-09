@@ -58,7 +58,10 @@ namespace BlazorGenerator.Pages
       }
     }
 
+    // public virtual object GrouppedBy(T item);
+
 
     public virtual object GroupBy(T item) => null;
+    public virtual bool GroupByEnabled() => false;
   }
 }
