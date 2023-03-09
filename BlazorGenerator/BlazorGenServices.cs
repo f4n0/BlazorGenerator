@@ -3,13 +3,7 @@ using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorGenerator
 {
@@ -35,7 +29,6 @@ namespace BlazorGenerator
 
       return services;
     }
-
 
   }
 }

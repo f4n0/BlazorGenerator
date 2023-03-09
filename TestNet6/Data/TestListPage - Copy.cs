@@ -22,7 +22,6 @@ namespace TestNet6.Data
     const string route = "/List2";
 
 
-
     protected override void OnInitialized()
     {
       VisibleFields = VisibleField<TestModel>.loadAllFields();

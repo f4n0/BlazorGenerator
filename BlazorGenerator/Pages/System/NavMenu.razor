@@ -5,7 +5,7 @@
      Breakpoint="Breakpoint.Desktop"
      Background="Background.Light"
      ThemeContrast="ThemeContrast.Light"
-@ref="Menu">
+     @ref="Menu">
     <BarToggler />
     <BarBrand>
         <BarItem>
@@ -30,8 +30,8 @@
                         {
                             <BarItem TextOverflow="TextOverflow.Truncate">
                                 <BarLink To="@elem.Route">
-                                        <BarIcon IconName="@elem.Icon" />
-                                        @elem.Title
+                                    <BarIcon IconName="@elem.Icon" />
+                                    @elem.Title
                                 </BarLink>
                             </BarItem>
                         }
@@ -41,16 +41,16 @@
                         <BarItem>
                             <BarDropdown>
                                 <BarDropdownToggle>
-                                        <BarIcon IconName="IconName.AlignJustify" />
-                                        @item.Key
+                                    <BarIcon IconName="IconName.AlignJustify" />
+                                    @item.Key
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     @foreach (var elem in filtered)
                                     {
                                         <BarDropdownItem Padding="Padding.Is0.OnAll.Is2.FromStart">
                                             <BarLink To="@elem.Route">
-                                                    <BarIcon IconName="@elem.Icon" />
-                                                    @elem.Title
+                                                <BarIcon IconName="@elem.Icon" />
+                                                @elem.Title
                                             </BarLink>
                                         </BarDropdownItem>
                                     }
@@ -62,9 +62,9 @@
             }
         </BarStart>
         <BarEnd>
-          <BarItem>
+            <BarItem>
                 <Label>Made with Blazorgen</Label>
-        </BarItem>
+            </BarItem>
         </BarEnd>
     </BarMenu>
 </Bar>
@@ -82,7 +82,7 @@
     void PopulateDictionary()
     {
 
-        menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute).OrderBy((o) => o.OrderSequence); 
+        menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute).OrderBy((o) => o.OrderSequence);
         MenuGroups = new Dictionary<string, int>();
 
         foreach (var item in menus)

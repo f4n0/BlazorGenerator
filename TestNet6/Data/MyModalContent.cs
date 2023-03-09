@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using BlazorGenerator;
-using Microsoft.AspNetCore.Components;
-using BlazorGenerator.Attributes;
 using BlazorGenerator.Dialogs;
 using BlazorGenerator.Models;
-using Blazorise;
 
 namespace TestNet6.Data
 {

@@ -1,13 +1,5 @@
-﻿using Blazorise;
-using BlazorGenerator.Models;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using System;
+﻿using BlazorGenerator.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.JSInterop;
 using BlazorGenerator.Infrastructure;
 using Microsoft.AspNetCore.Components.Web;
 

@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorGenerator.Pages
+namespace BlazorGenerator.Pages.System
 {
-  partial class ActionBar
+  public partial class Actions
   {
     [Parameter]
     public IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)> PageActions { get; set; }
@@ -25,7 +25,7 @@ namespace BlazorGenerator.Pages
       foreach (var item in PageActions)
       {
         if (ActionGroups.ContainsKey(item.Attribute.Group))
-        {          
+        {
           ActionGroups[item.Attribute.Group]++;
         }
         else

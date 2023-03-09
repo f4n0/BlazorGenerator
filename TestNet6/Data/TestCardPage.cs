@@ -6,7 +6,6 @@ using BlazorGenerator.Attributes;
 using BlazorGenerator.Pages;
 using BlazorGenerator.Models;
 using Blazorise;
-using Microsoft.AspNetCore.Components.Rendering;
 using BlazorGenerator.Enum;
 using BlazorGenerator.Services;
 
