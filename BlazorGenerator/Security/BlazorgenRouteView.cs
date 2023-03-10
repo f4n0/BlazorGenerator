@@ -8,12 +8,23 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Security
 {
-  internal class BlazorgenRouteView : RouteView
+  public class BlazorgenRouteView : RouteView
   {
+    [Inject]
+    NavigationManager NavigationManager { get; set; }
+    [Inject]
+    ISecurity Security { get; set; } = null;
 
     protected override void Render(RenderTreeBuilder builder)
     {
-      base.Render(builder);
+      if (Security?.HasPermission(RouteData.PageType) ?? true)
+      {
+        base.Render(builder);
+      }
+      else
+      {
+        NavigationManager.NavigateTo("/Unauthorized");
+      }
     }
   }
 }

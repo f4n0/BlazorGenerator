@@ -1,7 +1,7 @@
 ﻿
-<Router AppAssembly="@appAssembly">
+<Router AppAssembly="@appAssembly" AdditionalAssemblies="new[] {typeof(BlazorGenApp).Assembly}">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
+        <BlazorgenRouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>

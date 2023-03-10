@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Services;
+﻿using BlazorGenerator.Security;
+using BlazorGenerator.Services;
 using Blazorise;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
@@ -26,6 +27,7 @@ namespace BlazorGenerator
       services.AddSingleton(configureOptions);
       services.AddSingleton<BlazorGenOptions>();
 
+      services.AddScoped<ISecurity,NullSecurity>();
 
       return services;
     }

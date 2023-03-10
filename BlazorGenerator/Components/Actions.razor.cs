@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorGenerator.Pages.System
+namespace BlazorGenerator.Components
 {
   public partial class Actions
   {

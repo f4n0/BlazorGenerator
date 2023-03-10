@@ -1,6 +1,8 @@
 using BlazorGenerator;
+using BlazorGenerator.Security;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using TestNet6;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ builder.Services.AddBlazorGen(options => {
   options.ShowBreaddcrumbs = true;
   } );
 
+builder.Services.AddScoped<ISecurity, CustomSecurity>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
