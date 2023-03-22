@@ -23,7 +23,46 @@
             @{
                 PopulateDictionary();
 
-                foreach (var item in MenuGroups)
+                
+                foreach (var item in MenuGroups.Where(o => o.Key.ToLower() == "default"))
+                {
+                    var filtered = menus.Where(o => o.Group == item.Key);
+                    if (item.Key.ToLower() == "default" || item.Value == 1)
+                    {
+                        foreach (var elem in filtered)
+                        {
+                            <BarItem TextOverflow="TextOverflow.Truncate">
+                                <BarLink To="@elem.Route">
+                                    <BarIcon IconName="@elem.Icon" />
+                                    @elem.Title
+                                </BarLink>
+                            </BarItem>
+                        }
+                    }
+                    else
+                    {
+                        <BarItem>
+                            <BarDropdown>
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.AlignJustify" />
+                                    @item.Key
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    @foreach (var elem in filtered)
+                                    {
+                                        <BarDropdownItem Padding="Padding.Is0.OnAll.Is2.FromStart">
+                                            <BarLink To="@elem.Route">
+                                                <BarIcon IconName="@elem.Icon" />
+                                                @elem.Title
+                                            </BarLink>
+                                        </BarDropdownItem>
+                                    }
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                    }
+                }
+                foreach (var item in MenuGroups.Where(o => o.Key.ToLower() != "default"))
                 {
                     var filtered = menus.Where(o => o.Group == item.Key);
                     if (item.Key.ToLower() == "default" || item.Value == 1)

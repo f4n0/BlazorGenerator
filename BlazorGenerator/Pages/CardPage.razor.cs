@@ -13,6 +13,10 @@ namespace BlazorGenerator.Pages
     
     public virtual void OnModify(T Data)
     {
+      if (IsModal)
+      {
+        ModalSuccess(Data);
+      }
     }
 
     public override void Dispose()
