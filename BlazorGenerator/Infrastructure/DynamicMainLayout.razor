@@ -7,7 +7,7 @@
         </LayoutSiderContent>
     </LayoutSider>
     <Layout>
-        <LayoutContent Style="padding: 0px 10px !important;">
+        <LayoutContent>
             <CascadingValue Value="@this">
                 <ErrorBoundary @ref="errorBoundary">
                     <ErrorContent>
@@ -38,6 +38,11 @@
 <link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css" rel="stylesheet" />
 <link href="_content/BlazorGenerator/Styles/Blazorgen.css" rel="stylesheet" />
 
+<style>
+    .b-bar-link:hover, .b-bar-dropdown-item:hover {
+    background-color: transparent !important;
+  }
+</style>
 
 
 @code {
