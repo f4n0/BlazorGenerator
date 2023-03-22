@@ -12,12 +12,13 @@ namespace BlazorGenerator.Security
   {
     [Inject]
     NavigationManager NavigationManager { get; set; }
+
     [Inject]
-    ISecurity Security { get; set; } = null;
+    BlazorGenSecurity Security { get; set; }
 
     protected override void Render(RenderTreeBuilder builder)
     {
-      if (Security?.HasPermission(RouteData.PageType) ?? true)
+      if (Security.GetPermissionSet(RouteData.PageType).Execute)
       {
         base.Render(builder);
       }

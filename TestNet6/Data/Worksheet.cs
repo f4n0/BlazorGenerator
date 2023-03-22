@@ -13,7 +13,6 @@ namespace TestNet6.Data
 {
   [AddToMenu(Title = "Worksheet Page", Route = route, OrderSequence = 1)]
   [Route(route)]
-  [BasicActions(true, true, true)]
   public class ComplexExample2 : WorksheetPage<TestCardPage, TestListPage>
   {
     public override string Title => "My Worksheet Page"; 

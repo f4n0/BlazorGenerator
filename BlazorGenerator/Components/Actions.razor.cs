@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
+using BlazorGenerator.Security;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace BlazorGenerator.Components
     public object Context { get; set; }
 
     public Dictionary<string, int> ActionGroups { get; set; }
+
 
     void PopulateDictionary()
     {

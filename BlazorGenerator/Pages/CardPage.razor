@@ -1,7 +1,8 @@
-﻿@{
+﻿@inject BlazorGenSecurity security
+@{
     var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
     var Subforms = AttributesUtils.GetPropertiesWithAttribute<SubformAttribute>(this);
-    var BasicActions = AttributesUtils.GetModelsWithAttribute<BasicActionsAttribute>(this).FirstOrDefault() ?? new BasicActionsAttribute(false, false, false);
+    var permissionSet = security.GetPermissionSet(this.GetType());
 }
 @typeparam T
 @inherits BlazorgenBaseComponent
@@ -53,7 +54,7 @@
                         </Row>
 
                         <br />
-                        @if (BasicActions.EditAction || BasicActions.NewAction)
+                        @if (permissionSet.Modify || permissionSet.Insert)
                         {
                             <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
                         }

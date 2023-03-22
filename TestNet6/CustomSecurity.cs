@@ -5,10 +5,16 @@ namespace TestNet6
 {
   public class CustomSecurity : ISecurity
   {
-    public bool HasPermission(Type ObjToLoad)
+    public Guid getCurrentSessionIdentifier()
     {
-      if(ObjToLoad == typeof(TestListPage)) return false;
-      return true;
+      throw new NotImplementedException();
     }
+
+
+    public List<PermissionSet> GetPermissionSets(Type type = null)
+    {
+      throw new NotImplementedException();
+    }
+
   }
 }

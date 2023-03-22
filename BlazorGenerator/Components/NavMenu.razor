@@ -1,4 +1,6 @@
 ﻿@inject BlazorGenOptions options;
+@inject NavigationManager NavigationManager;
+@inject BlazorGenSecurity security
 
 <Bar Mode="BarMode.VerticalInline"
      CollapseMode="BarCollapseMode.Small"
@@ -69,33 +71,5 @@
     </BarMenu>
 </Bar>
 
-@inject NavigationManager NavigationManager;
 
 
-@code {
-    Dictionary<string, int> MenuGroups { get; set; }
-    IEnumerable<AddToMenuAttribute> menus { get; set; }
-    Bar Menu { get; set; }
-
-
-
-    void PopulateDictionary()
-    {
-
-        menus = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().Select(o => o.Attribute).OrderBy((o) => o.OrderSequence);
-        MenuGroups = new Dictionary<string, int>();
-
-        foreach (var item in menus)
-        {
-            if (MenuGroups.ContainsKey(item.Group))
-            {
-                MenuGroups[item.Group]++;
-            }
-            else
-            {
-                MenuGroups.Add(item.Group, 1);
-            }
-        }
-    }
-
-}

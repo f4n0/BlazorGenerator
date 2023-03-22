@@ -28,6 +28,7 @@ namespace BlazorGenerator
       services.AddSingleton<BlazorGenOptions>();
 
       services.AddScoped<ISecurity,NullSecurity>();
+      services.AddTransient<BlazorGenSecurity>();
 
       return services;
     }

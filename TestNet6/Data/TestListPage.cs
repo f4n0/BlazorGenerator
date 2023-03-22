@@ -14,7 +14,6 @@ namespace TestNet6.Data
 {
   [AddToMenu(Title = "List Page", Route = route, OrderSequence = 3)]
   [Route(route)]
-  [BasicActions(true, true, true)]
   public class TestListPage : ListPage<TestListPage>
   {
     public override string Title => "My List"; 

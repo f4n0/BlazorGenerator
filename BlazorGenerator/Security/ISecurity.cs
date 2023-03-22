@@ -8,6 +8,7 @@ namespace BlazorGenerator.Security
 {
   public interface ISecurity
   {
-    public bool HasPermission(Type ObjToLoad);
+    public List<PermissionSet> GetPermissionSets(Type type = null);
+    public Guid getCurrentSessionIdentifier();
   }
 }

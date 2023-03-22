@@ -8,9 +8,23 @@ namespace BlazorGenerator.Security
 {
   internal class NullSecurity : ISecurity
   {
-    public bool HasPermission(Type ObjToLoad)
+    public Guid getCurrentSessionIdentifier()
     {
-      return true;
+      return Guid.Empty;
     }
+
+
+    public List<PermissionSet> GetPermissionSets(Type type = null)
+    {
+      return new List<PermissionSet>(){new  PermissionSet()
+      {
+        Insert = true,
+        Delete = true,
+        Execute = true,
+        Modify = true,
+        Object = null
+      } };
+    }
+
   }
 }

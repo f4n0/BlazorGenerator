@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Attributes
 {
-  [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+  [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
   public class PageActionAttribute : Attribute
   {
     public PageActionAttribute(string caption)

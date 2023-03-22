@@ -19,10 +19,6 @@ namespace BlazorGenerator
 
     public bool ShowBreaddcrumbs { get; set; } = true;
 
-    public Theme Theme { get; set; } = new Theme()
-    {
-
-    };
 
     public IServiceProvider Services => serviceProvider;
   }
