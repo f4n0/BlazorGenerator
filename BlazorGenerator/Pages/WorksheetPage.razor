@@ -58,6 +58,7 @@
                   SelectionMode="DataGridSelectionMode.Multiple"
                   @bind-SelectedRows="@SelectedRecs"
                   Resizable="true"
+                  Striped="true"
                   ShowPager="false"
                   ShowPageSizes="false"
                   PageSize="int.MaxValue"
@@ -65,29 +66,23 @@
                   Responsive="true"
                   Narrow="true"
                   FixedHeader="true"
-                  FixedHeaderDataGridHeight="75vh"
-                  FixedHeaderDataGridMaxHeight="75vh"
+                  FixedHeaderDataGridHeight="80vh"
+                  FixedHeaderDataGridMaxHeight="90vh"
                   Editable
                   EditMode="@GetEditMode()"
                   NewItemCreator="@CreateNewItem"
                   RowInserted="@OnInsert"
+                  HeaderThemeContrast="ThemeContrast.Light"
+                  RowStyling="@RowStyling"
                   RowRemoved="@OnDelete"
                   RowUpdated="@OnModify"
-                  RowStyling="@RowStyling"
-                  HeaderThemeContrast="ThemeContrast.Light"
                   CommandMode="DataGridCommandMode.Commands"
-                  Groupable
-                  Virtualize
-                  VirtualizeOptions="@(new VirtualizeOptions(){
-DataGridHeight = "80vh",
-DataGridMaxHeight = "90vh",
-ScrollRowOnEdit = false
-})"
-                  GroupBy="@ListGroupBy">
+                  Groupable="GroupByEnabled()"
+                  GroupBy="GroupBy">
 
             <DataGridColumns>
                 <DataGridMultiSelectColumn TItem="TList" Width="30px"></DataGridMultiSelectColumn>
-                <DataGridCommandColumn Width="150px" TItem="T" NewCommandAllowed="permissionSet.Insert" EditCommandAllowed="permissionSet.Modify" DeleteCommandAllowed="permissionSet.Delete">
+                <DataGridCommandColumn Width="150px" TItem="TList" NewCommandAllowed="permissionSet.Insert" EditCommandAllowed="permissionSet.Modify" DeleteCommandAllowed="permissionSet.Delete">
                     <NewCommandTemplate>
                         <Button Size="Size.ExtraSmall" Color="Color.Dark" Margin="Margin.Is1" Outline="true" Clicked="@context.Clicked"><Icon Display="Display.Inline" Name="IconName.Add"></Icon>&nbsp;@context.LocalizationString</Button>
                     </NewCommandTemplate>

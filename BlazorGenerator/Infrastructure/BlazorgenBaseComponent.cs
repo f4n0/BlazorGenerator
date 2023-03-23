@@ -123,11 +123,6 @@ namespace BlazorGenerator.Infrastructure
       return Task.CompletedTask;
     }
 
-    public virtual void Dispose()
-    {
-      //GC.Collect();
-    }
-
     protected override Task OnParametersSetAsync()
     {
       if (IsModal)
@@ -153,6 +148,9 @@ namespace BlazorGenerator.Infrastructure
       logger.SendLogMessage(message, logType);
     }
 
+    public virtual  void Dispose()
+    {
 
+    }
   }
 }

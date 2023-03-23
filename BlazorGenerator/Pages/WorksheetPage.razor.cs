@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using BlazorGenerator.Infrastructure;
+using System.Threading.Tasks;
 
 namespace BlazorGenerator.Pages
 {
@@ -56,9 +57,10 @@ namespace BlazorGenerator.Pages
       {
         return DataGridEditMode.Inline;
       }
-    }   
+    }
 
-    public virtual object ListGroupBy(TList item) => null;
-    
+    public virtual object GroupBy(TList item) => null;
+    public virtual bool GroupByEnabled() => false;
+
   }
 }
