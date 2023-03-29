@@ -54,7 +54,7 @@
                         </Row>
 
                         <br />
-                        @if (permissionSet.Modify || permissionSet.Insert)
+                        @if (permissionSet.Modify || permissionSet.Insert || IsModal)
                         {
                             <Button Clicked="@(() => OnModify(Data))" Color="Color.Secondary" Float="Float.End">Save</Button>
                         }
