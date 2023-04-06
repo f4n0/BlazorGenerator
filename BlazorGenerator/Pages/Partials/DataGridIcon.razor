@@ -4,7 +4,12 @@
 
 <DataGridColumn TItem="T" Caption="@Field.Caption" Editable="false"
                 DisplayOrder="@Order" Width="@Field.Width"
-                SortDirection="@Field.Sort">
+                SortDirection="@Field.Sort" Filterable="true">
+    <FilterTemplate>
+        <TextEdit Text="@selectedFilter"
+                  TextChanged="@((v) => {selectedFilter = v; Parent.AddFilter(Field, v); ParentGrid.Reload();})">
+        </TextEdit>
+    </FilterTemplate>
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
 			<Icon Name="@((Blazorise.IconName) Field.Getter(context))">
@@ -17,4 +22,13 @@
 	public VisibleField<T> Field { get; set; }
 	[Parameter]
 	public int Order { get; set; }
+
+
+    [CascadingParameter]
+    BlazorgenBaseComponent Parent { get; set; }
+
+    [CascadingParameter]
+    DataGrid<T> ParentGrid { get; set; }
+
+    string selectedFilter { get; set; }
 }
