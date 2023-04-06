@@ -74,7 +74,7 @@ namespace BlazorGenerator.Pages
 
       foreach (var item in this.DataGridCustomFilter)
       {
-        var fldVal = (item.Key as VisibleField<TList>).Getter(model)?.ToString();
+        var fldVal = (item.Key as VisibleField<TList>).FilterGetter(model)?.ToString();
         filter = filter || fldVal.Contains(item.Value, StringComparison.OrdinalIgnoreCase) == true;
       }
       return filter;

@@ -15,6 +15,7 @@ namespace BlazorGenerator.Models
     public string Caption { get; set; }
     public Action<T, object> Setter { get; set; }
     public Func<T, object> Getter { get; set; }
+    public Func<T, object> FilterGetter { get; set; }
     public string Name { get; set; }
     public FieldType FieldType { get; set; }
     public bool Editable { get; set; } = false;
