@@ -62,7 +62,7 @@ namespace BlazorGenerator.Pages
     public virtual object GroupBy(TList item) => null;
     public virtual bool GroupByEnabled() => false;
 
-    private bool OnCustomFilter(T model)
+    private bool OnCustomFilter(TList model)
     {
 
       // We want to accept empty value as valid or otherwise
