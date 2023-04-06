@@ -2,32 +2,52 @@
 
 
 <DataGridColumn TItem="T"
-				Field="@Field.Name"
-				Caption="@Field.Caption"
-				Editable="true"
-					   DisplayOrder="@Order"
+                Field="@Field.Name"
+                Caption="@Field.Caption"
+                Editable="true"
+                DisplayOrder="@Order"
                 Displayable="@(!Field.EditOnly)" Width="@Field.Width" SortDirection="@Field.Sort">
-	<DisplayTemplate>
-		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
-			<Text>
+    <FilterTemplate>
+        <Select TValue="string" SelectedValue="@selectedFilter" SelectedValueChanged="@(value => { selectedFilter = value; Parent.AddFilter(Field, value); ParentGrid.Reload();})">
+            <SelectItem Value="@("*")">All</SelectItem>
+            @foreach (string item in Field.Values)
+            {
+                <SelectItem Value="@item">@(item.ToString())</SelectItem>
+            }
+        </Select>
+        <TextEdit Text="@selectedFilter"
+                  TextChanged="@((v) => {selectedFilter = v; Parent.AddFilter(Field, v); ParentGrid.Reload();})">
+        </TextEdit>
+    </FilterTemplate>
+    <DisplayTemplate>
+        <Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
+            <Text>
                 @((string)Field.Getter(context)?.ToString())
-			</Text>
-		</Tooltip>
-	</DisplayTemplate>
-	<EditTemplate>
-		<TextEdit Text="@((string) Field.Getter(context.Item)?.ToString())"
-				  TextChanged="@((v) => {
+                </Text>
+            </Tooltip>
+        </DisplayTemplate>
+        <EditTemplate>
+            <TextEdit Text="@((string) Field.Getter(context.Item)?.ToString())"
+                  TextChanged="@((v) => {
                                                                         Field.Setter(context.Item, v);
                                                                         context.CellValue = Field.Getter(context.Item);
                                                                     })"
-				  Placeholder="@Field.Caption">
-		</TextEdit>
-	</EditTemplate>
-</DataGridColumn>
+                  Placeholder="@Field.Caption">
+            </TextEdit>
+        </EditTemplate>
+    </DataGridColumn>
 
-@code {
-	[Parameter]
-	public VisibleField<T> Field { get; set; }
-	[Parameter]
-	public int Order { get; set; }
+    @code {
+    [Parameter]
+    public VisibleField<T> Field { get; set; }
+    [Parameter]
+    public int Order { get; set; }
+
+    [CascadingParameter]
+    BlazorgenBaseComponent Parent { get; set; }
+
+    [CascadingParameter]
+    DataGrid<T> ParentGrid { get; set; }
+
+    string selectedFilter { get; set; }
 }
