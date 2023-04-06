@@ -2,35 +2,55 @@
 
 
 <DataGridSelectColumn TItem="T"
-					  Field="@Field.Name"
-					  Caption="@Field.Caption"
-					  Sortable="true"
-					   DisplayOrder="@Order"
+                      Field="@Field.Name"
+                      Caption="@Field.Caption"
+                      Sortable="true"
+                      DisplayOrder="@Order"
                       Filterable="true" Editable="true" Displayable="@(!Field.EditOnly)" Width="@Field.Width" SortDirection="@Field.Sort">
-	<DisplayTemplate>
-		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
-			<Text>@((string) Field.Getter(context)?.ToString())</Text>
-		</Tooltip>
-	</DisplayTemplate>
-	<EditTemplate>
-		<Select TValue="string"
-				SelectedValue="@(Field.Getter(context.Item)?.ToString())"
-				SelectedValueChanged="@((v) => { Field.Setter(context.Item, v); 
+    <FilterTemplate>
+        <Select TValue="string" SelectedValue="@selectedFilter" SelectedValueChanged="@(value => { selectedFilter = value; Parent.AddFilter(Field, value); ParentGrid.Reload();})">
+            <SelectItem Value="@("*")">All</SelectItem>
+            @foreach (string item in Field.Values)
+            {
+                <SelectItem Value="@item">@(item.ToString())</SelectItem>
+            }
+        </Select>
+    </FilterTemplate>
+    <DisplayTemplate>
+        <Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
+            <Text>@((string)Field.Getter(context)?.ToString())</Text>
+            </Tooltip>
+        </DisplayTemplate>
+        <EditTemplate>
+            <Select TValue="string"
+                SelectedValue="@(Field.Getter(context.Item)?.ToString())"
+                SelectedValueChanged="@((v) => { Field.Setter(context.Item, v);
 												context.CellValue = Field.Getter(context.Item);})"
-				ReadOnly="@(!Field.Editable)">
+                ReadOnly="@(!Field.Editable)">
 
-			<SelectItem Value="@(string.Empty)">Select ...</SelectItem>
-			@foreach (string item in Field.Values)
-			{
-				<SelectItem Value="@item">@(item.ToString())</SelectItem>
-			}
-		</Select>
-	</EditTemplate>
+                <SelectItem Value="@(string.Empty)">Select ...</SelectItem>
+                @foreach (string item in Field.Values)
+            {
+                <SelectItem Value="@item">@(item.ToString())</SelectItem>
+            }
+        </Select>
+    </EditTemplate>
+
 </DataGridSelectColumn>
+
+
 @code {
-	[Parameter]
-	public VisibleField<T> Field { get; set; }
-	[Parameter]
-	public int Order { get; set; }
+    [Parameter]
+    public VisibleField<T> Field { get; set; }
+    [Parameter]
+    public int Order { get; set; }
+
+    [CascadingParameter]
+    BlazorgenBaseComponent Parent { get; set; }
+
+    [CascadingParameter]
+    DataGrid<T> ParentGrid { get; set; }
+
+    string selectedFilter { get; set; }
 
 }

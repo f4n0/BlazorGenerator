@@ -62,5 +62,22 @@ namespace BlazorGenerator.Pages
     public virtual object GroupBy(TList item) => null;
     public virtual bool GroupByEnabled() => false;
 
+    private bool OnCustomFilter(T model)
+    {
+
+      // We want to accept empty value as valid or otherwise
+      // datagrid will not show anything.
+      if (this.DataGridCustomFilter.Count == 0)
+        return true;
+
+      bool filter = false;
+
+      foreach (var item in this.DataGridCustomFilter)
+      {
+        var fldVal = (item.Key as VisibleField<T>).Getter(model)?.ToString();
+        filter = filter || fldVal.Contains(item.Value, StringComparison.OrdinalIgnoreCase) == true;
+      }
+      return filter;
+    }
   }
 }

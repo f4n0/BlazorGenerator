@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.Dialogs;
+using BlazorGenerator.Models;
 using BlazorGenerator.Services;
 using Blazorise;
 using Microsoft.AspNetCore.Components;
@@ -86,7 +87,7 @@ namespace BlazorGenerator.Infrastructure
       {
         Width = Width.Max100,
         Size = ModalSize.ExtraLarge,
-        
+
       });
     }
 
@@ -148,9 +149,19 @@ namespace BlazorGenerator.Infrastructure
       logger.SendLogMessage(message, logType);
     }
 
-    public virtual  void Dispose()
+    public virtual void Dispose()
     {
 
+    }
+
+    internal Dictionary<object, string> DataGridCustomFilter { get; set; } = new Dictionary<object, string>();
+
+    internal void AddFilter(object Field, string selectedFilter)
+    {
+      if (DataGridCustomFilter.ContainsKey(Field))
+        DataGridCustomFilter[Field] = selectedFilter;
+      else
+        DataGridCustomFilter.Add(Field, selectedFilter);
     }
   }
 }
