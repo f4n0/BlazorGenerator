@@ -15,10 +15,10 @@ namespace BlazorGenerator
       services
       .AddBlazorise(options =>
       {
-        options.Immediate = false;        
+        options.Immediate = false;
       })
-      .AddBootstrap5Providers()
-      .AddFontAwesomeIcons();
+    .AddBootstrap5Providers()
+    .AddFontAwesomeIcons();
 
       services.AddSingleton<BlazorGenLogger>();
 
@@ -27,7 +27,7 @@ namespace BlazorGenerator
       services.AddSingleton(configureOptions);
       services.AddSingleton<BlazorGenOptions>();
 
-      services.AddScoped<ISecurity,NullSecurity>();
+      services.AddScoped<ISecurity, NullSecurity>();
       services.AddTransient<BlazorGenSecurity>();
 
       return services;

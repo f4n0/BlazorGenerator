@@ -1,62 +1,66 @@
 ﻿@inject BlazorGenOptions Options
 
-@if (!((BlazorgenBaseComponent)Context).IsModal)
-{
-    <Bar ThemeContrast="ThemeContrast.Light"
-     Background="Background.Light"
-     Breakpoint="Breakpoint.Desktop"
-     Padding="Padding.Is2.OnX">
-        <BarBrand>
-            @(((BlazorgenBaseComponent)Context).Title)
-        </BarBrand>
-        <BarToggler />
-        <BarMenu>
-            <BarStart>
-                @{
-                    PopulateDictionary();
+<Div Background="Background.Light">
+    @if (!((BlazorgenBaseComponent)Context).IsModal)
+    {
 
-                    foreach (var item in ActionGroups)
-                    {
-                        var filtered = PageActions.Where(o => o.Attribute.Group == item.Key);
-                        if (item.Key.ToLower() == "default" || item.Value == 1)
+        <Bar ThemeContrast="ThemeContrast.Light"
+         Background="Background.Light"
+         Breakpoint="Breakpoint.Desktop"
+         Padding="Padding.Is2.OnX">
+            <BarBrand>
+                @(((BlazorgenBaseComponent)Context).Title)
+            </BarBrand>
+            <BarToggler />
+            <BarMenu>
+                <BarStart>
+                    @{
+                        PopulateDictionary();
+
+                        foreach (var item in ActionGroups)
                         {
-                            foreach (var action in filtered)
+                            var filtered = PageActions.Where(o => o.Attribute.Group == item.Key);
+                            if (item.Key.ToLower() == "default" || item.Value == 1)
+                            {
+                                foreach (var action in filtered)
+                                {
+                                    <BarItem Border="Border.Is1.OnStart.OnStart">
+                                        <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link">
+                                            <BarIcon IconName="@action.Attribute.Icon" />
+                                            @(action.Attribute.Caption ?? action.Method.Name)
+                                        </BarLink>
+                                    </BarItem>
+                                }
+                            }
+                            else
                             {
                                 <BarItem Border="Border.Is1.OnStart.OnStart">
-                                    <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link">
-                                        <BarIcon IconName="@action.Attribute.Icon" />
-                                        @(action.Attribute.Caption ?? action.Method.Name)
-                                    </BarLink>
+                                    <BarDropdown>
+                                        <BarDropdownToggle>@item.Key</BarDropdownToggle>
+                                        <BarDropdownMenu>
+                                            @foreach (var action in filtered)
+                                            {
+                                                <BarDropdownItem Padding="Padding.Is0.OnAll.Is2.FromStart">
+                                                    <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link">
+                                                        <Icon Name="@action.Attribute.Icon" />
+                                                        @(action.Attribute.Caption ?? action.Method.Name)
+                                                    </BarLink>
+                                                </BarDropdownItem>
+                                            }
+                                        </BarDropdownMenu>
+                                    </BarDropdown>
                                 </BarItem>
                             }
                         }
-                        else
-                        {
-                            <BarItem Border="Border.Is1.OnStart.OnStart">
-                                <BarDropdown>
-                                    <BarDropdownToggle>@item.Key</BarDropdownToggle>
-                                    <BarDropdownMenu>
-                                        @foreach (var action in filtered)
-                                        {
-                                            <BarDropdownItem Padding="Padding.Is0.OnAll.Is2.FromStart">
-                                                <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link">
-                                                    <Icon Name="@action.Attribute.Icon" />
-                                                    @(action.Attribute.Caption ?? action.Method.Name)
-                                                </BarLink>
-                                            </BarDropdownItem>
-                                        }
-                                    </BarDropdownMenu>
-                                </BarDropdown>
-                            </BarItem>
-                        }
-                    }
 
-                }
-            </BarStart>
-        </BarMenu>
-    </Bar>
-    @if (Options.ShowBreaddcrumbs)
-    {
-        <DynamicBreadcrumbs />
+                    }
+                </BarStart>
+            </BarMenu>
+        </Bar>
+        @if (Options.ShowBreaddcrumbs)
+        {
+            <DynamicBreadcrumbs />
+        }
+
     }
-}
+</Div>
