@@ -37,7 +37,7 @@ namespace TestNet6.Data
       VisibleFields = new List<VisibleField<TestCardPage>>() {
         new VisibleField<TestCardPage>(nameof(Summary)){Getter = f => f.Summary, Setter = (f,v)=>f.Summary = v.ToString(), FullWidht=true},
         new VisibleField<TestCardPage>(nameof(Summary2)){Getter = f => f.Summary2, Setter = (f,v)=>f.Summary2 = v.ToString(), TextRole = TextRole.Password},
-        new VisibleField<TestCardPage>(nameof(Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString()},
+        new VisibleField<TestCardPage>(nameof(Summary3)){Getter = f => f.Summary3, Setter = (f,v)=>f.Summary3 = v.ToString(), Lookup= async o => o.Summary3 = "test"},
 
       new VisibleField<TestCardPage>("My BTN", FieldType.Button){ Setter = (f,v) => throw new Exception("prova") }
       };

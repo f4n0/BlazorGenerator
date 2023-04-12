@@ -31,6 +31,7 @@ namespace BlazorGenerator.Models
 
     internal IFluentColumn ColumnSize => FullWidht ? Blazorise.ColumnSize.Is12.OnDesktop : Blazorise.ColumnSize.Is6.OnDesktop;
 
+    public Action<T> Lookup { get; set; }
 
     public VisibleField(string name, FieldType type, bool editable)
     {

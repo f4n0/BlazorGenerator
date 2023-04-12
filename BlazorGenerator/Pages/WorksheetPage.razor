@@ -17,30 +17,40 @@
                 @foreach (var fld in VisibleFields)
                 {
                     <Column ColumnSize="@fld.ColumnSize">
-                        <Field >
+                        <Field>
+
                             <FieldLabel>@(fld.Caption): </FieldLabel>
                             <FieldBody Margin="Margin.IsAuto">
-                                @switch (fld.FieldType)
-                                {
-                                    case BlazorGenerator.Enum.FieldType.Numeric:
-                                        <BlazorGenerator.Pages.Partials.Numeric T="T" Data="Data" Field="fld" />
-                                        break;
-                                    case BlazorGenerator.Enum.FieldType.Boolean:
-                                        <BlazorGenerator.Pages.Partials.Checkbox T="T" Data="Data" Field="fld" />
-                                        break;
-                                    case BlazorGenerator.Enum.FieldType.Select:
-                                        <BlazorGenerator.Pages.Partials.Dropdown T="T" Data="Data" Field="fld" />
-                                        break;
-                                    case BlazorGenerator.Enum.FieldType.Button:
-                                        <BlazorGenerator.Pages.Partials.Btn T="T" Data="Data" Field="fld" />
-                                        break;
-                                    case BlazorGenerator.Enum.FieldType.Custom:
-                                        <BlazorGenerator.Pages.Partials.Custom T="T" Data="Data" Field="fld" />
-                                        break;
-                                    default:
-                                        <BlazorGenerator.Pages.Partials.Txt T="T" Data="Data" Field="fld" />
-                                        break;
-                                }
+
+                                <Div Display="Display.Flex">
+                                    @switch (fld.FieldType)
+                                    {
+                                        case BlazorGenerator.Enum.FieldType.Numeric:
+                                            <BlazorGenerator.Pages.Partials.Numeric T="T" Data="Data" Field="fld" />
+                                            break;
+                                        case BlazorGenerator.Enum.FieldType.Boolean:
+                                            <BlazorGenerator.Pages.Partials.Checkbox T="T" Data="Data" Field="fld" />
+                                            break;
+                                        case BlazorGenerator.Enum.FieldType.Select:
+                                            <BlazorGenerator.Pages.Partials.Dropdown T="T" Data="Data" Field="fld" />
+                                            break;
+                                        case BlazorGenerator.Enum.FieldType.Button:
+                                            <BlazorGenerator.Pages.Partials.Btn T="T" Data="Data" Field="fld" />
+                                            break;
+                                        case BlazorGenerator.Enum.FieldType.Custom:
+                                            <BlazorGenerator.Pages.Partials.Custom T="T" Data="Data" Field="fld" />
+                                            break;
+                                        default:
+                                            <BlazorGenerator.Pages.Partials.Txt T="T" Data="Data" Field="fld" />
+                                            break;
+                                    }
+                                    @if (fld.Lookup != null)
+                                    {
+                                        <Button Clicked="@(()=>fld.Lookup.Invoke(Data))" Background="Background.Transparent" Style="margin-left: -40px; z-index: 100;">
+                                            <Icon Name="IconName.MoreHorizontal" />
+                                        </Button>
+                                    }
+                                </Div>
                             </FieldBody>
                         </Field>
                     </Column>

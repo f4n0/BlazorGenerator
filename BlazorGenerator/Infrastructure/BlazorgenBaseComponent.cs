@@ -142,6 +142,8 @@ namespace BlazorGenerator.Infrastructure
     {
       return OpenModalAsync<UploadFileDialog>();
     }
+
+
     #endregion
 
     public void SendLogMessage(string message, Enum.LogType logType = Enum.LogType.Info)
