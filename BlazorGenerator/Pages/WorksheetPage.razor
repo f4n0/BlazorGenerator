@@ -10,7 +10,7 @@
 <Div Class="sticky-top">
     <Actions PageActions="@PageActions" Context="this"></Actions>
 </Div>
-<Container Fluid>
+<Container Fluid Class="flex-grow-1 max-vh-100">
     <Card Margin="Margin.Is4.FromBottom">
         <CardBody>
             <Row>
@@ -75,9 +75,15 @@
                       Responsive="true"
                       Narrow="true"
                       FixedHeader="true"
+                      FixedHeaderDataGridHeight="80vh"
+                      FixedHeaderDataGridMaxHeight="100vh"
                       Virtualize
-                      FixedHeaderDataGridHeight="60vh"
-                      FixedHeaderDataGridMaxHeight="60vh"
+                      VirtualizeOptions="@(new VirtualizeOptions(){
+                      DataGridHeight="80vh",
+                      DataGridMaxHeight="100vh"
+
+})"
+                      Class="flex-grow-1"
                       Editable
                       EditMode="@GetEditMode()"
                       NewItemCreator="@CreateNewItem"

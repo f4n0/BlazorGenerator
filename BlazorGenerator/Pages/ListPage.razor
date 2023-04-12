@@ -9,7 +9,7 @@
 <Div Class="sticky-top">
     <Actions PageActions="@PageActions" Context="this"></Actions>
 </Div>
-<Container Fluid>
+<Container Fluid Class="flex-grow-1 max-vh-100">
     <CascadingValue Value="(BlazorgenBaseComponent)this">
         <CascadingValue Value="_datagrid">
             <DataGrid TItem="T"
@@ -23,13 +23,19 @@
                       ShowPager="false"
                       ShowPageSizes="false"
                       FixedHeaderDataGridHeight="80vh"
-                      FixedHeaderDataGridMaxHeight="90vh"
+                      FixedHeaderDataGridMaxHeight="100vh"
+                      Virtualize
+                      VirtualizeOptions="@(new VirtualizeOptions(){
+                      DataGridHeight="80vh",
+                      DataGridMaxHeight="100vh"
+
+})"
+                      Class="flex-grow-1"
                       PageSize="int.MaxValue"
                       Filterable="true"
                       Responsive="true"
                       Narrow="true"
                       FixedHeader="true"
-                      Virtualize
                       Editable
                       EditMode="@GetEditMode()"
                       NewItemCreator="@CreateNewItem"
