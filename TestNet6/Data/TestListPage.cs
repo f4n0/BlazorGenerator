@@ -67,7 +67,7 @@ namespace TestNet6.Data
         Setter = (f, v) => f.Test5 = (FieldType)Enum.Parse(typeof(FieldType), v.ToString()),
         Values = Enum.GetNames(typeof(FieldType))
       },
-      new VisibleField<TestListPage>("Test btn", FieldType.Button, true)
+      new VisibleField<TestListPage>("Test btn", FieldType.Button,false)
       };
 
       Data = new List<TestListPage>()
