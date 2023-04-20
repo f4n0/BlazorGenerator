@@ -1,0 +1,39 @@
+﻿@typeparam T
+
+
+<DataGridColumn TItem="T"
+                Field="@Field.Name"
+                Caption="@Field.Caption"
+                Editable="true"
+                DisplayOrder="@Order"
+                Filterable="true"
+                Displayable="@(!Field.EditOnly)" Width="@Field.Width" SortDirection="@Field.Sort">
+   
+    <DisplayTemplate>
+
+        <Button @onclick="@(() => Field.Setter(context, null))" Color="Color.Dark" Outline="true" PreventDefaultOnSubmit="true">
+            @Field.Caption
+        </Button>
+        </DisplayTemplate>
+        <EditTemplate>
+
+        <Button @onclick="@(() => Field.Setter(context.Item, null))" Color="Color.Dark" Outline="true" PreventDefaultOnSubmit="true">
+            @Field.Caption
+        </Button>
+        </EditTemplate>
+    </DataGridColumn>
+
+    @code {
+    [Parameter]
+    public VisibleField<T> Field { get; set; }
+    [Parameter]
+    public int Order { get; set; }
+
+    [CascadingParameter]
+    BlazorgenBaseComponent Parent { get; set; }
+
+    [CascadingParameter]
+    DataGrid<T> ParentGrid { get; set; }
+
+    string selectedFilter { get; set; }
+}

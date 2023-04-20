@@ -136,6 +136,7 @@
                                 <BlazorGenerator.Pages.Partials.DataGridDropdown T="TList" Field="fld" Order="@(ListVisibleFields.IndexOf(fld))" />
                                 break;
                             case BlazorGenerator.Enum.FieldType.Button:
+                                <BlazorGenerator.Pages.Partials.DataGridButton T="TList" Field="fld" Order="@(VisibleFields.IndexOf(fld))" />
                                 break;
 
                             case BlazorGenerator.Enum.FieldType.Icon:
