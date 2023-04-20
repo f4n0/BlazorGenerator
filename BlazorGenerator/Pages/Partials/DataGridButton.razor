@@ -11,13 +11,13 @@
    
     <DisplayTemplate>
 
-        <Button @onclick="@(() => Field.Setter(context, null))" Color="Color.Dark" Outline="true" PreventDefaultOnSubmit="true">
+        <Button @onclick="@(() => Field.Setter(context, null))" Color="Color.Dark" Outline="true" PreventDefaultOnSubmit="true" Size="Size.Small">
             @Field.Caption
         </Button>
         </DisplayTemplate>
         <EditTemplate>
 
-        <Button @onclick="@(() => Field.Setter(context.Item, null))" Color="Color.Dark" Outline="true" PreventDefaultOnSubmit="true">
+        <Button @onclick="@(() => Field.Setter(context.Item, null))" Color="Color.Dark" Outline="true" PreventDefaultOnSubmit="true" Size="Size.Small">
             @Field.Caption
         </Button>
         </EditTemplate>
