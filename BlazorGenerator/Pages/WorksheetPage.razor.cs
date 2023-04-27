@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using BlazorGenerator.Infrastructure;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace BlazorGenerator.Pages
 {
@@ -78,6 +79,21 @@ namespace BlazorGenerator.Pages
         filter = filter || fldVal.Contains(item.Value, StringComparison.OrdinalIgnoreCase) == true;
       }
       return filter;
+    }
+
+
+
+    bool showContextMenu = false;
+    Point contextMenuPos;
+
+    protected Task OnRowContextMenu(DataGridRowMouseEventArgs<TList> eventArgs)
+    {
+      showContextMenu = true;
+      SelectedRecs.Clear();
+      SelectedRecs.Add(eventArgs.Item);
+      contextMenuPos = eventArgs.MouseEventArgs.Client;
+
+      return Task.CompletedTask;
     }
   }
 }

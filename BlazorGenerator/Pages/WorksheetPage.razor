@@ -1,5 +1,6 @@
 ﻿@inject BlazorGenSecurity security
 @{
+    var ContextMenuActions = AttributesUtils.GetMethodsWithAttribute<ContextMenuAttribute>(this);
     var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
     var permissionSet = security.GetPermissionSet(this.GetType());
 }
@@ -95,7 +96,9 @@
                       CommandMode="DataGridCommandMode.Commands"
                       Groupable="GroupByEnabled()"
                       GroupBy="GroupBy"
-                      CustomFilter="@OnCustomFilter">
+                      CustomFilter="@OnCustomFilter"
+                      RowContextMenu="@OnRowContextMenu"
+                      RowContextMenuPreventDefault="@(ContextMenuActions.Count() != 0)">
 
                 <DataGridColumns>
                     <DataGridMultiSelectColumn TItem="TList" Width="30px"></DataGridMultiSelectColumn>
@@ -159,3 +162,21 @@
         </CascadingValue>
     </CascadingValue>
 </Container>
+
+
+@if (showContextMenu)
+{
+    <Div Position="Position.Fixed" Border="Border.Is1.Rounded.Dark" Style="@($"left:{contextMenuPos.X}px;top:{contextMenuPos.Y}px;")" @onmouseleave="@(() => showContextMenu = false)">
+        <ListGroup>
+            @foreach (var item in ContextMenuActions)
+            {
+                <ListGroupItem Clicked="@(()=>{item.Method.Invoke(this, null);
+        showContextMenu = false;})" Style="cursor:pointer">
+                    <Icon Name="@item.Attribute.Icon" TextColor="TextColor.Secondary" />
+                    @(item.Attribute.Caption ?? item.Method.Name)
+                </ListGroupItem>
+            }
+        </ListGroup>
+    </Div>
+}
+

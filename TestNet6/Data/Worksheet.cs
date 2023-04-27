@@ -94,6 +94,7 @@ namespace TestNet6.Data
     }
 
     [PageAction("Restore")]
+    [ContextMenu("Restore", Blazorise.IconName.Add)]
     public void Action1()
     {
       ListData.AddRange(new List<TestListPage>()

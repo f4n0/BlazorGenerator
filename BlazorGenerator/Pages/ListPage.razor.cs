@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using BlazorGenerator.Infrastructure;
+using System.Drawing;
+using System.Threading.Tasks;
 
 namespace BlazorGenerator.Pages
 {
@@ -78,5 +80,20 @@ namespace BlazorGenerator.Pages
       }
       return filter;
     }
+
+
+    bool showContextMenu = false;
+    Point contextMenuPos;
+
+    protected Task OnRowContextMenu(DataGridRowMouseEventArgs<T> eventArgs)
+    {
+      showContextMenu = true;
+      SelectedRec = eventArgs.Item;
+      contextMenuPos = eventArgs.MouseEventArgs.Client;
+
+      return Task.CompletedTask;
+    }
+
+
   }
 }

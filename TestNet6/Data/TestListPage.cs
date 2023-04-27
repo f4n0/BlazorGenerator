@@ -92,6 +92,7 @@ namespace TestNet6.Data
       Refresh();
     }
     [PageAction("Restore2")]
+    [ContextMenu]
     public void Action4()
     {
       Data.AddRange(new List<TestListPage>()
