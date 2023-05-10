@@ -24,14 +24,12 @@ namespace BlazorGenerator.Models
     public TextRole TextRole { get; set; } = TextRole.Text;
     public Func<T, string> ToolTip { get; set; }
     public SortDirection Sort { get; set; } = SortDirection.Default;
-
     public bool FullWidht { get; set; } = false;
-
     public string Width { get; set; } = "auto";
+    public Action<T> Lookup { get; set; }
 
     internal IFluentColumn ColumnSize => FullWidht ? Blazorise.ColumnSize.Is12.OnDesktop : Blazorise.ColumnSize.Is6.OnDesktop;
 
-    public Action<T> Lookup { get; set; }
 
     public VisibleField(string name, FieldType type, bool editable)
     {

@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Security;
+﻿using BlazorGenerator.Models;
+using BlazorGenerator.Security;
 using TestNet6.Data;
 
 namespace TestNet6

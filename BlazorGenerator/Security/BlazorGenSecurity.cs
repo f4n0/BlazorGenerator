@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
+using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Options;
 using System;
