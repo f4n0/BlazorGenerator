@@ -34,7 +34,7 @@ namespace TestNet6.Data
         };
     }
 
-    [PageAction("Restore")]
+    [PageAction(Caption = "Restore")]
     public void Action1()
     {
       Data.AddRange(new List<TestModel>()
@@ -46,7 +46,7 @@ namespace TestNet6.Data
         });
       Refresh();
     }
-    [PageAction("Restore2")]
+    [PageAction(Caption = "Restore2")]
     public void Action4()
     {
       Data.AddRange(new List<TestModel>()
@@ -59,14 +59,14 @@ namespace TestNet6.Data
       Refresh();
     }
 
-    [PageAction("Delete all", "gruppo1")]
+    [PageAction(Caption = "Delete all", Group = "gruppo1")]
     public void Action2()
     {
       Data.Clear();
       Refresh();
     }
 
-    [PageAction("Test","gruppo1")]
+    [PageAction(Caption = "Test", Group = "gruppo1")]
     public void Action3()
     {
       if (SelectedRecs.Count > 0)

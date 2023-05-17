@@ -4,11 +4,14 @@ using BlazorGenerator.Enum;
 using BlazorGenerator.Models;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
+using BlazorGenerator.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Icons.FontAwesome;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace TestNet6.Data
 {
@@ -16,7 +19,7 @@ namespace TestNet6.Data
   [Route(route)]
   public class TestListPage : ListPage<TestListPage>
   {
-    public override string Title => "My List"; 
+    public override string Title => "My List";
     const string route = "/List";
 
     public string Test { get; set; }
@@ -52,7 +55,7 @@ namespace TestNet6.Data
       new VisibleField<TestListPage>(nameof(Test2)){ Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
       new VisibleField<TestListPage>(nameof(Test3)){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)},
       new VisibleField<TestListPage>(nameof(Test4), FieldType.Custom, true)
-      { 
+      {
         EditOnly=true,
         Caption="Test 4",
         Getter = f => f.Test4,
@@ -79,7 +82,7 @@ namespace TestNet6.Data
         };
     }
 
-    [PageAction("Restore")]
+    [PageAction(Caption = "Restore", Icon =  BlazorGenIcons.Adjust)]
     public void Action1()
     {
       Data.AddRange(new List<TestListPage>()
@@ -91,7 +94,7 @@ namespace TestNet6.Data
         });
       Refresh();
     }
-    [PageAction("Restore2")]
+    [PageAction(Caption = "Restore2")]
     [ContextMenu]
     public void Action4()
     {
@@ -105,14 +108,14 @@ namespace TestNet6.Data
       Refresh();
     }
 
-    [PageAction("Delete all", "gruppo1")]
+    [PageAction(Caption = "Delete all", Group = "gruppo1")]
     public void Action2()
     {
       Data.Clear();
       Refresh();
     }
 
-    [PageAction("Test","gruppo1")]
+    [PageAction(Caption = "Test", Group = "gruppo1")]
     public void Action3()
     {
       if (SelectedRecs.Count > 0)
@@ -124,14 +127,14 @@ namespace TestNet6.Data
         Refresh();
       }
     }
-    [PageAction("Delete all 2", "gruppo1")]
+    [PageAction(Caption = "Delete all 2", Group = "gruppo1")]
     public void Action22()
     {
       Data.Clear();
       Refresh();
     }
 
-    [PageAction("Test2", "gruppo1")]
+    [PageAction(Caption = "Test2", Group = "gruppo1")]
     public void Action32()
     {
       if (SelectedRecs.Count > 0)

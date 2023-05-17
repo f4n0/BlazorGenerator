@@ -12,7 +12,7 @@
     </FilterTemplate>
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
-			<Icon Name="@((Blazorise.IconName) Field.Getter(context))">
+			<Icon Name="@(Field.Getter(context))">
 			</Icon>
 		</Tooltip>
 	</DisplayTemplate>
