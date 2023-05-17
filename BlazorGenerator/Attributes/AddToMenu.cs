@@ -16,7 +16,7 @@ namespace BlazorGenerator.Attributes
 
     public string Title { get; set; }
     public string Route { get; set; }
-    public IconName Icon { get; set; } = Blazorise.IconName.Add;
+    public object Icon { get; set; } = Blazorise.IconName.Add;
     public string Group { get; set; } = "Default";
     public int OrderSequence { get; set; }
   }

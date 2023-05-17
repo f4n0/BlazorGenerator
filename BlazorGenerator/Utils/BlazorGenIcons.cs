@@ -2000,6 +2000,7 @@ namespace BlazorGenerator.Utils
     public const string YenSign = "fa-yen-sign";
 
     public const string YinYang = "fa-yin-yang";
+    public const string Docker = "fab fa-docker";
   }
 
 

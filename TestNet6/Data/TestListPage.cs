@@ -15,7 +15,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace TestNet6.Data
 {
-  [AddToMenu(Title = "List Page", Route = route, OrderSequence = 3)]
+  [AddToMenu(Title = "List Page", Route = route, OrderSequence = 3, Icon = BlazorGenIcons.Adjust)]
   [Route(route)]
   public class TestListPage : ListPage<TestListPage>
   {
@@ -46,6 +46,7 @@ namespace TestNet6.Data
 
     protected override void OnInitialized()
     {
+
       setLogVisibility(true);
 
       VisibleFields = new List<VisibleField<TestListPage>>()        {
