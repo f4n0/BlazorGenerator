@@ -27,7 +27,8 @@
     [Parameter]
     public bool UseDefaultTemplate { get; set; } = false;
 
-    private Theme theme = new Theme
+    [Parameter]
+    public Theme theme { get; set; } = new Theme
         {
             IsRounded = true
 
