@@ -11,7 +11,7 @@
         </TextEdit>
     </FilterTemplate>
 	<DisplayTemplate>
-		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false">
+        <Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)" Placement="TooltipPlacement.TopStart" ShowArrow="false" TextAlignment="TextAlignment.Center">
 			<Icon Name="@(Field.Getter(context))">
 			</Icon>
 		</Tooltip>
