@@ -125,19 +125,20 @@
     </Container>
 
 
-    @if (showContextMenu)
-    {
-        <Div Position="Position.Fixed" Border="Border.Is1.Rounded.Dark" Style="@($"left:{contextMenuPos.X}px;top:{contextMenuPos.Y}px;")">
-            <ListGroup>
-                @foreach (var item in ContextMenuActions)
-                {
-                    <ListGroupItem Clicked="@(()=>{item.Method.Invoke(this, null);
-        showContextMenu = false;})" Style="cursor:pointer">
-                        <Icon Name="@item.Attribute.Icon" TextColor="TextColor.Secondary" />
-                        @(item.Attribute.Caption ?? item.Method.Name)
-                    </ListGroupItem>
-                }
-            </ListGroup>
-        </Div>
-    }
+   
 </Div>
+@if (showContextMenu)
+{
+    <Div Position="Position.Fixed" Border="Border.Is1.Rounded.Dark" Style="@($"left:{contextMenuPos.X}px;top:{contextMenuPos.Y}px;")">
+        <ListGroup>
+            @foreach (var item in ContextMenuActions)
+            {
+                <ListGroupItem Clicked="@(()=>{item.Method.Invoke(this, null);
+        showContextMenu = false;})" Style="cursor:pointer">
+                    <Icon Name="@item.Attribute.Icon" TextColor="TextColor.Secondary" />
+                    @(item.Attribute.Caption ?? item.Method.Name)
+                </ListGroupItem>
+            }
+        </ListGroup>
+    </Div>
+}
