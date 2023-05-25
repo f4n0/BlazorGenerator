@@ -26,7 +26,8 @@
                                                                         Field.Setter(context.Item, v);
                                                                         context.CellValue = Field.Getter(context.Item);
                                                                     })"
-                  Placeholder="@Field.Caption">
+                  Placeholder="@Field.Caption"
+                      ReadOnly="@(!Field.Editable)">
             </TextEdit>
         </EditTemplate>
     </DataGridColumn>
