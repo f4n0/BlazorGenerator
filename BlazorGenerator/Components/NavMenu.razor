@@ -7,7 +7,7 @@
      Breakpoint="Breakpoint.Desktop"
      Background="Background.Light"
      ThemeContrast="ThemeContrast.Light"
-     @ref="Menu">
+@ref="Menu">
     <BarToggler />
     <BarBrand>
         <BarItem>
@@ -23,7 +23,7 @@
             @{
                 PopulateDictionary();
 
-                
+
                 foreach (var item in MenuGroups.Where(o => o.Key.ToLower() == "default"))
                 {
                     var filtered = menus.Where(o => o.Group == item.Key);
@@ -102,7 +102,26 @@
                 }
             }
         </BarStart>
-       
+        <BarEnd>
+
+            @{
+                var Footers = Utils.AttributesUtils.GetModelsWithAttribute<MenuFooter>();
+                foreach (var item in Footers)
+                {
+                    <BarItem>
+                        @{
+                          var f = new RenderFragment(builder =>
+                        {
+                        builder.OpenComponent(0, item.Type);
+                        builder.CloseComponent();
+                        });
+
+                        @f
+                        }
+                    </BarItem>
+                }
+            }
+        </BarEnd>
     </BarMenu>
 </Bar>
 
