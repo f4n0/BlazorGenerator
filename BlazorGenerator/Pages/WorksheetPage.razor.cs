@@ -46,6 +46,17 @@ namespace BlazorGenerator.Pages
     {
     }
 
+
+    public virtual Task OnDeleting(CancellableRowChange<TList> e)
+    {
+      return Task.CompletedTask;
+    }
+
+    public virtual Task OnModifying(CancellableRowChange<TList, Dictionary<string, object>> e)
+    {
+      return Task.CompletedTask;
+    }
+
     public virtual Action<TList, DataGridRowStyling> RowStyling => null;
 
     internal DataGridEditMode GetEditMode()

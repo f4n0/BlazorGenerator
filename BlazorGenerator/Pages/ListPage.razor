@@ -43,6 +43,8 @@
                           HeaderThemeContrast="ThemeContrast.Light"
                           RowStyling="@RowStyling"
                           RowRemoved="@OnDelete"
+                          RowRemoving="@OnDeleting"
+                          RowUpdating="@OnModifying"
                           RowUpdated="@OnModify"
                           CommandMode="DataGridCommandMode.Commands"
                           Groupable="GroupByEnabled()"
