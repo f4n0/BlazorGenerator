@@ -57,7 +57,7 @@ namespace TestNet6.Data
       var t = new Dictionary<string, object>();
       t.Add(nameof(TestNewModal.test), "stanislav");
       var test = (TestNewModal) await OpenModalAsync<TestNewModal>(t);
-      MessageService.Success(test.test);
+      UiServices.MessageService.Success(test.test);
     }
 
 
@@ -65,7 +65,7 @@ namespace TestNet6.Data
     public async Task ChoseAsync()
     {
       var res = await ShowChoose("Title", new[] { "Opzione 1", "Opzione 2", "Opzione 3" });
-      MessageService.Success(res);
+      UiServices.MessageService.Success(res);
     }
 
    

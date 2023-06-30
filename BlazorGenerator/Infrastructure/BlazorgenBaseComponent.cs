@@ -18,15 +18,10 @@ namespace BlazorGenerator.Infrastructure
     [CascadingParameter]
     protected DynamicMainLayout layout { get; set; }
     [Inject]
-    protected BlazorGenLogger logger { get; set; }
-    [Inject]
-    public IPageProgressService PageProgressService { get; set; }
-    [Inject]
-    public IMessageService MessageService { get; set; }
+    public UIServices UiServices { get; set; }
+
     [Inject]
     public IJSRuntime JSRuntime { get; set; }
-    [Inject]
-    public INotificationService NotificationService { get; set; }
     [Inject]
     public NavigationManager NavManager { get; set; }
     [Inject]
@@ -47,11 +42,11 @@ namespace BlazorGenerator.Infrastructure
 
     public void StartLoader()
     {
-      PageProgressService.Go(null, options => { options.Color = Color.Danger; });
+      UiServices.PageProgressService.Go(null, options => { options.Color = Color.Danger; });
     }
     public void StopLoader()
     {
-      PageProgressService.Go(-1);
+      UiServices.PageProgressService.Go(-1);
     }
 
 
@@ -148,7 +143,7 @@ namespace BlazorGenerator.Infrastructure
 
     public void SendLogMessage(string message, Enum.LogType logType = Enum.LogType.Info)
     {
-      logger.SendLogMessage(message, logType);
+      UiServices.logger.SendLogMessage(message, logType);
     }
 
     public virtual void Dispose()
