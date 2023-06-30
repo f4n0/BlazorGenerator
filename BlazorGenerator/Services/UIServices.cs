@@ -79,7 +79,7 @@ namespace BlazorGenerator.Services
       });
       AwaitModal = new();
       var returnData = await AwaitModal.Task;
-      await ModalService.Hide();
+      Instance.ModalRef.Hide();
       return returnData;
     }
 

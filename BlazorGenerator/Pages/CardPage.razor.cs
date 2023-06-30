@@ -15,7 +15,7 @@ namespace BlazorGenerator.Pages
     {
       if (IsModal)
       {
-        ModalSuccess(Data);
+        InvokeAsync(()=> ModalSuccess(Data));
       }
     }
 
@@ -23,7 +23,7 @@ namespace BlazorGenerator.Pages
     {
       if (IsModal)
       {
-        ModalSuccess(Data);
+        InvokeAsync(() => ModalSuccess(Data));
       }
     }
 
@@ -34,7 +34,7 @@ namespace BlazorGenerator.Pages
 
       if (e.Code == "Enter" || e.Code == "NumpadEnter")
       {
-        ModalSuccess(Data);
+        InvokeAsync(() => ModalSuccess(Data));
       }
     }
 
