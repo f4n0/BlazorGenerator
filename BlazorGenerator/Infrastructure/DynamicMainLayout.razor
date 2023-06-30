@@ -19,7 +19,7 @@
                 </ErrorBoundary>
 
             </CascadingValue>
-            <ModalProvider Size="ModalSize.Large" UseModalStructure=true />
+            <ModalProvider Size="ModalSize.Large" UseModalStructure=true @ref="ModalRef" />
         </LayoutContent>
         <LayoutFooter Fixed=true Display="GetLogDisplay()" Visibility="GetLogVisibility()">
             <Log></Log>
@@ -27,14 +27,32 @@
     </Layout>
 </Layout>
 
-<PageProgressProvider />
-<MessageProvider />
+<PageProgressProvider  />
+<MessageProvider  />
 <Choose @ref="ChooseService" />
 <NotificationProvider Style="z-index:99999999 !important;" />
 
 
 
 @code {
+
+    [Inject]
+    public UIServices UiServices { get; set; }
+
+    private ModalProvider ModalRef
+    {
+        get
+        {
+            return UiServices.ModalService.ModalProvider;
+        }
+        set
+        {
+            UiServices.ModalService.SetModalProvider(value);
+        }
+    }
+
+
+
 
     [Inject] protected BlazorGenOptions Options { get; set; }
 
@@ -70,6 +88,23 @@
     {
         showLog = show;
         StateHasChanged();
+    }
+
+    [Inject]
+    public IMessageService messageService { get; set; }
+    [Inject]
+    public IPageProgressService pageProgressService { get; set; }
+    [Inject]
+    public INotificationService notificationService { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+      //need to be scoped, otherwise won't work. 
+        UiServices.MessageService = messageService;
+        UiServices.PageProgressService = pageProgressService;
+        UiServices.NotificationService = notificationService;
+
+        base.OnAfterRender(firstRender);
     }
 
 

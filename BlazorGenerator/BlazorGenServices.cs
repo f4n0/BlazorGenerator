@@ -35,7 +35,8 @@ namespace BlazorGenerator
         serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IPageProgressService)) as IPageProgressService,
         serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IMessageService)) as IMessageService,
         serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger,
-        serviceProvider.CreateScope().ServiceProvider.GetService(typeof(INotificationService)) as INotificationService
+        serviceProvider.CreateScope().ServiceProvider.GetService(typeof(INotificationService)) as INotificationService,
+        serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IModalService)) as IModalService
      ));
 
       return services;

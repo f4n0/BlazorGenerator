@@ -56,7 +56,7 @@ namespace TestNet6.Data
     {
       var t = new Dictionary<string, object>();
       t.Add(nameof(TestNewModal.test), "stanislav");
-      var test = (TestNewModal) await OpenModalAsync<TestNewModal>(t);
+      var test = (TestNewModal) await UiServices.OpenModalAsync<TestNewModal>(t);
       UiServices.MessageService.Success(test.test);
     }
 

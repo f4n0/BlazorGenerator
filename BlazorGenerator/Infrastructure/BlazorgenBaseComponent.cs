@@ -54,70 +54,10 @@ namespace BlazorGenerator.Infrastructure
 
     #region Modal
 
-    [Inject]
-    public IModalService ModalService { get; set; }
     [Parameter]
     public bool IsModal { get; set; }
-
-    TaskCompletionSource<object> AwaitModal;
     [Parameter] public Func<object, Task> ModalSuccess { get; set; }
-
-
-    public void OpenModal<TComponent>()
-    {
-      Dictionary<string, object> parameters = new();
-      OpenModal<TComponent>(parameters);
-    }
-
-    public void OpenModal<TComponent>(Dictionary<string, object> parameters)
-    {
-      parameters.Add(nameof(BlazorgenBaseComponent.IsModal), true);
-      ModalService.Show<TComponent>(o =>
-      {
-        foreach (var item in parameters)
-        {
-          o.Add(item.Key, item.Value);
-        }
-      }, new ModalInstanceOptions
-      {
-        Width = Width.Max100,
-        Size = ModalSize.ExtraLarge,
-
-      });
-    }
-
-    public async Task<object> OpenModalAsync<TComponent>()
-    {
-      Dictionary<string, object> parameters = new();
-      return await OpenModalAsync<TComponent>(parameters);
-    }
-
-    public async Task<object> OpenModalAsync<TComponent>(Dictionary<string, object> parameters)
-    {
-      parameters.Add(nameof(BlazorgenBaseComponent.IsModal), true);
-
-      var Instance = await ModalService.Show<TComponent>(o =>
-      {
-        foreach (var item in parameters)
-        {
-          o.Add(item.Key, item.Value);
-        }
-        o.Add(nameof(BlazorgenBaseComponent.ModalSuccess), ModalData);
-      }, new ModalInstanceOptions
-      {
-
-      });
-      AwaitModal = new();
-      var returnData = await AwaitModal.Task;
-      await ModalService.Hide();
-      return returnData;
-    }
-
-    Task ModalData(object response)
-    {
-      AwaitModal.TrySetResult(response);
-      return Task.CompletedTask;
-    }
+    
 
     protected override Task OnParametersSetAsync()
     {
@@ -135,7 +75,7 @@ namespace BlazorGenerator.Infrastructure
 
     public Task<object> ShowFilePicker()
     {
-      return OpenModalAsync<UploadFileDialog>();
+      return UiServices.OpenModalAsync<UploadFileDialog>();
     }
 
 
