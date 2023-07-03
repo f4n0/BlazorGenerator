@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <RepositoryUrl>https://github.com/f4n0/BlazorGenerator</RepositoryUrl>
-    <Version>1.2.188.3</Version>
+    <Version>1.2.189.1</Version>
     
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>

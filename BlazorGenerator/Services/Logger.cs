@@ -29,7 +29,7 @@ namespace BlazorGenerator.Services
     {
       savedLogMessage = message;
       savedLogType = logType;
-      NotifyStateChanged();
+       NotifyStateChanged();
     }
   }
 }

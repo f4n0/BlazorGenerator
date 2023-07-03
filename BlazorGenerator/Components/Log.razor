@@ -40,7 +40,7 @@
 	private void UpdateLog()
 	{
 		logs.Add((blazorgenLogger.LogMessage, blazorgenLogger.LogType));
-		StateHasChanged();
+		InvokeAsync(() =>  StateHasChanged());
 	}
 
 	private TextColor DecodeTextColor(LogType logType)
