@@ -13,6 +13,16 @@
     <RootNamespace>BlazorGenerator</RootNamespace>
     <Authors>f4n0</Authors>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
@@ -33,5 +43,12 @@
 
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <Title>BlazorGenerator</Title>
+    <Description>You think of the models, Blazorgen the Blazor UI. 
+This is  a view creator based on fields in models</Description>
+    <PackageProjectUrl>https://github.com/f4n0/BlazorGenerator</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 </Project>

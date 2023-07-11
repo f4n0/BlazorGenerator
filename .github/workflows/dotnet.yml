@@ -31,3 +31,10 @@ jobs:
       run: dotnet nuget push ./out/*.nupkg --source "https://nuget.pkg.github.com/f4n0/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} 
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}  
+
+    - name: Push generated package to Nuget registry
+      if: github.event_name != 'pull_request'
+      env:
+        NUGET_TOKEN: ${{secrets.NUGET_TOKEN}}  
+      run: dotnet nuget push ./out/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key "$env:NUGET_TOKEN"
+      
