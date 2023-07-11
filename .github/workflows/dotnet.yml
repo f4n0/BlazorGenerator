@@ -36,5 +36,5 @@ jobs:
       if: github.event_name != 'pull_request'
       env:
         NUGET_TOKEN: ${{secrets.NUGET_TOKEN}}  
-      run: dotnet nuget push ./out/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key "$env:NUGET_TOKEN"
+      run: dotnet nuget push ./out/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key "$NUGET_TOKEN"
       
