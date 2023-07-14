@@ -14,8 +14,8 @@
                 }
 			</Heading>
 		</CollapseHeader>
-		<CollapseBody Overflow="Overflow.Auto" Style="max-height:150px">			
-				<Repeater Items="@logs">
+		<CollapseBody Overflow="Overflow.Auto" Style="max-height:150px">
+            <Repeater Items="@blazorgenLogger.Logs">
 					<Paragraph TextColor="@DecodeTextColor(context.Item2)">@context.Item1</Paragraph>
 				</Repeater>			
 		</CollapseBody>
@@ -30,7 +30,6 @@
 
 @code {
 	bool LogVisible { get; set; }
-	List<(string, LogType)> logs = new List<(string, LogType)>();
 
 	protected override void OnInitialized()
 	{
@@ -39,7 +38,6 @@
 
 	private void UpdateLog()
 	{
-		logs.Add((blazorgenLogger.LogMessage, blazorgenLogger.LogType));
 		InvokeAsync(() =>  StateHasChanged());
 	}
 

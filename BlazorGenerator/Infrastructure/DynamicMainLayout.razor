@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+<Div @onkeydown="@keydown" tabindex="0">
 
 <Layout Sider>
     <LayoutSider>
@@ -27,12 +28,12 @@
     </Layout>
 </Layout>
 
-<PageProgressProvider  />
-<MessageProvider  />
+<PageProgressProvider />
+<MessageProvider />
 <Choose @ref="ChooseService" />
 <NotificationProvider Style="z-index:99999999 !important;" />
 
-
+</Div>
 
 @code {
 
@@ -50,9 +51,6 @@
             UiServices.ModalService.SetModalProvider(value);
         }
     }
-
-
-
 
     [Inject] protected BlazorGenOptions Options { get; set; }
 
@@ -96,21 +94,48 @@
     public IPageProgressService pageProgressService { get; set; }
     [Inject]
     public INotificationService notificationService { get; set; }
+    [Inject]
+    public IJSRuntime jsRuntime { get; set; }
 
-    protected override void OnAfterRender(bool firstRender)
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-      //need to be scoped, otherwise won't work. 
+        //need to be scoped, otherwise won't work.
         UiServices.MessageService = messageService;
         UiServices.PageProgressService = pageProgressService;
         UiServices.NotificationService = notificationService;
 
-        base.OnAfterRender(firstRender);
+
+
+
+        await base.OnAfterRenderAsync(firstRender);
     }
+
 
 
     protected override void OnParametersSet()
     {
         showLog = false;
         errorBoundary?.Recover();
+    }
+
+
+    void keydown(KeyboardEventArgs e )
+    {
+        if (e.Code == "KeyC" && e.AltKey)
+        {
+            OpenLogPage();
+        }
+    }
+
+
+
+    public Task OpenLogPage()
+    {
+        return UiServices.ModalService.Show<LoggerPage>("Log", new ModalInstanceOptions()
+            {
+                Size = ModalSize.ExtraLarge,
+                Scrollable = true
+    });
     }
 }

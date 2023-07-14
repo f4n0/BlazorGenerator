@@ -9,17 +9,6 @@ namespace BlazorGenerator.Services
 {
   public class BlazorGenLogger
   {
-    private string? savedLogMessage;
-    private LogType savedLogType;
-
-    public string LogMessage
-    {
-      get => savedLogMessage ?? string.Empty;
-    }
-    public LogType LogType
-    {
-      get => savedLogType;
-    }
 
     public event Action? OnChange;
 
@@ -27,9 +16,12 @@ namespace BlazorGenerator.Services
 
     public void SendLogMessage(string message, LogType logType = LogType.Info)
     {
-      savedLogMessage = message;
-      savedLogType = logType;
-       NotifyStateChanged();
+      Logs.Add((message, logType));
+      NotifyStateChanged();
     }
+
+
+
+    public List<(string, LogType)> Logs = new List<(string, LogType)>();
   }
 }

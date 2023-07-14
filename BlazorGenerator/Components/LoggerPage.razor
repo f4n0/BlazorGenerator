@@ -1,0 +1,28 @@
+﻿@using BlazorGenerator.Enum
+@inject BlazorGenLogger blazorgenLogger
+
+
+<Div Overflow="Overflow.Auto" Height="Height.Is100">
+<Repeater Items="@blazorgenLogger.Logs">
+    <Paragraph TextColor="@DecodeTextColor(context.Item2)">@context.Item1</Paragraph>
+</Repeater>
+
+</Div>
+@code {
+    bool LogVisible { get; set; }
+
+    private TextColor DecodeTextColor(LogType logType)
+    {
+        switch (logType)
+        {
+            case LogType.Error:
+                return TextColor.Danger;
+            case LogType.Info:
+                return TextColor.Info;
+            case LogType.Warning:
+                return TextColor.Warning;
+        }
+        return TextColor.Body;
+    }
+
+}
