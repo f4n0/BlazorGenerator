@@ -25,7 +25,7 @@
                                 foreach (var action in filtered)
                                 {
                                     <BarItem Border="Border.Is1.OnStart.OnStart">
-                                        <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link">
+                                        <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link disable-select">
                                             <BarIcon IconName="@action.Attribute.Icon" />
                                             @(action.Attribute.Caption ?? action.Method.Name)
                                         </BarLink>
@@ -41,7 +41,7 @@
                                             @foreach (var action in filtered)
                                             {
                                                 <BarDropdownItem Padding="Padding.Is0.OnAll.Is2.FromStart">
-                                                    <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link">
+                                                    <BarLink @onclick="@(() => action.Method.Invoke(Context, null))" Class="b-bar-link disable-select">
                                                         <Icon Name="@action.Attribute.Icon" />
                                                         @(action.Attribute.Caption ?? action.Method.Name)
                                                     </BarLink>
@@ -64,3 +64,12 @@
 
     }
 </Div>
+
+<style>
+    .disable-select {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+</style>
