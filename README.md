@@ -1,3 +1,5 @@
+![Nuget](https://img.shields.io/nuget/v/BlazorGenerator)
+
 # BlazorGenerator
 You create the models, BlazorGenerator will create the pages!
 Based on Blazorise 
