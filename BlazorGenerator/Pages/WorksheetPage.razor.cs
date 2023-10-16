@@ -56,6 +56,14 @@ namespace BlazorGenerator.Pages
     {
       return Task.CompletedTask;
     }
+    public virtual Task onRowClick(DataGridRowMouseEventArgs<TList> eventArgs)
+    {
+      return Task.CompletedTask;
+    }
+    public virtual Task onRowDoubleClick(DataGridRowMouseEventArgs<TList> eventArgs)
+    {
+      return Task.CompletedTask;
+    }
 
     public virtual Action<TList, DataGridRowStyling> RowStyling => null;
 
