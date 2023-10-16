@@ -47,6 +47,8 @@
                           GroupBy="GroupBy"
                           CustomFilter="@OnCustomFilter"
                           RowContextMenu="@OnRowContextMenu"
+                          Sortable
+                          SortMode="DataGridSortMode.Multiple"
                           RowContextMenuPreventDefault="@(ContextMenuActions.Count() != 0)">
 
                     <DataGridColumns>

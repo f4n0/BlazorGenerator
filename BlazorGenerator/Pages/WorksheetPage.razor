@@ -92,7 +92,9 @@
                           RowUpdating="@OnModifying"
                           CommandMode="DataGridCommandMode.Commands"
                           Groupable="GroupByEnabled()"
-                          GroupBy="GroupBy"
+                           GroupBy="GroupBy"
+                          Sortable
+                           SortMode="DataGridSortMode.Multiple"
                           CustomFilter="@OnCustomFilter"
                           RowContextMenu="@OnRowContextMenu"
                           RowContextMenuPreventDefault="@(ContextMenuActions.Count() != 0)">
