@@ -2,7 +2,7 @@
 
 
 <DataGridCheckColumn TItem="T" Field="@Field.Name" Caption="@Field.Caption" Editable="true" Sortable="true" Width="@Field.Width"
-                     DisplayOrder="@Order" Filterable="true" Displayable="@(!Field.EditOnly)" SortDirection="@Field.Sort">
+                     DisplayOrder="@Order" Filterable="true" Displayable="@(!Field.EditOnly)" SortDirection="@Field.Sort" Groupable="@Field.Groupable">
 	<DisplayTemplate>
 		<Tooltip Text="@(Field.ToolTip?.Invoke(context) ?? Field.Name)">
 			<Check TValue="bool" Checked="@((bool)Field.Getter(context))" ReadOnly="true" Disabled />

@@ -81,6 +81,8 @@ namespace BlazorGenerator.Pages
 
     public virtual object GroupBy(TList item) => null;
     public virtual bool GroupByEnabled() => false;
+    public virtual bool showGrouping => false;
+
 
     private bool OnCustomFilter(TList model)
     {

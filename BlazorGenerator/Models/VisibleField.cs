@@ -27,6 +27,7 @@ namespace BlazorGenerator.Models
     public bool FullWidht { get; set; } = false;
     public string Width { get; set; } = "auto";
     public Action<T> Lookup { get; set; }
+    public bool Groupable { get; set; } = false;
 
     internal IFluentColumn ColumnSize => FullWidht ? Blazorise.ColumnSize.Is12.OnDesktop : Blazorise.ColumnSize.Is6.OnDesktop;
 

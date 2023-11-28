@@ -22,6 +22,8 @@ namespace TestNet6.Data
     public override string Title => "My List";
     const string route = "/List";
 
+    public override bool showGrouping => true;
+
     public string Test { get; set; }
     public bool Test6 { get; set; }
     public int Test1 { get; set; }
@@ -31,10 +33,7 @@ namespace TestNet6.Data
     public FieldType? Test5 { get; set; }
 
     public override bool GroupByEnabled() => true;
-    public override object GroupBy(TestListPage item)
-    {
-      return new { item.Test };
-    }
+
 
     public override Action<TestListPage, DataGridRowStyling> RowStyling => (row, style) =>
     {
@@ -50,11 +49,11 @@ namespace TestNet6.Data
       setLogVisibility(true);
 
       VisibleFields = new List<VisibleField<TestListPage>>()        {
-      new VisibleField<TestListPage>(nameof(Test)){ Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string},
-      new VisibleField<TestListPage>(nameof(Test1)){ Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = int.Parse(v as string)},
-      new VisibleField<TestListPage>(nameof(Test6), FieldType.Boolean){Getter = f => f.Test6, Setter = (f,v) => f.Test6 = (bool)v },
-      new VisibleField<TestListPage>(nameof(Test2)){ Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string)},
-      new VisibleField<TestListPage>(nameof(Test3)){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string)},
+      new VisibleField<TestListPage>(nameof(Test)){ Getter = f => f.Test, Setter = (f, v) =>  f.Test = v as string, Groupable=true},
+      new VisibleField<TestListPage>(nameof(Test1)){ Getter = f => f.Test1.ToString(), Setter = (f, v) =>  f.Test1 = int.Parse(v as string), Groupable=true},
+      new VisibleField<TestListPage>(nameof(Test6), FieldType.Boolean){Getter = f => f.Test6, Setter = (f,v) => f.Test6 = (bool)v , Groupable=true},
+      new VisibleField<TestListPage>(nameof(Test2)){ Getter = f => f.Test2.ToString(), Setter = (f, v) =>  f.Test2 = DateTime.Parse(v as string), Groupable=true},
+      new VisibleField<TestListPage>(nameof(Test3)){ Getter = f => f.Test3.ToString(), Setter = (f, v) =>  f.Test3 = decimal.Parse(v as string), Groupable=true},
       new VisibleField<TestListPage>(nameof(Test4), FieldType.Custom, true)
       {
         EditOnly=true,

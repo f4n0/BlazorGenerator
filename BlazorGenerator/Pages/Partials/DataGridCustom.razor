@@ -7,7 +7,7 @@
                 Editable="true"
                 DisplayOrder="@Order"
                 Filterable="true"
-                Displayable="@(!Field.EditOnly)" Width="@Field.Width" SortDirection="@Field.Sort">
+                Displayable="@(!Field.EditOnly)" Width="@Field.Width" SortDirection="@Field.Sort" Groupable="@Field.Groupable">
     <FilterTemplate>
         <TextEdit Text="@selectedFilter"
                   TextChanged="@((v) => {selectedFilter = v; Parent.AddFilter(Field, v); ParentGrid.Reload();})">

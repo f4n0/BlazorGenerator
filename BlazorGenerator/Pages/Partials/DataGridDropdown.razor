@@ -6,7 +6,7 @@
                       Caption="@Field.Caption"
                       Sortable="true"
                       DisplayOrder="@Order"
-                      Filterable="true" Editable="true" Displayable="@(!Field.EditOnly)" Width="@Field.Width" SortDirection="@Field.Sort">
+                      Filterable="true" Editable="true" Displayable="@(!Field.EditOnly)" Width="@Field.Width" SortDirection="@Field.Sort" Groupable="@Field.Groupable">
     <FilterTemplate>
         <Select TValue="string" SelectedValue="@selectedFilter" SelectedValueChanged="@(value => { selectedFilter = value; Parent.AddFilter(Field, value); ParentGrid.Reload();})">
             <SelectItem Value="@("*")">All</SelectItem>

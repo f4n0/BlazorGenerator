@@ -80,6 +80,7 @@ namespace BlazorGenerator.Pages
 
     public virtual object GroupBy(T item) => null;
     public virtual bool GroupByEnabled() => false;
+    public virtual bool showGrouping => false;
 
 
     private bool OnCustomFilter(T model)
