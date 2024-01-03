@@ -1,0 +1,23 @@
+﻿
+<Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] {typeof(BlazorGenApp).Assembly} : null)">
+    <Found Context="routeData">
+        <BlazorGeneratorRouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(DynamicMainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+<link href="_content/BlazorGenerator/css/site.css" rel="stylesheet" />
+
+@code{
+    [Parameter]
+    public Assembly appAssembly { get; set; }
+    [Parameter]
+    public bool UseDefaultTemplate { get; set; } = false;
+
+}

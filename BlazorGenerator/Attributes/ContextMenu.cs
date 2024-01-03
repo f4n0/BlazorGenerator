@@ -1,5 +1,4 @@
-﻿using Blazorise;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +16,7 @@ namespace BlazorGenerator.Attributes
 
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
     public string? Caption { get; set; }
-    public object Icon { get; set; } = IconName.Add;
+    public object Icon { get; set; }
 #pragma warning restore CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
   }
 }

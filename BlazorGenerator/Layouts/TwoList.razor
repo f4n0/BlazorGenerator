@@ -1,0 +1,43 @@
+﻿@typeparam TFirstList
+@typeparam TSecondList
+@inherits BlazorgenComponentBase
+@{
+    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+    var permissionSet = Security.GetPermissionSet(this.GetType());
+}
+<PageTitle>@Title</PageTitle>
+@if (ShowActions && !isModal)
+{
+    <ActionBar Context="this" PageActions="PageActions" />
+}
+
+<FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
+    <Panel1>
+        <FluentDataGrid Items="@FirstListData" TatadGridItem="TFirstList" ResizableColumns="true">
+            @foreach (var context in FirstListVisibleFields)
+            {
+                <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
+            }
+            <TemplateColumn Title="Actions" Align="@Align.End">
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => FirstListEditAsync(context))" />
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => FirstListDelete(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+    </Panel1>
+    <Panel2>
+        <FluentDataGrid Items="@SecondListData" TatadGridItem="TSecondList" ResizableColumns="true">
+            @foreach (var context in SecondListVisibleFields)
+            {
+                <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
+            }
+            <TemplateColumn Title="Actions" Align="@Align.End">
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => SecondListEditAsync(context))" />
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => SecondListDelete(context))" />
+            </TemplateColumn>
+        </FluentDataGrid>
+    </Panel2>
+</FluentSplitter>
+
+
+
+<BlazorGeneratorModal @ref="modal"></BlazorGeneratorModal>
