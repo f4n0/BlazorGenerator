@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Services
 {
-  public class BlazorGenLogger
-  {
-
-    public event Action? OnChange;
-
-    private void NotifyStateChanged() => OnChange?.Invoke();
-
-    public void SendLogMessage(string message, LogType logType = LogType.Info)
+    public class ProgressService
     {
-      Logs.Add((message, logType));
-      NotifyStateChanged();
+
+        internal event Action<bool> OnChange;
+
+        private void NotifyStateChanged(bool val) => OnChange?.Invoke(val);
+
+        public void StartProgress()
+        {
+            NotifyStateChanged(true);
+        }
+
+        public void StopProgress()
+        {
+            NotifyStateChanged(false);
+        }
+
     }
-
-
-
-    public List<(string, LogType)> Logs = new List<(string, LogType)>();
-  }
 }

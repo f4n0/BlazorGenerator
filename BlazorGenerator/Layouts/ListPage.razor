@@ -1,0 +1,26 @@
+﻿@typeparam T
+@inherits BlazorgenComponentBase
+@{
+    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+    var permissionSet = Security.GetPermissionSet(this.GetType());
+}
+<PageTitle>@Title</PageTitle>
+@if (ShowActions && !isModal)
+{
+    <ActionBar Context="this" PageActions="PageActions" />
+}
+
+    <FluentDataGrid Items="@Data" TatadGridItem="T" ResizableColumns="true">
+        @foreach (var context in VisibleFields)
+        {
+            <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
+        }
+        <TemplateColumn Title="Actions" Align="@Align.End">
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Delete(context))" />
+        </TemplateColumn>
+    </FluentDataGrid>
+
+
+
+<BlazorGeneratorModal @ref="modal"></BlazorGeneratorModal>

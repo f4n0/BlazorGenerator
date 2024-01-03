@@ -1,0 +1,67 @@
+﻿@inherits BlazorgenComponentBase;
+
+<div class="navmenu">
+    <input type="checkbox" id="navmenu-toggle" />
+    <nav class="sitenav" aria-labelledby="main-menu" onclick="document.getElementById('navmenu-toggle').click();">
+        <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded">
+            <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
+
+
+            @{
+                PopulateDictionary();
+
+
+                foreach (var item in MenuGroups.Where(o => o.Key.ToLower() == "default"))
+                {
+                    var filtered = menus.Where(o => o.Group == item.Key);
+                    if (item.Key.ToLower() == "default" || item.Value == 1)
+                    {
+                        foreach (var elem in filtered)
+                        {
+                            <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon)" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+
+                        }
+                    }
+                    else
+                    {
+                        <FluentNavGroup Id="@item.Key" Title="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
+                            @foreach (var elem in filtered)
+                            {
+                                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon)" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+
+                            }
+                        </FluentNavGroup>
+                    }
+                }
+                foreach (var item in MenuGroups.Where(o => o.Key.ToLower() != "default"))
+                {
+                    var filtered = menus.Where(o => o.Group == item.Key);
+                    if (item.Key.ToLower() == "default" || item.Value == 1)
+                    {
+                        foreach (var elem in filtered)
+                        {
+                            <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon)" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+
+                        }
+                    }
+                    else
+                    {
+                        <FluentNavGroup Id="@item.Key" Title="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
+                            @foreach (var elem in filtered)
+                            {
+                                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon)" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+
+                            }
+                        </FluentNavGroup>
+                    }
+                }
+            }
+        </FluentNavMenu>
+    </nav>
+</div>
+
+@code {
+    private bool expanded = true;
+
+}
+

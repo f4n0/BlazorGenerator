@@ -1,0 +1,34 @@
+﻿@typeparam T
+@inherits BlazorgenComponentBase
+
+@{
+    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+    var permissionSet = Security.GetPermissionSet(this.GetType());
+}
+<PageTitle>@Title</PageTitle>
+@if (ShowActions && !isModal)
+{
+    <ActionBar Context="this" PageActions="PageActions" />
+}
+
+<FluentGrid Spacing="3">
+    @foreach (var context in VisibleFields)
+    {
+        <FluentGridItem md="GridSize">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <BlazorGeneratorField Data="Data" field="context" T="T" />
+            </FluentStack>
+        </FluentGridItem>
+    }
+    @if (ShowButtons && !isModal)
+    {
+        <FluentGridItem md="GridSize">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentButton OnClick="@(() => Save(_data, OriginalData))">Save</FluentButton>
+                <FluentButton OnClick="@(() => Discard(_data, OriginalData))">Cancel</FluentButton>
+            </FluentStack>
+        </FluentGridItem>
+    }
+</FluentGrid>
+
+<BlazorGeneratorModal @ref="modal"></BlazorGeneratorModal>

@@ -1,0 +1,60 @@
+﻿@inherits LayoutComponentBase
+
+<FluentDesignTheme OfficeColor="OfficeColor.Access" @ref="Theme">
+    <FluentLayout>
+        <FluentHeader>
+            MyApplication
+            <FluentSpacer />
+            <div>
+                <FluentButton BackgroundColor="var(--neutral-layer-4)" OnClick="SwitchDarkLightTheme" Title="Site settings">
+                    <FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Neutral" Title="Site settings" />
+                </FluentButton>
+            </div>
+        </FluentHeader>
+        <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%" VerticalGap="0" HorizontalGap="0">
+            <NavMenu />
+            <FluentBodyContent>
+
+                <FluentLayout>
+                    @* <Breadcrumbs /> *@
+                    <FluentBodyContent style="height: calc(100dvh); padding: 15px; ">
+                        <Progress></Progress>
+                        <div class="content">
+                                @Body
+                        </div>
+
+                        <FluentDialogProvider />
+                    </FluentBodyContent>
+                    <FluentFooter>
+                        <Log></Log>
+                    </FluentFooter>
+                </FluentLayout>
+
+            </FluentBodyContent>
+        </FluentStack>
+    </FluentLayout>
+
+</FluentDesignTheme>
+
+@code{
+    FluentDesignTheme Theme { get; set; }
+
+    [Inject]
+    public UIServices UIServices { get; set; }
+    [Inject]
+    public IDialogService DialogService { get; set; }
+    [Inject]
+    public ProgressService ProgressService { get; set; }
+
+    private void SwitchDarkLightTheme()
+    {
+        Theme.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        UIServices.dialogService = DialogService;
+        UIServices.progressService = ProgressService;
+        return base.OnParametersSetAsync();
+    }
+}

@@ -1,0 +1,29 @@
+﻿@inject ProgressService ProgressService
+
+
+<FluentProgress Visible="ShowProgress" Width="100%"></FluentProgress>
+
+@code {
+    bool ShowProgress = false;
+
+    protected override void OnInitialized()
+    {
+        ProgressService.OnChange += UpdateProgress;
+    }
+
+    private void UpdateProgress(bool show)
+    {
+        InvokeAsync(() =>
+        {
+
+        });
+
+        ShowProgress = show;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        ProgressService.OnChange -= UpdateProgress;
+    }
+}

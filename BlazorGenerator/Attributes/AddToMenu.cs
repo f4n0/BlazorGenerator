@@ -1,4 +1,4 @@
-﻿using Blazorise;
+﻿using Microsoft.FluentUI.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,8 @@ namespace BlazorGenerator.Attributes
 
     public string Title { get; set; }
     public string Route { get; set; }
-    public object Icon { get; set; } = Blazorise.IconName.Add;
-    public string Group { get; set; } = "Default";
+    public Icon Icon { get; set; } = new Icons.Regular.Size20.Balloon();
+        public string Group { get; set; } = "Default";
     public int OrderSequence { get; set; }
   }
 }

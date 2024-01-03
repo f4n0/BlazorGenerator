@@ -1,0 +1,53 @@
+﻿@typeparam TData
+@typeparam TList
+@inherits BlazorgenComponentBase
+
+
+@{
+    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+    var permissionSet = Security.GetPermissionSet(this.GetType());
+}
+<PageTitle>@Title</PageTitle>
+@if (ShowActions && !isModal)
+{
+    <ActionBar Context="this" PageActions="PageActions" />
+}
+
+<FluentGrid Spacing="3">
+    @foreach (var context in VisibleFields)
+    {
+        <FluentGridItem md="GridSize">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <BlazorGeneratorField Data="Data" field="context" T="TData" />
+            </FluentStack>
+        </FluentGridItem>
+    }
+    @if (ShowButtons && !isModal)
+    {
+        <FluentGridItem md="GridSize">
+            <FluentStack VerticalAlignment="VerticalAlignment.Center">
+                <FluentButton OnClick="@(() => Save(_data, OriginalData))">Save</FluentButton>
+                <FluentButton OnClick="@(() => Discard(_data, OriginalData))">Cancel</FluentButton>
+            </FluentStack>
+        </FluentGridItem>
+    }
+</FluentGrid>
+
+<FluentDivider Style="width: 100%;margin-top:10px; margin-bottom:10px" Role="DividerRole.Presentation">
+    Data
+</FluentDivider>
+
+<FluentDataGrid Items="@ListData" TatadGridItem="TList" ResizableColumns="true">
+    @foreach (var context in ListVisibleFields)
+    {
+        <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
+    }
+    <TemplateColumn Title="Actions" Align="@Align.End">
+        <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
+        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => ListDelete(context))" />
+    </TemplateColumn>
+</FluentDataGrid>
+
+
+
+<BlazorGeneratorModal @ref="modal"></BlazorGeneratorModal>
