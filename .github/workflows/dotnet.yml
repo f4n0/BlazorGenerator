@@ -20,12 +20,12 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.2
+      uses: gittools/actions/gitversion/setup@v0
       with:
           versionSpec: '2.0.x'
     - name: Use GitVersion
       id: gitversion # step id used as reference for output values
-      uses: gittools/actions/gitversion/execute@v0.9.2
+      uses: gittools/actions/gitversion/execute@v0
     - name: Restore dependencies
       run: dotnet restore BlazorGenerator/BlazorGenerator.csproj
     - name: Build
