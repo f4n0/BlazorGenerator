@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.Models;
+using Microsoft.FluentUI.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,33 +9,38 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Utils
 {
-    public static class BlazorGenExtensions
+  public static class BlazorGenExtensions
+  {
+    public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, Func<VisibleField<T>, VisibleField<T>> additionalProperties = null) where T : class
     {
-        public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, Func<VisibleField<T>, VisibleField<T>> additionalProperties = null) where T : class
-        {
-            var prop = typeof(T).GetProperty(propertyName);
+      var prop = typeof(T).GetProperty(propertyName);
 
 
-            var field = new VisibleField<T>()
-            {
-                Name = propertyName,
-                fType = prop.PropertyType,
-                Caption = propertyName,
-                Getter = f => prop.GetValue(f),
-                Setter = (f, v) => prop.SetValue(f, v)
-            };
+      var field = new VisibleField<T>()
+      {
+        Name = propertyName,
+        fType = prop.PropertyType,
+        Caption = propertyName,
+        Getter = f => prop.GetValue(f),
+        Setter = (f, v) => prop.SetValue(f, v)
+      };
 
-            if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
-                field.fType = Nullable.GetUnderlyingType(prop.PropertyType);
-            }
+      if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+      {
+        field.fType = Nullable.GetUnderlyingType(prop.PropertyType);
+      }
 
 
 
-            if (additionalProperties != null)
-                field = additionalProperties(field);
+      if (additionalProperties != null)
+        field = additionalProperties(field);
 
-            visibleFields.Add(field);
-        }
+      visibleFields.Add(field);
     }
+
+    public static Icon ToFluentIcon(this Type icon)
+    {
+      return Activator.CreateInstance(icon) as Icon;
+    }
+  }
 }
