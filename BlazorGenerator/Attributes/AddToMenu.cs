@@ -16,8 +16,8 @@ namespace BlazorGenerator.Attributes
 
     public string Title { get; set; }
     public string Route { get; set; }
-    public Icon Icon { get; set; } = new Icons.Regular.Size20.Balloon();
-        public string Group { get; set; } = "Default";
+    public Type Icon { get; set; } = typeof(Icons.Regular.Size20.Balloon);
+    public string Group { get; set; } = "Default";
     public int OrderSequence { get; set; }
   }
 }

@@ -18,7 +18,7 @@
                     {
                         foreach (var elem in filtered)
                         {
-                            <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon)" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+                            <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent">@elem.Title</FluentNavLink>
 
                         }
                     }
@@ -27,7 +27,7 @@
                         <FluentNavGroup Id="@item.Key" Title="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
                             @foreach (var elem in filtered)
                             {
-                                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon)" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+                                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent">@elem.Title</FluentNavLink>
 
                             }
                         </FluentNavGroup>
@@ -40,7 +40,7 @@
                     {
                         foreach (var elem in filtered)
                         {
-                            <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon)" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+                            <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent">@elem.Title</FluentNavLink>
 
                         }
                     }
@@ -49,7 +49,7 @@
                         <FluentNavGroup Id="@item.Key" Title="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
                             @foreach (var elem in filtered)
                             {
-                                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon)" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+                                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent">@elem.Title</FluentNavLink>
 
                             }
                         </FluentNavGroup>

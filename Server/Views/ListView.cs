@@ -9,7 +9,7 @@ using Server.Data;
 namespace Server.Views
 {
   [Route("/list")]
-  [AddToMenu(Title = "List Page", Route = "/list")]
+  [AddToMenu(Title = "List Page", Route = "/list", Icon = typeof(Icons.Regular.Size16.AddSquare))]
   public class ListView : ListPage<Mock>
   {
 
