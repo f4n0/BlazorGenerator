@@ -1,4 +1,4 @@
-name: .NET
+name: BlazorGeneratorV3
 
 on:
   push:
@@ -12,30 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+    - uses: actions/checkout@v3
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 8.0.x
       env:
-        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-    - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0
-      with:
-        versionSpec: '5.x'
-    - name: Use GitVersion
-      id: gitversion # step id used as reference for output values
-      uses: gittools/actions/gitversion/execute@v0
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}  
     - name: Restore dependencies
       run: dotnet restore BlazorGenerator/BlazorGenerator.csproj
     - name: Build
       run: dotnet build --no-restore BlazorGenerator/BlazorGenerator.csproj
     - name: Pack    
       if: github.event_name != 'pull_request'
-      run: dotnet pack "BlazorGenerator/BlazorGenerator.csproj" -c Release -o out -p:PackageVersion=${{ steps.gitversion.outputs.semVer }}
+      run: dotnet pack "BlazorGenerator/BlazorGenerator.csproj" -c Release -o out -p:PackageVersion=1.3.${{ github.run_number }}
     - name: Push generated package to GitHub registry
       if: github.event_name != 'pull_request'
       run: dotnet nuget push ./out/*.nupkg --source "https://nuget.pkg.github.com/f4n0/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} 
