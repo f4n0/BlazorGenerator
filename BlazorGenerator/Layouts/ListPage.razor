@@ -6,12 +6,12 @@
   var permissionSet = Security.GetPermissionSet(this.GetType());
 }
 <PageTitle>@Title</PageTitle>
-@if (ShowActions && !isModal)
+@if (ShowActions)
 {
   <ActionBar Context="this" PageActions="PageActions" />
 }
 
-<FluentDataGrid Items="@Data" TatadGridItem="T" ResizableColumns="true" GridTemplateColumns="50px 50px repeat(auto-fill,14%) 150px " Gri>
+<FluentDataGrid Items="@Content" TatadGridItem="T" ResizableColumns="true" GridTemplateColumns="50px 50px repeat(auto-fill,14%) 150px " Gri>
 
   <TemplateColumn Title="" Align="@Align.Center">
     <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
@@ -39,6 +39,7 @@
   {
     <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
   }
+
   <TemplateColumn Title="Actions" Align="@Align.End">
     @if (permissionSet.Modify)
     {
@@ -50,8 +51,3 @@
     }
   </TemplateColumn>
 </FluentDataGrid>
-
-
-
-
-<BlazorGeneratorModal @ref="modal"></BlazorGeneratorModal>

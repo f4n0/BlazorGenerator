@@ -6,7 +6,7 @@
     var permissionSet = Security.GetPermissionSet(this.GetType());
 }
 <PageTitle>@Title</PageTitle>
-@if (ShowActions && !isModal)
+@if (ShowActions)
 {
     <ActionBar Context="this" PageActions="PageActions" />
 }
@@ -37,7 +37,3 @@
         </FluentDataGrid>
     </Panel2>
 </FluentSplitter>
-
-
-
-<BlazorGeneratorModal @ref="modal"></BlazorGeneratorModal>

@@ -26,14 +26,14 @@ namespace Server.Views
       VisibleFields.AddField(nameof(Mock.Description));
       VisibleFields.AddField(nameof(Mock.OrderDate));
 
-      Data = Mock.getMultipleMock().AsQueryable();
+      Content = Mock.getMultipleMock().AsQueryable();
     }
 
     public override void Save(Mock Rec, Mock xRec)
     {
-      var tmp = Data.ToList();
-      tmp[Data.ToList().FindIndex(o => o.Id == xRec.Id)] = Rec;
-      Data = tmp.AsQueryable();
+      var tmp = Content.ToList();
+      tmp[Content.ToList().FindIndex(o => o.Id == xRec.Id)] = Rec;
+      Content = tmp.AsQueryable();
     }
 
     [PageAction]

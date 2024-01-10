@@ -11,40 +11,22 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Layouts
 {
-  public partial class ListPage<T> : BlazorgenComponentBase
+  public partial class ListPage<T> : BlazorgenComponentBase where T : class
   {
-    public IQueryable<T> Data { get; set; }
+    public IQueryable<T> Content { get; set; }
     public List<T> Selected { get; set; } = new List<T>();
     internal T CurrRec { get; set; }
     private bool MenuOpen;
 
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
+    public virtual Type EditFormType { get; set; }
 
     private async Task EditAsync(T context)
     {
-      var panelData = new ModalData<T>()
-      {
-        Data = context,
-        VisibleFields = VisibleFields,
-      };
-      var _dialog = await UIServices.dialogService.ShowPanelAsync<ListEditPanel<T>>(panelData, new DialogParameters()
-      {
-        DialogType = DialogType.Panel,
-        Alignment = HorizontalAlignment.Right,
-        Width = "40%"
-
-
-      });
-      DialogResult result = await _dialog.Result;
-
-      if (result.Cancelled)
-      {
-        // do nothing
-      }
-      if (result.Data is not null)
-      {
-        Save((result.Data as ModalData<T>).Data, context);
-      }
+      if (EditFormType  == null)
+         throw new NotImplementedException("In order to use Edit action, you must implement EditFormType Property");
+      var res = await UIServices.OpenPanel<T>(EditFormType, context);
+      Save(res, context);
     }
     public virtual void Delete(T context)
     {

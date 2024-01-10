@@ -2,33 +2,37 @@
 @inherits BlazorgenComponentBase
 
 @{
-    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-    var permissionSet = Security.GetPermissionSet(this.GetType());
+  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+  var permissionSet = Security.GetPermissionSet(this.GetType());
 }
 <PageTitle>@Title</PageTitle>
-@if (ShowActions && !isModal)
+@if (ShowActions)
 {
-    <ActionBar Context="this" PageActions="PageActions" />
+  <ActionBar Context="this" PageActions="PageActions" />
 }
 
 <FluentGrid Spacing="3">
-    @foreach (var context in VisibleFields)
-    {
-        <FluentGridItem md="GridSize">
-            <FluentStack VerticalAlignment="VerticalAlignment.Center">
-                <BlazorGeneratorField Data="Data" field="context" T="T" />
-            </FluentStack>
-        </FluentGridItem>
-    }
-    @if (ShowButtons && !isModal)
-    {
-        <FluentGridItem md="GridSize">
-            <FluentStack VerticalAlignment="VerticalAlignment.Center">
-                <FluentButton OnClick="@(() => Save(_data, OriginalData))">Save</FluentButton>
-                <FluentButton OnClick="@(() => Discard(_data, OriginalData))">Cancel</FluentButton>
-            </FluentStack>
-        </FluentGridItem>
-    }
+  @foreach (var context in VisibleFields)
+  {
+    <FluentGridItem md="GridSize">
+      <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <BlazorGeneratorFormFields Data="Content" field="context" T="T" />
+      </FluentStack>
+    </FluentGridItem>
+  }
+  @if (ShowButtons)
+  {
+    <FluentGridItem md="GridSize">
+      <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        @if (permissionSet.Modify || permissionSet.Insert)
+        {
+          <FluentButton OnClick="@(() => Save(_data, OriginalContent))">Save</FluentButton>
+        }
+        @if (permissionSet.Delete)
+        {
+          <FluentButton OnClick="@(() => Discard(_data, OriginalContent))">Cancel</FluentButton>
+        }
+        </FluentStack>
+    </FluentGridItem>
+  }
 </FluentGrid>
-
-<BlazorGeneratorModal @ref="modal"></BlazorGeneratorModal>

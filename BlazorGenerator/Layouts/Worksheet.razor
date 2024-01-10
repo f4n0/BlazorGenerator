@@ -8,7 +8,7 @@
     var permissionSet = Security.GetPermissionSet(this.GetType());
 }
 <PageTitle>@Title</PageTitle>
-@if (ShowActions && !isModal)
+@if (ShowActions)
 {
     <ActionBar Context="this" PageActions="PageActions" />
 }
@@ -22,7 +22,7 @@
             </FluentStack>
         </FluentGridItem>
     }
-    @if (ShowButtons && !isModal)
+    @if (ShowButtons)
     {
         <FluentGridItem md="GridSize">
             <FluentStack VerticalAlignment="VerticalAlignment.Center">
@@ -47,7 +47,3 @@
         <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => ListDelete(context))" />
     </TemplateColumn>
 </FluentDataGrid>
-
-
-
-<BlazorGeneratorModal @ref="modal"></BlazorGeneratorModal>

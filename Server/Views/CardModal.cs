@@ -7,9 +7,7 @@ using Server.Data;
 
 namespace Server.Views
 {
-  [Route("/card")]
-  [AddToMenu(Title = "Card Page", Route = "/card")]
-  public class CardView : CardPage<Mock>
+  public class ModalView : CardPage<Mock>
   {
 
     public override string Title => "List View";
@@ -24,24 +22,8 @@ namespace Server.Views
       VisibleFields.AddField(nameof(Mock.OrderDate));
       VisibleFields.AddField(nameof(Mock.type));
 
-      Content = Mock.getSingleMock();
-    }
-
-
-    [PageAction(Caption = "ShowProgress")]
-    public async void ShowProgress()
-    {
-      UIServices.progressService.StartProgress();
-      await Task.Delay(10000);
-      UIServices.progressService.StopProgress();
-    }
-
-    [PageAction(Caption = "Open Modal")]
-    public async void OpenModal()
-    {
-      var mock = Mock.getSingleMock();
-      var res = await UIServices.OpenModal(typeof(ModalView), mock);
-
+      ShowActions = false;
+      ShowButtons = false;
     }
 
 

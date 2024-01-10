@@ -16,7 +16,7 @@ namespace BlazorGenerator.Layouts.Partial
 
         protected override Task OnParametersSetAsync()
         {
-            Data = Content.Data;
+            //Data = Content.Data;
             VisibleFields = Content.VisibleFields;
             ShowActions = false;
 
