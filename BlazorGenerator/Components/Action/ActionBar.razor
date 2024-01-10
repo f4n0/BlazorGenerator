@@ -18,7 +18,7 @@
                         <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))">
                             @(action.Attribute.Caption ?? action.Method.Name)
                             <span slot="start">
-                                <FluentIcon Value="@(action.Attribute.Icon)" Slot="start" Color="Color.Neutral" />
+                                <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
                             </span>
                         </FluentMenuItem>
                     }
@@ -33,7 +33,7 @@
                                 <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))">
                                     @(action.Attribute.Caption ?? action.Method.Name)
                                     <span slot="start">
-                                        <FluentIcon Value="@action.Attribute.Icon" Slot="start" Color="Color.Neutral" />
+                                        <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
                                     </span>
                                 </FluentMenuItem>
                             }
