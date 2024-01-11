@@ -14,12 +14,12 @@ namespace BlazorGenerator.Layouts
   public partial class ListPage<T> : BlazorgenComponentBase where T : class
   {
     public IQueryable<T> Content { get; set; }
-    public List<T> Selected { get; set; } = new List<T>();
-    internal T CurrRec { get; set; }
-    private bool MenuOpen;
-
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
     public virtual Type EditFormType { get; set; }
+
+    public List<T> Selected { get; set; } = new List<T>();
+    internal T CurrRec { get; set; }
+
 
     private async Task EditAsync(T context)
     {

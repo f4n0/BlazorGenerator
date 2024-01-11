@@ -4,8 +4,9 @@
 
 
 @{
-    var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-    var permissionSet = Security.GetPermissionSet(this.GetType());
+  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+  var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
+  var permissionSet = Security.GetPermissionSet(this.GetType());
 }
 <PageTitle>@Title</PageTitle>
 @if (ShowActions)
@@ -17,9 +18,9 @@
     @foreach (var context in VisibleFields)
     {
         <FluentGridItem md="GridSize">
-            <FluentStack VerticalAlignment="VerticalAlignment.Center">
-                <BlazorGeneratorField Data="Data" field="context" T="TData" />
-            </FluentStack>
+          <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <BlazorGeneratorFormFields Data="Content" field="context" T="TData" />
+          </FluentStack>
         </FluentGridItem>
     }
     @if (ShowButtons)
@@ -37,13 +38,43 @@
     Data
 </FluentDivider>
 
-<FluentDataGrid Items="@ListData" TatadGridItem="TList" ResizableColumns="true">
-    @foreach (var context in ListVisibleFields)
-    {
-        <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
-    }
-    <TemplateColumn Title="Actions" Align="@Align.End">
-        <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
-        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => ListDelete(context))" />
+<FluentDataGrid Items="@ListContent" TGridItem="TList" ResizableColumns="true" GridTemplateColumns="50px 50px repeat(auto-fill,14%) 150px ">
+
+  <TemplateColumn Title="" Align="@Align.Center">
+    <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
+  </TemplateColumn>
+  @if (gridActions.Count() > 0)
+  {
+    <TemplateColumn Title="" Align="@Align.Center">
+      <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
+                                                                                                                       {
+                                                                                                                         CurrRec = context;
+                                                                                                                       })"></FluentIcon>
+      <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true">
+        @foreach (var a in gridActions)
+        {
+          <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => a.Method.Invoke(this, [CurrRec]))">
+            <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
+          </FluentMenuItem>
+        }
+      </FluentMenu>
+
     </TemplateColumn>
+  }
+
+  @foreach (var context in ListVisibleFields)
+  {
+    <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
+  }
+
+  <TemplateColumn Title="Actions" Align="@Align.End">
+    @if (permissionSet.Modify)
+    {
+      <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
+    }
+    else if (permissionSet.Delete)
+    {
+      <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => ListDelete(context))" />
+    }
+  </TemplateColumn>
 </FluentDataGrid>

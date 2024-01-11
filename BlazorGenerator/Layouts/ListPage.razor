@@ -11,7 +11,7 @@
   <ActionBar Context="this" PageActions="PageActions" />
 }
 
-<FluentDataGrid Items="@Content" TatadGridItem="T" ResizableColumns="true" GridTemplateColumns="50px 50px repeat(auto-fill,14%) 150px " Gri>
+<FluentDataGrid Items="@Content" TGridItem="T" ResizableColumns="true" GridTemplateColumns="50px 50px repeat(auto-fill,14%) 150px ">
 
   <TemplateColumn Title="" Align="@Align.Center">
     <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
