@@ -10,9 +10,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csp
 		{B8DC7DB0-98B2-4ECE-93EC-FF6DA1402802} = {B8DC7DB0-98B2-4ECE-93EC-FF6DA1402802}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAssembly", "WebAssembly\WebAssembly.csproj", "{26F34118-89B2-435D-961E-03CAD48B7492}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAssembly", "WebAssembly\WebAssembly.csproj", "{26F34118-89B2-435D-961E-03CAD48B7492}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestShared", "TestShared\TestShared.csproj", "{3DFB7DB5-E29D-4D43-8F85-5E52B427AA17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestShared", "TestShared\TestShared.csproj", "{3DFB7DB5-E29D-4D43-8F85-5E52B427AA17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C103BFC5-13AB-46F6-8B3B-8F965A22E28F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\Build3.yml = .github\workflows\Build3.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
