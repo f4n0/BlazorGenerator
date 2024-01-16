@@ -15,7 +15,6 @@ namespace BlazorGenerator
             services.AddSingleton<BlazorGenLogger>();
             services.AddScoped<ProgressService>();
 
-
             services.AddScoped<ISecurity, NullSecurity>();
             services.AddTransient<BlazorGeneratorSecurity>();
 

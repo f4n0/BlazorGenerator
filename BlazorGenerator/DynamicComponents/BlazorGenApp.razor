@@ -1,5 +1,5 @@
 ﻿
-<Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] {typeof(BlazorGenApp).Assembly} : null)">
+<Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] {typeof(BlazorGenApp).Assembly} : null)" @rendermode="RenderMode.InteractiveAuto">
     <Found Context="routeData">
         <BlazorGeneratorRouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

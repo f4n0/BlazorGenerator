@@ -3,9 +3,9 @@ using BlazorGenerator.Layouts;
 using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
-using Server.Data;
+using TestShared.Data;
 
-namespace Server.Views
+namespace TestShared.Views
 {
   public class ModalView : CardPage<Mock>
   {

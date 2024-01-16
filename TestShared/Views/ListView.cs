@@ -4,9 +4,9 @@ using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Server.Data;
+using TestShared.Data;
 
-namespace Server.Views
+namespace TestShared.Views
 {
   [Route("/list")]
   [AddToMenu(Title = "List Page", Route = "/list", Icon = typeof(Icons.Regular.Size16.AddSquare))]

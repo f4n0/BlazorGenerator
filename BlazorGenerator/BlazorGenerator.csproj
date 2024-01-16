@@ -5,6 +5,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <AssemblyName>BlazorGenerator</AssemblyName>
+    <RootNamespace>BlazorGenerator</RootNamespace>
+    <RepositoryUrl>https://github.com/f4n0/BlazorGenerator</RepositoryUrl>
+    <Authors>f4n0</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,17 +17,27 @@
     <EmbeddedResource Remove="Infrastructure\**" />
     <None Remove="Infrastructure\**" />
   </ItemGroup>
-
   
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.2.1" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.2.1" />
   </ItemGroup>
 
-
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <Title>BlazorGenerator</Title>
+    <Description>
+      You think of the models, Blazorgen the Blazor UI.
+      This is  a view creator based on fields in models
+    </Description>
+    <PackageProjectUrl>https://github.com/f4n0/BlazorGenerator</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
 
 </Project>
