@@ -16,7 +16,13 @@ All the components are made from Microsoft Fluent UI.
  8. Custom razor page: just use razor normally!
 
 ## Getting Started
-Look at the Server Project and see by yourself
+Look at the Server/WebAssembly/Maui Project and see by yourself
+
+### Note for NET MAUI
+add in your index.html before the webassembly script
+  `<script app-name="MauiApp1" src="./_content/Microsoft.FluentUI.AspNetCore.Components/js/initializersLoader.webview.js"></script>`
+
+In the tag `<BlazorGenApp>` add this parameter `BlazorGenRenderMode="null"`
 
 ## Contributing
 I'm a lonely programmer, feel free to open issues or submit Pull Requests!

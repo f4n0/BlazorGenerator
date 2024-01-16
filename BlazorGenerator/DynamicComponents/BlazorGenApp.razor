@@ -1,5 +1,5 @@
 ﻿
-<Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] {typeof(BlazorGenApp).Assembly} : null)" @rendermode="RenderMode.InteractiveAuto">
+<Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] {typeof(BlazorGenApp).Assembly} : null)" @rendermode="BlazorGenRenderMode">
     <Found Context="routeData">
         <BlazorGeneratorRouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -15,9 +15,13 @@
 <link href="_content/BlazorGenerator/css/site.css" rel="stylesheet" />
 
 @code{
-    [Parameter]
-    public Assembly appAssembly { get; set; }
-    [Parameter]
-    public bool UseDefaultTemplate { get; set; } = false;
+  [Parameter]
+  public Assembly appAssembly { get; set; }
+  [Parameter]
+  public bool UseDefaultTemplate { get; set; } = false;
+
+
+  [Parameter]
+   public IComponentRenderMode BlazorGenRenderMode { get; set; } = RenderMode.InteractiveAuto;
 
 }
