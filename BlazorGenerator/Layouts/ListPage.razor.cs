@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Layouts
 {
-  public partial class ListPage<T> : BlazorgenComponentBase where T : class
+  public partial class ListPage<T> : BlazorgenComponentBase, IDataOperations<T> where T : class
   {
     public IQueryable<T> Content { get; set; }
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
@@ -21,22 +21,15 @@ namespace BlazorGenerator.Layouts
     internal T CurrRec { get; set; }
 
 
+
     private async Task EditAsync(T context)
     {
       if (EditFormType  == null)
          throw new NotImplementedException("In order to use Edit action, you must implement EditFormType Property");
       var res = await UIServices.OpenPanel<T>(EditFormType, context);
-      Save(res, context);
-    }
-    public virtual void Delete(T context)
-    {
-      throw new NotImplementedException("Views must implement Save and Delete virtual methods");
+      OnModify(res, context);
     }
 
-    public virtual void Save(T Rec, T xRec)
-    {
-      throw new NotImplementedException("Views must implement Save and Delete virtual methods");
-    }
 
     private void HandleRecSelection(bool selected, T Rec)
     {
@@ -47,6 +40,21 @@ namespace BlazorGenerator.Layouts
       {
         Selected.Remove(Rec);
       }
+    }
+
+    public void OnInsert(T entity)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void OnModify(T entity, T oldEntity)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void OnDelete(T entity)
+    {
+      throw new NotImplementedException();
     }
   }
 }

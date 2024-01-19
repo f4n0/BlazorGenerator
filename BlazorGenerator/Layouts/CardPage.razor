@@ -26,11 +26,11 @@
       <FluentStack VerticalAlignment="VerticalAlignment.Center">
         @if (permissionSet.Modify || permissionSet.Insert)
         {
-          <FluentButton OnClick="@(() => Save(_data, OriginalContent))">Save</FluentButton>
+          <FluentButton OnClick="@(() => HandleSave(_data))">Save</FluentButton>
         }
         @if (permissionSet.Delete)
         {
-          <FluentButton OnClick="@(() => Discard(_data, OriginalContent))">Cancel</FluentButton>
+          <FluentButton OnClick="@(() => HandleDiscard(_data))">Cancel</FluentButton>
         }
         </FluentStack>
     </FluentGridItem>

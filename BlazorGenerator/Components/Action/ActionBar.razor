@@ -1,51 +1,56 @@
 ﻿
+
+
 <FluentMenu Open="true" Width="100%" Style="min-width:100%; margin-bottom:15px">
-    <FluentStack Orientation="Orientation.Horizontal">
-       
-            @((Context as BlazorgenComponentBase).Title)
-       
-        <FluentSpacer />
-        @{
-            PopulateDictionary();
-            foreach (var item in ActionGroups)
-            {
-                var filtered = PageActions.Where(o =>
-    o.Attribute.Group == item.Key);
-                if (item.Key.ToLower() == "default" || item.Value == 1)
-                {
-                    foreach (var action in filtered)
-                    {
-                        <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))">
-                            @(action.Attribute.Caption ?? action.Method.Name)
-                            <span slot="start">
-                                <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
-                            </span>
-                        </FluentMenuItem>
-                    }
-                }
-                else
-                {
+  <FluentStack Orientation="Orientation.Horizontal">
+    <FluentMenuItem Disabled="true">
+      @((Context as BlazorgenComponentBase).Title)
+    </FluentMenuItem>
 
-                    <FluentMenuItem Label="@item.Key">
-                        <MenuItems>
-                            @foreach (var action in filtered)
-                            {
-                                <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))">
-                                    @(action.Attribute.Caption ?? action.Method.Name)
-                                    <span slot="start">
-                                        <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
-                                    </span>
-                                </FluentMenuItem>
-                            }
-                        </MenuItems>
-                    </FluentMenuItem>
+ 
 
-                }
-            }
+    <FluentSpacer />
+    @{
+      PopulateDictionary();
+      foreach (var item in ActionGroups)
+      {
+        var filtered = PageActions.Where(o =>
+o.Attribute.Group == item.Key);
+        if (item.Key.ToLower() == "default" || item.Value == 1)
+        {
+          foreach (var action in filtered)
+          {
+            <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))">
+              @(action.Attribute.Caption ?? action.Method.Name)
+              <span slot="start">
+                <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
+              </span>
+            </FluentMenuItem>
+          }
+        }
+        else
+        {
+
+          <FluentMenuItem Label="@item.Key">
+            <MenuItems>
+              @foreach (var action in filtered)
+              {
+                <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))">
+                  @(action.Attribute.Caption ?? action.Method.Name)
+                  <span slot="start">
+                    <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
+                  </span>
+                </FluentMenuItem>
+              }
+            </MenuItems>
+          </FluentMenuItem>
 
         }
+      }
 
-    </FluentStack>
+    }
+
+  </FluentStack>
 </FluentMenu>
 
 

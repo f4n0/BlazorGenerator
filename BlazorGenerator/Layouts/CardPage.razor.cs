@@ -13,6 +13,8 @@ namespace BlazorGenerator.Layouts
   public partial class CardPage<T> : BlazorgenComponentBase, IDialogContentComponent<T>
   {
 
+    internal virtual int GridSize => 6;
+
     [Parameter]
     public T Content {
       get
@@ -30,18 +32,30 @@ namespace BlazorGenerator.Layouts
 
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
 
-    public virtual void Save(T Rec, T xRec)
-    {
 
-    }
-    public virtual void Discard(T Rec, T xRec)
+    void HandleSave(T content)
     {
-
+      OnInsert(content);
+      OnModify(content, OriginalContent);
     }
 
-    internal virtual int GridSize => 6;
+    void HandleDiscard(T content)
+    {
+      OnDelete(content);
+    }
 
 
+    public virtual void OnInsert(T entity)
+    {
+    }
+
+    public virtual void OnModify(T entity, T oldEntity)
+    {
+    }
+
+    public virtual void OnDelete(T entity)
+    {
+    }
 
   }
 }

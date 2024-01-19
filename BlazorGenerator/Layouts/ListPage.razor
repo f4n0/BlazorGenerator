@@ -4,6 +4,8 @@
   var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
   var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
   var permissionSet = Security.GetPermissionSet(this.GetType());
+
+
 }
 <PageTitle>@Title</PageTitle>
 @if (ShowActions)
@@ -11,7 +13,7 @@
   <ActionBar Context="this" PageActions="PageActions" />
 }
 
-<FluentDataGrid Items="@Content" TGridItem="T" ResizableColumns="true" GridTemplateColumns="50px 50px repeat(auto-fill,14%) 150px ">
+<FluentDataGrid Items="@Content" TGridItem="T" ResizableColumns="true" GridTemplateColumns="@GetCssGridTemplate(gridActions.Count(), permissionSet)">
 
   <TemplateColumn Title="" Align="@Align.Center">
     <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
@@ -47,7 +49,7 @@
     }
     else if (permissionSet.Delete)
     {
-      <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => Delete(context))" />
+      <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => OnDelete(context))" />
     }
   </TemplateColumn>
 </FluentDataGrid>

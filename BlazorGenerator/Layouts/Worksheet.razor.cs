@@ -30,13 +30,15 @@ namespace BlazorGenerator.Layouts
 
     public List<VisibleField<TData>> VisibleFields { get; set; } = new List<VisibleField<TData>>();
 
-    public virtual void Save(TData Rec, TData xRec)
+    void Save(TData Rec)
     {
+      OnInsert(Rec);
+      OnModify(Rec, OriginalData);
 
     }
-    public virtual void Discard(TData Rec, TData xRec)
+    void Discard(TData Rec)
     {
-
+      OnDelete(Rec);
     }
 
     internal virtual int GridSize => 6;
@@ -56,17 +58,13 @@ namespace BlazorGenerator.Layouts
       if (EditFormType == null)
         throw new NotImplementedException("In order to use Edit action, you must implement EditFormType Property");
       var res = await UIServices.OpenPanel<TList>(EditFormType, context);
-      ListSave(res, context);
+      OnModify(res, context);
     }
-    public virtual void ListDelete(TList context)
+    void ListDelete(TList context)
     {
-      throw new NotImplementedException("Views must implement Save and Delete virtual methods");
+      OnDelete(context);
     }
 
-    public virtual void ListSave(TList Rec, TList xRec)
-    {
-      throw new NotImplementedException("Views must implement Save and Delete virtual methods");
-    }
 
     private void HandleRecSelection(bool selected, TList Rec)
     {
@@ -78,6 +76,30 @@ namespace BlazorGenerator.Layouts
       {
         ListSelected.Remove(Rec);
       }
+    }
+
+    public virtual void OnInsert(TList entity)
+    {
+    }
+
+    public virtual void OnModify(TList entity, TList oldEntity)
+    {
+    }
+
+    public virtual void OnDelete(TList entity)
+    {
+    }
+
+    public virtual void OnInsert(TData entity)
+    {
+    }
+
+    public virtual void OnModify(TData entity, TData oldEntity)
+    {
+    }
+
+    public virtual void OnDelete(TData entity)
+    {
     }
   }
 }

@@ -1,4 +1,6 @@
 ﻿using BlazorGenerator.Attributes;
+using BlazorGenerator.Models;
+using BlazorGenerator.Security;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -6,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace BlazorGenerator.Components.Action
 {
@@ -19,7 +22,8 @@ namespace BlazorGenerator.Components.Action
 
         public Dictionary<string, int> ActionGroups { get; set; }
 
-        void PopulateDictionary()
+
+    void PopulateDictionary()
         {
             ActionGroups = new Dictionary<string, int>();
             foreach (var item in PageActions)
