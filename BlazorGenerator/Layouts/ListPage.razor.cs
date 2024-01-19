@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Layouts
 {
-  public partial class ListPage<T> : BlazorgenComponentBase, IDataOperations<T> where T : class
+  public partial class ListPage<T> : BlazorgenComponentBase where T : class
   {
     public IQueryable<T> Content { get; set; }
     public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
