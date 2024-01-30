@@ -6,12 +6,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static BlazorGenerator.Utils.BlazorGenExtensions;
 
 namespace BlazorGenerator.Utils
 {
   public static class BlazorGenExtensions
   {
-    public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, Func<VisibleField<T>, VisibleField<T>> additionalProperties = null) where T : class
+    public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, AdditionalProperties<T> additionalProperties = null) where T : class
     {
       var prop = typeof(T).GetProperty(propertyName);
 
@@ -33,10 +34,13 @@ namespace BlazorGenerator.Utils
 
 
       if (additionalProperties != null)
-        field = additionalProperties(field);
+        additionalProperties(ref field);
 
       visibleFields.Add(field);
     }
+
+
+    public delegate void AdditionalProperties<T>(ref VisibleField<T> reference) where T : class;
 
     public static Icon ToFluentIcon(this Type icon)
     {

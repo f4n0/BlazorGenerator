@@ -10,7 +10,7 @@ namespace BlazorGenerator.Components.Base
   {
 
 
-    public virtual string Title => "";
+    public virtual string Title => this.GetType().Name;
 
     public virtual bool ShowButtons { get; set; } = true;
     public virtual bool ShowActions { get; set; } = true;

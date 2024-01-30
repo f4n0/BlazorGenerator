@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Layouts.Partial
 {
-    internal class ListEditPanel<T> : CardPage<T>, IDialogContentComponent<ModalData<T>>
-    {
+    internal class ListEditPanel<T> : CardPage<T>
+  {
         [Parameter]
         public ModalData<T> Content { get; set; }
 

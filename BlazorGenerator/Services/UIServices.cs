@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.Layouts;
+using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using System;

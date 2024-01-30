@@ -38,7 +38,7 @@ namespace TestShared.Views
       ListContent = Mock.getMultipleMock().AsQueryable();
     }
 
-    public override void ListSave(Mock Rec, Mock xRec)
+    public void ListSave(Mock Rec, Mock xRec)
     {
       var tmp = ListContent.ToList();
       tmp[ListContent.ToList().FindIndex(o => o.Id == xRec.Id)] = Rec;

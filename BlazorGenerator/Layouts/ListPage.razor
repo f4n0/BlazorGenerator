@@ -13,7 +13,13 @@
   <ActionBar Context="this" PageActions="PageActions" />
 }
 
-<FluentDataGrid Items="@Content" TGridItem="T" ResizableColumns="true" GridTemplateColumns="@GetCssGridTemplate(gridActions.Count(), permissionSet)">
+<FluentDataGrid 
+                Items="@Content" 
+                TGridItem="T" 
+                ResizableColumns="true" 
+                GridTemplateColumns="@GetCssGridTemplate(gridActions.Count(), permissionSet)"
+                RowClass="SelectedRowClass"
+                >
 
   <TemplateColumn Title="" Align="@Align.Center">
     <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
@@ -37,9 +43,11 @@
     </TemplateColumn>
   }
 
-  @foreach (var context in VisibleFields)
+  @foreach (var field in VisibleFields)
   {
-    <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
+    <TemplateColumn Context="data" Sortable="true" Title="@field.Caption" SortBy="GridSort<T>.ByAscending(p => field.Getter(p))">
+      <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T" ></BlazorGeneratorFormFields>
+    </TemplateColumn>
   }
 
   <TemplateColumn Title="Actions" Align="@Align.End">
@@ -53,3 +61,9 @@
     }
   </TemplateColumn>
 </FluentDataGrid>
+
+<style>
+  .rowselected {
+    background: var(--neutral-fill-secondary-rest)
+  }
+</style>

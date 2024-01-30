@@ -30,5 +30,7 @@ namespace BlazorGenerator
             return services;
         }
 
+
+
     }
 }

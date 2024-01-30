@@ -1,0 +1,47 @@
+﻿@using BlazorGenerator.Attributes
+@using BlazorGenerator.Layouts
+@using BlazorGenerator.Utils
+@using BlazorGenerator.Models
+@using TestShared.Data
+
+
+@attribute [Route("/Test")]
+@attribute [AddToMenu(Title = "Test Page", Route = "/Test")]
+
+
+<BlazorGenerator.Layouts.ListPage T="Mock" @ref="FirstList" />
+
+<BlazorGenerator.Layouts.ListPage T="Mock" @ref="SecondList" />
+
+
+@code { 
+
+
+  protected override Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      FirstList.VisibleFields = new List<VisibleField<Mock>>();
+      FirstList.VisibleFields.AddField(nameof(Mock.Id));
+      FirstList.VisibleFields.AddField(nameof(Mock.Name));
+      FirstList.VisibleFields.AddField(nameof(Mock.Price));
+      FirstList.VisibleFields.AddField(nameof(Mock.Description));
+      FirstList.VisibleFields.AddField(nameof(Mock.OrderDate));
+
+      FirstList.Content = Mock.getMultipleMock().AsQueryable();
+
+      SecondList.VisibleFields = new List<VisibleField<Mock>>();
+      SecondList.VisibleFields.AddField(nameof(Mock.Id));
+      SecondList.VisibleFields.AddField(nameof(Mock.Name));
+      SecondList.VisibleFields.AddField(nameof(Mock.Price));
+      SecondList.Content = Mock.getMultipleMock().AsQueryable();
+
+    }
+
+    return base.OnAfterRenderAsync(firstRender);
+  }
+
+  public BlazorGenerator.Layouts.ListPage<Mock> FirstList { get; set; }
+  public BlazorGenerator.Layouts.ListPage<Mock> SecondList { get; set; }
+
+}

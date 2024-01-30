@@ -30,13 +30,27 @@ namespace BlazorGenerator.Utils
 
     internal static IEnumerable<(Type Type, TAttribute Attribute)> GetModelsWithAttribute<TAttribute>() where TAttribute : Attribute
     {
-      return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes().Where(t => t.IsDefined(typeof(TAttribute), true)))
+#pragma warning disable CS8619 // In realtà è gestito
+      return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a =>
+      {
+        try
+        {
+          return a.GetTypes().Where(t => t.IsDefined(typeof(TAttribute), true));
+        } catch {
+          //null
+          return Enumerable.Empty<Type>();
+        }
+
+      }).Where(t => t != null)
         .Select(t => (t, (t.GetCustomAttribute(typeof(TAttribute), true) as TAttribute)));
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
     }
 
     internal static IEnumerable<TAttribute> GetModelsWithAttribute<TAttribute>(object obj) where TAttribute : Attribute
     {
       return obj.GetType().GetCustomAttributes(typeof(TAttribute), true).Select(t => t as TAttribute);
     }
+
+   
   }
 }

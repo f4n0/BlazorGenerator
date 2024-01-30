@@ -12,7 +12,6 @@ namespace TestShared.Views
   public class CardView : CardPage<Mock>
   {
 
-    public override string Title => "List View";
 
     protected override void OnParametersSet()
     {
@@ -20,7 +19,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Id));
       VisibleFields.AddField(nameof(Mock.Name));
       VisibleFields.AddField(nameof(Mock.Price));
-      VisibleFields.AddField(nameof(Mock.Description));
+      VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o)=> o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password );
       VisibleFields.AddField(nameof(Mock.OrderDate));
       VisibleFields.AddField(nameof(Mock.type));
 
@@ -42,6 +41,15 @@ namespace TestShared.Views
       var mock = Mock.getSingleMock();
       var res = await UIServices.OpenModal(typeof(ModalView), mock);
 
+    }
+
+    [PageAction(Caption = "Test1", Group ="grouped")]
+    public async void Test1()
+    {
+    }
+    [PageAction(Caption = "Test2", Group = "grouped")]
+    public async void Test2()
+    {
     }
 
 

@@ -1,56 +1,55 @@
 ﻿
+<FluentToolbar Style="min-width:100%; margin-bottom:10px; border-radius:5px; padding:5px; vertical-align:middle">
+  <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align:text-top;">
+    @((Context as BlazorgenComponentBase).Title)
+  </FluentLabel>
 
+  <FluentDivider Style="height: 20px; width: 20px;" Orientation="Orientation.Vertical"></FluentDivider>
 
-<FluentMenu Open="true" Width="100%" Style="min-width:100%; margin-bottom:15px">
-  <FluentStack Orientation="Orientation.Horizontal">
-    <FluentMenuItem Disabled="true">
-      @((Context as BlazorgenComponentBase).Title)
-    </FluentMenuItem>
-
- 
-
-    <FluentSpacer />
-    @{
-      PopulateDictionary();
-      foreach (var item in ActionGroups)
-      {
-        var filtered = PageActions.Where(o =>
+  @{
+    PopulateDictionary();
+    foreach (var item in ActionGroups)
+    {
+      var filtered = PageActions.Where(o =>
 o.Attribute.Group == item.Key);
-        if (item.Key.ToLower() == "default" || item.Value == 1)
+      if (item.Key.ToLower() == "default" || item.Value == 1)
+      {
+        foreach (var action in filtered)
         {
-          foreach (var action in filtered)
-          {
-            <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))">
-              @(action.Attribute.Caption ?? action.Method.Name)
-              <span slot="start">
-                <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
-              </span>
-            </FluentMenuItem>
-          }
-        }
-        else
-        {
-
-          <FluentMenuItem Label="@item.Key">
-            <MenuItems>
-              @foreach (var action in filtered)
-              {
-                <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))">
-                  @(action.Attribute.Caption ?? action.Method.Name)
-                  <span slot="start">
-                    <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
-                  </span>
-                </FluentMenuItem>
-              }
-            </MenuItems>
-          </FluentMenuItem>
-
+          <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
+            @(action.Attribute.Caption ?? action.Method.Name)
+            <span slot="start">
+              <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
+            </span>
+          </FluentButton>
         }
       }
+      else
+      {
 
+        <FluentMenuItem Role="MenuItemRole.MenuItem">
+          <ChildContent>
+            @item.Key
+          </ChildContent>
+          <MenuItems>
+            @foreach (var action in filtered)
+            {
+              <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))" Role="MenuItemRole.MenuItem">
+                @(action.Attribute.Caption ?? action.Method.Name)
+                <span slot="start">
+                  <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
+                </span>
+              </FluentMenuItem>
+            }
+          </MenuItems>
+        </FluentMenuItem>
+
+
+      }
     }
 
-  </FluentStack>
-</FluentMenu>
+  }
+
+</FluentToolbar>
 
 

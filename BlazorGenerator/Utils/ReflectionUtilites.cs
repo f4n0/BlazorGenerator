@@ -1,8 +1,12 @@
-﻿using System;
+﻿using BlazorGenerator.Layouts;
+using BlazorGenerator.Models;
+using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,5 +37,6 @@ namespace BlazorGenerator.Utils
       //use the converter to get the correct value
       oProp.SetValue(target, Convert.ChangeType(propertyValue, tProp), null);
     }
+
   }
 }

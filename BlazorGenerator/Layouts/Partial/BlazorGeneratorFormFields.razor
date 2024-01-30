@@ -1,83 +1,98 @@
 ﻿@typeparam T
 
-
-@if (field.fType == typeof(bool))
+@if (isTableCell)
 {
-  <FluentCheckbox Value="@(Convert.ToBoolean(field.Getter(Data)))" ValueChanged="(val) => field.Setter(Data, val)"
-                  Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
+  <p>@field.Getter(Data)</p>
 }
-else if (field.fType == typeof(short))
-{
-  <FluentNumberField TValue="short" Value="@(Convert.ToInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(ushort))
-{
-  <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(int))
-{
-  <FluentNumberField TValue="int" Value="@(Convert.ToInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(uint))
-{
-  <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(long))
-{
-  <FluentNumberField TValue="long" Value="@(Convert.ToInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(ulong))
-{
-  <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(float))
-{
-  <FluentNumberField TValue="float" Value="@(Convert.ToSingle(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(double))
-{
-  <FluentNumberField TValue="double" Value="@(Convert.ToDouble(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(decimal))
-{
-  <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                     Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if ((field.fType == typeof(string)) || (field.fType == typeof(string)))
-{
-  <FluentTextField Value="@field.Getter(Data).ToString()" ValueChanged="(val) => field.Setter(Data, val)"
-                   Label="@field.Caption" Appearance="FluentInputAppearance.Filled" />
-}
-else if (field.fType == typeof(DateTime))
-{
-  <FluentDatePicker Label="@field.Caption" Appearance="FluentInputAppearance.Filled" Value="@(Convert.ToDateTime(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))" />
-}
-
 else
 {
-  @if (field.fType.IsEnum)
+
+  @if (showLabel)
   {
-    var values = Enum.GetNames(field.fType);
-
-    <FluentSelect Items=@values
-                  Value="@( Enum.GetName(field.fType, field.Getter(Data)))"
-                  ValueChanged="(val) => field.Setter(Data, Enum.Parse(field.fType, val))"
-                  Label="@field.Caption" Appearance="Appearance.Filled" />
-
+    <FluentInputLabel ForId="@Id" Label="@field.Caption" AriaLabel="@field.Caption" />
   }
+
+  @if (field.fType == typeof(bool))
+  {
+    <FluentCheckbox Value="@(Convert.ToBoolean(field.Getter(Data)))" ValueChanged="(val) => field.Setter(Data, val)"
+                    @attributes="@commonAttributes"/>
+  }
+  else if (field.fType == typeof(short))
+  {
+    <FluentNumberField TValue="short" Value="@(Convert.ToInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if (field.fType == typeof(ushort))
+  {
+    <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if (field.fType == typeof(int))
+  {
+    <FluentNumberField TValue="int" Value="@(Convert.ToInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if (field.fType == typeof(uint))
+  {
+    <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if (field.fType == typeof(long))
+  {
+    <FluentNumberField TValue="long" Value="@(Convert.ToInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if (field.fType == typeof(ulong))
+  {
+    <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if (field.fType == typeof(float))
+  {
+    <FluentNumberField TValue="float" Value="@(Convert.ToSingle(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if (field.fType == typeof(double))
+  {
+    <FluentNumberField TValue="double" Value="@(Convert.ToDouble(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if (field.fType == typeof(decimal))
+  {
+    <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                       @attributes="@commonAttributes" />
+  }
+  else if ((field.fType == typeof(string)) || (field.fType == typeof(string)))
+  {
+    <FluentTextField Value="@field.Getter(Data).ToString()" ValueChanged="(val) => field.Setter(Data, val)"
+                     @attributes="@commonAttributes" TextFieldType="@field.TextFieldType"/>
+  }
+  else if (field.fType == typeof(DateTime))
+  {
+    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))" />
+  }
+
   else
   {
-    <p>Not defined @field.fType.ToString()</p>
+    @if (field.fType.IsEnum)
+    {
+      var values = Enum.GetNames(field.fType);
+      commonAttributes["Appearance"] = Appearance.Filled;
+
+      <FluentSelect Items=@values
+                    Value="@( Enum.GetName(field.fType, field.Getter(Data)))"
+                    ValueChanged="(val) => field.Setter(Data, Enum.Parse(field.fType, val))"
+                    @attributes="@commonAttributes" />
+
+    }
+    else
+    {
+      <p>Not defined @field.fType.ToString()</p>
+    }
   }
+
 }
+
 
 
 
@@ -86,7 +101,17 @@ else
   public VisibleField<T> field { get; set; }
   [Parameter]
   public T Data { get; set; }
+  [Parameter]
+  public bool showLabel { get; set; } = true;
+  [Parameter]
+  public bool Editable { get; set; } = true;
 
+  [Parameter]
+  public bool isTableCell { get; set; } = false;
+
+  private string Id = Identifier.NewId();
+
+  private Dictionary<string, object> commonAttributes;
 
   private TypeCode GetFieldType()
   {
@@ -94,6 +119,19 @@ else
     var temp = Type.GetTypeCode(field.fType);
     var temp1 = Type.GetTypeCode(field.fType.BaseType);
     return temp;
+  }
+
+  protected override Task OnParametersSetAsync()
+  {
+    commonAttributes = new()
+{
+      { "Id", Id },
+      {"Appearance",FluentInputAppearance.Filled },
+      {"ReadOnly", !Editable },
+      {"role", "password" }
+    };
+
+    return base.OnParametersSetAsync();
   }
 
 }

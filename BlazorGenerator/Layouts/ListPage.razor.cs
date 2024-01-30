@@ -1,11 +1,14 @@
 ﻿using BlazorGenerator.Components.Base;
 using BlazorGenerator.Layouts.Partial;
 using BlazorGenerator.Models;
+using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,15 +24,16 @@ namespace BlazorGenerator.Layouts
     internal T CurrRec { get; set; }
 
 
-
     private async Task EditAsync(T context)
     {
-      if (EditFormType  == null)
-         throw new NotImplementedException("In order to use Edit action, you must implement EditFormType Property");
-      var res = await UIServices.OpenPanel<T>(EditFormType, context);
+      T res = null;
+      if (EditFormType != null)
+        res = await UIServices.OpenPanel<T>(EditFormType, context);
+     
       OnModify(res, context);
     }
 
+    internal Func<T, string> SelectedRowClass => (data) => Selected.Contains(data) ? "rowselected" : "";
 
     private void HandleRecSelection(bool selected, T Rec)
     {
