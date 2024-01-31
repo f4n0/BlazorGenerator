@@ -22,12 +22,6 @@ jobs:
       - name: Publish
         run: dotnet publish "WebAssembly/WebAssembly.csproj" -c:Release -o:public -p:GHPages=true        
   
-      - name: Rewrite base href
-        if: success()
-        uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
-        with:
-          html_path: public/index.html
-          base_href: /BlazorGenerator/
       # Deploy the site
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
