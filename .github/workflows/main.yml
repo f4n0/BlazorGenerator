@@ -26,7 +26,7 @@ jobs:
         if: success()
         uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
         with:
-          html_path: ${{ env.PUBLISH_DIR }}/index.html
+          html_path: public/index.html
           base_href: /BlazorGenerator/
       # Deploy the site
       - name: Deploy
