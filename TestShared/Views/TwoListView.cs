@@ -7,8 +7,8 @@ using TestShared.Data;
 
 namespace TestShared.Views
 {
-  [Route("/twolist")]
-  [AddToMenu(Title = "TwoList Page", Route = "/twolist")]
+  [Route("twolist")]
+  [AddToMenu(Title = "TwoList Page", Route = "twolist")]
   public class TwoListView : TwoList<Mock, Mock>
   {
 

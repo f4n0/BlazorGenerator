@@ -26,4 +26,8 @@
     <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <StaticWebAssetBasePath>/BlazorGenerator</StaticWebAssetBasePath>
+  </PropertyGroup>
+
 </Project>

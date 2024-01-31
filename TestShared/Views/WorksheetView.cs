@@ -7,8 +7,8 @@ using TestShared.Data;
 
 namespace TestShared.Views
 {
-  [Route("/WorksheetView")]
-  [AddToMenu(Title = "Worksheet Page", Route = "/WorksheetView")]
+  [Route("WorksheetView")]
+  [AddToMenu(Title = "Worksheet Page", Route = "WorksheetView")]
   public class WorksheetView : Worksheet<Mock, Mock>
   {
 

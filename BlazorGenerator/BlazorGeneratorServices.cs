@@ -20,8 +20,6 @@ namespace BlazorGenerator
 
             services.AddSingleton<UIServices>(serviceProvider => new UIServices(
 
-              //serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IPageProgressService)) as IPageProgressService,
-              //serviceProvider.CreateScope().ServiceProvider.GetService(typeof(IMessageService)) as IMessageService,
               serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger,
               null,
               serviceProvider.CreateScope().ServiceProvider.GetService<ProgressService>()

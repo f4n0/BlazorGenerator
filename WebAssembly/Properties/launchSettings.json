@@ -32,6 +32,8 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "commandLineArgs": "--pathbase=/BlazorGenerator",
+      "launchUrl": "BlazorGenerator",
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

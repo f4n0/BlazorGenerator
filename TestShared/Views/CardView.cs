@@ -7,8 +7,8 @@ using TestShared.Data;
 
 namespace TestShared.Views
 {
-  [Route("/card")]
-  [AddToMenu(Title = "Card Page", Route = "/card")]
+  [Route("card")]
+  [AddToMenu(Title = "Card Page", Route = "card")]
   public class CardView : CardPage<Mock>
   {
 
