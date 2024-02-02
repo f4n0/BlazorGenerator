@@ -6,17 +6,17 @@ using System;
 
 namespace BlazorGenerator
 {
-    public static class BlazorGeneratorServices
+  public static class BlazorGeneratorServices
+  {
+    public static IServiceCollection AddBlazorGenerator(this IServiceCollection services)
     {
-        public static IServiceCollection AddBlazorGenerator(this IServiceCollection services)
-        {
-            services.AddFluentUIComponents();
+      services.AddFluentUIComponents();
 
-            services.AddSingleton<BlazorGenLogger>();
-            services.AddScoped<ProgressService>();
+      services.AddSingleton<BlazorGenLogger>();
+      services.AddScoped<ProgressService>();
 
-            services.AddScoped<ISecurity, NullSecurity>();
-            services.AddTransient<BlazorGeneratorSecurity>();
+      services.AddScoped<ISecurity, NullSecurity>();
+      services.AddTransient<BlazorGeneratorSecurity>();
 
 #pragma warning disable CS8604 // Possible null reference argument.
       services.AddSingleton<UIServices>(serviceProvider => new UIServices(
@@ -28,6 +28,6 @@ namespace BlazorGenerator
 #pragma warning restore CS8604 // Possible null reference argument.
 
       return services;
-        }
     }
+  }
 }

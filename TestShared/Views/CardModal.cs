@@ -7,7 +7,6 @@ namespace TestShared.Views
 {
   public class ModalView : CardPage<Mock>
   {
-
     public override string Title => "List View";
 
     protected override void OnParametersSet()

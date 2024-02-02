@@ -15,21 +15,7 @@ namespace BlazorGenerator.Components.Base
 
     public void Dispose()
     {
-    }
-
-    internal string GetCssGridTemplate(int GridActions, PermissionSet permissionSet)
-    {
-      string select = "50px ";
-      string actions = string.Empty;
-      if (GridActions > 0)
-        actions = "50px ";
-
-      string cols = "repeat(auto-fill,14%) ";
-      string rowActions = string.Empty;
-      if (permissionSet.Modify || permissionSet.Delete)
-        rowActions = "150px";
-
-      return select+actions+cols+rowActions;
+      GC.SuppressFinalize(this);
     }
   }
 }

@@ -15,39 +15,13 @@ namespace BlazorGenerator.Layouts
     public virtual int GridSize => 6;
 
     [Parameter]
-    public T Content
-    {
-      get
-      {
-        return _data!;
-      }
-      set
-      {
-        _data = value;
-        OriginalContent = value;
-      }
-    }
-    private T? OriginalContent { get; set; }
-    private T? _data;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public T Content { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public List<VisibleField<T>> VisibleFields { get; set; } = [];
 
-    void HandleSave(T content)
-    {
-      OnInsert(content);
-      OnModify(content, OriginalContent!);
-    }
-
-    void HandleDiscard(T content)
-    {
-      OnDelete(content);
-    }
-
-    public virtual void OnInsert(T entity)
-    {
-    }
-
-    public virtual void OnModify(T entity, T oldEntity)
+    public virtual void OnSave(T entity)
     {
     }
 

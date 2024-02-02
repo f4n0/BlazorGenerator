@@ -33,7 +33,7 @@ namespace BlazorGenerator.Security
       var perms = Security.GetPermissionSets(Object);
       PermissionCache.Add(Security.getCurrentSessionIdentifier(), perms);
 
-      return perms.First(o => (o.Object == Object)||(o.Object == null));
+      return perms.First(o => (o.Object == Object) || (o.Object == null));
     }
   }
 }

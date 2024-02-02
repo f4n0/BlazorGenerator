@@ -11,10 +11,7 @@ namespace TestShared.Views
   [AddToMenu(Title = "Worksheet Page", Route = "WorksheetView")]
   public class WorksheetView : Worksheet<Mock, Mock>
   {
-
     public override string Title => "List View";
-
-
 
     protected override void OnParametersSet()
     {
@@ -26,7 +23,6 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.OrderDate));
 
       Content = Mock.getSingleMock();
-
 
       ListVisibleFields = new List<VisibleField<Mock>>();
       ListVisibleFields.AddField(nameof(Mock.Id));

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestShared
 {
-  public class shared
+  public class Shared
   {
   }
 }

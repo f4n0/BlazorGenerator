@@ -12,14 +12,11 @@ namespace TestShared.Views
   [AddToMenu(Title = "List Page", Route = "list", Icon = typeof(Icons.Regular.Size16.AddSquare))]
   public class ListView : ListPage<Mock>
   {
-
     public override string Title => "List View";
-
-
 
     protected override void OnParametersSet()
     {
-      VisibleFields = new List<VisibleField<Mock>>();
+      VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
       VisibleFields.AddField(nameof(Mock.Name));
       VisibleFields.AddField(nameof(Mock.Price));
@@ -31,22 +28,21 @@ namespace TestShared.Views
 
     public void Save(Mock Rec, Mock xRec)
     {
-      var tmp = Content.ToList();
-      tmp[Content.ToList().FindIndex(o => o.Id == xRec.Id)] = Rec;
+      var tmp = Content!.ToList();
+      tmp[Content!.ToList().FindIndex(o => o.Id == xRec.Id)] = Rec;
       Content = tmp.AsQueryable();
     }
 
     [PageAction]
     public void PageAction()
     {
-      UIServices.DialogService.ShowInfo("Page Action");
+      UIServices!.DialogService.ShowInfo("Page Action");
     }
 
     [GridAction(Caption = "Install", GridIcon = typeof(Icons.Regular.Size16.AirplaneTakeOff))]
-    public void GridAction(Mock Rec)
+    public void GridAction()
     {
-      UIServices.DialogService.ShowInfo("Grid Action");
+      UIServices!.DialogService.ShowInfo("Grid Action");
     }
-
   }
 }

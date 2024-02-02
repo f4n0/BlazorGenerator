@@ -36,7 +36,9 @@ namespace BlazorGenerator.Utils
         try
         {
           return a.GetTypes().Where(t => t.IsDefined(typeof(TAttribute), true));
-        } catch {
+        }
+        catch
+        {
           //null
           return Enumerable.Empty<Type>();
         }

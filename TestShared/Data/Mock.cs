@@ -11,7 +11,6 @@
 
     public MockEnum type { get; set; }
 
-
     public static Mock getSingleMock()
     {
       var rand = new Random();

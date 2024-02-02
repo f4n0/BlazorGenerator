@@ -11,10 +11,7 @@ namespace TestShared.Views
   [AddToMenu(Title = "TwoList Page", Route = "twolist")]
   public class TwoListView : TwoList<Mock, Mock>
   {
-
     public override string Title => "List View";
-
-
 
     protected override void OnParametersSet()
     {
@@ -31,15 +28,7 @@ namespace TestShared.Views
       SecondListVisibleFields.AddField(nameof(Mock.Id));
       SecondListVisibleFields.AddField(nameof(Mock.Name));
 
-
       SecondListContent = Mock.getMultipleMock().AsQueryable();
-    }
-
-    public override void FirstListSave(Mock Rec, Mock xRec)
-    {
-      var tmp = FirstListContent.ToList();
-      tmp[FirstListContent.ToList().FindIndex(o => o.Id == xRec.Id)] = Rec;
-      FirstListContent = tmp.AsQueryable();
     }
   }
 }

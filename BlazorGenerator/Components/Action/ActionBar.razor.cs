@@ -11,30 +11,30 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Components.Action
 {
-    public partial class ActionBar
-    {
-        [Parameter]
-        public IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)> PageActions { get; set; } = [];
+  public partial class ActionBar
+  {
+    [Parameter]
+    public IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)> PageActions { get; set; } = [];
 
     [Parameter]
-        public required object Context { get; set; }
+    public required object Context { get; set; }
 
     public Dictionary<string, int> ActionGroups { get; set; } = [];
 
     void PopulateDictionary()
+    {
+      ActionGroups = [];
+      foreach (var item in PageActions)
+      {
+        if (ActionGroups.TryGetValue(item.Attribute.Group, out int value))
         {
-            ActionGroups = [];
-            foreach (var item in PageActions)
-            {
-                if (ActionGroups.TryGetValue(item.Attribute.Group, out int value))
-                {
-                    ActionGroups[item.Attribute.Group] = ++value;
-                }
-                else
-                {
-                    ActionGroups.Add(item.Attribute.Group, 1);
-                }
-            }
+          ActionGroups[item.Attribute.Group] = ++value;
         }
+        else
+        {
+          ActionGroups.Add(item.Attribute.Group, 1);
+        }
+      }
     }
+  }
 }

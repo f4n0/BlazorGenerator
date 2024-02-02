@@ -21,47 +21,12 @@ namespace BlazorGenerator.Layouts
     public virtual Type? EditFormType { get; set; }
 
     public List<T> Selected { get; set; } = [];
-    internal T? CurrRec { get; set; }
 
-    private async Task EditAsync(T context)
-    {
-      T? res;
-      if (EditFormType != null)
-      {
-        res = await UIServices!.OpenPanel<T>(EditFormType, context);
-      }
-      else
-      {
-        var typeDelegate = RoslynUtilities.CreateAndInstatiateClass(VisibleFields, "edit");
-        var type = (Type)typeDelegate.Invoke().Result;
-        res = await UIServices!.OpenPanel<T>(type, context);
-        GC.Collect();
-      }
-      OnModify(res!, context);
-    }
-
-    internal Func<T, string> SelectedRowClass => (data) => Selected.Contains(data) ? "rowselected" : "";
-
-    private void HandleRecSelection(bool selected, T Rec)
-    {
-      if (selected)
-      {
-        Selected.Add(Rec);
-      } else
-      {
-        Selected.Remove(Rec);
-      }
-    }
-
-    public void OnInsert(T entity)
+    public virtual void OnSave(T entity)
     {
     }
 
-    public void OnModify(T entity, T oldEntity)
-    {
-    }
-
-    public void OnDelete(T entity)
+    public virtual void OnDelete(T entity)
     {
     }
   }

@@ -12,14 +12,13 @@ namespace BlazorGenerator.Utils
 {
   internal class RoslynUtilities
   {
-
     internal static ScriptRunner<object> CreateAndInstatiateClass<T>(List<VisibleField<T>> visibleFields, string Title = null)
     {
       string TypeName = typeof(T).Name;
       var sb = new StringBuilder();
       foreach (var field in visibleFields)
       {
-        sb.Append("VisibleFields.AddField(\""+ field.Name + "\");");
+        sb.Append("VisibleFields.AddField(\"" + field.Name + "\");");
       }
       string classdeclaration = @"
         using BlazorGenerator.Layouts;
@@ -44,7 +43,7 @@ namespace BlazorGenerator.Utils
         }}
         return typeof(TempListEditDialog);
         ";
-      var script = CSharpScript.Create(string.Format(classdeclaration, TypeName, Title, sb.ToString(), typeof(T).Namespace), ScriptOptions.Default.WithReferences(Assembly.GetExecutingAssembly(),typeof(T).Assembly));
+      var script = CSharpScript.Create(string.Format(classdeclaration, TypeName, Title, sb.ToString(), typeof(T).Namespace), ScriptOptions.Default.WithReferences(Assembly.GetExecutingAssembly(), typeof(T).Assembly));
       script.Compile();
 
       return script.CreateDelegate();

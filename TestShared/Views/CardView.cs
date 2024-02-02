@@ -11,11 +11,9 @@ namespace TestShared.Views
   [AddToMenu(Title = "Card Page", Route = "card")]
   public class CardView : CardPage<Mock>
   {
-
-
     protected override void OnParametersSet()
     {
-      VisibleFields = new List<VisibleField<Mock>>();
+      VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
       VisibleFields.AddField(nameof(Mock.Name));
       VisibleFields.AddField(nameof(Mock.Price));
@@ -27,32 +25,28 @@ namespace TestShared.Views
       Content = Mock.getSingleMock();
     }
 
-
     [PageAction(Caption = "ShowProgress")]
     public async void ShowProgress()
     {
-      UIServices.ProgressService.StartProgress();
+      UIServices!.ProgressService.StartProgress();
       await Task.Delay(10000);
-      UIServices.ProgressService.StopProgress();
+      UIServices!.ProgressService.StopProgress();
     }
 
     [PageAction(Caption = "Open Modal")]
     public async void OpenModal()
     {
       var mock = Mock.getSingleMock();
-      var res = await UIServices.OpenModal(typeof(ModalView), mock);
-
+      _ = await UIServices!.OpenModal(typeof(ModalView), mock);
     }
 
-    [PageAction(Caption = "Test1", Group ="grouped")]
-    public async void Test1()
+    [PageAction(Caption = "Test1", Group = "grouped")]
+    public void Test1()
     {
     }
     [PageAction(Caption = "Test2", Group = "grouped")]
-    public async void Test2()
+    public void Test2()
     {
     }
-
-
   }
 }

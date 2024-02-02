@@ -9,93 +9,32 @@
 <PageTitle>@Title</PageTitle>
 @if (ShowActions)
 {
-    <ActionBar Context="this" PageActions="PageActions" />
+  <ActionBar Context="this" PageActions="PageActions" />
 }
 
 <FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
-    <Panel1>
-
-      <FluentDataGrid Items="@FirstListContent" TGridItem="TFirstList" ResizableColumns="true">
-
-        <TemplateColumn Title="" Align="@Align.Center">
-          <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
-        </TemplateColumn>
-        @if (gridActions.Count() > 0)
-        {
-          <TemplateColumn Title="" Align="@Align.Center">
-            <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context?.GetHashCode().ToString())" OnClick="@((e) =>
-                                                                                                                       {
-                                                                                                                         FirstListCurrRec = context;
-                                                                                                                       })"></FluentIcon>
-            <FluentMenu Anchor="@context?.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true">
-              @foreach (var a in gridActions)
-              {
-                <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => a.Method.Invoke(this, [FirstListCurrRec]))">
-                  <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
-                </FluentMenuItem>
-              }
-            </FluentMenu>
-
-          </TemplateColumn>
-        }
-
-        @foreach (var context in FirstListVisibleFields)
-        {
-          <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
-        }
-
-        <TemplateColumn Title="Actions" Align="@Align.End">
-          @if (permissionSet?.Modify ?? false)
-          {
-            <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => FirstListEditAsync(context))" />
-          }
-          else if (permissionSet?.Delete ?? false)
-          {
-            <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => FirstListDelete(context))" />
-          }
-        </TemplateColumn>
-      </FluentDataGrid>
-    </Panel1>
-    <Panel2>
-      <FluentDataGrid Items="@SecondListContent" TGridItem="TSecondList" ResizableColumns="true">
-
-        <TemplateColumn Title="" Align="@Align.Center">
-          <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
-        </TemplateColumn>
-        @if (gridActions.Count() > 0)
-        {
-          <TemplateColumn Title="" Align="@Align.Center">
-            <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context?.GetHashCode().ToString())" OnClick="@((e) =>
-                                                                                                                       {
-                                                                                                                         SecondListCurrRec = context;
-                                                                                                                       })"></FluentIcon>
-            <FluentMenu Anchor="@context?.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true">
-              @foreach (var a in gridActions)
-              {
-                <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => a.Method.Invoke(this, [SecondListCurrRec]))">
-                  <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
-                </FluentMenuItem>
-              }
-            </FluentMenu>
-
-          </TemplateColumn>
-        }
-
-        @foreach (var context in SecondListVisibleFields)
-        {
-          <PropertyColumn Title="@context.Caption" Property="@(p => context.Getter(p))" Sortable="true" />
-        }
-
-        <TemplateColumn Title="Actions" Align="@Align.End">
-          @if (permissionSet?.Modify ?? false)
-          {
-            <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => SecondListEditAsync(context))" />
-          }
-          else if (permissionSet?.Delete ?? false)
-          {
-            <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => SecondListDelete(context))" />
-          }
-        </TemplateColumn>
-      </FluentDataGrid>
-    </Panel2>
+  <Panel1>
+    <ListDataGrid T="TFirstList"
+                  Data="FirstListContent"
+                  VisibleFields="FirstListVisibleFields"
+                  OnDiscard="(data) => OnDelete(data)"
+                  OnSave="(data) => OnSave(data)"
+                  PermissionSet="permissionSet"
+                  @bind-Selected="FirstListSelected"
+                  ShowButtons="ShowButtons"
+                  GridActions="gridActions"
+                  EditFormType="FirstListEditFormType" />
+  </Panel1>
+  <Panel2>
+    <ListDataGrid T="TSecondList"
+                  Data="SecondListContent"
+                  VisibleFields="SecondListVisibleFields"
+                  OnDiscard="(data) => OnDelete(data)"
+                  OnSave="(data) => OnSave(data)"
+                  PermissionSet="permissionSet"
+                  @bind-Selected="SecondListSelected"
+                  ShowButtons="ShowButtons"
+                  GridActions="gridActions"
+                  EditFormType="SecondListEditFormType" />
+  </Panel2>
 </FluentSplitter>
