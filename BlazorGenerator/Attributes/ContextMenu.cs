@@ -13,7 +13,7 @@ namespace BlazorGenerator.Attributes
     {
     }
 
-    public string? Caption { get; set; }
-    public object? Icon { get; set; }
+    public string Caption { get; set; }
+    public object Icon { get; set; }
   }
 }

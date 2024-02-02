@@ -18,6 +18,6 @@ namespace BlazorGenerator.Attributes
     public required string Route { get; set; }
     public Type Icon { get; set; } = typeof(Icons.Regular.Size20.Balloon);
     public string Group { get; set; } = "Default";
-    public int? OrderSequence { get; set; }
+    public int OrderSequence { get; set; }
   }
 }
