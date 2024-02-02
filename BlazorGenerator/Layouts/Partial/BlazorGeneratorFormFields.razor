@@ -12,82 +12,82 @@ else
     <FluentInputLabel ForId="@Id" Label="@field.Caption" AriaLabel="@field.Caption" />
   }
 
-  @if (field.fType == typeof(bool))
+  @if (field.FieldType == typeof(bool))
   {
     <FluentCheckbox Value="@(Convert.ToBoolean(field.Getter(Data)))" ValueChanged="(val) => field.Setter(Data, val)"
                     @attributes="@commonAttributes"/>
   }
-  else if (field.fType == typeof(short))
+  else if (field.FieldType == typeof(short))
   {
     <FluentNumberField TValue="short" Value="@(Convert.ToInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if (field.fType == typeof(ushort))
+  else if (field.FieldType == typeof(ushort))
   {
     <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if (field.fType == typeof(int))
+  else if (field.FieldType == typeof(int))
   {
     <FluentNumberField TValue="int" Value="@(Convert.ToInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if (field.fType == typeof(uint))
+  else if (field.FieldType == typeof(uint))
   {
     <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if (field.fType == typeof(long))
+  else if (field.FieldType == typeof(long))
   {
     <FluentNumberField TValue="long" Value="@(Convert.ToInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if (field.fType == typeof(ulong))
+  else if (field.FieldType == typeof(ulong))
   {
     <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if (field.fType == typeof(float))
+  else if (field.FieldType == typeof(float))
   {
     <FluentNumberField TValue="float" Value="@(Convert.ToSingle(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if (field.fType == typeof(double))
+  else if (field.FieldType == typeof(double))
   {
     <FluentNumberField TValue="double" Value="@(Convert.ToDouble(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if (field.fType == typeof(decimal))
+  else if (field.FieldType == typeof(decimal))
   {
     <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if ((field.fType == typeof(string)) || (field.fType == typeof(string)))
+  else if ((field.FieldType == typeof(string)) || (field.FieldType == typeof(string)))
   {
-    <FluentTextField Value="@field.Getter(Data).ToString()" ValueChanged="(val) => field.Setter(Data, val)"
+    <FluentTextField Value="@field.Getter(Data)?.ToString()" ValueChanged="(val) => field.Setter(Data, val)"
                      @attributes="@commonAttributes" TextFieldType="@field.TextFieldType"/>
   }
-  else if (field.fType == typeof(DateTime))
+  else if (field.FieldType == typeof(DateTime))
   {
-    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))" />
+    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val!))" />
   }
 
   else
   {
-    @if (field.fType.IsEnum)
+    @if (field.FieldType.IsEnum)
     {
-      var values = Enum.GetNames(field.fType);
+      var values = Enum.GetNames(field.FieldType);
       commonAttributes["Appearance"] = Appearance.Filled;
 
       <FluentSelect Items=@values
-                    Value="@( Enum.GetName(field.fType, field.Getter(Data)))"
-                    ValueChanged="(val) => field.Setter(Data, Enum.Parse(field.fType, val))"
+                    Value="@( Enum.GetName(field.FieldType, field.Getter(Data)!))"
+                    ValueChanged="(val) => field.Setter(Data, Enum.Parse(field.FieldType, val))"
                     @attributes="@commonAttributes" />
 
     }
     else
     {
-      <p>Not defined @field.fType.ToString()</p>
+      <p>Not defined @field.FieldType.ToString()</p>
     }
   }
 
@@ -98,9 +98,9 @@ else
 
 @code {
   [Parameter]
-  public VisibleField<T> field { get; set; }
+  public required VisibleField<T> field { get; set; }
   [Parameter]
-  public T Data { get; set; }
+  public required T Data { get; set; }
   [Parameter]
   public bool showLabel { get; set; } = true;
   [Parameter]
@@ -111,13 +111,13 @@ else
 
   private string Id = Identifier.NewId();
 
-  private Dictionary<string, object> commonAttributes;
+  private Dictionary<string, object> commonAttributes = [];
 
   private TypeCode GetFieldType()
   {
 
-    var temp = Type.GetTypeCode(field.fType);
-    var temp1 = Type.GetTypeCode(field.fType.BaseType);
+    var temp = Type.GetTypeCode(field.FieldType);
+    var temp1 = Type.GetTypeCode(field.FieldType.BaseType);
     return temp;
   }
 

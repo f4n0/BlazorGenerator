@@ -12,18 +12,17 @@ namespace BlazorGenerator.Layouts
 {
   public partial class TwoList<TFirstList, TSecondList> : BlazorgenComponentBase
   {
+    public IQueryable<TFirstList>? FirstListContent { get; set; }
+    public IQueryable<TSecondList>? SecondListContent { get; set; }
 
-    public IQueryable<TFirstList> FirstListContent { get; set; }
-    public IQueryable<TSecondList> SecondListContent { get; set; }
+    public List<VisibleField<TFirstList>> FirstListVisibleFields { get; set; } = [];
+    public List<VisibleField<TSecondList>> SecondListVisibleFields { get; set; } = [];
 
-    public List<VisibleField<TFirstList>> FirstListVisibleFields { get; set; } = new List<VisibleField<TFirstList>>();
-    public List<VisibleField<TSecondList>> SecondListVisibleFields { get; set; } = new List<VisibleField<TSecondList>>();
+    public List<TFirstList> FirstListSelected { get; set; } = [];
+    public List<TSecondList> SecondListSelected { get; set; } = [];
 
-    public List<TFirstList> FirstListSelected { get; set; } = new List<TFirstList>();
-    public List<TSecondList> SecondListSelected { get; set; } = new List<TSecondList>();
-
-    internal TFirstList FirstListCurrRec { get; set; }
-    internal TSecondList SecondListCurrRec { get; set; }
+    internal TFirstList? FirstListCurrRec { get; set; }
+    internal TSecondList? SecondListCurrRec { get; set; }
 
     private async Task FirstListEditAsync(TFirstList context)
     {
@@ -32,13 +31,11 @@ namespace BlazorGenerator.Layouts
         Data = context,
         VisibleFields = FirstListVisibleFields,
       };
-      var _dialog = await UIServices.dialogService.ShowPanelAsync<ListEditPanel<TFirstList>>(panelData, new DialogParameters()
+      var _dialog = await UIServices!.DialogService.ShowPanelAsync<ListEditPanel<TFirstList>>(panelData, new DialogParameters()
       {
         DialogType = DialogType.Panel,
         Alignment = HorizontalAlignment.Right,
         Width = "40%"
-
-
       });
       DialogResult result = await _dialog.Result;
 
@@ -48,7 +45,7 @@ namespace BlazorGenerator.Layouts
       }
       if (result.Data is not null)
       {
-        FirstListSave((result.Data as ModalData<TFirstList>).Data, context);
+        FirstListSave((result.Data as ModalData<TFirstList>)!.Data, context);
       }
     }
     public virtual void FirstListDelete(TFirstList context)
@@ -61,7 +58,6 @@ namespace BlazorGenerator.Layouts
       throw new NotImplementedException("Views must implement Save and Delete virtual methods");
     }
 
-
     private async Task SecondListEditAsync(TSecondList context)
     {
       var panelData = new ModalData<TSecondList>()
@@ -69,13 +65,11 @@ namespace BlazorGenerator.Layouts
         Data = context,
         VisibleFields = SecondListVisibleFields,
       };
-      var _dialog = await UIServices.dialogService.ShowPanelAsync<ListEditPanel<TSecondList>>(panelData, new DialogParameters()
+      var _dialog = await UIServices!.DialogService.ShowPanelAsync<ListEditPanel<TSecondList>>(panelData, new DialogParameters()
       {
         DialogType = DialogType.Panel,
         Alignment = HorizontalAlignment.Right,
         Width = "40%"
-
-
       });
       DialogResult result = await _dialog.Result;
 
@@ -85,7 +79,7 @@ namespace BlazorGenerator.Layouts
       }
       if (result.Data is not null)
       {
-        SecondListSave((result.Data as ModalData<TSecondList>).Data, context);
+        SecondListSave((result.Data as ModalData<TSecondList>)!.Data, context);
       }
     }
     public virtual void SecondListDelete(TSecondList context)

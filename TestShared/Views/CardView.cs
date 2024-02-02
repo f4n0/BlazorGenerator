@@ -22,6 +22,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o)=> o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password );
       VisibleFields.AddField(nameof(Mock.OrderDate));
       VisibleFields.AddField(nameof(Mock.type));
+      VisibleFields.AddField(nameof(Mock.NullTest));
 
       Content = Mock.getSingleMock();
     }
@@ -30,9 +31,9 @@ namespace TestShared.Views
     [PageAction(Caption = "ShowProgress")]
     public async void ShowProgress()
     {
-      UIServices.progressService.StartProgress();
+      UIServices.ProgressService.StartProgress();
       await Task.Delay(10000);
-      UIServices.progressService.StopProgress();
+      UIServices.ProgressService.StopProgress();
     }
 
     [PageAction(Caption = "Open Modal")]

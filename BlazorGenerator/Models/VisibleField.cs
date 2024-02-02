@@ -12,13 +12,11 @@ namespace BlazorGenerator.Models
 {
   public class VisibleField<T>
   {
-    public string Caption { get; set; }
-    public Action<T, object> Setter { get; set; }
-    public Func<T, object> Getter { get; set; }
-    public Type fType { get; set; }
-    public string Name { get; set; }
+    public string Caption { get; set; } = null!;
+    public required Action<T, object> Setter { get; set; }
+    public required Func<T, object?> Getter { get; set; }
+    public required Type FieldType { get; set; }
+    public required string Name { get; set; }
     public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
-
-
   }
 }

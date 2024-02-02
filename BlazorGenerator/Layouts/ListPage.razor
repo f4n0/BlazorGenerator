@@ -3,7 +3,7 @@
 @{
   var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
   var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
-  var permissionSet = Security.GetPermissionSet(this.GetType());
+  var permissionSet = Security?.GetPermissionSet(this.GetType());
 
 
 }
@@ -17,7 +17,7 @@
                 Items="@Content" 
                 TGridItem="T" 
                 ResizableColumns="true" 
-                GridTemplateColumns="@GetCssGridTemplate(gridActions.Count(), permissionSet)"
+                GridTemplateColumns="@GetCssGridTemplate(gridActions.Count(), permissionSet!)"
                 RowClass="SelectedRowClass"
                 >
 
@@ -51,11 +51,11 @@
   }
 
   <TemplateColumn Title="Actions" Align="@Align.End">
-    @if (permissionSet.Modify)
+    @if (permissionSet!.Modify)
     {
       <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
     }
-    else if (permissionSet.Delete)
+    else if (permissionSet!.Delete)
     {
       <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => OnDelete(context))" />
     }

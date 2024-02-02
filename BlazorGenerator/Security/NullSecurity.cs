@@ -14,18 +14,16 @@ namespace BlazorGenerator.Security
       return Guid.Empty;
     }
 
-
-    public List<PermissionSet> GetPermissionSets(Type type = null)
+    public List<PermissionSet> GetPermissionSets(Type? type = null)
     {
-      return new List<PermissionSet>(){new  PermissionSet()
+      return [new  PermissionSet()
       {
         Insert = true,
         Delete = true,
         Execute = true,
         Modify = true,
-        Object = null
-      } };
+        Object = null!
+      } ];
     }
-
   }
 }

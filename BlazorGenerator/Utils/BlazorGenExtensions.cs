@@ -12,15 +12,14 @@ namespace BlazorGenerator.Utils
 {
   public static class BlazorGenExtensions
   {
-    public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, AdditionalProperties<T> additionalProperties = null) where T : class
+    public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, AdditionalProperties<T>? additionalProperties = null) where T : class
     {
-      var prop = typeof(T).GetProperty(propertyName);
-
+      var prop = typeof(T).GetProperty(propertyName) ?? throw new NullReferenceException("Cannot find property with name \"" + propertyName + "\"");
 
       var field = new VisibleField<T>()
       {
         Name = propertyName,
-        fType = prop.PropertyType,
+        FieldType = prop.PropertyType,
         Caption = propertyName,
         Getter = f => prop.GetValue(f),
         Setter = (f, v) => prop.SetValue(f, v)
@@ -28,21 +27,19 @@ namespace BlazorGenerator.Utils
 
       if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
       {
-        field.fType = Nullable.GetUnderlyingType(prop.PropertyType);
+#pragma warning disable CS8601 // Possible null reference assignment.
+        field.FieldType = Nullable.GetUnderlyingType(prop.PropertyType);
+#pragma warning restore CS8601 // Possible null reference assignment.
       }
 
-
-
-      if (additionalProperties != null)
-        additionalProperties(ref field);
+      additionalProperties?.Invoke(ref field);
 
       visibleFields.Add(field);
     }
 
-
     public delegate void AdditionalProperties<T>(ref VisibleField<T> reference) where T : class;
 
-    public static Icon ToFluentIcon(this Type icon)
+    public static Icon? ToFluentIcon(this Type icon)
     {
       return Activator.CreateInstance(icon) as Icon;
     }

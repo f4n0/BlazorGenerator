@@ -16,21 +16,28 @@ namespace BlazorGenerator.Layouts
 {
   public partial class ListPage<T> : BlazorgenComponentBase where T : class
   {
-    public IQueryable<T> Content { get; set; }
-    public List<VisibleField<T>> VisibleFields { get; set; } = new List<VisibleField<T>>();
-    public virtual Type EditFormType { get; set; }
+    public IQueryable<T>? Content { get; set; }
+    public required List<VisibleField<T>> VisibleFields { get; set; }
+    public virtual Type? EditFormType { get; set; }
 
-    public List<T> Selected { get; set; } = new List<T>();
-    internal T CurrRec { get; set; }
-
+    public List<T> Selected { get; set; } = [];
+    internal T? CurrRec { get; set; }
 
     private async Task EditAsync(T context)
     {
-      T res = null;
+      T? res;
       if (EditFormType != null)
-        res = await UIServices.OpenPanel<T>(EditFormType, context);
-     
-      OnModify(res, context);
+      {
+        res = await UIServices!.OpenPanel<T>(EditFormType, context);
+      }
+      else
+      {
+        var typeDelegate = RoslynUtilities.CreateAndInstatiateClass(VisibleFields, "edit");
+        var type = (Type)typeDelegate.Invoke().Result;
+        res = await UIServices!.OpenPanel<T>(type, context);
+        GC.Collect();
+      }
+      OnModify(res!, context);
     }
 
     internal Func<T, string> SelectedRowClass => (data) => Selected.Contains(data) ? "rowselected" : "";

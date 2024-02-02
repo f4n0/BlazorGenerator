@@ -1,8 +1,6 @@
-﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Layouts;
+﻿using BlazorGenerator.Layouts;
 using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
-using Microsoft.AspNetCore.Components;
 using TestShared.Data;
 
 namespace TestShared.Views
@@ -25,7 +23,5 @@ namespace TestShared.Views
       ShowActions = false;
       ShowButtons = false;
     }
-
-
   }
 }

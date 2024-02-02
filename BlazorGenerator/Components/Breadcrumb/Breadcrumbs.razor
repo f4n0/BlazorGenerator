@@ -15,21 +15,21 @@
 }
 
 @code {
-    Dictionary<string, string> UriParts { get; set; }
+  Dictionary<string, string> UriParts { get; set; } = null!;
 
-    protected override void OnParametersSet()
+  protected override void OnParametersSet()
+  {
+    var parts = NavManager?.ToBaseRelativePath(NavManager.Uri.ToString());
+    UriParts = new();
+    if (parts != "")
     {
-        var parts = NavManager.ToBaseRelativePath(NavManager.Uri.ToString());
-        UriParts = new();
-        if (parts != "")
-        {
-            var list = parts.Split('/');
-            var BuildedUrl = "/";
-            foreach (var item in list)
-            {
-                BuildedUrl += item + "/";
-                UriParts.Add(BuildedUrl, item);
-            }
-        }
+      var list = parts?.Split('/');
+      var BuildedUrl = "/";
+      foreach (var item in list!)
+      {
+        BuildedUrl += item + "/";
+        UriParts.Add(BuildedUrl, item);
+      }
     }
+  }
 }

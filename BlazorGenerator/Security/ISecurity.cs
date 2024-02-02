@@ -9,7 +9,7 @@ namespace BlazorGenerator.Security
 {
   public interface ISecurity
   {
-    public List<PermissionSet> GetPermissionSets(Type type = null);
+    public List<PermissionSet> GetPermissionSets(Type? type = null);
     public Guid getCurrentSessionIdentifier();
   }
 }

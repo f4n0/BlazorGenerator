@@ -4,7 +4,7 @@
     <input type="checkbox" id="navmenu-toggle" />
     <nav class="sitenav" aria-labelledby="main-menu" onclick="document.getElementById('navmenu-toggle').click();">
         <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded">
-            <FluentNavLink Href="@NavManager.BaseUri" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
+            <FluentNavLink Href="@NavManager?.BaseUri" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
 
 
             @{
@@ -13,7 +13,7 @@
 
                 foreach (var item in MenuGroups.Where(o => o.Key.ToLower() == "default"))
                 {
-                    var filtered = menus.Where(o => o.Group == item.Key);
+                    var filtered = Menus.Where(o => o.Group == item.Key);
                     if (item.Key.ToLower() == "default" || item.Value == 1)
                     {
                         foreach (var elem in filtered)
@@ -35,7 +35,7 @@
                 }
                 foreach (var item in MenuGroups.Where(o => o.Key.ToLower() != "default"))
                 {
-                    var filtered = menus.Where(o => o.Group == item.Key);
+                    var filtered = Menus.Where(o => o.Group == item.Key);
                     if (item.Key.ToLower() == "default" || item.Value == 1)
                     {
                         foreach (var elem in filtered)

@@ -7,6 +7,7 @@
     public string Description { get; set; }
     public DateTime? OrderDate { get; set; }
     public float Price { get; set; }
+    public string NullTest { get; set; } = null!;
 
     public MockEnum type { get; set; }
 

@@ -12,14 +12,13 @@ namespace BlazorGenerator.Layouts
 {
   public partial class Worksheet<TData, TList> : BlazorgenComponentBase where TList : class
   {
-
-    private TData OriginalData { get; set; }
-    private TData _data;
+    private TData? OriginalData { get; set; }
+    private TData? _data;
     public TData Content
     {
       get
       {
-        return _data;
+        return _data!;
       }
       set
       {
@@ -28,13 +27,12 @@ namespace BlazorGenerator.Layouts
       }
     }
 
-    public List<VisibleField<TData>> VisibleFields { get; set; } = new List<VisibleField<TData>>();
+    public List<VisibleField<TData>> VisibleFields { get; set; } = [];
 
     void Save(TData Rec)
     {
       OnInsert(Rec);
-      OnModify(Rec, OriginalData);
-
+      OnModify(Rec, OriginalData!);
     }
     void Discard(TData Rec)
     {
@@ -43,28 +41,25 @@ namespace BlazorGenerator.Layouts
 
     internal virtual int GridSize => 6;
 
+    public IQueryable<TList>? ListContent { get; set; }
 
+    public List<VisibleField<TList>> ListVisibleFields { get; set; } = [];
+    public virtual Type? EditFormType { get; set; }
 
-    public IQueryable<TList> ListContent { get; set; }
-
-    public List<VisibleField<TList>> ListVisibleFields { get; set; } = new List<VisibleField<TList>>();
-    public virtual Type EditFormType { get; set; }
-
-    public List<TList> ListSelected { get; set; } = new List<TList>();
-    internal TList CurrRec { get; set; }
+    public List<TList> ListSelected { get; set; } = [];
+    internal TList? CurrRec { get; set; }
 
     private async Task EditAsync(TList context)
     {
       if (EditFormType == null)
         throw new NotImplementedException("In order to use Edit action, you must implement EditFormType Property");
-      var res = await UIServices.OpenPanel<TList>(EditFormType, context);
-      OnModify(res, context);
+      var res = await UIServices!.OpenPanel<TList>(EditFormType, context);
+      OnModify(res!, context);
     }
     void ListDelete(TList context)
     {
       OnDelete(context);
     }
-
 
     private void HandleRecSelection(bool selected, TList Rec)
     {

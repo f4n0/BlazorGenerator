@@ -16,7 +16,6 @@
             <FluentBodyContent>
 
                 <FluentLayout>
-                    @* <Breadcrumbs /> *@
                     <FluentBodyContent style="height: calc(100dvh); padding: 10px; ">
                         <Progress></Progress>
                         <div class="content">
@@ -37,24 +36,24 @@
 </FluentDesignTheme>
 
 @code{
-    FluentDesignTheme Theme { get; set; }
+    FluentDesignTheme? Theme { get; set; }
 
     [Inject]
-    public UIServices UIServices { get; set; }
+    public UIServices? UIServices { get; set; }
     [Inject]
-    public IDialogService DialogService { get; set; }
+    public IDialogService? DialogService { get; set; }
     [Inject]
-    public ProgressService ProgressService { get; set; }
+    public ProgressService? ProgressService { get; set; }
 
     private void SwitchDarkLightTheme()
     {
-        Theme.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
+        Theme!.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
     }
 
     protected override Task OnParametersSetAsync()
     {
-        UIServices.dialogService = DialogService;
-        UIServices.progressService = ProgressService;
+        UIServices!.DialogService = DialogService!;
+        UIServices!.ProgressService = ProgressService!;
         return base.OnParametersSetAsync();
     }
 }

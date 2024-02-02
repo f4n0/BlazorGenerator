@@ -39,13 +39,13 @@ namespace TestShared.Views
     [PageAction]
     public void PageAction()
     {
-      UIServices.dialogService.ShowInfo("Page Action");
+      UIServices.DialogService.ShowInfo("Page Action");
     }
 
     [GridAction(Caption = "Install", GridIcon = typeof(Icons.Regular.Size16.AirplaneTakeOff))]
     public void GridAction(Mock Rec)
     {
-      UIServices.dialogService.ShowInfo("Grid Action");
+      UIServices.DialogService.ShowInfo("Grid Action");
     }
 
   }

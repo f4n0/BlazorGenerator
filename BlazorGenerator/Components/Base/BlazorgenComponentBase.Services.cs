@@ -13,15 +13,15 @@ namespace BlazorGenerator.Components.Base
     public partial class BlazorgenComponentBase : ComponentBase, IDisposable
     {
         [Inject]
-        public NavigationManager NavManager { get; set; }
+        public NavigationManager? NavManager { get; set; }
 
         [Inject]
-        public UIServices UIServices { get; set; }
+        public UIServices? UIServices { get; set; }
 
         [Inject]
-        public IJSRuntime JSRuntime { get; set; }
+        public IJSRuntime? JSRuntime { get; set; }
 
         [Inject]
-        internal BlazorGeneratorSecurity Security { get; set; }
+        internal BlazorGeneratorSecurity? Security { get; set; }
     }
 }

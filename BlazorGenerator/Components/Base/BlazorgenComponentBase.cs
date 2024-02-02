@@ -8,18 +8,14 @@ namespace BlazorGenerator.Components.Base
 {
   public partial class BlazorgenComponentBase : ComponentBase, IDisposable
   {
-
-
     public virtual string Title => this.GetType().Name;
 
     public virtual bool ShowButtons { get; set; } = true;
     public virtual bool ShowActions { get; set; } = true;
 
-
     public void Dispose()
     {
     }
-
 
     internal string GetCssGridTemplate(int GridActions, PermissionSet permissionSet)
     {
@@ -34,7 +30,6 @@ namespace BlazorGenerator.Components.Base
         rowActions = "150px";
 
       return select+actions+cols+rowActions;
-
     }
   }
 }

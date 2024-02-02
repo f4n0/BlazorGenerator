@@ -1,7 +1,7 @@
 ﻿
 <FluentToolbar Style="min-width:100%; margin-bottom:10px; border-radius:5px; padding:5px; vertical-align:middle">
   <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align:text-top;">
-    @((Context as BlazorgenComponentBase).Title)
+    @((Context as BlazorgenComponentBase)?.Title)
   </FluentLabel>
 
   <FluentDivider Style="height: 20px; width: 20px;" Orientation="Orientation.Vertical"></FluentDivider>

@@ -10,31 +10,19 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Services
 {
-  public class UIServices
+  public class UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService _progressService)
   {
-    public UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService? _progressService)
-    {
-      //PageProgressService = _PageProgressService;
-      //MessageService = _MessageService;
-      logger = _logger;
-      //NotificationService = _NotificationService;
-      //ModalService = _ModalService;
-      dialogService = _dialogService;
-      progressService = _progressService;
-    }
-
-
-    public BlazorGenLogger logger { get; internal set; }
-    public IDialogService dialogService { get; internal set; }
-    public ProgressService progressService { get; internal set; }
+    public BlazorGenLogger Logger { get; internal set; } = _logger;
+    public IDialogService DialogService { get; internal set; } = _dialogService;
+    public ProgressService ProgressService { get; internal set; } = _progressService;
 
     public void StartLoader()
     {
-      progressService.StartProgress();
+      ProgressService.StartProgress();
     }
     public void StopLoader()
     {
-      progressService.StopProgress();
+      ProgressService.StopProgress();
     }
 
     public async Task<T?> OpenModal<T>(Type PageType, T Data) where T : class
@@ -42,7 +30,7 @@ namespace BlazorGenerator.Services
       if (PageType.BaseType != typeof(CardPage<T>))
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
-      var DialogResult = await dialogService.ShowDialogAsync(PageType, Data, new DialogParameters()
+      var DialogResult = await DialogService.ShowDialogAsync(PageType, Data, new DialogParameters()
       {
         Width = "50%",
         Height = "50%"
@@ -63,7 +51,7 @@ namespace BlazorGenerator.Services
       if (PageType.BaseType != typeof(CardPage<T>))
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
-      var DialogResult = await dialogService.ShowPanelAsync(PageType, Data, new DialogParameters()
+      var DialogResult = await DialogService.ShowPanelAsync(PageType, Data, new DialogParameters()
       {
         DialogType = DialogType.Panel,
         Alignment = HorizontalAlignment.Right,
@@ -80,5 +68,23 @@ namespace BlazorGenerator.Services
       }
     }
 
+    public async Task<T?> OpenPanel<T>(Type PageType, ModalData<T> Data) where T : class
+    {
+      var DialogResult = await DialogService.ShowPanelAsync(PageType, Data, new DialogParameters()
+      {
+        DialogType = DialogType.Panel,
+        Alignment = HorizontalAlignment.Right,
+        Width = "40%"
+      });
+      var result = (await DialogResult.Result);
+      if (result.Data is not null)
+      {
+        return (result.Data as ModalData<T>)?.Data;
+      }
+      else
+      {
+        return null;
+      }
+    }
   }
 }

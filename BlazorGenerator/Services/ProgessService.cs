@@ -9,7 +9,6 @@ namespace BlazorGenerator.Services
 {
   public class BlazorGenLogger
   {
-
     public event Action? OnChange;
 
     private void NotifyStateChanged() => OnChange?.Invoke();
@@ -20,8 +19,6 @@ namespace BlazorGenerator.Services
       NotifyStateChanged();
     }
 
-
-
-    public List<(string, LogType)> Logs = new List<(string, LogType)>();
+    public List<(string, LogType)> Logs = [];
   }
 }

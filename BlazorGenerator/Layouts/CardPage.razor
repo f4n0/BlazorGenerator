@@ -3,7 +3,7 @@
 
 @{
   var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-  var permissionSet = Security.GetPermissionSet(this.GetType());
+  var permissionSet = Security?.GetPermissionSet(this.GetType());
 }
 <PageTitle>@Title</PageTitle>
 @if (ShowActions)
@@ -24,13 +24,13 @@
     {
       <FluentGridItem md="GridSize">
         <FluentStack VerticalAlignment="VerticalAlignment.Center">
-          @if (permissionSet.Modify || permissionSet.Insert)
+          @if ((permissionSet?.Modify ?? false) || (permissionSet?.Insert ?? false))
           {
-            <FluentButton OnClick="@(() => HandleSave(_data))">Save</FluentButton>
+            <FluentButton OnClick="@(() => HandleSave(_data!))">Save</FluentButton>
           }
-          @if (permissionSet.Delete)
+          @if (permissionSet?.Delete ?? false)
           {
-            <FluentButton OnClick="@(() => HandleDiscard(_data))">Cancel</FluentButton>
+            <FluentButton OnClick="@(() => HandleDiscard(_data!))">Cancel</FluentButton>
           }
         </FluentStack>
       </FluentGridItem>

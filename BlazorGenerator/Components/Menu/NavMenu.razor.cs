@@ -8,33 +8,33 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Components.Menu
 {
-    public partial class NavMenu
+  public partial class NavMenu
+  {
+    Dictionary<string, int> MenuGroups { get; set; } = [];
+
+    List<AddToMenuAttribute> Menus { get; set; } = [];
+
+    void PopulateDictionary()
     {
-        Dictionary<string, int> MenuGroups { get; set; }
-
-        List<AddToMenuAttribute> menus { get; set; } = new List<AddToMenuAttribute>();
-
-        void PopulateDictionary()
+      Menus.Clear();
+      var allMenu = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>();
+      MenuGroups = [];
+      foreach (var item in allMenu)
+      {
+        if (Security?.GetPermissionSet(item.Type).Execute ?? false)
         {
-            menus.Clear();
-            var allMenu = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>();
-            MenuGroups = new Dictionary<string, int>();
-            foreach (var item in allMenu)
-            {
-                if (Security.GetPermissionSet(item.Type).Execute)
-                {
-                    if (!menus.Contains(item.Attribute))
-                        menus.Add(item.Attribute);
-                    if (MenuGroups.ContainsKey(item.Attribute.Group))
-                    {
-                        MenuGroups[item.Attribute.Group]++;
-                    }
-                    else
-                    {
-                        MenuGroups.Add(item.Attribute.Group, 1);
-                    }
-                }
-            }
+          if (!Menus.Contains(item.Attribute))
+            Menus.Add(item.Attribute);
+          if (MenuGroups.TryGetValue(item.Attribute.Group, out int value))
+          {
+            MenuGroups[item.Attribute.Group] = ++value;
+          }
+          else
+          {
+            MenuGroups.Add(item.Attribute.Group, 1);
+          }
         }
+      }
     }
+  }
 }

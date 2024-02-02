@@ -10,37 +10,30 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Security
 {
-  internal class BlazorGeneratorSecurity
+  internal class BlazorGeneratorSecurity(IServiceProvider services)
   {
-    public BlazorGeneratorSecurity(IServiceProvider services)
-    {
-      Security = services.GetService(typeof(ISecurity)) as ISecurity;
-    }
+    public ISecurity Security { get; set; } = (ISecurity)services.GetService(typeof(ISecurity))!;
 
+    private Dictionary<Guid, List<PermissionSet>> PermissionCache { get; } = [];
 
-    public ISecurity Security { get; set; }
-
-    private Dictionary<Guid, List<PermissionSet>> PermissionCache { get; set; } = new();
-
-
-    public PermissionSet GetPermissionSet(Type Object = null)
+    public PermissionSet GetPermissionSet(Type? Object = null)
     {
       if (PermissionCache.TryGetValue(Security.getCurrentSessionIdentifier(), out var cached))
-        if (cached.Any(o => (o.Object == Object)))
+      {
+        if (cached.Any(o => o.Object == Object))
         {
-          return cached.Where(o => (o.Object == Object)).First();
+          return cached.First(o => o.Object == Object);
         }
-        else if (cached.Any(o => (o.Object == null)))
+        else if (cached.Any(o => o.Object == null))
         {
-          return cached.Where(o => (o.Object == null)).First();
-
+          return cached.First(o => o.Object == null);
         }
+      }
 
       var perms = Security.GetPermissionSets(Object);
       PermissionCache.Add(Security.getCurrentSessionIdentifier(), perms);
 
-      return perms.Where(o => (o.Object == Object)||(o.Object == null)).First();
+      return perms.First(o => (o.Object == Object)||(o.Object == null));
     }
-
   }
 }

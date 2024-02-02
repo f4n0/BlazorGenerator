@@ -6,7 +6,7 @@
 @{
   var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
   var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
-  var permissionSet = Security.GetPermissionSet(this.GetType());
+  var permissionSet = Security?.GetPermissionSet(this.GetType());
 
 
 }
@@ -29,8 +29,8 @@
     {
         <FluentGridItem md="GridSize">
             <FluentStack VerticalAlignment="VerticalAlignment.Center">
-                <FluentButton OnClick="@(() => Save(_data))">Save</FluentButton>
-                <FluentButton OnClick="@(() => Discard(_data))">Cancel</FluentButton>
+                <FluentButton OnClick="@(() => Save(_data!))">Save</FluentButton>
+                <FluentButton OnClick="@(() => Discard(_data!))">Cancel</FluentButton>
             </FluentStack>
         </FluentGridItem>
     }
@@ -40,7 +40,7 @@
     Data
 </FluentDivider>
 
-<FluentDataGrid Items="@ListContent" TGridItem="TList" ResizableColumns="true" GridTemplateColumns="@GetCssGridTemplate(gridActions.Count(), permissionSet)">
+<FluentDataGrid Items="@ListContent" TGridItem="TList" ResizableColumns="true" GridTemplateColumns="@GetCssGridTemplate(gridActions.Count(), permissionSet!)">
 
   <TemplateColumn Title="" Align="@Align.Center">
     <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
@@ -70,11 +70,11 @@
   }
 
   <TemplateColumn Title="Actions" Align="@Align.End">
-    @if (permissionSet.Modify)
+    @if (permissionSet!.Modify)
     {
       <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
     }
-    else if (permissionSet.Delete)
+    else if (permissionSet!.Delete)
     {
       <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => ListDelete(context))" />
     }

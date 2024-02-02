@@ -11,20 +11,20 @@ namespace BlazorGenerator.Security
   public class BlazorGeneratorRouteView : RouteView
   {
     [Inject]
-    NavigationManager NavigationManager { get; set; }
+    NavigationManager? NavigationManager { get; set; }
 
     [Inject]
-    BlazorGeneratorSecurity Security { get; set; }
+    BlazorGeneratorSecurity? Security { get; set; }
 
     protected override void Render(RenderTreeBuilder builder)
     {
-      if (Security.GetPermissionSet(RouteData.PageType).Execute)
+      if (Security?.GetPermissionSet(RouteData.PageType).Execute ?? false)
       {
         base.Render(builder);
       }
       else
       {
-        NavigationManager.NavigateTo("/Unauthorized");
+        NavigationManager?.NavigateTo("/Unauthorized");
       }
     }
   }

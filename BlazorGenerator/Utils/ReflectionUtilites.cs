@@ -37,6 +37,5 @@ namespace BlazorGenerator.Utils
       //use the converter to get the correct value
       oProp.SetValue(target, Convert.ChangeType(propertyValue, tProp), null);
     }
-
   }
 }
