@@ -92,17 +92,18 @@ namespace BlazorGenerator.Layouts.Partial
       OnDiscard?.Invoke(Data);
     }
 
-    static string GetCssGridTemplate(int GridActions, PermissionSet permissionSet)
+    string GetCssGridTemplate(int GridActions, PermissionSet permissionSet)
     {
       const string select = "50px ";
       string actions = string.Empty;
       if (GridActions > 0)
         actions = "50px ";
 
-      const string cols = "repeat(auto-fill,14%) ";
+      var spacing = 70 / VisibleFields.Count;
+      string cols = "repeat(auto-fill,"+ spacing + "%) ";
       string rowActions = string.Empty;
       if (permissionSet.Modify || permissionSet.Delete)
-        rowActions = "150px";
+        rowActions = "100px";
 
       return select + actions + cols + rowActions;
     }

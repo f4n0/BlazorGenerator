@@ -1,9 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
-<FluentDesignTheme OfficeColor="OfficeColor.Default" @ref="Theme">
+<FluentDesignTheme OfficeColor="@(BlazorGeneratorSettings.Instance.BaseColor)" @ref="Theme">
     <FluentLayout>
         <FluentHeader>
-            MyApplication
+            @BlazorGeneratorSettings.Instance.ApplicationName
             <FluentSpacer />
             <div>
                 <FluentButton BackgroundColor="var(--neutral-layer-4)" OnClick="SwitchDarkLightTheme" Title="Site settings">

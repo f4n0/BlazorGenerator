@@ -9,6 +9,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddBlazorGenerator();
+BlazorGeneratorSettings.Instance.ApplicationName = "BlazorGenerator Demo App";
+BlazorGeneratorSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
 
 var app = builder.Build();
 
