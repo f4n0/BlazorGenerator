@@ -1,6 +1,7 @@
 ﻿using BlazorGenerator.Components.Base;
 using BlazorGenerator.Layouts.Partial;
 using BlazorGenerator.Models;
+using BlazorGenerator.Utils;
 using Microsoft.FluentUI.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -51,9 +52,18 @@ namespace BlazorGenerator.Layouts
 
     private async Task EditAsync(TList context)
     {
-      if (EditFormType == null)
-        throw new NotImplementedException("In order to use Edit action, you must implement EditFormType Property");
-      var res = await UIServices!.OpenPanel<TList>(EditFormType, context);
+      TList? res;
+      if (EditFormType != null)
+      {
+        res = await UIServices!.OpenPanel<TList>(EditFormType, context);
+      }
+      else
+      {
+        var typeDelegate = RoslynUtilities.CreateAndInstatiateClass(VisibleFields, "edit");
+        var type = (Type)typeDelegate.Invoke().Result;
+        res = await UIServices!.OpenPanel<TList>(type, context);
+        GC.Collect();
+      }
       OnModify(res!, context);
     }
     void ListDelete(TList context)

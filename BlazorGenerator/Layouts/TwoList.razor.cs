@@ -84,12 +84,10 @@ namespace BlazorGenerator.Layouts
     }
     public virtual void SecondListDelete(TSecondList context)
     {
-      throw new NotImplementedException("Views must implement Save and Delete virtual methods");
     }
 
     public virtual void SecondListSave(TSecondList Rec, TSecondList xRec)
     {
-      throw new NotImplementedException("Views must implement Save and Delete virtual methods");
     }
 
     private void HandleRecSelection(bool selected, TFirstList Rec)

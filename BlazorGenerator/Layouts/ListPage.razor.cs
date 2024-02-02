@@ -55,17 +55,14 @@ namespace BlazorGenerator.Layouts
 
     public void OnInsert(T entity)
     {
-      throw new NotImplementedException();
     }
 
     public void OnModify(T entity, T oldEntity)
     {
-      throw new NotImplementedException();
     }
 
     public void OnDelete(T entity)
     {
-      throw new NotImplementedException();
     }
   }
 }

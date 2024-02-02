@@ -10,6 +10,10 @@
 {
   <ActionBar Context="this" PageActions="PageActions" />
 }
+else
+{
+  <h2>@Title</h2>
+}
 <div style="padding:10px;">
   <FluentGrid Spacing="3">
     @foreach (var context in VisibleFields)
