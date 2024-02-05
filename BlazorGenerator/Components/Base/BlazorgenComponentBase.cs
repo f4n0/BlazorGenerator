@@ -21,11 +21,9 @@ namespace BlazorGenerator.Components.Base
 
     protected virtual async Task LoadVisibleFields()
     {
-      throw new NotImplementedException("Override this method to load fields");
     }
     protected virtual async Task LoadData()
     {
-      throw new NotImplementedException("Override this method to load Content");
     }
 
     protected override async Task OnParametersSetAsync()
