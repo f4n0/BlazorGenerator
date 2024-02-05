@@ -1,4 +1,6 @@
-﻿namespace TestShared.Data
+﻿using Microsoft.FluentUI.AspNetCore.Components;
+
+namespace TestShared.Data
 {
   public class Mock
   {
@@ -8,7 +10,7 @@
     public DateTime? OrderDate { get; set; }
     public float Price { get; set; }
     public string NullTest { get; set; } = null!;
-
+    public Type icon { get; set; } = typeof(Icons.Regular.Size16.AddSquare);
     public MockEnum type { get; set; }
 
     public static Mock getSingleMock()

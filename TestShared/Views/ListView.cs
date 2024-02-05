@@ -25,6 +25,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Price));
       VisibleFields.AddField(nameof(Mock.Description));
       VisibleFields.AddField(nameof(Mock.OrderDate));
+      VisibleFields.AddField(nameof(Mock.icon));
 
       Content = Mock.getMultipleMock().AsQueryable();
     }

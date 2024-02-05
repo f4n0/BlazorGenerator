@@ -6,11 +6,27 @@
 
   @if (string.IsNullOrEmpty(link))
   {
-    <p>@field.Getter(Data)</p>
+    if (field.FieldType == typeof(Type))
+    {
+      <FluentIcon Value="@((field.Getter(Data) as Type)?.ToFluentIcon())"></FluentIcon>
+    }
+    else
+    {
+      <p>@field.Getter(Data)</p>
+    }
   }
   else
   {
-    <a href="@link">@field.Getter(Data)</a>
+    <a href="@link">
+      @if (field.FieldType == typeof(Type))
+      {
+        <FluentIcon Value="@((field.Getter(Data) as Type)?.ToFluentIcon())"></FluentIcon>
+      }
+      else
+      {
+        <p>@field.Getter(Data)</p>
+      }
+    </a>
   }
 }
 else
@@ -79,6 +95,10 @@ else
   else if (field.FieldType == typeof(DateTime))
   {
     <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val!))" />
+  }
+  else if (field.FieldType == typeof(Type))
+  {
+    <FluentIcon Value="@((field.Getter(Data) as Type)?.ToFluentIcon())"></FluentIcon>
   }
 
   else
