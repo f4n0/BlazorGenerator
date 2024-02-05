@@ -19,11 +19,11 @@ namespace BlazorGenerator.Components.Base
       GC.SuppressFinalize(this);
     }
 
-    protected virtual void LoadVisibleFields()
+    protected virtual async Task LoadVisibleFields()
     {
       throw new NotImplementedException("Override this method to load fields");
     }
-    protected virtual void LoadData()
+    protected virtual async Task LoadData()
     {
       throw new NotImplementedException("Override this method to load Content");
     }
@@ -31,14 +31,14 @@ namespace BlazorGenerator.Components.Base
     protected override async Task OnParametersSetAsync()
     {
       if (useBlazorGeneratorLayouts())
-        LoadVisibleFields();
+        await LoadVisibleFields();
       await base.OnParametersSetAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
       if (useBlazorGeneratorLayouts())
-        LoadData();
+        await LoadData();
       await base.OnInitializedAsync();
     }
 
