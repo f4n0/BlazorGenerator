@@ -2,7 +2,16 @@
 
 @if (isTableCell)
 {
-  <p>@field.Getter(Data)</p>
+  var link = field.Href?.Invoke(Data) ?? "";
+
+  @if (string.IsNullOrEmpty(link))
+  {
+    <p>@field.Getter(Data)</p>
+  }
+  else
+  {
+    <a href="@link">@field.Getter(Data)</a>
+  }
 }
 else
 {
@@ -15,7 +24,7 @@ else
   @if (field.FieldType == typeof(bool))
   {
     <FluentCheckbox Value="@(Convert.ToBoolean(field.Getter(Data)))" ValueChanged="(val) => field.Setter(Data, val)"
-                    @attributes="@commonAttributes"/>
+                    @attributes="@commonAttributes" />
   }
   else if (field.FieldType == typeof(short))
   {
@@ -65,7 +74,7 @@ else
   else if ((field.FieldType == typeof(string)) || (field.FieldType == typeof(string)))
   {
     <FluentTextField Value="@field.Getter(Data)?.ToString()" ValueChanged="(val) => field.Setter(Data, val)"
-                     @attributes="@commonAttributes" TextFieldType="@field.TextFieldType"/>
+                     @attributes="@commonAttributes" TextFieldType="@field.TextFieldType" />
   }
   else if (field.FieldType == typeof(DateTime))
   {

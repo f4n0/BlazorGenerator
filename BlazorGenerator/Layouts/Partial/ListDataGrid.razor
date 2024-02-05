@@ -33,7 +33,7 @@
     @foreach (var field in VisibleFields)
     {
       <TemplateColumn Context="data" Sortable="true" Title="@field.Caption" SortBy="GridSort<T>.ByAscending(p => field.Getter(p))">
-        <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
+          <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
       </TemplateColumn>
     }
 

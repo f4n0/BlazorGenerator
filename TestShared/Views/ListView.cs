@@ -17,7 +17,10 @@ namespace TestShared.Views
     protected override void OnParametersSet()
     {
       VisibleFields = [];
-      VisibleFields.AddField(nameof(Mock.Id));
+      VisibleFields.AddField(nameof(Mock.Id), (ref VisibleField<Mock> prop) =>
+      {
+        prop.Href = (data) => "/test/" + data.Id;
+      });
       VisibleFields.AddField(nameof(Mock.Name));
       VisibleFields.AddField(nameof(Mock.Price));
       VisibleFields.AddField(nameof(Mock.Description));

@@ -43,7 +43,7 @@ namespace TestShared.Views
     [PageAction(Caption = "Go To")]
     public async void GoTo()
     {
-      NavManager.NavigateTo("WorksheetView/test", true);
+      NavManager.NavigateTo("WorksheetView", true);
     }
 
 

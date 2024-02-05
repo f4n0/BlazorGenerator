@@ -9,7 +9,7 @@ namespace TestShared.Views
 {
   [Route("WorksheetView")]
   [Route("WorksheetView/{param}")]
-  //[AddToMenu(Title = "Worksheet Page", Route = "WorksheetView")]
+  [AddToMenu(Title = "Worksheet Page", Route = "WorksheetView")]
   public class WorksheetView : Worksheet<Mock, WorksheetView>
   {
     [Parameter]

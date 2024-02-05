@@ -18,5 +18,6 @@ namespace BlazorGenerator.Models
     public required Type FieldType { get; set; }
     public required string Name { get; set; }
     public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
+    public Func<T, string>? Href { get; set; }
   }
 }
