@@ -22,9 +22,14 @@ namespace TestShared.Views
     public override string Title => "List View";
 
 
-    protected override async Task OnParametersSetAsync()
+    protected override void LoadData()
     {
-      StateHasChanged();
+      Content = Mock.getSingleMock();
+      ListContent = null;
+    }
+
+    protected override void LoadVisibleFields()
+    {
       VisibleFields = new List<VisibleField<Mock>>();
       VisibleFields.AddField(nameof(Mock.Id));
       VisibleFields.AddField(nameof(Mock.Name));
@@ -32,15 +37,11 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Description));
       VisibleFields.AddField(nameof(Mock.OrderDate));
 
-      Content = Mock.getSingleMock();
 
       ListVisibleFields = new List<VisibleField<WorksheetView>>();
       ListVisibleFields.AddField(nameof(Id));
       ListVisibleFields.AddField(nameof(Name));
       ListVisibleFields.AddField(nameof(Description));
-
-      ListContent = null;
-
     }
 
   }

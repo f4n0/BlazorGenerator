@@ -11,17 +11,21 @@ namespace TestShared.Views
   [AddToMenu(Title = "Card Page", Route = "card")]
   public class CardView : CardPage<Mock>
   {
-    protected override void OnParametersSet()
+
+    protected override void LoadVisibleFields()
     {
       VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
       VisibleFields.AddField(nameof(Mock.Name));
       VisibleFields.AddField(nameof(Mock.Price));
-      VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o)=> o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password );
+      VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o) => o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password);
       VisibleFields.AddField(nameof(Mock.OrderDate));
       VisibleFields.AddField(nameof(Mock.type));
       VisibleFields.AddField(nameof(Mock.NullTest));
+    }
 
+    protected override void LoadData()
+    {
       Content = Mock.getSingleMock();
     }
 

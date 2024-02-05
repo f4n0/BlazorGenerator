@@ -9,7 +9,7 @@ namespace TestShared.Views
   {
     public override string Title => "List View";
 
-    protected override void OnParametersSet()
+    protected override void LoadVisibleFields()
     {
       VisibleFields = new List<VisibleField<Mock>>();
       VisibleFields.AddField(nameof(Mock.Id));

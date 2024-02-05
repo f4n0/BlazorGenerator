@@ -13,7 +13,7 @@ namespace TestShared.Views
   {
     public override string Title => "List View";
 
-    protected override void OnParametersSet()
+    protected override void LoadVisibleFields()
     {
       FirstListVisibleFields = new List<VisibleField<Mock>>();
       FirstListVisibleFields.AddField(nameof(Mock.Id));
@@ -22,12 +22,15 @@ namespace TestShared.Views
       FirstListVisibleFields.AddField(nameof(Mock.Description));
       FirstListVisibleFields.AddField(nameof(Mock.OrderDate));
 
-      FirstListContent = Mock.getMultipleMock().AsQueryable();
 
       SecondListVisibleFields = new List<VisibleField<Mock>>();
       SecondListVisibleFields.AddField(nameof(Mock.Id));
       SecondListVisibleFields.AddField(nameof(Mock.Name));
+    }
 
+    protected override void LoadData()
+    {
+      FirstListContent = Mock.getMultipleMock().AsQueryable();
       SecondListContent = Mock.getMultipleMock().AsQueryable();
     }
   }
