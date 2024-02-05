@@ -1,21 +1,49 @@
-﻿
+﻿@inherits BlazorgenComponentBase
+﻿@using BlazorGenerator.Enum
+
 <FluentAccordion>
 
-    <FluentAccordionItem Heading="Log">
-        <div style="max-height: 150px; overflow-x: hidden; overflow-y: auto">
-            Robe nel log
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            E questo
-        </div>
-    </FluentAccordionItem>
+  <FluentAccordionItem Heading="Log">
+    <div style="max-height: 150px; overflow-x: hidden; overflow-y: auto">
+      <Virtualize Items="UIServices!.Logger.Logs">
+        <FluentLabel Color="@(ConvertToColor(context.Item2))">
+          @context.Item1
+        </FluentLabel>
+      </Virtualize>
+    </div>
+  </FluentAccordionItem>
 
 </FluentAccordion>
+
+@code{
+  private Color ConvertToColor(LogType logType)
+  {
+    switch (logType)
+    {
+      case LogType.Error:
+        return Color.Error;
+      case LogType.Info:
+        return Color.Info;
+      case LogType.Warning:
+        return Color.Warning;
+    }
+    return Color.Neutral;
+  }
+
+  protected override void OnInitialized()
+  {
+    UIServices!.Logger.OnChange += UpdateLog;
+  }
+
+  private void UpdateLog()
+  {
+    InvokeAsync(() => StateHasChanged());
+  }
+
+  public new void Dispose()
+  {
+    UIServices!.Logger.OnChange -= UpdateLog;
+
+    base.Dispose();
+  }
+}

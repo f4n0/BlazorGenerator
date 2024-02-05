@@ -20,7 +20,7 @@ namespace BlazorGenerator.Layouts
     public List<VisibleField<TData>> VisibleFields { get; set; } = [];
 
     public IQueryable<TList>? ListContent { get; set; }
-    public List<VisibleField<TList>> ListVisibleFields { get; set; } = [];
+    public List<VisibleField<TList>> ListVisibleFields { get; set; }
     public virtual Type? ListEditFormType { get; set; }
     public List<TList> ListSelected { get; set; } = [];
 

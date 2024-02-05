@@ -40,6 +40,13 @@ namespace TestShared.Views
       _ = await UIServices!.OpenModal(typeof(ModalView), mock);
     }
 
+    [PageAction(Caption = "Go To")]
+    public async void GoTo()
+    {
+      NavManager.NavigateTo("WorksheetView/test", true);
+    }
+
+
     [PageAction(Caption = "Test1", Group = "grouped")]
     public void Test1()
     {

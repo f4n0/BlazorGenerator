@@ -20,7 +20,7 @@ namespace BlazorGenerator.Layouts.Partial
     public UIServices? UIServices { get; set; }
 
     [Parameter]
-    public List<VisibleField<T>> VisibleFields { get; set; } = [];
+    public List<VisibleField<T>> VisibleFields { get; set; }
 
     [Parameter]
     public IQueryable<T>? Data { get; set; }
