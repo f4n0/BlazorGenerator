@@ -22,13 +22,13 @@ namespace TestShared.Views
     public override string Title => "List View";
 
 
-    protected override void LoadData()
+    protected override async Task LoadData()
     {
       Content = Mock.getSingleMock();
       ListContent = null;
     }
 
-    protected override void LoadVisibleFields()
+    protected override async Task LoadVisibleFields()
     {
       VisibleFields = new List<VisibleField<Mock>>();
       VisibleFields.AddField(nameof(Mock.Id));

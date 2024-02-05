@@ -14,7 +14,7 @@ namespace TestShared.Views
   {
     public override string Title => "List View";
 
-    protected override void LoadVisibleFields()
+    protected override async Task LoadVisibleFields()
     {
       VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id), (ref VisibleField<Mock> prop) =>
@@ -28,7 +28,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.icon));
     }
 
-    protected override void LoadData()
+    protected override async Task LoadData()
     {
       Content = Mock.getMultipleMock().AsQueryable();
     }
