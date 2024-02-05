@@ -12,7 +12,7 @@ namespace TestShared.Views
   public class CardView : CardPage<Mock>
   {
 
-    protected override void LoadVisibleFields()
+    protected override async Task LoadVisibleFields()
     {
       VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
@@ -24,7 +24,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.NullTest));
     }
 
-    protected override void LoadData()
+    protected override async Task LoadData()
     {
       Content = Mock.getSingleMock();
     }
