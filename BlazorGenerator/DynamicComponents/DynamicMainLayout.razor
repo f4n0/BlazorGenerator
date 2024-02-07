@@ -19,7 +19,7 @@
         <FluentLayout>
           <FluentBodyContent style="height: calc(100dvh); padding: 10px; ">
             <Progress></Progress>
-            <div class="content" style="min-width: max-content;overflow-x: auto;">
+            <div class="content" style="display:flex; flex-direction:column;">
               @Body
             </div>
 
@@ -58,9 +58,3 @@
     return base.OnParametersSetAsync();
   }
 }
-
-<style>
-  .body-content{
-      overflow-x: auto !important;
-  }
-</style>

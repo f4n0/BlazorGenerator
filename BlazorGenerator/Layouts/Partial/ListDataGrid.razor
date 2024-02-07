@@ -1,75 +1,84 @@
 ﻿@typeparam T
-
-@if ((VisibleFields != null) && (VisibleFields.Count > 0))
-{
-  <FluentDataGrid Items="@Data"
-                  TGridItem="T"
-                  ResizableColumns="true"
-                  GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
-                  RowClass="SelectedRowClass"
-                  OnCellFocus="@((cell)=> {
+<div class="test">
+  @if ((VisibleFields != null) && (VisibleFields.Count > 0))
+  {
+    <FluentDataGrid Items="@Data"
+                    TGridItem="T"
+                    ResizableColumns="true"
+                    GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
+                    RowClass="SelectedRowClass"
+                    OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
-                                })">
+                                })" Class="aaa" Style="min-width:900px;">
 
-    <TemplateColumn Align="@Align.Center">
-      <ChildContent>
-        <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
-      </ChildContent>
-    </TemplateColumn>
-    @if (GridActions?.Count() > 0)
-    {
-      <TemplateColumn Title="" Align="@Align.Center">
-        <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
+      <TemplateColumn Align="@Align.Center">
+        <ChildContent>
+          <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
+        </ChildContent>
+      </TemplateColumn>
+      @if (GridActions?.Count() > 0)
+      {
+        <TemplateColumn Title="" Align="@Align.Center">
+          <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
                                                                                                                          {
                                                                                                                            CurrRec = context;
                                                                                                                          })"></FluentIcon>
-        <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true">
-          @foreach (var a in GridActions)
+          <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true">
+            @foreach (var a in GridActions)
+            {
+              <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => a.Method.Invoke(this, [CurrRec]))">
+                <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
+              </FluentMenuItem>
+            }
+          </FluentMenu>
+
+        </TemplateColumn>
+      }
+
+      @foreach (var field in VisibleFields)
+      {
+        <TemplateColumn Context="data"
+                        Sortable="true"
+                        Title="@field.Caption"
+                        SortBy="GridSort<T>.ByAscending(p => field.Getter(p))">
+
+          <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
+
+        </TemplateColumn>
+      }
+
+      @if ((PermissionSet!.Modify) || (PermissionSet!.Delete))
+      {
+        <TemplateColumn Title="Actions" Align="@Align.End">
+          @if (PermissionSet!.Modify)
           {
-            <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => a.Method.Invoke(this, [CurrRec]))">
-              <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
-            </FluentMenuItem>
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
           }
-        </FluentMenu>
-
-      </TemplateColumn>
-    }
-
-    @foreach (var field in VisibleFields)
-    {
-      <TemplateColumn Context="data"
-                      Sortable="true"
-                      Title="@field.Caption"
-                      SortBy="GridSort<T>.ByAscending(p => field.Getter(p))">
-
-        <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
-
-      </TemplateColumn>
-    }
-
-    @if ((PermissionSet!.Modify) || (PermissionSet!.Delete))
-    {
-      <TemplateColumn Title="Actions" Align="@Align.End">
-        @if (PermissionSet!.Modify)
-        {
-          <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
-        }
-        else if (PermissionSet!.Delete)
-        {
-          <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
-        }
-      </TemplateColumn>
-    }
-  </FluentDataGrid>
-}
-else
-{
-  <FluentProgressRing></FluentProgressRing>
-}
-
+          else if (PermissionSet!.Delete)
+          {
+            <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
+          }
+        </TemplateColumn>
+      }
+    </FluentDataGrid>
+  }
+  else
+  {
+    <FluentProgressRing></FluentProgressRing>
+  }
+</div>
 <style>
   .rowselected {
     background: var(--neutral-fill-secondary-rest)
   }
+
+  .test {
+    overflow-x: scroll;
+  }
+
+  .aaa, .aaa>* {
+    overflow-x: auto !important;
+  }
+
 </style>

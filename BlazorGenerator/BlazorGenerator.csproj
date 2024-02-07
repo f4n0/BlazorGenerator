@@ -25,7 +25,7 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.8.0" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.4.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.4.1" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.4.0" />
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
   </ItemGroup>

@@ -1,63 +1,66 @@
 ﻿
-<FluentToolbar Style="min-width:100%; margin-bottom:10px; border-radius:5px; padding:5px; vertical-align:middle">
-  <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align:text-top;">
-    @((Context as BlazorgenComponentBase)?.Title)
-  </FluentLabel>
+  <FluentGrid Style="overflow: auto;" Justify="JustifyContent.FlexStart">
+    <FluentGridItem xs="12" sm="6"  md="0">
+      <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align:text-top;">
+        @((Context as BlazorgenComponentBase)?.Title)
+      </FluentLabel>
+    </FluentGridItem>
 
-  <FluentDivider Style="height: 20px; width: 20px;" Orientation="Orientation.Vertical"></FluentDivider>
-
-  @{
-    PopulateDictionary();
-    foreach (var item in ActionGroups)
-    {
-      var filtered = PageActions.Where(o =>
-o.Attribute.Group == item.Key);
-      if (item.Key.ToLower() == "default" || item.Value == 1)
+    @{
+      PopulateDictionary();
+      foreach (var item in ActionGroups)
       {
-        foreach (var action in filtered)
+        var filtered = PageActions.Where(o =>
+  o.Attribute.Group == item.Key);
+        if (item.Key.ToLower() == "default" || item.Value == 1)
         {
-          <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
-            @(action.Attribute.Caption ?? action.Method.Name)
-            <span slot="start">
-              <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
-            </span>
-          </FluentButton>
-        }
-      }
-      else
-      {
-
-        PopOverBind.TryAdd(@item.Key, false);
-
-        <FluentButton id="@item.Key" @onclick="() => PopOverBind[item.Key] = !PopOverBind[item.Key]">
-          @item.Key
-          <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Neutral" />
-        </FluentButton>
-
-        <FluentPopover AnchorId="@item.Key" @bind-Open="PopOverBind[item.Key]" HorizontalPosition="HorizontalPosition.Right">
-          <Body>
-            @foreach (var action in filtered)
-            {
+          foreach (var action in filtered)
+          {
+            <FluentGridItem xs="12" sm="6" md="0">
               <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
                 @(action.Attribute.Caption ?? action.Method.Name)
                 <span slot="start">
-                  <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
+                  <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
                 </span>
               </FluentButton>
-            }
-          </Body>
-        </FluentPopover>
+            </FluentGridItem>
+          }
+        }
+        else
+        {
 
+          PopOverBind.TryAdd(@item.Key, false);
+
+          <FluentGridItem xs="12" sm="6" md="0">
+            <FluentButton id="@item.Key" @onclick="() => PopOverBind[item.Key] = !PopOverBind[item.Key]">
+              @item.Key
+              <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Neutral" />
+            </FluentButton>
+          </FluentGridItem>
+          <FluentPopover AnchorId="@item.Key" @bind-Open="PopOverBind[item.Key]" HorizontalPosition="HorizontalPosition.Right">
+            <Body>
+              @foreach (var action in filtered)
+              {
+                <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
+                  @(action.Attribute.Caption ?? action.Method.Name)
+                  <span slot="start">
+                    <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
+                  </span>
+                </FluentButton>
+              }
+            </Body>
+          </FluentPopover>
+
+        }
       }
+
     }
 
-  }
-
-</FluentToolbar>
+  </FluentGrid>
 
 <style>
-  .fluent-popover-content{
-      padding: 5px !important;
+  .fluent-popover-content {
+    padding: 5px !important;
   }
 </style>
 
