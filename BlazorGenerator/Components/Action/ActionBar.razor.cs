@@ -21,6 +21,8 @@ namespace BlazorGenerator.Components.Action
 
     public Dictionary<string, int> ActionGroups { get; set; } = [];
 
+    public Dictionary<string, bool> PopOverBind { get; set; } = [];
+
     void PopulateDictionary()
     {
       ActionGroups = [];

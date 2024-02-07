@@ -27,23 +27,26 @@ o.Attribute.Group == item.Key);
       else
       {
 
-        <FluentMenuItem Role="MenuItemRole.MenuItem">
-          <ChildContent>
-            @item.Key
-          </ChildContent>
-          <MenuItems>
+        PopOverBind.TryAdd(@item.Key, false);
+
+        <FluentButton id="@item.Key" @onclick="() => PopOverBind[item.Key] = !PopOverBind[item.Key]">
+          @item.Key
+          <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Neutral" />
+        </FluentButton>
+
+        <FluentPopover AnchorId="@item.Key" @bind-Open="PopOverBind[item.Key]" HorizontalPosition="HorizontalPosition.Right">
+          <Body>
             @foreach (var action in filtered)
             {
-              <FluentMenuItem OnClick="@(() => action.Method.Invoke(Context, null))" Role="MenuItemRole.MenuItem">
+              <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
                 @(action.Attribute.Caption ?? action.Method.Name)
                 <span slot="start">
                   <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
                 </span>
-              </FluentMenuItem>
+              </FluentButton>
             }
-          </MenuItems>
-        </FluentMenuItem>
-
+          </Body>
+        </FluentPopover>
 
       }
     }
@@ -51,5 +54,11 @@ o.Attribute.Group == item.Key);
   }
 
 </FluentToolbar>
+
+<style>
+  .fluent-popover-content{
+      padding: 5px !important;
+  }
+</style>
 
 

@@ -6,10 +6,16 @@
                   TGridItem="T"
                   ResizableColumns="true"
                   GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
-                  RowClass="SelectedRowClass">
+                  RowClass="SelectedRowClass"
+                  OnCellFocus="@((cell)=> {
+                                   if(cell.GridColumn > 1)
+                                    HandleSingleRecSelection(cell.Item);
+                                })">
 
-    <TemplateColumn Title="" Align="@Align.Center">
-      <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)"></FluentCheckbox>
+    <TemplateColumn Align="@Align.Center">
+      <ChildContent>
+        <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
+      </ChildContent>
     </TemplateColumn>
     @if (GridActions?.Count() > 0)
     {
@@ -32,23 +38,28 @@
 
     @foreach (var field in VisibleFields)
     {
-      <TemplateColumn Context="data" Sortable="true" Title="@field.Caption" SortBy="GridSort<T>.ByAscending(p => field.Getter(p))">
-          <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
+      <TemplateColumn Context="data"
+                      Sortable="true"
+                      Title="@field.Caption"
+                      SortBy="GridSort<T>.ByAscending(p => field.Getter(p))">
+
+        <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
+
       </TemplateColumn>
     }
 
     @if ((PermissionSet!.Modify) || (PermissionSet!.Delete))
     {
-    <TemplateColumn Title="Actions" Align="@Align.End">
-      @if (PermissionSet!.Modify)
-      {
-        <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
-      }
-      else if (PermissionSet!.Delete)
-      {
-        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
-      }
-    </TemplateColumn>
+      <TemplateColumn Title="Actions" Align="@Align.End">
+        @if (PermissionSet!.Modify)
+        {
+          <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
+        }
+        else if (PermissionSet!.Delete)
+        {
+          <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
+        }
+      </TemplateColumn>
     }
   </FluentDataGrid>
 }

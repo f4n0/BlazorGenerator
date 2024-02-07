@@ -75,6 +75,11 @@ namespace BlazorGenerator.Layouts.Partial
         Selected.Remove(Rec);
       }
     }
+    private void HandleSingleRecSelection(T Rec)
+    {
+      Selected.Clear();
+      Selected.Add(Rec);
+    }
 
     [Parameter]
     public Action<T>? OnSave { get; set; }

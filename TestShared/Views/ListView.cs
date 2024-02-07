@@ -52,5 +52,36 @@ namespace TestShared.Views
     {
       UIServices!.DialogService.ShowInfo("Grid Action");
     }
+
+    [PageAction(Caption = "ShowProgress")]
+    public async void ShowProgress()
+    {
+      UIServices!.ProgressService.StartProgress();
+      await Task.Delay(10000);
+      UIServices!.ProgressService.StopProgress();
+    }
+
+    [PageAction(Caption = "Open Modal")]
+    public async void OpenModal()
+    {
+      var mock = Mock.getSingleMock();
+      _ = await UIServices!.OpenModal(typeof(ModalView), mock);
+    }
+
+    [PageAction(Caption = "Go To")]
+    public async void GoTo()
+    {
+      NavManager.NavigateTo("WorksheetView", true);
+    }
+
+
+    [PageAction(Caption = "Test1", Group = "grouped")]
+    public void Test1()
+    {
+    }
+    [PageAction(Caption = "Test2", Group = "grouped")]
+    public void Test2()
+    {
+    }
   }
 }
