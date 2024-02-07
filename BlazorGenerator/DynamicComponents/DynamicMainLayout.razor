@@ -1,59 +1,66 @@
 ﻿@inherits LayoutComponentBase
 
 <FluentDesignTheme OfficeColor="@(BlazorGeneratorSettings.Instance.BaseColor)" @ref="Theme">
-    <FluentLayout>
-        <FluentHeader>
-            @BlazorGeneratorSettings.Instance.ApplicationName
-            <FluentSpacer />
-            <div>
-                <FluentButton BackgroundColor="var(--neutral-layer-4)" OnClick="SwitchDarkLightTheme" Title="Site settings">
-                    <FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Neutral" Title="Site settings" />
-                </FluentButton>
+  <FluentLayout>
+    <FluentHeader>
+      @BlazorGeneratorSettings.Instance.ApplicationName
+      <FluentSpacer />
+      <div style="padding-right: 6px; margin-left: 0; margin-right: 25px;">
+        <FluentButton BackgroundColor="var(--neutral-layer-4)" OnClick="SwitchDarkLightTheme" Title="Site settings">
+          <FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Neutral" Title="Site settings" />
+        </FluentButton>
+      </div>
+
+    </FluentHeader>
+    <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%" VerticalGap="0" HorizontalGap="0">
+      <NavMenu />
+      <FluentBodyContent>
+
+        <FluentLayout>
+          <FluentBodyContent style="height: calc(100dvh); padding: 10px; ">
+            <Progress></Progress>
+            <div class="content" style="min-width: max-content;overflow-x: auto;">
+              @Body
             </div>
-        </FluentHeader>
-        <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%" VerticalGap="0" HorizontalGap="0">
-            <NavMenu />
-            <FluentBodyContent>
 
-                <FluentLayout>
-                    <FluentBodyContent style="height: calc(100dvh); padding: 10px; ">
-                        <Progress></Progress>
-                        <div class="content">
-                                @Body
-                        </div>
+            <FluentDialogProvider />
+          </FluentBodyContent>
+          <FluentFooter>
+            <Log></Log>
+          </FluentFooter>
+        </FluentLayout>
 
-                        <FluentDialogProvider />
-                    </FluentBodyContent>
-                    <FluentFooter>
-                        <Log></Log>
-                    </FluentFooter>
-                </FluentLayout>
-
-            </FluentBodyContent>
-        </FluentStack>
-    </FluentLayout>
+      </FluentBodyContent>
+    </FluentStack>
+  </FluentLayout>
 
 </FluentDesignTheme>
 
 @code{
-    FluentDesignTheme? Theme { get; set; }
+  FluentDesignTheme? Theme { get; set; }
 
-    [Inject]
-    public UIServices? UIServices { get; set; }
-    [Inject]
-    public IDialogService? DialogService { get; set; }
-    [Inject]
-    public ProgressService? ProgressService { get; set; }
+  [Inject]
+  public UIServices? UIServices { get; set; }
+  [Inject]
+  public IDialogService? DialogService { get; set; }
+  [Inject]
+  public ProgressService? ProgressService { get; set; }
 
-    private void SwitchDarkLightTheme()
-    {
-        Theme!.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
-    }
+  private void SwitchDarkLightTheme()
+  {
+    Theme!.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
+  }
 
-    protected override Task OnParametersSetAsync()
-    {
-        UIServices!.DialogService = DialogService!;
-        UIServices!.ProgressService = ProgressService!;
-        return base.OnParametersSetAsync();
-    }
+  protected override Task OnParametersSetAsync()
+  {
+    UIServices!.DialogService = DialogService!;
+    UIServices!.ProgressService = ProgressService!;
+    return base.OnParametersSetAsync();
+  }
 }
+
+<style>
+  .body-content{
+      overflow-x: auto !important;
+  }
+</style>

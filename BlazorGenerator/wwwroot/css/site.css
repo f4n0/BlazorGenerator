@@ -117,21 +117,25 @@ code {
         width: 100%;
     }
 
-    #navmenu-toggle {
-        appearance: none;
-        cursor: pointer;
-        z-index: 10;
-        display: block;
-        visibility: visible;
-        position: absolute;
-        top: 16px;
-        right: 1.5rem;
-        width: 20px;
-        height: 20px;
-        border: none;
-        color: white;
-        background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' style='width: 20px; fill: white;' focusable='false' viewBox='0 0 20 20'><path d='M2 4.5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm0 5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm.5 4.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-15Z'></path></svg>");
-    }
+  #navmenu-toggle {
+    appearance: none;
+    cursor: pointer;
+    z-index: 10;
+    display: block;
+    visibility: visible;
+    position: absolute;
+    top: 9.5px;
+    right: 1rem;
+    height: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
+    min-width: calc((var(--base-height-multiplier) + var(--density)) * var(--design-unit) * 1px);
+    background-color: var(--neutral-layer-4);
+    opacity: 0.8;
+    -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' style='width: 20px; fill: var(--neutral-foreground-rest);' focusable='false' viewBox='0 0 20 20'><path d='M2 4.5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm0 5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm.5 4.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-15Z'></path></svg>");
+    mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' style='width: 20px; fill: var(--neutral-foreground-rest);' focusable='false' viewBox='0 0 20 20'><path d='M2 4.5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm0 5c0-.28.22-.5.5-.5h15a.5.5 0 0 1 0 1h-15a.5.5 0 0 1-.5-.5Zm.5 4.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1h-15Z'></path></svg>");
+    mask-size: 20px;
+    mask-position: center;
+    mask-repeat: no-repeat;
+  }
 
         #navmenu-toggle ~ nav {
             display: none;
