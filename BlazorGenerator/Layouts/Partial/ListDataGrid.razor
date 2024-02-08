@@ -1,5 +1,5 @@
 ﻿@typeparam T
-<div class="test">
+<div class="GridContainer">
   @if ((VisibleFields != null) && (VisibleFields.Count > 0))
   {
     <FluentDataGrid Items="@Data"
@@ -10,7 +10,8 @@
                     OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
-                                })" Class="aaa" Style="min-width:900px;">
+                                })" Style="min-width:900px;"                    
+                    >
 
       <TemplateColumn Align="@Align.Center">
         <ChildContent>
@@ -73,12 +74,9 @@
     background: var(--neutral-fill-secondary-rest)
   }
 
-  .test {
-    overflow-x: scroll;
+  .GridContainer {
+    overflow-x: auto;
   }
 
-  .aaa, .aaa>* {
-    overflow-x: auto !important;
-  }
 
 </style>
