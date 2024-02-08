@@ -1,4 +1,5 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
+using System.Xml.Serialization;
 
 namespace TestShared.Data
 {
@@ -29,21 +30,14 @@ namespace TestShared.Data
       };
     }
 
-    public static List<Mock> getMultipleMock()
+    public static List<Mock> getMultipleMock(int itemCount=10)
     {
-      return new List<Mock>()
-            {
-                getSingleMock(),
-                getSingleMock(),
-                getSingleMock(),
-                getSingleMock(),
-                getSingleMock(),
-                getSingleMock(),
-                getSingleMock(),
-                getSingleMock(),
-                getSingleMock(),
-                getSingleMock(),
-            };
+      var data = new List<Mock>();
+      for (int i = 0; i < itemCount; i++)
+      {
+        data.Add(getSingleMock());
+      }
+      return data;
     }
   }
 }

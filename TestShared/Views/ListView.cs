@@ -30,7 +30,7 @@ namespace TestShared.Views
 
     protected override async Task LoadData()
     {
-      Content = Mock.getMultipleMock().AsQueryable();
+      Content = Mock.getMultipleMock(2).AsQueryable();
     }
 
 
