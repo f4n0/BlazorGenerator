@@ -48,7 +48,7 @@ namespace TestShared.Views
     }
 
     [GridAction(Caption = "Install", GridIcon = typeof(Icons.Regular.Size16.AirplaneTakeOff))]
-    public void GridAction()
+    public void GridAction(Mock rec)
     {
       UIServices!.DialogService.ShowInfo("Grid Action");
     }

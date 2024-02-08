@@ -20,6 +20,9 @@ namespace BlazorGenerator.Layouts.Partial
     public UIServices? UIServices { get; set; }
 
     [Parameter]
+    public object Context { get; set; }
+
+    [Parameter]
     public List<VisibleField<T>> VisibleFields { get; set; }
 
     [Parameter]

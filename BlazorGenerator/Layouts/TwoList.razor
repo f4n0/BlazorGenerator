@@ -15,6 +15,7 @@
 <FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
   <Panel1>
     <ListDataGrid T="TFirstList"
+                  Context="this"
                   Data="FirstListContent"
                   VisibleFields="FirstListVisibleFields"
                   OnDiscard="(data) => OnDelete(data)"
@@ -27,6 +28,7 @@
   </Panel1>
   <Panel2>
     <ListDataGrid T="TSecondList"
+                  Context="this"
                   Data="SecondListContent"
                   VisibleFields="SecondListVisibleFields"
                   OnDiscard="(data) => OnDelete(data)"
