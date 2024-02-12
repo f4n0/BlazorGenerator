@@ -3,7 +3,7 @@
 
 @{
   var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-  var permissionSet = Security?.GetPermissionSet(this.GetType());
+  var permissionSet = Security?.GetPermissionSet(this.GetType()).Result;
 }
 <PageTitle>@Title</PageTitle>
 @if (ShowActions)

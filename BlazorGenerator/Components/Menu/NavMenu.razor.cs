@@ -14,14 +14,20 @@ namespace BlazorGenerator.Components.Menu
 
     List<AddToMenuAttribute> Menus { get; set; } = [];
 
-    void PopulateDictionary()
+    protected override async Task OnParametersSetAsync()
+    {
+      await PopulateDictionaryAsync();
+      await base.OnParametersSetAsync();
+    }
+
+    async Task PopulateDictionaryAsync()
     {
       Menus.Clear();
       var allMenu = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>();
       MenuGroups = [];
       foreach (var item in allMenu)
       {
-        if (Security?.GetPermissionSet(item.Type).Execute ?? false)
+        if ((await Security?.GetPermissionSet(item.Type)).Execute)
         {
           if (!Menus.Contains(item.Attribute))
             Menus.Add(item.Attribute);

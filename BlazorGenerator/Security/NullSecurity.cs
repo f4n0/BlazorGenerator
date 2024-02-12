@@ -9,21 +9,21 @@ namespace BlazorGenerator.Security
 {
   internal class NullSecurity : ISecurity
   {
-    public Guid getCurrentSessionIdentifier()
+    public Task<string> getCurrentSessionIdentifier()
     {
-      return Guid.Empty;
+      return Task.FromResult(Guid.Empty.ToString());
     }
 
-    public List<PermissionSet> GetPermissionSets(Type? type = null)
+    public Task<List<PermissionSet>> GetPermissionSets(Type? type = null)
     {
-      return [new PermissionSet()
+      return Task.FromResult<List<PermissionSet>>([new PermissionSet()
       {
         Insert = true,
         Delete = true,
         Execute = true,
         Modify = true,
         Object = null!
-      }];
+      }]);
     }
   }
 }

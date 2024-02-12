@@ -6,7 +6,7 @@
 @{
   var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
   var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
-  var permissionSet = Security?.GetPermissionSet(this.GetType());
+  var permissionSet = Security?.GetPermissionSet(this.GetType()).Result;
 
 
 }

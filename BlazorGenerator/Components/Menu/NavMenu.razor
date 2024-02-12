@@ -8,9 +8,6 @@
 
 
       @{
-        PopulateDictionary();
-
-
         foreach (var item in MenuGroups.Where(o => o.Key.ToLower() == "default"))
         {
           var filtered = Menus.Where(o => o.Group == item.Key);

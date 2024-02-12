@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGenerator.Security
 {
-  public class BlazorGeneratorRouteView : RouteView
+  public class BlazorGeneratorRouteView : RouteView, IHandleAfterRender
   {
     [Inject]
     NavigationManager? NavigationManager { get; set; }
@@ -16,16 +16,19 @@ namespace BlazorGenerator.Security
     [Inject]
     BlazorGeneratorSecurity? Security { get; set; }
 
-    protected override void Render(RenderTreeBuilder builder)
+    public async Task OnAfterRenderAsync()
     {
-      if (Security?.GetPermissionSet(RouteData.PageType).Execute ?? false)
+
+      if ((await Security?.GetPermissionSet(RouteData.PageType)).Execute)
       {
-        base.Render(builder);
+        // do nothing
       }
       else
       {
         NavigationManager?.NavigateTo("/Unauthorized");
       }
+      await Task.CompletedTask;
     }
+
   }
 }
