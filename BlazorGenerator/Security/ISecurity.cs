@@ -9,7 +9,7 @@ namespace BlazorGenerator.Security
 {
   public interface ISecurity
   {
-    public Task<List<PermissionSet>> GetPermissionSets(Type? type = null);
+    public Task<PermissionSet> GetPermissionSet(Type? type = null);
     public Task<string> getCurrentSessionIdentifier();
   }
 }

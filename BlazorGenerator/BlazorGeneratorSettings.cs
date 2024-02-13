@@ -15,5 +15,8 @@ namespace BlazorGenerator
     public string ApplicationName { get; set; } = "BlazorGenerator App";
     public OfficeColor BaseColor { get; set; } = OfficeColor.Default;
 
+    public string UnauthorizedRoute { get; set; } = "/Unauthorized";
+    public string LoginRoute { get; set; } = "/Login";
+
   }
 }

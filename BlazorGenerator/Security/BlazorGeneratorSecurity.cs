@@ -14,26 +14,44 @@ namespace BlazorGenerator.Security
   {
     public ISecurity Security { get; set; } = (ISecurity)services.GetService(typeof(ISecurity))!;
 
-    private Dictionary<Guid, List<PermissionSet>> PermissionCache { get; } = [];
+    private Dictionary<string, List<PermissionSet>> PermissionCache { get; } = [];
 
     public async Task<PermissionSet> GetPermissionSet(Type? Object = null)
     {
-      if (PermissionCache.TryGetValue(await Security.getCurrentSessionIdentifier(), out var cached))
+      PermissionSet permissionSet = null;
+      var sessionId = await Security.getCurrentSessionIdentifier();
+      if (PermissionCache.TryGetValue(sessionId, out var cached))
       {
         if (cached.Any(o => o.Object == Object))
         {
-          return cached.First(o => o.Object == Object);
+          permissionSet = cached.First(o => o.Object == Object);
         }
         else if (cached.Any(o => o.Object == null))
         {
-          return cached.First(o => o.Object == null);
+          permissionSet = cached.First(o => o.Object == null);
+        }
+      }
+      else
+      {
+        permissionSet = await Security.GetPermissionSet(Object);
+        if (PermissionCache.TryGetValue(sessionId, out var current))
+        {
+          if (!current.Contains(permissionSet))
+          {
+            current.Add(permissionSet);
+          }
+          PermissionCache[sessionId] = current;
+        }
+        else
+        {
+          PermissionCache.Add(sessionId, [permissionSet]);
         }
       }
 
-      var perms = await Security.GetPermissionSets(Object);
-      PermissionCache.Add(await Security.getCurrentSessionIdentifier(), perms);
-
-      return perms.First(o => (o.Object == Object) || (o.Object == null));
+      return permissionSet;
     }
+
+
+    public async Task<string> GetSessionIdentifier() => await Security.getCurrentSessionIdentifier();
   }
 }

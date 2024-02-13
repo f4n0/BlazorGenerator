@@ -14,16 +14,17 @@ namespace BlazorGenerator.Security
       return Task.FromResult(Guid.Empty.ToString());
     }
 
-    public Task<List<PermissionSet>> GetPermissionSets(Type? type = null)
+    public Task<PermissionSet> GetPermissionSet(Type? type = null)
     {
-      return Task.FromResult<List<PermissionSet>>([new PermissionSet()
+      return Task.FromResult<PermissionSet>(new PermissionSet()
       {
         Insert = true,
         Delete = true,
         Execute = true,
         Modify = true,
-        Object = null!
-      }]);
+        Object = null!,
+        RequireAuthentication = false,
+      });
     }
   }
 }

@@ -18,14 +18,15 @@ namespace BlazorGenerator.Security
 
     public async Task OnAfterRenderAsync()
     {
+      var permissionSet = await Security?.GetPermissionSet(RouteData.PageType);
 
-      if ((await Security?.GetPermissionSet(RouteData.PageType)).Execute)
+      if (!permissionSet.Execute)
       {
-        // do nothing
+        NavigationManager?.NavigateTo(BlazorGeneratorSettings.Instance.UnauthorizedRoute);
       }
-      else
+      if ((permissionSet.RequireAuthentication) && string.IsNullOrEmpty(await Security.GetSessionIdentifier()))
       {
-        NavigationManager?.NavigateTo("/Unauthorized");
+        NavigationManager?.NavigateTo(BlazorGeneratorSettings.Instance.LoginRoute);
       }
       await Task.CompletedTask;
     }
