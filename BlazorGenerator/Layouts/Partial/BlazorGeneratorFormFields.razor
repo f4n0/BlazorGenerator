@@ -87,7 +87,7 @@ else
     <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
                        @attributes="@commonAttributes" />
   }
-  else if ((field.FieldType == typeof(string)) || (field.FieldType == typeof(string)))
+  else if ((field.FieldType == typeof(string)))
   {
     <FluentTextField Value="@field.Getter(Data)?.ToString()" ValueChanged="(val) => field.Setter(Data, val)"
                      @attributes="@commonAttributes" TextFieldType="@field.TextFieldType" />

@@ -31,7 +31,8 @@ namespace BlazorGenerator.Security
           permissionSet = cached.First(o => o.Object == null);
         }
       }
-      else
+      
+      if(permissionSet == null)
       {
         permissionSet = await Security.GetPermissionSet(Object);
         if (PermissionCache.TryGetValue(sessionId, out var current))

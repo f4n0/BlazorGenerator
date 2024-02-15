@@ -9,7 +9,7 @@
     <RootNamespace>BlazorGenerator</RootNamespace>
     <RepositoryUrl>https://github.com/f4n0/BlazorGenerator</RepositoryUrl>
     <Authors>f4n0</Authors>
-    <Version>1.3.30.1</Version>
+    <Version>1.3.31.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
