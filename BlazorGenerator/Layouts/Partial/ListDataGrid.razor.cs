@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
+using System.Diagnostics.Tracing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +30,8 @@ namespace BlazorGenerator.Layouts.Partial
 
     [Parameter]
     public IQueryable<T>? Data { get; set; }
+
+    IQueryable<T>? FilteredData => FilterData();
 
     [Parameter]
     public bool ShowButtons { get; set; }
@@ -108,12 +113,68 @@ namespace BlazorGenerator.Layouts.Partial
         actions = "50px ";
 
       var spacing = 70 / VisibleFields.Count;
-      string cols = "repeat(auto-fill,"+ spacing + "%) ";
+      string cols = "repeat(auto-fill," + spacing + "%) ";
       string rowActions = string.Empty;
       if (permissionSet.Modify || permissionSet.Delete)
         rowActions = "100px";
 
       return select + actions + cols + rowActions;
     }
+
+
+    Dictionary<string, string> FieldFilters { get; set; } = [];
+
+    private string GetFilterValue(string fieldName)
+    {
+      if (FieldFilters.TryGetValue(fieldName, out var res))
+      {
+        return res;
+      }
+      else
+      {
+        FieldFilters.Add(fieldName, string.Empty);
+        return string.Empty;
+      }
+    }
+
+
+    private void HandleFilter(ChangeEventArgs e, VisibleField<T> field)
+    {
+      if (e.Value is string value)
+      {
+        FieldFilters[field.Name] = value;
+      }
+    }
+
+    IQueryable<T>? FilterData()
+    {
+      var set = Data;
+      foreach (var field in VisibleFields)
+      {
+        if (FieldFilters.TryGetValue(field.Name, out var res))
+        {
+          set = from item in set
+                let CellValue = field.Getter(item)
+                let cellStringValue = CellValue == null ? string.Empty : CellValue.ToString()
+                where cellStringValue.Contains(res)
+                select item;
+        }
+      }
+
+      return set;
+    }
+
+    private string HandleClear(VisibleField<T> field)
+    {
+      if (string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))
+      {
+        FieldFilters[field.Name] = string.Empty;
+      }
+      return FieldFilters[field.Name];
+    }
+
+
+
   }
+
 }

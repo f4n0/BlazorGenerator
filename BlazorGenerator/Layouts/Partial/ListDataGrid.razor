@@ -2,7 +2,7 @@
 <div class="GridContainer">
   @if ((VisibleFields != null) && (VisibleFields.Count > 0))
   {
-    <FluentDataGrid Items="@Data"
+    <FluentDataGrid Items="@FilteredData"
                     TGridItem="T"
                     ResizableColumns="true"
                     GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
@@ -10,7 +10,7 @@
                     OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
-                                })" Style="min-width:900px;"                    
+                                })" Style="min-width:900px;"            
                     >
 
       <TemplateColumn Align="@Align.Center">
@@ -44,9 +44,22 @@
                         Sortable="true"
                         Title="@field.Caption"
                         SortBy="GridSort<T>.ByAscending(p => field.Getter(p))">
-
-          <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
-
+          <ChildContent>
+            <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
+          </ChildContent>
+          <ColumnOptions>
+            <div class="search-box">
+              @{
+                GetFilterValue(field.Name);
+                var name = field.Name;
+              }
+              <FluentSearch type="search" Autofocus=true
+                            @bind-Value:get="(FieldFilters[name])" 
+                            @bind-Value:after="()=> HandleClear(field)"
+                            @oninput="(e) => HandleFilter(e, field)"
+                            Placeholder="@field.Caption" />
+            </div>
+          </ColumnOptions>
         </TemplateColumn>
       }
 

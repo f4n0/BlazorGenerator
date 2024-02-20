@@ -27,8 +27,6 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.OrderDate));
       VisibleFields.AddField(nameof(Mock.type));
       VisibleFields.AddField(nameof(Mock.NullTest));
-
-
     }
 
     protected override async Task LoadData()
