@@ -14,30 +14,25 @@ namespace BlazorGenerator.Utils
   {
     public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, AdditionalProperties<T>? additionalProperties = null) where T : class
     {
-      var prop = typeof(T).GetProperty(propertyName) ?? throw new NullReferenceException("Cannot find property with name \"" + propertyName + "\"");
-
-      var field = new VisibleField<T>()
-      {
-        Name = propertyName,
-        FieldType = prop.PropertyType,
-        Caption = propertyName,
-        Getter = f => prop.GetValue(f),
-        Setter = (f, v) => prop.SetValue(f, v)
-      };
-
-      if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-      {
-#pragma warning disable CS8601 // Possible null reference assignment.
-        field.FieldType = Nullable.GetUnderlyingType(prop.PropertyType);
-#pragma warning restore CS8601 // Possible null reference assignment.
-      }
-
+      var field = VisibleField<T>.NewField(propertyName);
       additionalProperties?.Invoke(ref field);
-
       visibleFields.Add(field);
     }
-
     public delegate void AdditionalProperties<T>(ref VisibleField<T> reference) where T : class;
+
+    public static VisibleField<T> AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName) where T : class
+    {
+      var field = VisibleField<T>.NewField(propertyName);
+
+      visibleFields.Add(field);
+      return field;
+    }
+    public static VisibleField<T> AddFieldProperty<T>(this VisibleField<T> field, Action<VisibleField<T>>? AdditionalProperty) where T : class
+    {
+      AdditionalProperty?.Invoke(field);
+      return field;
+    }
+
 
     public static Icon? ToFluentIcon(this Type icon)
     {

@@ -16,9 +16,11 @@ namespace TestShared.Views
     {
       VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
-      VisibleFields.AddField(nameof(Mock.Name), (ref VisibleField < Mock > o) =>
+
+
+      VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(t =>
       {
-        o.OnLookup = (data) => (new List<string>() { "test", "test2" }).ToList<object>();
+        t.OnLookup = (data) => (new List<string>() { "test", "test2" }).ToList<object>();
       });
       VisibleFields.AddField(nameof(Mock.Price));
       VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o) => o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password);
