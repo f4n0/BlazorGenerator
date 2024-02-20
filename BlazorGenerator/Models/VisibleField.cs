@@ -19,5 +19,6 @@ namespace BlazorGenerator.Models
     public required string Name { get; set; }
     public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
     public Func<T, string>? Href { get; set; }
+    public Func<T, List<object>?>? OnLookup { get; set; }
   }
 }

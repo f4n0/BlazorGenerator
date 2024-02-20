@@ -1,5 +1,6 @@
 ﻿@typeparam T
 
+
 @if (isTableCell)
 {
   var link = field.Href?.Invoke(Data) ?? "";
@@ -31,136 +32,120 @@
 }
 else
 {
+  <div class="fieldWrapper">
 
-  @if (showLabel)
-  {
-    <FluentInputLabel ForId="@Id" Label="@field.Caption" AriaLabel="@field.Caption" />
-  }
-
-  @if (field.FieldType == typeof(bool))
-  {
-    <FluentCheckbox Value="@(Convert.ToBoolean(field.Getter(Data)))" ValueChanged="(val) => field.Setter(Data, val)"
-                    @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(short))
-  {
-    <FluentNumberField TValue="short" Value="@(Convert.ToInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(ushort))
-  {
-    <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(int))
-  {
-    <FluentNumberField TValue="int" Value="@(Convert.ToInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(uint))
-  {
-    <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(long))
-  {
-    <FluentNumberField TValue="long" Value="@(Convert.ToInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(ulong))
-  {
-    <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(float))
-  {
-    <FluentNumberField TValue="float" Value="@(Convert.ToSingle(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(double))
-  {
-    <FluentNumberField TValue="double" Value="@(Convert.ToDouble(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if (field.FieldType == typeof(decimal))
-  {
-    <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
-                       @attributes="@commonAttributes" />
-  }
-  else if ((field.FieldType == typeof(string)))
-  {
-    <FluentTextField Value="@field.Getter(Data)?.ToString()" ValueChanged="(val) => field.Setter(Data, val)"
-                     @attributes="@commonAttributes" TextFieldType="@field.TextFieldType" />
-  }
-  else if (field.FieldType == typeof(DateTime))
-  {
-    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val!))" />
-  }
-  else if (field.FieldType == typeof(Type))
-  {
-    <FluentIcon Value="@((field.Getter(Data) as Type)?.ToFluentIcon())"></FluentIcon>
-  }
-
-  else
-  {
-    @if (field.FieldType.IsEnum)
+    @if (showLabel)
     {
-      var values = Enum.GetNames(field.FieldType);
-      commonAttributes["Appearance"] = Appearance.Filled;
+      <FluentInputLabel ForId="@Id" Label="@field.Caption" AriaLabel="@field.Caption" />
+    }
 
-      <FluentSelect Items=@values
-                    Value="@( Enum.GetName(field.FieldType, field.Getter(Data)!))"
-                    ValueChanged="(val) => field.Setter(Data, Enum.Parse(field.FieldType, val))"
-                    @attributes="@commonAttributes" />
+    @if (field.FieldType == typeof(bool))
+    {
+      <FluentCheckbox Value="@(Convert.ToBoolean(field.Getter(Data)))" ValueChanged="(val) => field.Setter(Data, val)"
+                      @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(short))
+    {
+      <FluentNumberField TValue="short" Value="@(Convert.ToInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(ushort))
+    {
+      <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(int))
+    {
+      <FluentNumberField TValue="int" Value="@(Convert.ToInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(uint))
+    {
+      <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(long))
+    {
+      <FluentNumberField TValue="long" Value="@(Convert.ToInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(ulong))
+    {
+      <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(float))
+    {
+      <FluentNumberField TValue="float" Value="@(Convert.ToSingle(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(double))
+    {
+      <FluentNumberField TValue="double" Value="@(Convert.ToDouble(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if (field.FieldType == typeof(decimal))
+    {
+      <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val))"
+                         @attributes="@commonAttributes" />
+    }
+    else if ((field.FieldType == typeof(string)))
+    {
+      <FluentTextField Value="@field.Getter(Data)?.ToString()" ValueChanged="(val) => field.Setter(Data, val)"
+                       @attributes="@commonAttributes" TextFieldType="@field.TextFieldType" ChildContent="@Lookup(this)" />
 
     }
+    else if (field.FieldType == typeof(DateTime))
+    {
+      <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(field.Getter(Data)))" ValueChanged="@((val) => field.Setter(Data, val!))" />
+    }
+    else if (field.FieldType == typeof(Type))
+    {
+      <FluentIcon Value="@((field.Getter(Data) as Type)?.ToFluentIcon())"></FluentIcon>
+    }
+
     else
     {
-      <p>Not defined @field.FieldType.ToString()</p>
+      @if (field.FieldType.IsEnum)
+      {
+        var values = Enum.GetNames(field.FieldType);
+        commonAttributes["Appearance"] = Appearance.Filled;
+
+        <FluentSelect Items=@values
+                      Value="@( Enum.GetName(field.FieldType, field.Getter(Data)!))"
+                      ValueChanged="(val) => field.Setter(Data, Enum.Parse(field.FieldType, val))"
+                      @attributes="@commonAttributes" />
+
+      }
+      else
+      {
+        <p>Not defined @field.FieldType.ToString()</p>
+      }
     }
-  }
+    @if (hasLookup)
+    {
+      var values = field.OnLookup?.Invoke(Data) ?? new List<object>();
+      <FluentMenu Anchor="@Id" @bind-Open="LookupOpen" Width="200px">
+        @foreach (var item in values)
+        {
+          <FluentMenuItem OnClick="@((e) => field.Setter(Data, item))">
+            @item.ToString()
+          </FluentMenuItem>
+        }
+      </FluentMenu>
+    }
+  </div>
 
 }
 
 
-
-
 @code {
-  [Parameter]
-  public required VisibleField<T> field { get; set; }
-  [Parameter]
-  public required T Data { get; set; }
-  [Parameter]
-  public bool showLabel { get; set; } = true;
-  [Parameter]
-  public bool Editable { get; set; } = true;
 
-  [Parameter]
-  public bool isTableCell { get; set; } = false;
-
-  private string Id = Identifier.NewId();
-
-  private Dictionary<string, object> commonAttributes = [];
-
-  private TypeCode GetFieldType()
+  RenderFragment Lookup(BlazorGeneratorFormFields<T> self) => __builder =>
   {
-
-    var temp = Type.GetTypeCode(field.FieldType);
-    var temp1 = Type.GetTypeCode(field.FieldType.BaseType);
-    return temp;
-  }
-
-  protected override Task OnParametersSetAsync()
-  {
-    commonAttributes = new()
-{
-      { "Id", Id },
-      {"Appearance",FluentInputAppearance.Filled },
-      {"ReadOnly", !Editable },
-      {"role", "password" }
-    };
-
-    return base.OnParametersSetAsync();
-  }
-
+    @if (self.hasLookup)
+    {
+      <FluentIcon Value="@(new Icons.Regular.Size16.ChevronDown())" Color="@Color.Neutral" Slot="end" OnClick="@(() => { self.LookupOpen = !self.LookupOpen; })" />
+    }
+  };
 }

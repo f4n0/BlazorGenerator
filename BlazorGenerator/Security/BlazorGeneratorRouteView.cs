@@ -26,7 +26,7 @@ namespace BlazorGenerator.Security
       }
       if ((permissionSet.RequireAuthentication) && string.IsNullOrEmpty(await Security.GetSessionIdentifier()))
       {
-        NavigationManager?.NavigateTo(BlazorGeneratorSettings.Instance.LoginRoute);
+        NavigationManager?.NavigateTo(BlazorGeneratorSettings.Instance.UnauthorizedRoute);
       }
       await Task.CompletedTask;
     }
