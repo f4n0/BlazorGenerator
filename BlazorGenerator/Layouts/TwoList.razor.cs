@@ -1,12 +1,5 @@
 ﻿using BlazorGenerator.Components.Base;
-using BlazorGenerator.Layouts.Partial;
 using BlazorGenerator.Models;
-using Microsoft.FluentUI.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorGenerator.Layouts
 {

@@ -2,7 +2,6 @@
 using BlazorGenerator.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
-using System;
 
 namespace BlazorGenerator
 {

@@ -1,12 +1,4 @@
-﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Models;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlazorGenerator.Models;
 
 namespace BlazorGenerator.Security
 {

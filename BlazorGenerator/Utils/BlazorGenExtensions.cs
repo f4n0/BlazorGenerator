@@ -1,12 +1,5 @@
 ﻿using BlazorGenerator.Models;
 using Microsoft.FluentUI.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static BlazorGenerator.Utils.BlazorGenExtensions;
 
 namespace BlazorGenerator.Utils
 {

@@ -1,8 +1,4 @@
-﻿using BlazorGenerator.Security;
-using BlazorGenerator.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using BlazorGenerator.Models;
+﻿using Microsoft.AspNetCore.Components;
 using BlazorGenerator.Layouts;
 
 namespace BlazorGenerator.Components.Base

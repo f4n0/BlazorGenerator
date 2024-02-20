@@ -1,19 +1,9 @@
 ﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Components.Base;
 using BlazorGenerator.Models;
 using BlazorGenerator.Services;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Diagnostics.Tracing;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorGenerator.Layouts.Partial
 {
