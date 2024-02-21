@@ -74,7 +74,7 @@
             {
               <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
             }
-            else if (PermissionSet!.Delete)
+            @if (PermissionSet!.Delete)
             {
               <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
             }
