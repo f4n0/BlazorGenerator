@@ -1,22 +1,25 @@
 ﻿@typeparam T
 <div class="GridContainer">
-  @if ((VisibleFields != null) && (VisibleFields.Count > 0))
-  {
-    <FluentDataGrid Items="@FilteredData"
-                    TGridItem="T"
-                    ResizableColumns="true"
-                    GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
-                    RowClass="SelectedRowClass"
-                    OnCellFocus="@((cell)=> {
+
+  <FluentDataGrid Items="@FilteredData"
+                  TGridItem="T"
+                  ResizableColumns="true"
+                  GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
+                  RowClass="SelectedRowClass"
+                  OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
-                                })" Style="min-width:900px;"            
-                    >
-
-      <TemplateColumn Align="@Align.Center">
+                                })"
+                  Style="min-width:900px;">
+    @if ((VisibleFields != null) && (VisibleFields.Count > 0))
+    {
+      <TemplateColumn Align="@Align.End">
         <ChildContent>
           <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
         </ChildContent>
+        <HeaderCellItemTemplate>
+          <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>
+        </HeaderCellItemTemplate>
       </TemplateColumn>
       @if (GridActions?.Count() > 0)
       {
@@ -54,7 +57,7 @@
                 var name = field.Name;
               }
               <FluentSearch type="search" Autofocus=true
-                            @bind-Value:get="(FieldFilters[name])" 
+                            @bind-Value:get="(FieldFilters[name])"
                             @bind-Value:after="()=> HandleClear(field)"
                             @oninput="(e) => HandleFilter(e, field)"
                             Placeholder="@field.Caption" />
@@ -63,25 +66,34 @@
         </TemplateColumn>
       }
 
-      @if ((PermissionSet!.Modify) || (PermissionSet!.Delete))
+      @if ((PermissionSet!.Modify) || (PermissionSet!.Delete) || (PermissionSet!.Insert))
       {
         <TemplateColumn Title="Actions" Align="@Align.End">
-          @if (PermissionSet!.Modify)
-          {
-            <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
-          }
-          else if (PermissionSet!.Delete)
-          {
-            <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
-          }
+          <ChildContent>
+            @if (PermissionSet!.Modify)
+            {
+              <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
+            }
+            else if (PermissionSet!.Delete)
+            {
+              <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
+            }
+          </ChildContent>
+          <HeaderCellItemTemplate>
+            @if (PermissionSet!.Modify)
+            {
+              <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => NewItem())" Style="margin-right:5px;" />
+            }
+          </HeaderCellItemTemplate>
         </TemplateColumn>
       }
-    </FluentDataGrid>
-  }
-  else
-  {
-    <FluentProgressRing></FluentProgressRing>
-  }
+    }
+    else
+    {
+      <FluentProgressRing></FluentProgressRing>
+    }
+  </FluentDataGrid>
+
 </div>
 <style>
   .rowselected {
@@ -91,6 +103,4 @@
   .GridContainer {
     overflow-x: auto;
   }
-
-
 </style>

@@ -14,6 +14,11 @@ namespace BlazorGenerator.Layouts
     public virtual void OnSave(T entity)
     {
     }
+    public virtual T NewItem()
+    {
+      return Activator.CreateInstance<T>();
+    }
+
 
     public virtual void OnDelete(T entity)
     {

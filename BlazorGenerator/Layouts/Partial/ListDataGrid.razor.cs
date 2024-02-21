@@ -3,6 +3,7 @@ using BlazorGenerator.Models;
 using BlazorGenerator.Services;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
 using System.Reflection;
 
 namespace BlazorGenerator.Layouts.Partial
@@ -78,6 +79,29 @@ namespace BlazorGenerator.Layouts.Partial
       Selected.Clear();
       Selected.Add(Rec);
     }
+    private bool? AllRecSelected
+    {
+      get
+      {
+        return Selected.Count == Data?.Count()
+            ? true
+            : Selected.Count == 0
+                ? false
+                : null;
+      }
+      set
+      {
+        if (value is true)
+        {
+          Selected.Clear();
+          Selected.AddRange(FilteredData);
+        }
+        else if (value is false)
+        {
+          Selected.Clear();
+        }
+      }
+    }
 
     [Parameter]
     public Action<T>? OnSave { get; set; }
@@ -93,6 +117,22 @@ namespace BlazorGenerator.Layouts.Partial
     protected void HandleDiscard(T Data)
     {
       OnDiscard?.Invoke(Data);
+    }
+
+    [Parameter]
+    public Func<T>? OnNewItem { get; set; }
+
+
+    protected async void NewItem()
+    {
+      var item = OnNewItem?.Invoke();
+      if(item is null)
+         item = Activator.CreateInstance<T>();
+      await EditAsync(item);
+      var datalist = Data.ToList();
+        datalist.Add(item);
+      Data = datalist.AsQueryable();
+      StateHasChanged();
     }
 
     string GetCssGridTemplate(int GridActions, PermissionSet permissionSet)

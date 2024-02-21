@@ -10,7 +10,7 @@ namespace TestShared.Views
   [Route("WorksheetView")]
   [Route("WorksheetView/{param}")]
   [AddToMenu(Title = "Worksheet Page", Route = "WorksheetView")]
-  public class WorksheetView : Worksheet<Mock, WorksheetView>
+  public class WorksheetView : Worksheet<Mock, Mock>
   {
     [Parameter]
     public string param { get; set; }
@@ -25,7 +25,7 @@ namespace TestShared.Views
     protected override async Task LoadData()
     {
       Content = Mock.getSingleMock();
-      ListContent = null;
+      ListContent = Mock.getMultipleMock(3).AsQueryable();
     }
 
     protected override async Task LoadVisibleFields()
@@ -38,10 +38,10 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.OrderDate));
 
 
-      ListVisibleFields = new List<VisibleField<WorksheetView>>();
-      ListVisibleFields.AddField(nameof(Id));
-      ListVisibleFields.AddField(nameof(Name));
-      ListVisibleFields.AddField(nameof(Description));
+      ListVisibleFields = new List<VisibleField<Mock>>();
+      ListVisibleFields.AddField(nameof(Mock.Id));
+      ListVisibleFields.AddField(nameof(Mock.Name));
+      ListVisibleFields.AddField(nameof(Mock.Description));
     }
 
   }
