@@ -137,7 +137,7 @@ namespace BlazorGenerator.Layouts.Partial
       StateHasChanged();
     }
 
-    string GetCssGridTemplate(int GridActions, PermissionSet permissionSet)
+    string GetCssGridTemplate(int GridActions, PermissionSet? permissionSet)
     {
       const string select = "50px ";
       string actions = string.Empty;
@@ -147,7 +147,7 @@ namespace BlazorGenerator.Layouts.Partial
       var spacing = 70 / VisibleFields.Count;
       string cols = "repeat(auto-fill," + spacing + "%) ";
       string rowActions = string.Empty;
-      if (permissionSet.Modify || permissionSet.Delete)
+      if ((permissionSet?.Modify ?? false) || (permissionSet?.Delete ?? false))
         rowActions = "100px";
 
       return select + actions + cols + rowActions;
