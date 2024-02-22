@@ -5,12 +5,13 @@
                   TGridItem="T"
                   ResizableColumns="true"
                   GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
+                  GenerateHeader="GenerateHeaderOption.Sticky"
                   RowClass="SelectedRowClass"
                   OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
                                 })"
-                  Style="min-width:900px;">
+                  Style="min-width: 900px; flex: 0 1 auto; ">
     @if ((VisibleFields != null) && (VisibleFields.Count > 0))
     {
       <TemplateColumn Align="@Align.End">
@@ -102,5 +103,8 @@
 
   .GridContainer {
     overflow-x: auto;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
   }
 </style>

@@ -25,7 +25,7 @@ namespace TestShared.Views
     protected override async Task LoadData()
     {
       Content = Mock.getSingleMock();
-      ListContent = Mock.getMultipleMock(3).AsQueryable();
+      ListContent = null; // Mock.getMultipleMock(3).AsQueryable();
     }
 
     protected override async Task LoadVisibleFields()

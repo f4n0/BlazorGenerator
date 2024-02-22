@@ -109,6 +109,7 @@ namespace BlazorGenerator.Layouts.Partial
     protected void HandleSave(T Data)
     {
       OnSave?.Invoke(Data);
+      StateHasChanged();
     }
 
     [Parameter]
@@ -117,6 +118,7 @@ namespace BlazorGenerator.Layouts.Partial
     protected void HandleDiscard(T Data)
     {
       OnDiscard?.Invoke(Data);
+      StateHasChanged();
     }
 
     [Parameter]
@@ -178,6 +180,7 @@ namespace BlazorGenerator.Layouts.Partial
 
     IQueryable<T>? FilterData()
     {
+      if (Data is null) return null;
       var set = Data;
       foreach (var field in VisibleFields)
       {
