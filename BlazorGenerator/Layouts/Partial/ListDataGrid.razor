@@ -1,19 +1,19 @@
 ﻿@typeparam T
 <div class="GridContainer">
-
-  <FluentDataGrid Items="@FilteredData"
-                  TGridItem="T"
-                  ResizableColumns="true"
-                  GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
-                  GenerateHeader="GenerateHeaderOption.Sticky"
-                  RowClass="SelectedRowClass"
-                  OnCellFocus="@((cell)=> {
+  @if ((VisibleFields != null) && (VisibleFields.Count > 0))
+  {
+    <FluentDataGrid Items="@FilteredData"
+                    TGridItem="T"
+                    ResizableColumns="true"
+                    GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
+                    GenerateHeader="GenerateHeaderOption.Sticky"
+                    RowClass="SelectedRowClass"
+                    OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
                                 })"
-                  Style="min-width: 900px; flex: 0 1 auto; ">
-    @if ((VisibleFields != null) && (VisibleFields.Count > 0))
-    {
+                    Style="min-width: 900px; flex: 0 1 auto; ">
+
       <TemplateColumn Align="@Align.End">
         <ChildContent>
           <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
@@ -88,13 +88,13 @@
           </HeaderCellItemTemplate>
         </TemplateColumn>
       }
-    }
-    else
-    {
-      <FluentProgressRing></FluentProgressRing>
-    }
-  </FluentDataGrid>
+    </FluentDataGrid>
 
+  }
+  else
+  {
+    <FluentProgressRing></FluentProgressRing>
+  }
 </div>
 <style>
   .rowselected {

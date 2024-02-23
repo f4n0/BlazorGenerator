@@ -29,10 +29,13 @@ namespace BlazorGenerator.Components.Base
       await base.OnParametersSetAsync();
     }
 
+
     protected override async Task OnInitializedAsync()
     {
       if (useBlazorGeneratorLayouts())
+      {
         await LoadData();
+      }
       await base.OnInitializedAsync();
     }
 
