@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
+using BlazorGenerator.Components.Modals;
 using BlazorGenerator.Layouts;
 using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
@@ -49,6 +50,19 @@ namespace TestShared.Views
       _ = await UIServices!.OpenModal(typeof(ModalView), mock);
     }
 
+    [PageAction(Caption = "Show Upload")]
+    public async void UploadFiles()
+    {
+      var test = await UIServices.UploadFile();
+      if ((test != null) && (test.Files != null))
+      {
+        foreach (var file in test.Files)
+        {
+          var pippo = 0;
+        }
+      }
+    }
+
     [PageAction(Caption = "Go To")]
     public async void GoTo()
     {
@@ -62,6 +76,24 @@ namespace TestShared.Views
     }
     [PageAction(Caption = "Test2", Group = "grouped")]
     public void Test2()
+    {
+    }
+
+    [PageAction(Caption = "Test3")]
+    public void Test3()
+    {
+    }
+    [PageAction(Caption = "Test4")]
+    public void Test4()
+    {
+    }
+
+    [PageAction(Caption = "Test5")]
+    public void Test5()
+    {
+    }
+    [PageAction(Caption = "Test6")]
+    public void Test6()
     {
     }
   }

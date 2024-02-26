@@ -1,0 +1,55 @@
+﻿@implements IDialogContentComponent<UploadFileData>
+
+
+<FluentInputFile Id="my-file-uploader"
+                 Mode="InputFileMode.Stream"
+                 Multiple="@Content.Multiple"
+                 MaximumFileCount="@Content.MaximumFileCount"
+                 Accept="@Content.FileFilters"
+                 @bind-ProgressPercent="@ProgressPercent"
+                 OnCompleted="@OnCompletedAsync"
+                 Style="height: 200px; border: 1px dashed var(--accent-fill-rest);">
+  <ChildContent>
+    <label for="my-file-uploader">
+      <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+    </label>
+
+    <div>
+      Drag files here you wish to upload,
+      or <label for="my-file-uploader">browse</label>
+      for them.
+    </div>
+
+  </ChildContent>
+</FluentInputFile>
+
+@code
+{
+  [Parameter]
+  public UploadFileData Content { get; set; }
+  int ProgressPercent = 0;
+
+  [CascadingParameter]
+  public FluentDialog? Dialog { get; set; }
+
+  private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
+  {
+    var converted = new List<UploadFileResponse>();
+    foreach (var file in files)
+    {
+      var res = new UploadFileResponse()
+      {
+        FileName = file.Name
+      };
+      await res.fromStreamAsync(file.Stream);
+      converted.Add(res);
+    }
+
+    Content.Files = converted.ToArray();
+
+
+    await Task.Delay(500);
+    ProgressPercent = 0;
+    await Dialog.CloseAsync(Content);
+  }
+}

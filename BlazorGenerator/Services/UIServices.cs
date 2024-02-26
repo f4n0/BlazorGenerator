@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Layouts;
+﻿using BlazorGenerator.Components.Modals;
+using BlazorGenerator.Layouts;
 using BlazorGenerator.Models;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -33,6 +34,34 @@ namespace BlazorGenerator.Services
       if (result.Data is not null)
       {
         return result.Data as T;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+
+    public async Task<UploadFileData?> UploadFile(bool multiple = true, string filefilters = "*.*", int maxfilecount = 50) 
+    {
+      var data = new UploadFileData()
+      {
+        Multiple = multiple,
+        FileFilters = filefilters,
+        MaximumFileCount = maxfilecount
+      };
+
+      var DialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
+      {
+        Width = "50%",
+        Height = "300px",
+        PrimaryAction = "",
+        SecondaryAction = ""        
+      }) ;
+      var result = (await DialogResult.Result);
+      if (result.Data is not null)
+      {
+        return result.Data as UploadFileData;
       }
       else
       {
