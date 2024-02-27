@@ -128,11 +128,11 @@ namespace BlazorGenerator.Layouts.Partial
     protected async void NewItem()
     {
       var item = OnNewItem?.Invoke();
-      if(item is null)
-         item = Activator.CreateInstance<T>();
+      if (item is null)
+        item = Activator.CreateInstance<T>();
       await EditAsync(item);
       var datalist = Data.ToList();
-        datalist.Add(item);
+      datalist.Add(item);
       Data = datalist.AsQueryable();
       StateHasChanged();
     }
@@ -189,11 +189,11 @@ namespace BlazorGenerator.Layouts.Partial
           set = from item in set
                 let CellValue = field.Getter(item)
                 let cellStringValue = CellValue == null ? string.Empty : CellValue.ToString()
-                where cellStringValue.Contains(res)
+                where cellStringValue.Contains(res, StringComparison.InvariantCultureIgnoreCase)
                 select item;
         }
       }
-
+            
       return set;
     }
 
@@ -205,8 +205,6 @@ namespace BlazorGenerator.Layouts.Partial
       }
       return FieldFilters[field.Name];
     }
-
-
 
   }
 

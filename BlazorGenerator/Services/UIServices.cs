@@ -28,7 +28,7 @@ namespace BlazorGenerator.Services
       var DialogResult = await DialogService.ShowDialogAsync(PageType, Data, new DialogParameters()
       {
         Width = "50%",
-        Height = "50%"
+        Height = "fit-content"
       });
       var result = (await DialogResult.Result);
       if (result.Data is not null)

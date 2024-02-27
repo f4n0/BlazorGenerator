@@ -34,7 +34,8 @@ else
 {
     @if (showLabel)
     {
-      <FluentInputLabel ForId="@Id" Label="@field.Caption" AriaLabel="@field.Caption" />
+      <FluentInputLabel ForId="@Id" Label="@field.Caption" AriaLabel="@field.Caption"  />
+      <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
     }
 
     @if (field.FieldType == typeof(bool))
