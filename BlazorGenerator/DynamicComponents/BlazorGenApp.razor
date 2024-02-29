@@ -1,16 +1,35 @@
-﻿
-<Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] {typeof(BlazorGenApp).Assembly} : null)" @rendermode="BlazorGenRenderMode">
-    <Found Context="routeData">
+﻿<ErrorBoundary @ref="errorBoundary">
+  <ChildContent>
+    <Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] { typeof(BlazorGenApp).Assembly } : null)" @rendermode="BlazorGenRenderMode">
+      <Found Context="routeData">
         <BlazorGeneratorRouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
+      </Found>
+      <NotFound>
         <PageTitle>Not found</PageTitle>
         <LayoutView Layout="@typeof(DynamicMainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
+          <p role="alert">Sorry, there's nothing at this address.</p>
         </LayoutView>
-    </NotFound>
-</Router>
+      </NotFound>
+    </Router>
+  </ChildContent>
+  <ErrorContent>
+    <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal=@false TrapFocus=@true >
+      <FluentDialogHeader Visible="false" />
+      <h2>Oh, An error occurred!</h2>
+      <p>Sometimes, even the best fails!</p>
+      <p>Keep calm, click refresh and start again!</p>
+      <FluentButton Appearance="Appearance.Accent" Autofocus="true" @onclick="() => errorBoundary?.Recover()">Refresh Page</FluentButton>
+    </FluentDialog>
+    @{
+      _myFluentDialog?.Show();
+    }
+
+
+
+  </ErrorContent>
+</ErrorBoundary>
+
 
 <link href="_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css" rel="stylesheet" />
 <link href="_content/BlazorGenerator/css/site.css" rel="stylesheet" />
@@ -23,6 +42,10 @@
 
 
   [Parameter]
-   public IComponentRenderMode BlazorGenRenderMode { get; set; } = RenderMode.InteractiveAuto;
+  public IComponentRenderMode BlazorGenRenderMode { get; set; } = RenderMode.InteractiveAuto;
+
+  private ErrorBoundary? errorBoundary;
+
+  private FluentDialog? _myFluentDialog;
 
 }

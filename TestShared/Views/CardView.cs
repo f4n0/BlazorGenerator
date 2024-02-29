@@ -99,6 +99,7 @@ namespace TestShared.Views
     [PageAction(Caption = "Test1", Group = "grouped")]
     public void Test1()
     {
+      throw new NotImplementedException();
     }
     [PageAction(Caption = "Test2", Group = "grouped")]
     public void Test2()
@@ -108,6 +109,7 @@ namespace TestShared.Views
     [PageAction(Caption = "Test3")]
     public void Test3()
     {
+      throw new NotImplementedException();
     }
     [PageAction(Caption = "Test4")]
     public void Test4()
