@@ -69,6 +69,24 @@ namespace BlazorGenerator.Services
       }
     }
 
+    public async Task<UserInputData?> UserInput(UserInputData userInputData)
+    {
+      var DialogResult = await DialogService.ShowDialogAsync(typeof(UserInput), userInputData, new DialogParameters()
+      {
+        Width = "50%",
+        Height = "fit-content"
+      });
+      var result = (await DialogResult.Result);
+      if (result.Data is not null)
+      {
+        return result.Data as UserInputData;
+      }
+      else
+      {
+        return null;
+      }
+    }
+
     public async Task<T?> OpenPanel<T>(Type PageType, T Data) where T : class
     {
       if (PageType.BaseType != typeof(CardPage<T>))

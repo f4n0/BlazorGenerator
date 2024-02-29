@@ -50,6 +50,32 @@ namespace TestShared.Views
       _ = await UIServices!.OpenModal(typeof(ModalView), mock);
     }
 
+
+    [PageAction(Caption = "Ask User")]
+    public async void AskUser()
+    {
+      var mock = Mock.getSingleMock();
+      var text = await UIServices!.UserInput(new UserInputData()
+      {
+        Message = "Gimme the data"
+      });
+
+      var pwd = await UIServices!.UserInput(new UserInputData()
+      {
+        Message = "Gimme the Password",
+        InputType = UserInputType.Secret
+      });
+
+      var choice = await UIServices!.UserInput(new UserInputData()
+      {
+        Message = "Choose!",
+        InputType = UserInputType.Choice,
+        Choices = new List<string>() { "Uno", "Due", "Tre" }
+        
+      });
+      var pippo = 0;
+    }
+
     [PageAction(Caption = "Show Upload")]
     public async void UploadFiles()
     {
