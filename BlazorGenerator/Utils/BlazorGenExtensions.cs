@@ -1,5 +1,6 @@
 ﻿using BlazorGenerator.Models;
 using Microsoft.FluentUI.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BlazorGenerator.Utils
 {
@@ -26,7 +27,7 @@ namespace BlazorGenerator.Utils
       return field;
     }
 
-
+    [RequiresUnreferencedCode("DynamicBehavior is incompatible with trimming.")]
     public static Icon? ToFluentIcon(this Type icon)
     {
       return Activator.CreateInstance(icon) as Icon;
