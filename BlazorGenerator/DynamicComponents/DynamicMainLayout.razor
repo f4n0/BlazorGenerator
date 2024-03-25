@@ -3,6 +3,8 @@
 <FluentDesignTheme OfficeColor="@(BlazorGeneratorSettings.Instance.BaseColor)" @ref="Theme">
   <FluentLayout>
     <FluentHeader>
+      <Back></Back>
+      <FluentSpacer />
       @BlazorGeneratorSettings.Instance.ApplicationName
       <FluentSpacer />
       <div style="padding-right: 6px; margin-left: 0; margin-right: 25px;">
@@ -15,7 +17,6 @@
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%" VerticalGap="0" HorizontalGap="0">
       <NavMenu />
       <FluentBodyContent>
-
         <FluentLayout>
           <FluentBodyContent style="height: calc(100dvh); padding: 10px; ">
             <Progress></Progress>

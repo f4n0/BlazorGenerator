@@ -34,18 +34,22 @@ namespace BlazorGenerator.Layouts.Partial
 
     protected override Task OnParametersSetAsync()
     {
+      var styles = "width: 80%;";
+      if(field.Color != null) 
+      styles += "color: " + field.Color.ToAttributeValue() + ";";
       commonAttributes = new()
       {
         { "Id", Id },
         {"Appearance",FluentInputAppearance.Filled },
         {"ReadOnly", !Editable },
         {"role", "password" },
-        {"style", "width: 80%;" }
+        {"style", styles }
       };
 
       hasLookup = field.OnLookup != null;
 
       return base.OnParametersSetAsync();
     }
+
   }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.FluentUI.AspNetCore.Components;
+﻿using BlazorGenerator.Enum;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Models
 {
@@ -12,6 +13,7 @@ namespace BlazorGenerator.Models
     public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
     public Func<T, string>? Href { get; set; }
     public Func<T, List<object>?>? OnLookup { get; set; }
+    public Color? Color { get; set; }
 
 
     internal static VisibleField<T> NewField(string propertyName)
