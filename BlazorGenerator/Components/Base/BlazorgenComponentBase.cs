@@ -52,5 +52,15 @@ namespace BlazorGenerator.Components.Base
 
       return ret;
     }
+
+    internal async Task<bool> OnRefreshAsync()
+    {
+      await LoadData();
+
+      StateHasChanged();
+
+      return true;
+    }
+
   }
 }

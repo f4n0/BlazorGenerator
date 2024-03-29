@@ -8,21 +8,30 @@
 
 }
 <PageTitle>@Title</PageTitle>
-@if (ShowActions)
-{
-  <ActionBar Context="this" PageActions="PageActions" />
-}
+<div style="height:100%">
+  @if (ShowActions)
+  {
+    <ActionBar Context="this" PageActions="PageActions" />
+  }
+  <FluentPullToRefresh Direction="@PullDirection.Down"
+                       OnRefreshAsync="OnRefreshAsync"
+                       ShowStaticTip="false"
+                       Style="height: auto !important">
 
-<ListDataGrid T="T"
-              Context="this"
-              Data="Content"
-              VisibleFields="VisibleFields"
-              OnDiscard="(data) => OnDelete(data)"
-              OnSave="(data) => OnSave(data)"
-              OnNewItem="()=> NewItem()"
-              PermissionSet="permissionSet"
-              @bind-Selected="Selected"
-              ShowButtons="ShowButtons"
-              GridActions="gridActions"
-              EditFormType="EditFormType"/>
+    <ChildContent>
+      <ListDataGrid T="T"
+                    Context="this"
+                    Data="Content"
+                    VisibleFields="VisibleFields"
+                    OnDiscard="(data) => OnDelete(data)"
+                    OnSave="(data) => OnSave(data)"
+                    OnNewItem="()=> NewItem()"
+                    PermissionSet="permissionSet"
+                    @bind-Selected="Selected"
+                    ShowButtons="ShowButtons"
+                    GridActions="gridActions"
+                    EditFormType="EditFormType" />
 
+    </ChildContent>
+  </FluentPullToRefresh>
+</div>

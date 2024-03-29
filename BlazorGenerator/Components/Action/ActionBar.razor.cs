@@ -16,6 +16,8 @@ namespace BlazorGenerator.Components.Action
 
     public Dictionary<string, bool> PopOverBind { get; set; } = [];
 
+    public bool OpenMore { get; set; } = false;
+
     void PopulateDictionary()
     {
       ActionGroups = [];

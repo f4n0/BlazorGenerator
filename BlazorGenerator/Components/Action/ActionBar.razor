@@ -1,63 +1,88 @@
 ﻿
-<FluentGrid Style="overflow: hidden; flex: 0 0 auto; margin-bottom: 5px" Justify="JustifyContent.FlexStart">
-  <FluentGridItem xs="12" sm="6" md="0">
-    <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align:text-top;">
+<FluentGrid Style="overflow: hidden; flex: 0 0 auto; margin-bottom: 5px" Justify="JustifyContent.FlexStart" Spacing="1">
+  <FluentGridItem xs="12" Justify="JustifyContent.FlexStart" Style="">
+    <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align: text-top; padding-bottom: 0;">
       @((Context as BlazorgenComponentBase)?.Title)
     </FluentLabel>
   </FluentGridItem>
-
-  @{
-    PopulateDictionary();
-    foreach (var item in ActionGroups)
-    {
-      var filtered = PageActions.Where(o =>
-o.Attribute.Group == item.Key);
-      if (item.Key.ToLower() == "default" || item.Value == 1)
-      {
-        foreach (var action in filtered)
+  <FluentOverflow Style="width: 100%;">
+    <ChildContent>
+      @{
+        PopulateDictionary();
+        foreach (var item in ActionGroups)
         {
-          <FluentGridItem xs="12" sm="6" md="0">
-            <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
-              @(action.Attribute.Caption ?? action.Method.Name)
-              <span slot="start">
-                <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
-              </span>
-            </FluentButton>
-          </FluentGridItem>
-        }
-      }
-      else
-      {
-
-        PopOverBind.TryAdd(@item.Key, false);
-
-        <FluentGridItem xs="12" sm="6" md="0">
-          <FluentButton id="@item.Key" @onclick="() => PopOverBind[item.Key] = !PopOverBind[item.Key]">
-            @item.Key
-            <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Neutral" />
-          </FluentButton>
-        </FluentGridItem>
-        <FluentPopover AnchorId="@item.Key" @bind-Open="PopOverBind[item.Key]" HorizontalPosition="HorizontalPosition.Right">
-          <Body>
-            @foreach (var action in filtered)
+          var filtered = PageActions.Where(o =>
+    o.Attribute.Group == item.Key);
+          if (item.Key.ToLower() == "default" || item.Value == 1)
+          {
+            foreach (var action in filtered)
             {
-              <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
-                @(action.Attribute.Caption ?? action.Method.Name)
-                <span slot="start">
-                  <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
-                </span>
-              </FluentButton>
+              <FluentOverflowItem>
+                <FluentGridItem xs="12" sm="6" md="0">
+                  <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
+                    @(action.Attribute.Caption ?? action.Method.Name)
+                    <span slot="start">
+                      <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
+                    </span>
+                  </FluentButton>
+                </FluentGridItem>
+              </FluentOverflowItem>
             }
-          </Body>
-        </FluentPopover>
+          }
+          else
+          {
+
+            PopOverBind.TryAdd(@item.Key, false);
+            <FluentOverflowItem>
+              <FluentGridItem xs="12" sm="6" md="0">
+                <FluentButton id="@item.Key" @onclick="() => PopOverBind[item.Key] = !PopOverBind[item.Key]">
+                  @item.Key
+                  <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Neutral" />
+                </FluentButton>
+              </FluentGridItem>
+              <FluentPopover AnchorId="@item.Key" @bind-Open="PopOverBind[item.Key]" HorizontalPosition="HorizontalPosition.Right">
+                <Body>
+                  @foreach (var action in filtered)
+                  {
+                    <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
+                      @(action.Attribute.Caption ?? action.Method.Name)
+                      <span slot="start">
+                        <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
+                      </span>
+                    </FluentButton>
+                  }
+                </Body>
+              </FluentPopover>
+            </FluentOverflowItem>
+
+          }
+        }
+
 
       }
-    }
+    </ChildContent>
+    <MoreButtonTemplate>
+      <FluentBadge Style="min-width: 32px; max-width:32px;" OnClick="@(()=> OpenMore = !OpenMore)">
+        @($"+{context.ItemsOverflow.Count()}")
+      </FluentBadge>
+    </MoreButtonTemplate>
+    <OverflowTemplate>
+      <FluentPopover AnchorId="@context.IdMoreButton" @bind-Open="@OpenMore" HorizontalPosition="HorizontalPosition.Left" Style="width: 300px;" >
+        <Body>
+          <FluentGrid Style="overflow: hidden; flex: 0 0 auto; margin-bottom: 5px" Justify="JustifyContent.FlexStart" Spacing="1">
+            @foreach (var item in context.ItemsOverflow)
+            {
+              @item.ChildContent
+            }
+            </FluentGrid>
+        </Body>
+      </FluentPopover>
+    </OverflowTemplate>
 
-  }
+  </FluentOverflow>
 
 </FluentGrid>
-<FluentDivider Style="width: 100%;" Orientation=Orientation.Horizontal Role="DividerRole.Presentation"></FluentDivider>
+<FluentDivider Style="width: 100%; height:5px;" Orientation=Orientation.Horizontal Role="DividerRole.Presentation" ></FluentDivider>
 
 <style>
   .fluent-popover-content {

@@ -7,36 +7,46 @@
   var permissionSet = Security?.GetPermissionSet(this.GetType()).Result;
 }
 <PageTitle>@Title</PageTitle>
-@if (ShowActions)
-{
-  <ActionBar Context="this" PageActions="PageActions" />
-}
+<div style="height:100%">
+  @if (ShowActions)
+  {
+    <ActionBar Context="this" PageActions="PageActions" />
+  }
+  <FluentPullToRefresh Direction="@PullDirection.Down"
+                       OnRefreshAsync="OnRefreshAsync"
+                       ShowStaticTip="false"
+                       Style="height: auto !important">
 
-<FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
-  <Panel1>
-    <ListDataGrid T="TFirstList"
-                  Context="this"
-                  Data="FirstListContent"
-                  VisibleFields="FirstListVisibleFields"
-                  OnDiscard="(data) => OnDelete(data)"
-                  OnSave="(data) => OnSave(data)"
-                  PermissionSet="permissionSet"
-                  @bind-Selected="FirstListSelected"
-                  ShowButtons="ShowButtons"
-                  GridActions="gridActions"
-                  EditFormType="FirstListEditFormType" />
-  </Panel1>
-  <Panel2>
-    <ListDataGrid T="TSecondList"
-                  Context="this"
-                  Data="SecondListContent"
-                  VisibleFields="SecondListVisibleFields"
-                  OnDiscard="(data) => OnDelete(data)"
-                  OnSave="(data) => OnSave(data)"
-                  PermissionSet="permissionSet"
-                  @bind-Selected="SecondListSelected"
-                  ShowButtons="ShowButtons"
-                  GridActions="gridActions"
-                  EditFormType="SecondListEditFormType" />
-  </Panel2>
-</FluentSplitter>
+    <ChildContent>
+      <FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
+        <Panel1>
+          <ListDataGrid T="TFirstList"
+                        Context="this"
+                        Data="FirstListContent"
+                        VisibleFields="FirstListVisibleFields"
+                        OnDiscard="(data) => OnDelete(data)"
+                        OnSave="(data) => OnSave(data)"
+                        PermissionSet="permissionSet"
+                        @bind-Selected="FirstListSelected"
+                        ShowButtons="ShowButtons"
+                        GridActions="gridActions"
+                        EditFormType="FirstListEditFormType" />
+        </Panel1>
+        <Panel2>
+          <ListDataGrid T="TSecondList"
+                        Context="this"
+                        Data="SecondListContent"
+                        VisibleFields="SecondListVisibleFields"
+                        OnDiscard="(data) => OnDelete(data)"
+                        OnSave="(data) => OnSave(data)"
+                        PermissionSet="permissionSet"
+                        @bind-Selected="SecondListSelected"
+                        ShowButtons="ShowButtons"
+                        GridActions="gridActions"
+                        EditFormType="SecondListEditFormType" />
+        </Panel2>
+      </FluentSplitter>
+
+    </ChildContent>
+  </FluentPullToRefresh>
+  </div>
