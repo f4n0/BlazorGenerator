@@ -22,7 +22,8 @@ namespace BlazorGenerator
 
               serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger,
               null!,
-              serviceProvider.CreateScope().ServiceProvider.GetService<ProgressService>()
+              serviceProvider.CreateScope().ServiceProvider.GetService<ProgressService>(),
+              null!
            ));
 #pragma warning restore CS8604 // Possible null reference argument.
 
