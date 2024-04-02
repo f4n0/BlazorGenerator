@@ -5,11 +5,12 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Services
 {
-  public class UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService _progressService)
+  public class UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService _progressService, IKeyCodeService _keyCodeService)
   {
     public BlazorGenLogger Logger { get; internal set; } = _logger;
     public IDialogService DialogService { get; internal set; } = _dialogService;
     public ProgressService ProgressService { get; internal set; } = _progressService;
+    public IKeyCodeService KeyCodeService { get; internal set; } = _keyCodeService;
 
     public void StartLoader()
     {
