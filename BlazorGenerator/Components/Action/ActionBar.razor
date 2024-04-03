@@ -40,8 +40,11 @@
                   <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Neutral" />
                 </FluentButton>
               </FluentGridItem>
-              <FluentPopover AnchorId="@item.Key" @bind-Open="PopOverBind[item.Key]" HorizontalPosition="HorizontalPosition.Right">
-                <Body>
+            </FluentOverflowItem>
+            <FluentPopover AnchorId="@item.Key" @bind-Open="PopOverBind[item.Key]" HorizontalPosition="HorizontalPosition.Right">
+              <Body>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+
                   @foreach (var action in filtered)
                   {
                     <FluentButton OnClick="@(() => action.Method.Invoke(Context, null))">
@@ -51,9 +54,9 @@
                       </span>
                     </FluentButton>
                   }
-                </Body>
-              </FluentPopover>
-            </FluentOverflowItem>
+                </FluentStack>
+              </Body>
+            </FluentPopover>
 
           }
         }

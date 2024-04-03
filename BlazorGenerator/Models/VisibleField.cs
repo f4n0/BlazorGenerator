@@ -14,6 +14,7 @@ namespace BlazorGenerator.Models
     public Func<T, string>? Href { get; set; }
     public Func<T, List<object>?>? OnLookup { get; set; }
     public Color? Color { get; set; }
+    public bool Immediate { get; set; } = false;
 
 
     internal static VisibleField<T> NewField(string propertyName)

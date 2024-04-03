@@ -43,7 +43,8 @@ namespace BlazorGenerator.Layouts.Partial
         {"Appearance",FluentInputAppearance.Filled },
         {"ReadOnly", !Editable },
         {"role", "password" },
-        {"style", styles }
+        {"style", styles },
+        {"Immediate", field.Immediate }
       };
 
       hasLookup = field.OnLookup != null;
