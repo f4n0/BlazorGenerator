@@ -34,7 +34,7 @@
             <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true" Style="position:fixed;">
               @foreach (var a in GridActions)
               {
-                <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => a.Method.Invoke(Context, [CurrRec]))">
+                <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec]))">
                   <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
                 </FluentMenuItem>
               }

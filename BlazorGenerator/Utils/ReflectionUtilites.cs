@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using BlazorGenerator.Attributes;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace BlazorGenerator.Utils
@@ -27,6 +28,20 @@ namespace BlazorGenerator.Utils
 
       //use the converter to get the correct value
       oProp.SetValue(target, Convert.ChangeType(propertyValue, tProp), null);
+    }
+
+    internal static void InvokeAction(MethodInfo Method, object target, object[] KnownParams = null)
+    {
+      int? mthParams = Method.GetParameters().Length;
+      var parameters = (mthParams.HasValue ? Enumerable.Repeat(Type.Missing, mthParams.Value).ToArray() : Array.Empty<object>());
+      if(KnownParams != null && parameters.Length >= KnownParams.Length)
+      {
+        for(var i = 0; i < KnownParams.Length; i++)
+        {
+          parameters[i] = KnownParams[i];
+        }
+      }
+      Method.Invoke(target, parameters);
     }
   }
 }

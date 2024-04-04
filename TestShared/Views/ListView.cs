@@ -48,12 +48,14 @@ namespace TestShared.Views
     }
 
     [GridAction(Caption = "Install", GridIcon = typeof(Icons.Regular.Size16.AirplaneTakeOff))]
-    public void GridAction(Mock rec)
+    [PageAction(Caption = "Install")]
+    public void GridAction(Mock? rec = null)
     {
       UIServices!.DialogService.ShowInfo("Grid Action");
     }
 
     [PageAction(Caption = "ShowProgress")]
+    [GridAction(Caption = "ShowProgress")]
     public async void ShowProgress()
     {
       UIServices!.ProgressService.StartProgress();
