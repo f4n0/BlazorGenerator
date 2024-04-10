@@ -2,6 +2,7 @@
 using BlazorGenerator.Layouts;
 using BlazorGenerator.Models;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Newtonsoft.Json.Linq;
 
 namespace BlazorGenerator.Services
 {
@@ -97,6 +98,9 @@ namespace BlazorGenerator.Services
       if(Data is ICloneable cloneable)
       {
         Original = (T) cloneable.Clone();
+      } else
+      {
+        Original = JObject.Parse(JObject.FromObject(Data).ToString()).ToObject<T>();
       }
 
       var DialogResult = await DialogService.ShowPanelAsync(PageType, Data, new DialogParameters()
