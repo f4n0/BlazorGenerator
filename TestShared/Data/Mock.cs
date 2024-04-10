@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace TestShared.Data
 {
-  public class Mock
+  public class Mock : ICloneable
   {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -38,6 +38,11 @@ namespace TestShared.Data
         data.Add(getSingleMock());
       }
       return data;
+    }
+
+    public object Clone()
+    {
+      return new Mock() { Id = Id, Name = Name, OrderDate = OrderDate, Price = Price };
     }
   }
 }

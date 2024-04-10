@@ -43,5 +43,6 @@ namespace BlazorGenerator.Utils
       }
       Method.Invoke(target, parameters);
     }
+   
   }
 }

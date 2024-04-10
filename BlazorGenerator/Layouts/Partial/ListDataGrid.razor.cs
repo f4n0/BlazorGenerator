@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
+using BlazorGenerator.Components.Base;
 using BlazorGenerator.Models;
 using BlazorGenerator.Services;
 using BlazorGenerator.Utils;
@@ -38,6 +39,9 @@ namespace BlazorGenerator.Layouts.Partial
 
     [Parameter]
     public EventCallback<List<T>> SelectedChanged { get; set; }
+
+    [Parameter]
+    public Action? RefreshData { get; set; }
 
     internal T? CurrRec { get; set; }
 
@@ -109,6 +113,7 @@ namespace BlazorGenerator.Layouts.Partial
     protected void HandleSave(T Data)
     {
       OnSave?.Invoke(Data);
+      //RefreshData?.Invoke();
       StateHasChanged();
     }
 
@@ -118,6 +123,7 @@ namespace BlazorGenerator.Layouts.Partial
     protected void HandleDiscard(T Data)
     {
       OnDiscard?.Invoke(Data);
+      //RefreshData?.Invoke();
       StateHasChanged();
     }
 
@@ -131,9 +137,7 @@ namespace BlazorGenerator.Layouts.Partial
       if (item is null)
         item = Activator.CreateInstance<T>();
       await EditAsync(item);
-      var datalist = Data.ToList();
-      datalist.Add(item);
-      Data = datalist.AsQueryable();
+
       StateHasChanged();
     }
 

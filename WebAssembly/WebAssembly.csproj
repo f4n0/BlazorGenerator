@@ -1,15 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
@@ -20,11 +15,5 @@
     <ProjectReference Include="..\BlazorGenerator\BlazorGenerator.csproj" />
     <ProjectReference Include="..\TestShared\TestShared.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components" />
-    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
-  </ItemGroup>
-
 
 </Project>

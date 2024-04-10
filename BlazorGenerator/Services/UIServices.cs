@@ -93,6 +93,12 @@ namespace BlazorGenerator.Services
       if (PageType.BaseType != typeof(CardPage<T>))
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
+      var Original = Data;
+      if(Data is ICloneable cloneable)
+      {
+        Original = (T) cloneable.Clone();
+      }
+
       var DialogResult = await DialogService.ShowPanelAsync(PageType, Data, new DialogParameters()
       {
         DialogType = DialogType.Panel,
@@ -100,6 +106,10 @@ namespace BlazorGenerator.Services
         Width = "40%"
       });
       var result = (await DialogResult.Result);
+      if(result.Cancelled)
+      {
+        return Original;
+      }
       if (result.Data is not null)
       {
         return result.Data as T;

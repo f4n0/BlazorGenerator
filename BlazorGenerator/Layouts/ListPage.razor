@@ -30,7 +30,8 @@
                     @bind-Selected="Selected"
                     ShowButtons="ShowButtons"
                     GridActions="gridActions"
-                    EditFormType="EditFormType" />
+                    EditFormType="EditFormType"
+                    RefreshData="@(async () => await LoadData())"/>
 
     </ChildContent>
   </FluentPullToRefresh>

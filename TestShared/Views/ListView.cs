@@ -33,6 +33,13 @@ namespace TestShared.Views
       Content = Mock.getMultipleMock(15).AsQueryable();
     }
 
+    public override void OnSave(Mock entity)
+    {
+      var tmp = Content!.ToList();
+      tmp[Content!.ToList().FindIndex(o => o.Id == entity.Id)] = entity;
+      Content = tmp.AsQueryable();
+      StateHasChanged();
+    }
 
     public void Save(Mock Rec, Mock xRec)
     {
