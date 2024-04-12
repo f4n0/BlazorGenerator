@@ -18,6 +18,7 @@
   }
   <FluentPullToRefresh Direction="@PullDirection.Down"
                        OnRefreshAsync="OnRefreshAsync"
+                       Disabled="BlazorGeneratorSettings.Instance.DisablePullToRefresh"
                        ShowStaticTip="false"
                        Style="height: auto !important">
 

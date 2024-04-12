@@ -9,6 +9,7 @@ namespace BlazorGenerator
 
     public string ApplicationName { get; set; } = "BlazorGenerator App";
     public OfficeColor BaseColor { get; set; } = OfficeColor.Default;
+    public bool DisablePullToRefresh { get; set; } = false;
 
     public string UnauthorizedRoute { get; set; } = "/Unauthorized";
     public string LoginRoute { get; set; } = "/Login";
