@@ -143,16 +143,16 @@ namespace BlazorGenerator.Layouts.Partial
 
     string GetCssGridTemplate(int GridActions, PermissionSet? permissionSet)
     {
-      const string select = "50px ";
+      const string select = "0.2fr ";
       string actions = string.Empty;
       if (GridActions > 0)
-        actions = "50px ";
+        actions = "0.2fr ";
 
       var spacing = 70 / VisibleFields.Count;
-      string cols = "repeat(auto-fill," + spacing + "%) ";
+      string cols = string.Join(" ", Enumerable.Repeat("1fr", VisibleFields.Count))+ " ";
       string rowActions = string.Empty;
       if ((permissionSet?.Modify ?? false) || (permissionSet?.Delete ?? false))
-        rowActions = "100px";
+        rowActions = "0.5fr";
 
       return select + actions + cols + rowActions;
     }

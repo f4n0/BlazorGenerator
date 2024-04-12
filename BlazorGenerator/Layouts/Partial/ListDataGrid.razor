@@ -5,15 +5,14 @@
   {
     <FluentDataGrid Items="@FilteredData"
                     TGridItem="T"
-                    ResizableColumns="true"
+                    ResizableColumns="false"
                     GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
-                    GenerateHeader="GenerateHeaderOption.Sticky"
                     RowClass="SelectedRowClass"
                     OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
                                 })"
-                    Style="min-width: 900px; flex: 0 1 auto; ">
+                    Style="min-width: 900px; overflow:auto ">
 
       <TemplateColumn Align="@Align.End">
         <ChildContent>
