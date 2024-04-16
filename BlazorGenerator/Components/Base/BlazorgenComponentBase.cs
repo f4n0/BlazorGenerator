@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using BlazorGenerator.Layouts;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Components.Base
 {
-  public partial class BlazorgenComponentBase : ComponentBase, IDisposable
+  public partial class BlazorgenComponentBase : ComponentBase, IDisposable, IAsyncDisposable
   {
     public virtual string Title => this.GetType().Name;
 
@@ -17,15 +18,21 @@ namespace BlazorGenerator.Components.Base
 
     protected virtual async Task LoadVisibleFields()
     {
+      await Task.CompletedTask;
     }
     protected virtual async Task LoadData()
     {
+      await Task.CompletedTask;
     }
 
     protected override async Task OnParametersSetAsync()
     {
       if (useBlazorGeneratorLayouts())
+      {
         await LoadVisibleFields();
+        UIServices.KeyCodeService.RegisterListener(OnKeyDownAsync);
+      }
+
       await base.OnParametersSetAsync();
     }
 
@@ -61,6 +68,23 @@ namespace BlazorGenerator.Components.Base
 
       return true;
     }
+
+    private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
+    {
+      if (args.Key == KeyCode.Function5)
+      {
+        await OnRefreshAsync();
+      }
+
+    }
+
+    public ValueTask DisposeAsync()
+    {
+      UIServices.KeyCodeService.UnregisterListener(OnKeyDownAsync);
+      return ValueTask.CompletedTask;
+    }
+
+
 
   }
 }
