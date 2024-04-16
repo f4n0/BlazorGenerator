@@ -16,39 +16,33 @@
   {
     <ActionBar Context="this" PageActions="PageActions" />
   }
-  <FluentPullToRefresh Direction="@PullDirection.Down"
-                       OnRefreshAsync="OnRefreshAsync"
-                       Disabled="BlazorGeneratorSettings.Instance.DisablePullToRefresh"
-                       ShowStaticTip="false"
-                       Style="height: auto !important">
 
-    <ChildContent>
-      <div style="padding:10px;">
-        <CardFields T="TData"
-                    Data="Content"
-                    PermissionSet="permissionSet"
-                    GridSize="GridSize"
-                    ShowButtons="ShowButtons"
-                    VisibleFields="VisibleFields"
-                    OnDiscard="(data) => OnDelete(data)"
-                    OnSave="(data) => OnSave(data)" />
-      </div>
+  <div style="padding:10px; height: auto !important">
+    <CardFields T="TData"
+                Data="Content"
+                PermissionSet="permissionSet"
+                GridSize="GridSize"
+                ShowButtons="ShowButtons"
+                VisibleFields="VisibleFields"
+                OnDiscard="(data) => OnDelete(data)"
+                OnSave="(data) => OnSave(data)" />
 
-      <FluentDivider Style="width: 100%;margin-top:10px; margin-bottom:10px" Role="DividerRole.Presentation">
-        Data
-      </FluentDivider>
 
-      <ListDataGrid T="TList"
-                    Context="this"
-                    Data="ListContent"
-                    VisibleFields="ListVisibleFields"
-                    OnDiscard="(data) => OnDelete(data)"
-                    OnSave="(data) => OnSave(data)"
-                    PermissionSet="permissionSet"
-                    @bind-Selected="ListSelected"
-                    ShowButtons="ShowButtons"
-                    GridActions="gridActions"
-                    EditFormType="ListEditFormType" />
-    </ChildContent>
-  </FluentPullToRefresh>
+    <FluentDivider Style="width: 100%;margin-top:10px; margin-bottom:10px" Role="DividerRole.Presentation">
+      Data
+    </FluentDivider>
+
+    <ListDataGrid T="TList"
+                  Context="this"
+                  Data="ListContent?.AsQueryable()"
+                  VisibleFields="ListVisibleFields"
+                  OnDiscard="(data) => OnDelete(data)"
+                  OnSave="(data) => OnSave(data)"
+                  PermissionSet="permissionSet"
+                  @bind-Selected="ListSelected"
+                  ShowButtons="ShowButtons"
+                  GridActions="gridActions"
+                  EditFormType="ListEditFormType" />
+
   </div>
+</div>

@@ -13,27 +13,21 @@
   {
     <ActionBar Context="this" PageActions="PageActions" />
   }
-  <FluentPullToRefresh Direction="@PullDirection.Down"
-                       OnRefreshAsync="OnRefreshAsync"
-                       ShowStaticTip="false"
-                       Disabled="BlazorGeneratorSettings.Instance.DisablePullToRefresh"
-                       Style="height: auto !important">
 
-    <ChildContent>
-      <ListDataGrid T="T"
-                    Context="this"
-                    Data="Content"
-                    VisibleFields="VisibleFields"
-                    OnDiscard="(data) => OnDelete(data)"
-                    OnSave="(data) => OnSave(data)"
-                    OnNewItem="()=> NewItem()"
-                    PermissionSet="permissionSet"
-                    @bind-Selected="Selected"
-                    ShowButtons="ShowButtons"
-                    GridActions="gridActions"
-                    EditFormType="EditFormType"
-                    RefreshData="@(async () => await LoadData())"/>
+  <div style="padding:10px; height: auto !important">
+    <ListDataGrid T="T"
+                  Context="this"
+                  Data="Content?.AsQueryable()"
+                  VisibleFields="VisibleFields"
+                  OnDiscard="(data) => OnDelete(data)"
+                  OnSave="(data) => OnSave(data)"
+                  OnNewItem="()=> NewItem()"
+                  PermissionSet="permissionSet"
+                  @bind-Selected="Selected"
+                  ShowButtons="ShowButtons"
+                  GridActions="gridActions"
+                  EditFormType="EditFormType"
+                  RefreshData="@(async () => await LoadData())" />
+    </div>
 
-    </ChildContent>
-  </FluentPullToRefresh>
-</div>
+  </div>

@@ -5,7 +5,7 @@ namespace BlazorGenerator.Layouts
 {
   public partial class ListPage<T> : BlazorgenComponentBase where T : class
   {
-    public IQueryable<T>? Content { get; set; }
+    public IEnumerable<T>? Content { get; set; }
     public required List<VisibleField<T>> VisibleFields { get; set; }
     public virtual Type? EditFormType { get; set; }
 

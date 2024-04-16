@@ -11,7 +11,7 @@ namespace BlazorGenerator.Layouts
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public List<VisibleField<TData>> VisibleFields { get; set; } = [];
 
-    public IQueryable<TList>? ListContent { get; set; }
+    public IEnumerable<TList>? ListContent { get; set; }
     public List<VisibleField<TList>> ListVisibleFields { get; set; }
     public virtual Type? ListEditFormType { get; set; }
     public List<TList> ListSelected { get; set; } = [];

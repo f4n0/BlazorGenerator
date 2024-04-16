@@ -5,14 +5,14 @@
   {
     <FluentDataGrid Items="@FilteredData"
                     TGridItem="T"
-                    ResizableColumns="false"
+                    ResizableColumns="true"
                     GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
                     RowClass="SelectedRowClass"
                     OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
                                 })"
-                    Style="min-width: 900px; overflow:auto ">
+                    Style="min-width: 900px; overflow:auto; flex: 0 1 auto; ">
 
       <TemplateColumn Align="@Align.End">
         <ChildContent>
@@ -25,26 +25,28 @@
       @if (GridActions?.Count() > 0)
       {
         <TemplateColumn Title="" Align="@Align.Center">
-          <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
+          <ChildContent>
+            <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
                                                                                                                          {
                                                                                                                            CurrRec = context;
                                                                                                                          })"></FluentIcon>
           <div style=" position: fixed; ">
-            <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true" Style="position:fixed;">
-              @foreach (var a in GridActions)
-              {
-                <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec]))">
-                  <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
-                </FluentMenuItem>
-              }
-            </FluentMenu>
-          </div>
+              <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true" Style="position:fixed;">
+                @foreach (var a in GridActions)
+                {
+                  <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec]))">
+                    <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
+                  </FluentMenuItem>
+                }
+              </FluentMenu>
+            </div>
+          </ChildContent>
         </TemplateColumn>
       }
 
       @foreach (var field in VisibleFields)
       {
-        <TemplateColumn Context="data"
+        <TemplateColumn Context="data"                        
                         Sortable="true"
                         Title="@field.Caption"
                         SortBy="GridSort<T>.ByAscending(p => field.Getter(p))"

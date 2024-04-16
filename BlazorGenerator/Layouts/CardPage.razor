@@ -15,26 +15,17 @@
   {
     <h2>@Title</h2>
   }
-  <FluentPullToRefresh Direction="@PullDirection.Down"
-                       OnRefreshAsync="OnRefreshAsync"
-                       ShowStaticTip="false"
-                       Disabled="BlazorGeneratorSettings.Instance.DisablePullToRefresh"
-                       Style="height: auto !important">
 
-    <ChildContent>
-      <div style="padding:10px;">
+<div style="padding:10px; height: auto !important">
 
-        <CardFields T="T"
-                    Data="Content"
-                    PermissionSet="permissionSet"
-                    GridSize="GridSize"
-                    ShowButtons="ShowButtons"
-                    VisibleFields="VisibleFields"
-                    OnDiscard="(data) => OnDelete(data)"
-                    OnSave="(data) => OnSave(data)"
-                    />
+  <CardFields T="T"
+              Data="Content"
+              PermissionSet="permissionSet"
+              GridSize="GridSize"
+              ShowButtons="ShowButtons"
+              VisibleFields="VisibleFields"
+              OnDiscard="(data) => OnDelete(data)"
+              OnSave="(data) => OnSave(data)" />
 
-      </div>
-    </ChildContent>
-  </FluentPullToRefresh>
+</div>
   </div>

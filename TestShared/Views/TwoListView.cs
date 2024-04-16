@@ -30,8 +30,8 @@ namespace TestShared.Views
 
     protected override async Task LoadData()
     {
-      FirstListContent = Mock.getMultipleMock().AsQueryable();
-      SecondListContent = Mock.getMultipleMock().AsQueryable();
+      FirstListContent = Mock.getMultipleMock();
+      SecondListContent = Mock.getMultipleMock();
     }
   }
 }

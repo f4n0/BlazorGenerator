@@ -30,14 +30,14 @@ namespace TestShared.Views
 
     protected override async Task LoadData()
     {
-      Content = Mock.getMultipleMock(15).AsQueryable();
+      Content = Mock.getMultipleMock(15);
     }
 
     public override void OnSave(Mock entity)
     {
       var tmp = Content!.ToList();
       tmp[Content!.ToList().FindIndex(o => o.Id == entity.Id)] = entity;
-      Content = tmp.AsQueryable();
+      Content = tmp;
       StateHasChanged();
     }
 
@@ -45,7 +45,7 @@ namespace TestShared.Views
     {
       var tmp = Content!.ToList();
       tmp[Content!.ToList().FindIndex(o => o.Id == xRec.Id)] = Rec;
-      Content = tmp.AsQueryable();
+      Content = tmp;
     }
 
     [PageAction]

@@ -7,12 +7,12 @@ namespace BlazorGenerator.Layouts
     where TFirstList : class
     where TSecondList : class
   {
-    public IQueryable<TFirstList>? FirstListContent { get; set; }
+    public IEnumerable<TFirstList>? FirstListContent { get; set; }
     public required List<VisibleField<TFirstList>> FirstListVisibleFields { get; set; }
     public virtual Type? FirstListEditFormType { get; set; }
     public List<TFirstList> FirstListSelected { get; set; } = [];
 
-    public IQueryable<TSecondList>? SecondListContent { get; set; }
+    public IEnumerable<TSecondList>? SecondListContent { get; set; }
     public required List<VisibleField<TSecondList>> SecondListVisibleFields { get; set; }
     public virtual Type? SecondListEditFormType { get; set; }
     public List<TSecondList> SecondListSelected { get; set; } = [];
