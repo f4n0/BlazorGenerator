@@ -49,8 +49,8 @@
         <TemplateColumn Context="data"                        
                         Sortable="true"
                         Title="@field.Caption"
-                        SortBy="GridSort<T>.ByAscending(p => field.Getter(p))"
-                        IsDefaultSortColumn="VisibleFields.IndexOf(field)==0"
+                        SortBy="SortBy(field)"
+                        IsDefaultSortColumn="IsDefaultSortColumn(field)"
                         InitialSortDirection="SortDirection.Ascending">
           <ChildContent>
             <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>

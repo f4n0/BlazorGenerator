@@ -197,7 +197,7 @@ namespace BlazorGenerator.Layouts.Partial
                 select item;
         }
       }
-            
+
       return set;
     }
 
@@ -208,6 +208,16 @@ namespace BlazorGenerator.Layouts.Partial
         FieldFilters[field.Name] = string.Empty;
       }
       return FieldFilters[field.Name];
+    }
+
+    public virtual GridSort<T> SortBy(VisibleField<T> field)
+    {
+      return GridSort<T>.ByAscending(p => field.Getter(p));
+    }
+
+    public virtual bool IsDefaultSortColumn(VisibleField<T> field)
+    {
+      return (VisibleFields.IndexOf(field) == 0);
     }
 
   }
