@@ -16,4 +16,8 @@
     <ProjectReference Include="..\TestShared\TestShared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    
+  </ItemGroup>
+
 </Project>

@@ -39,7 +39,7 @@ namespace TestShared.Views
     public async void ShowProgress()
     {
       UIServices!.ProgressService.StartProgress();
-      await Task.Delay(10000);
+      await Task.Delay(100000);
       UIServices!.ProgressService.StopProgress();
     }
 
