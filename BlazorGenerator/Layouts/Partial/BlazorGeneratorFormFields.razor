@@ -13,12 +13,12 @@
     }
     else
     {
-      <span>@field.Getter(Data)</span>
+      <span title="@field.Getter(Data)">@field.Getter(Data)</span>
     }
   }
   else
   {
-    <a href="@link">
+    <a href="@link" title="@field.Getter(Data)">
       @if (field.FieldType == typeof(Type))
       {
         <FluentIcon Value="@((field.Getter(Data) as Type)?.ToFluentIcon())"></FluentIcon>
