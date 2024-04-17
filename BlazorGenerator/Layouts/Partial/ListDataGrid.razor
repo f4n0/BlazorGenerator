@@ -48,10 +48,7 @@
       {
         <TemplateColumn Context="data"                        
                         Sortable="true"
-                        Title="@field.Caption"
-                        SortBy="SortBy(field)"
-                        IsDefaultSortColumn="IsDefaultSortColumn(field)"
-                        InitialSortDirection="SortDirection.Ascending">
+                        Title="@field.Caption">
           <ChildContent>
             <BlazorGeneratorFormFields isTableCell="true" Data="data" field="field" T="T"></BlazorGeneratorFormFields>
           </ChildContent>
