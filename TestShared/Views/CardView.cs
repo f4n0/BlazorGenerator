@@ -106,7 +106,7 @@ namespace TestShared.Views
     {
     }
 
-    [PageAction(Caption = "Test3")]
+    [PageAction(Caption = "Thorow Error")]
     public void Test3()
     {
       throw new NotImplementedException();

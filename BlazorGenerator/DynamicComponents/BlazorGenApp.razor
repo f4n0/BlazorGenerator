@@ -1,4 +1,6 @@
-﻿<ErrorBoundary @ref="errorBoundary">
+﻿@inject IJSRuntime JSRuntime;
+
+<ErrorBoundary @ref="errorBoundary">
   <ChildContent>
     <Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] { typeof(BlazorGenApp).Assembly } : null)" @rendermode="BlazorGenRenderMode">
       <Found Context="routeData">
@@ -14,12 +16,21 @@
     </Router>
   </ChildContent>
   <ErrorContent>
-    <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal=@false TrapFocus=@true >
+    <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal=@false TrapFocus=@true>
       <FluentDialogHeader Visible="false" />
-      <h2>Oh, An error occurred!</h2>
-      <p>Sometimes, even the best fails!</p>
-      <p>Keep calm, click refresh and start again!</p>
-      <FluentButton Appearance="Appearance.Accent" Autofocus="true" @onclick="() => errorBoundary?.Recover()">Refresh Page</FluentButton>
+      <div style="text-align:center">
+        <h2>Oh, An error occurred!</h2>
+        <b>Click refresh and start again!</b><br />
+        <i>The error persists? Click go to home page</i><br /><br />
+        <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> createExceptionDetails(context))">copy details</FluentAnchor>
+
+      </div><br />
+
+      <FluentStack Orientation="Orientation.Horizontal">
+        <FluentAnchor Appearance="Appearance.Accent" Href="/">Home Page</FluentAnchor>
+        <FluentSpacer></FluentSpacer>
+        <FluentButton Appearance="Appearance.Accent" Autofocus="true" @onclick="() => errorBoundary?.Recover()">Refresh Page</FluentButton>
+      </FluentStack>
     </FluentDialog>
     @{
       _myFluentDialog?.Show();
@@ -45,4 +56,20 @@
 
   private FluentDialog? _myFluentDialog;
 
+  bool details;
+
+
+  void createExceptionDetails(Exception ex)
+  {
+    var sb = new System.Text.StringBuilder();
+    sb.AppendLine(ex.Message);
+    sb.AppendLine(ex.StackTrace);
+    if(ex.InnerException != null)
+    {
+      sb.AppendLine("Inner Exception");
+      sb.AppendLine(ex.InnerException.Message);
+      sb.AppendLine(ex.InnerException.StackTrace);
+    }
+    JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", sb.ToString());
+  }
 }
