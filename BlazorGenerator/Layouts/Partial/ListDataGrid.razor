@@ -30,7 +30,7 @@
                                                                                                                          {
                                                                                                                            CurrRec = context;
                                                                                                                          })"></FluentIcon>
-          <div style=" position: fixed; ">
+            <div style=" position: fixed; ">
               <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true" Style="position:fixed;">
                 @foreach (var a in GridActions)
                 {
@@ -46,9 +46,10 @@
 
       @foreach (var field in VisibleFields)
       {
-        <TemplateColumn Context="data"                        
+        <TemplateColumn Context="data"
                         Sortable="true"
-                        Title="@field.Caption">
+                        Title="@field.Caption"
+                        Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))">
           <ChildContent>
             <BlazorGeneratorFormFields IsTableCell="true" Data="data" Field="field" T="T"></BlazorGeneratorFormFields>
           </ChildContent>
