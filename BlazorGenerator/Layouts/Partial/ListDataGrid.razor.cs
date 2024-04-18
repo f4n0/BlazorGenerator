@@ -13,10 +13,10 @@ namespace BlazorGenerator.Layouts.Partial
     public UIServices? UIServices { get; set; }
 
     [Parameter]
-    public object Context { get; set; }
+    public required object Context { get; set; }
 
     [Parameter]
-    public List<VisibleField<T>> VisibleFields { get; set; }
+    public required List<VisibleField<T>> VisibleFields { get; set; }
 
     [Parameter]
     public IQueryable<T>? Data { get; set; }
@@ -76,10 +76,13 @@ namespace BlazorGenerator.Layouts.Partial
         Selected.Remove(Rec);
       }
     }
-    private void HandleSingleRecSelection(T Rec)
+    private void HandleSingleRecSelection(T? Rec)
     {
       Selected.Clear();
-      Selected.Add(Rec);
+      if (Rec != null)
+      {
+        Selected.Add(Rec);
+      }
     }
     private bool? AllRecSelected
     {
@@ -96,7 +99,10 @@ namespace BlazorGenerator.Layouts.Partial
         if (value is true)
         {
           Selected.Clear();
-          Selected.AddRange(FilteredData);
+          if (FilteredData != null)
+          {
+            Selected.AddRange(FilteredData);
+          }
         }
         else if (value is false)
         {
@@ -128,12 +134,10 @@ namespace BlazorGenerator.Layouts.Partial
     [Parameter]
     public Func<T>? OnNewItem { get; set; }
 
-
     protected async void NewItem()
     {
       var item = OnNewItem?.Invoke();
-      if (item is null)
-        item = Activator.CreateInstance<T>();
+      item ??= Activator.CreateInstance<T>();
       await EditAsync(item);
 
       StateHasChanged();
@@ -155,7 +159,6 @@ namespace BlazorGenerator.Layouts.Partial
       return select + actions + cols + rowActions;
     }
 
-
     Dictionary<string, string> FieldFilters { get; set; } = [];
 
     private string GetFilterValue(string fieldName)
@@ -170,7 +173,6 @@ namespace BlazorGenerator.Layouts.Partial
         return string.Empty;
       }
     }
-
 
     private void HandleFilter(ChangeEventArgs e, VisibleField<T> field)
     {
@@ -207,8 +209,5 @@ namespace BlazorGenerator.Layouts.Partial
       }
       return FieldFilters[field.Name];
     }
-
-
   }
-
 }

@@ -7,3 +7,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Usage", "BL0007:Component parameters should be auto properties", Justification = "<Pending>", Scope = "module")]
 [assembly: SuppressMessage("Usage", "BL0005:Component parameter should not be set outside of its component", Justification = "<Pending>", Scope = "module")]
+[assembly: SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "Not Working", Scope = "module")]

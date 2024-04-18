@@ -4,7 +4,7 @@ namespace BlazorGenerator.Security
 {
   internal class NullSecurity : ISecurity
   {
-    public Task<string> getCurrentSessionIdentifier()
+    public Task<string> GetCurrentSessionIdentifier()
     {
       return Task.FromResult(Guid.Empty.ToString());
     }

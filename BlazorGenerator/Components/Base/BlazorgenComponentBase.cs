@@ -27,7 +27,7 @@ namespace BlazorGenerator.Components.Base
 
     protected override async Task OnParametersSetAsync()
     {
-      if (useBlazorGeneratorLayouts())
+      if (UseBlazorGeneratorLayouts())
       {
         await LoadVisibleFields();
         UIServices.KeyCodeService.RegisterListener(OnKeyDownAsync);
@@ -36,26 +36,26 @@ namespace BlazorGenerator.Components.Base
       await base.OnParametersSetAsync();
     }
 
-
     protected override async Task OnInitializedAsync()
     {
-      if (useBlazorGeneratorLayouts())
+      if (UseBlazorGeneratorLayouts())
       {
         await LoadData();
       }
       await base.OnInitializedAsync();
     }
 
-    private bool useBlazorGeneratorLayouts()
+    private bool UseBlazorGeneratorLayouts()
     {
       var loadingBaseType = this.GetType().BaseType;
-
+      if (loadingBaseType == null)
+        return false;
       bool ret = false;
 
-      ret = ret || loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(CardPage<>);
-      ret = ret || loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(ListPage<>);
-      ret = ret || loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(Worksheet<,>);
-      ret = ret || loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(TwoList<,>);
+      ret = ret || (loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(CardPage<>));
+      ret = ret || (loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(ListPage<>));
+      ret = ret || (loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(Worksheet<,>));
+      ret = ret || (loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(TwoList<,>));
 
       return ret;
     }
@@ -75,16 +75,13 @@ namespace BlazorGenerator.Components.Base
       {
         await OnRefreshAsync();
       }
-
     }
 
     public ValueTask DisposeAsync()
     {
       UIServices.KeyCodeService.UnregisterListener(OnKeyDownAsync);
+      GC.SuppressFinalize(this);
       return ValueTask.CompletedTask;
     }
-
-
-
   }
 }

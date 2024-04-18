@@ -47,7 +47,7 @@
   [Inject]
   public ProgressService? ProgressService { get; set; }
   [Inject]
-  public IKeyCodeService KeyCodeService { get; set; }
+  public IKeyCodeService? KeyCodeService { get; set; }
 
   private void SwitchDarkLightTheme()
   {
@@ -58,7 +58,7 @@
   {
     UIServices!.DialogService = DialogService!;
     UIServices!.ProgressService = ProgressService!;
-    UIServices.KeyCodeService = KeyCodeService;
+    UIServices.KeyCodeService = KeyCodeService!;
     return base.OnParametersSetAsync();
   }
 }

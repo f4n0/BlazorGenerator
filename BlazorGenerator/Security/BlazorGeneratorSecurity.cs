@@ -10,8 +10,8 @@ namespace BlazorGenerator.Security
 
     public async Task<PermissionSet> GetPermissionSet(Type? Object = null)
     {
-      PermissionSet permissionSet = null;
-      var sessionId = await Security.getCurrentSessionIdentifier();
+      PermissionSet permissionSet = null!;
+      var sessionId = await Security.GetCurrentSessionIdentifier();
       if (string.IsNullOrEmpty(sessionId))
       {
         return await Security.GetPermissionSet(Object);
@@ -48,7 +48,6 @@ namespace BlazorGenerator.Security
       return permissionSet;
     }
 
-
-    public async Task<string> GetSessionIdentifier() => await Security.getCurrentSessionIdentifier();
+    public async Task<string> GetSessionIdentifier() => await Security.GetCurrentSessionIdentifier();
   }
 }

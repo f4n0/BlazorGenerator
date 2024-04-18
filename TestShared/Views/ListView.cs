@@ -14,23 +14,22 @@ namespace TestShared.Views
   {
     public override string Title => "List View";
 
-    protected override async Task LoadVisibleFields()
+    protected override Task LoadVisibleFields()
     {
       VisibleFields = [];
-      VisibleFields.AddField(nameof(Mock.Id), (ref VisibleField<Mock> prop) =>
-      {
-        prop.Href = (data) => "/test/" + data.Id;
-      });
+      VisibleFields.AddField(nameof(Mock.Id), (ref VisibleField<Mock> prop) => prop.Href = (data) => "/test/" + data.Id);
       VisibleFields.AddField(nameof(Mock.Name));
       VisibleFields.AddField(nameof(Mock.Price));
       VisibleFields.AddField(nameof(Mock.Description));
       VisibleFields.AddField(nameof(Mock.OrderDate));
-      VisibleFields.AddField(nameof(Mock.icon));
+      VisibleFields.AddField(nameof(Mock.Icon));
+      return Task.CompletedTask;
     }
 
-    protected override async Task LoadData()
+    protected override Task LoadData()
     {
-      Content = Mock.getMultipleMock(15);
+      Content = Mock.GetMultipleMock(15);
+      return Task.CompletedTask;
     }
 
     public override void OnSave(Mock entity)
@@ -48,7 +47,7 @@ namespace TestShared.Views
       Content = tmp;
     }
 
-    [PageAction]
+    [PageAction(Caption = "Page Action")]
     public void PageAction()
     {
       UIServices!.DialogService.ShowInfo("Page Action");
@@ -58,6 +57,7 @@ namespace TestShared.Views
     [PageAction(Caption = "Install")]
     public void GridAction(Mock? rec = null)
     {
+      _ = rec;
       UIServices!.DialogService.ShowInfo("Grid Action");
     }
 
@@ -73,22 +73,23 @@ namespace TestShared.Views
     [PageAction(Caption = "Open Modal")]
     public async void OpenModal()
     {
-      var mock = Mock.getSingleMock();
+      var mock = Mock.GetSingleMock();
       _ = await UIServices!.OpenModal(typeof(ModalView), mock);
     }
 
     [PageAction(Caption = "Go To")]
-    public async void GoTo()
+    public void GoTo()
     {
       NavManager.NavigateTo("WorksheetView", true);
     }
 
-
     [PageAction(Caption = "Test1", Group = "grouped")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public void Test1()
     {
     }
     [PageAction(Caption = "Test2", Group = "grouped")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public void Test2()
     {
     }

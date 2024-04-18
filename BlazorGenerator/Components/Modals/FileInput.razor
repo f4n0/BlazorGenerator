@@ -26,7 +26,7 @@
 @code
 {
   [Parameter]
-  public UploadFileData Content { get; set; }
+  public UploadFileData Content { get; set; } = new();
   int ProgressPercent = 0;
 
   [CascadingParameter]
@@ -41,7 +41,10 @@
       {
         FileName = file.Name
       };
-      await res.fromStreamAsync(file.Stream);
+      if (file.Stream != null)
+      {
+        await res.FromStreamAsync(file.Stream);
+      }
       converted.Add(res);
     }
 
@@ -50,6 +53,6 @@
 
     await Task.Delay(500);
     ProgressPercent = 0;
-    await Dialog.CloseAsync(Content);
+    await Dialog!.CloseAsync(Content);
   }
 }

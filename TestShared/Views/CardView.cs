@@ -11,27 +11,25 @@ namespace TestShared.Views
   [AddToMenu(Title = "Card Page", Route = "card")]
   public class CardView : CardPage<Mock>
   {
-
-    protected override async Task LoadVisibleFields()
+    protected override Task LoadVisibleFields()
     {
       VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
 
-
-      VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(t =>
-      {
-        t.OnLookup = (data) => (new List<string>() { "test", "test2" }).ToList<object>();
-      });
+      VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(t => t.OnLookup = (_) => [.. (new List<string>() { "test", "test2" })]);
       VisibleFields.AddField(nameof(Mock.Price));
       VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o) => o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password);
       VisibleFields.AddField(nameof(Mock.OrderDate));
-      VisibleFields.AddField(nameof(Mock.type));
+      VisibleFields.AddField(nameof(Mock.Type));
       VisibleFields.AddField(nameof(Mock.NullTest));
+
+      return Task.CompletedTask;
     }
 
-    protected override async Task LoadData()
+    protected override Task LoadData()
     {
-      Content = Mock.getSingleMock();
+      Content = Mock.GetSingleMock();
+      return Task.CompletedTask;
     }
 
     [PageAction(Caption = "ShowProgress")]
@@ -45,32 +43,29 @@ namespace TestShared.Views
     [PageAction(Caption = "Open Modal")]
     public async void OpenModal()
     {
-      var mock = Mock.getSingleMock();
+      var mock = Mock.GetSingleMock();
       _ = await UIServices!.OpenModal(typeof(ModalView), mock);
     }
-
 
     [PageAction(Caption = "Ask User")]
     public async void AskUser()
     {
-      var mock = Mock.getSingleMock();
-      var text = await UIServices!.UserInput(new UserInputData()
+      _ = await UIServices!.UserInput(new UserInputData()
       {
         Message = "Gimme the data"
       });
 
-      var pwd = await UIServices!.UserInput(new UserInputData()
+      _ = await UIServices!.UserInput(new UserInputData()
       {
         Message = "Gimme the Password",
         InputType = UserInputType.Secret
       });
 
-      var choice = await UIServices!.UserInput(new UserInputData()
+      _ = await UIServices!.UserInput(new UserInputData()
       {
         Message = "Choose!",
         InputType = UserInputType.Choice,
-        Choices = new List<string>() { "Uno", "Due", "Tre" }
-
+        Choices = ["Uno", "Due", "Tre"]
       });
     }
 
@@ -78,27 +73,28 @@ namespace TestShared.Views
     public async void UploadFiles()
     {
       var test = await UIServices.UploadFile();
-      if ((test != null) && (test.Files != null))
+      if (test?.Files != null)
       {
         foreach (var file in test.Files)
         {
+          _ = file;
         }
       }
     }
 
     [PageAction(Caption = "Go To")]
-    public async void GoTo()
+    public void GoTo()
     {
       NavManager.NavigateTo("WorksheetView", true);
     }
 
-
     [PageAction(Caption = "Test1", Group = "grouped")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public void Test1()
     {
-      throw new NotImplementedException();
     }
     [PageAction(Caption = "Test2", Group = "grouped")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public void Test2()
     {
     }
@@ -109,15 +105,18 @@ namespace TestShared.Views
       throw new NotImplementedException();
     }
     [PageAction(Caption = "Test4")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public void Test4()
     {
     }
 
     [PageAction(Caption = "Test5")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public void Test5()
     {
     }
     [PageAction(Caption = "Test6")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public void Test6()
     {
     }

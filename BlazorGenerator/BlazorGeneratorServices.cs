@@ -17,15 +17,12 @@ namespace BlazorGenerator
       services.AddScoped<ISecurity, NullSecurity>();
       services.AddTransient<BlazorGeneratorSecurity>();
 
-#pragma warning disable CS8604 // Possible null reference argument.
       services.AddSingleton<UIServices>(serviceProvider => new UIServices(
-
-              serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger,
+              (serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger)!,
               null!,
-              serviceProvider.CreateScope().ServiceProvider.GetService<ProgressService>(),
+              (serviceProvider.CreateScope().ServiceProvider.GetService<ProgressService>())!,
               null!
            ));
-#pragma warning restore CS8604 // Possible null reference argument.
 
       return services;
     }

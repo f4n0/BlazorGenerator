@@ -19,7 +19,6 @@ namespace BlazorGenerator.Layouts
       return Activator.CreateInstance<T>();
     }
 
-
     public virtual void OnDelete(T entity)
     {
     }

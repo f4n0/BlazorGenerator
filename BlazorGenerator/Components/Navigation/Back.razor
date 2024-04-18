@@ -16,11 +16,11 @@
 
   protected override void OnParametersSet()
   {
-    var parts = NavManager?.ToBaseRelativePath(NavManager.Uri.ToString());
+    var parts = NavManager!.ToBaseRelativePath(NavManager.Uri.ToString());
 
     EventHandler<LocationChangedEventArgs> OnLocationChange = (sender ,args) => StateHasChanged();
 
-    NavManager.LocationChanged += OnLocationChange;
+    NavManager!.LocationChanged += OnLocationChange;
   }
 
 }

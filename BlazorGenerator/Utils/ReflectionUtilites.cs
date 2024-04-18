@@ -29,7 +29,7 @@ namespace BlazorGenerator.Utils
       oProp.SetValue(target, Convert.ChangeType(propertyValue, tProp), null);
     }
 
-    internal static void InvokeAction(MethodInfo Method, object target, object[] KnownParams = null)
+    internal static void InvokeAction(MethodInfo Method, object target, object[]? KnownParams = null)
     {
       int? mthParams = Method.GetParameters().Length;
       var parameters = (mthParams.HasValue ? Enumerable.Repeat(Type.Missing, mthParams.Value).ToArray() : Array.Empty<object>());
@@ -42,6 +42,5 @@ namespace BlazorGenerator.Utils
       }
       Method.Invoke(target, parameters);
     }
-
   }
 }

@@ -10,10 +10,7 @@ namespace MauiApp1
       var builder = MauiApp.CreateBuilder();
       builder
         .UseMauiApp<App>()
-        .ConfigureFonts(fonts =>
-        {
-          fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-        });
+        .ConfigureFonts(fonts => fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"));
 
       builder.Services.AddMauiBlazorWebView();
       builder.Services.AddBlazorGenerator();
@@ -23,8 +20,6 @@ namespace MauiApp1
 #endif
 
       var app = builder.Build();
-
-
 
       return app;
     }

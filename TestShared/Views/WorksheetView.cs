@@ -8,41 +8,40 @@ using TestShared.Data;
 namespace TestShared.Views
 {
   [Route("WorksheetView")]
-  [Route("WorksheetView/{param}")]
+  [Route("WorksheetView/{Param}")]
   [AddToMenu(Title = "Worksheet Page", Route = "WorksheetView")]
   public class WorksheetView : Worksheet<Mock, Mock>
   {
     [Parameter]
-    public string param { get; set; }
+    public string? Param { get; set; }
 
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
     public override string Title => "List View";
 
-
-    protected override async Task LoadData()
+    protected override Task LoadData()
     {
-      Content = Mock.getSingleMock();
-      ListContent = Mock.getMultipleMock(3);
+      Content = Mock.GetSingleMock();
+      ListContent = Mock.GetMultipleMock(3);
+      return Task.CompletedTask;
     }
 
-    protected override async Task LoadVisibleFields()
+    protected override Task LoadVisibleFields()
     {
-      VisibleFields = new List<VisibleField<Mock>>();
+      VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
       VisibleFields.AddField(nameof(Mock.Name));
       VisibleFields.AddField(nameof(Mock.Price));
       VisibleFields.AddField(nameof(Mock.Description));
       VisibleFields.AddField(nameof(Mock.OrderDate));
 
-
-      ListVisibleFields = new List<VisibleField<Mock>>();
+      ListVisibleFields = [];
       ListVisibleFields.AddField(nameof(Mock.Id));
       ListVisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(prop => prop.TextStyle = BlazorGenerator.Enum.TextStyle.Italic);
       ListVisibleFields.AddField(nameof(Mock.Description));
+      return Task.CompletedTask;
     }
-
   }
 }

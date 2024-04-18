@@ -17,7 +17,6 @@ namespace BlazorGenerator.Models
     public bool Immediate { get; set; } = false;
     public TextStyle TextStyle { get; set; } = TextStyle.Normal;
 
-
     internal static VisibleField<T> NewField(string propertyName)
     {
       var prop = typeof(T).GetProperty(propertyName) ?? throw new NullReferenceException("Cannot find property with name \"" + propertyName + "\"");

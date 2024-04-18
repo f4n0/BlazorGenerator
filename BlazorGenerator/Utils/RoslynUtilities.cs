@@ -6,17 +6,18 @@ using System.Text;
 
 namespace BlazorGenerator.Utils
 {
-  internal class RoslynUtilities
+  internal static class RoslynUtilities
   {
-    internal static ScriptRunner<object> CreateAndInstatiateClass<T>(List<VisibleField<T>> visibleFields, string Title = null)
+    internal static ScriptRunner<object> CreateAndInstatiateClass<T>(List<VisibleField<T>> visibleFields, string? Title = null)
     {
       string TypeName = typeof(T).Name;
       var sb = new StringBuilder();
       foreach (var field in visibleFields)
       {
-        sb.Append("VisibleFields.AddField(\"" + field.Name + "\");");
+        var text = $"VisibleFields.AddField(\"{field.Name}\");";
+        sb.Append(text);
       }
-      string classdeclaration = @"
+      const string classdeclaration = @"
         using BlazorGenerator.Layouts;
         using BlazorGenerator.Models;
         using BlazorGenerator.Utils;

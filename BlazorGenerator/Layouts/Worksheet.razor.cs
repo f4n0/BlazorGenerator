@@ -6,13 +6,11 @@ namespace BlazorGenerator.Layouts
   public partial class Worksheet<TData, TList> : BlazorgenComponentBase where TList : class
   {
     public virtual int GridSize => 6;
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public TData Content { get; set; }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public TData? Content { get; set; }
     public List<VisibleField<TData>> VisibleFields { get; set; } = [];
 
     public IEnumerable<TList>? ListContent { get; set; }
-    public List<VisibleField<TList>> ListVisibleFields { get; set; }
+    public List<VisibleField<TList>> ListVisibleFields { get; set; } = [];
     public virtual Type? ListEditFormType { get; set; }
     public List<TList> ListSelected { get; set; } = [];
 

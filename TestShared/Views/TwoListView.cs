@@ -13,25 +13,26 @@ namespace TestShared.Views
   {
     public override string Title => "List View";
 
-    protected override async Task LoadVisibleFields()
+    protected override Task LoadVisibleFields()
     {
-      FirstListVisibleFields = new List<VisibleField<Mock>>();
+      FirstListVisibleFields = [];
       FirstListVisibleFields.AddField(nameof(Mock.Id));
       FirstListVisibleFields.AddField(nameof(Mock.Name));
       FirstListVisibleFields.AddField(nameof(Mock.Price));
       FirstListVisibleFields.AddField(nameof(Mock.Description));
       FirstListVisibleFields.AddField(nameof(Mock.OrderDate));
 
-
-      SecondListVisibleFields = new List<VisibleField<Mock>>();
+      SecondListVisibleFields = [];
       SecondListVisibleFields.AddField(nameof(Mock.Id));
       SecondListVisibleFields.AddField(nameof(Mock.Name));
+      return Task.CompletedTask;
     }
 
-    protected override async Task LoadData()
+    protected override Task LoadData()
     {
-      FirstListContent = Mock.getMultipleMock();
-      SecondListContent = Mock.getMultipleMock();
+      FirstListContent = Mock.GetMultipleMock();
+      SecondListContent = Mock.GetMultipleMock();
+      return Task.CompletedTask;
     }
   }
 }

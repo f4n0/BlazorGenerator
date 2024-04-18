@@ -43,7 +43,6 @@ namespace BlazorGenerator.Services
       }
     }
 
-
     public async Task<UploadFileData?> UploadFile(bool multiple = true, string filefilters = "*.*", int maxfilecount = 50)
     {
       var data = new UploadFileData()
@@ -94,14 +93,21 @@ namespace BlazorGenerator.Services
       if (PageType.BaseType != typeof(CardPage<T>))
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
-      var Original = Data;
+      T? Original;
       if (Data is ICloneable cloneable)
       {
         Original = (T)cloneable.Clone();
       }
       else
       {
-        Original = JObject.Parse(JObject.FromObject(Data).ToString()).ToObject<T>();
+        try
+        {
+          Original = JObject.Parse(JObject.FromObject(Data).ToString()).ToObject<T>();
+        }
+        catch (Exception)
+        {
+          Original = Data;
+        }
       }
 
       var DialogResult = await DialogService.ShowPanelAsync(PageType, Data, new DialogParameters()

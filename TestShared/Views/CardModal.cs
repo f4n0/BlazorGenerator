@@ -9,18 +9,19 @@ namespace TestShared.Views
   {
     public override string Title => "List View";
 
-    protected override async Task LoadVisibleFields()
+    protected override Task LoadVisibleFields()
     {
-      VisibleFields = new List<VisibleField<Mock>>();
+      VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
       VisibleFields.AddField(nameof(Mock.Name));
       VisibleFields.AddField(nameof(Mock.Price));
       VisibleFields.AddField(nameof(Mock.Description));
       VisibleFields.AddField(nameof(Mock.OrderDate));
-      VisibleFields.AddField(nameof(Mock.type));
+      VisibleFields.AddField(nameof(Mock.Type));
 
       ShowActions = false;
       ShowButtons = false;
+      return Task.CompletedTask;
     }
   }
 }

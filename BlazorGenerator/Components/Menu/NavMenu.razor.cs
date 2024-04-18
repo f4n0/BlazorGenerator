@@ -21,7 +21,7 @@ namespace BlazorGenerator.Components.Menu
       MenuGroups = [];
       foreach (var item in allMenu)
       {
-        if ((await Security?.GetPermissionSet(item.Type)).Execute)
+        if ((await Security?.GetPermissionSet(item.Type)!).Execute)
         {
           if (!Menus.Contains(item.Attribute))
             Menus.Add(item.Attribute);

@@ -34,7 +34,7 @@ namespace BlazorGenerator.Utils
         catch
         {
           //null
-          return Enumerable.Empty<Type>();
+          return [];
         }
       }).Where(t => t != null)
         .Select(t => (t, t.GetCustomAttribute(typeof(TAttribute), true) as TAttribute));

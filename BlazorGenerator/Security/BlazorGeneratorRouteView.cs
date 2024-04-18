@@ -8,11 +8,11 @@ namespace BlazorGenerator.Security
     NavigationManager? NavigationManager { get; set; }
 
     [Inject]
-    BlazorGeneratorSecurity? Security { get; set; }
+    BlazorGeneratorSecurity Security { get; set; } = null!;
 
     public async Task OnAfterRenderAsync()
     {
-      var permissionSet = await Security?.GetPermissionSet(RouteData.PageType);
+      var permissionSet = await Security.GetPermissionSet(RouteData.PageType);
 
       if (!permissionSet.Execute)
       {
@@ -24,6 +24,5 @@ namespace BlazorGenerator.Security
       }
       await Task.CompletedTask;
     }
-
   }
 }

@@ -7,36 +7,33 @@ namespace BlazorGenerator.Layouts.Partial
   public partial class BlazorGeneratorFormFields<T> : ComponentBase
   {
     [Parameter]
-    public required VisibleField<T> field { get; set; }
+    public required VisibleField<T> Field { get; set; }
     [Parameter]
     public required T Data { get; set; }
     [Parameter]
-    public bool showLabel { get; set; } = true;
+    public bool ShowLabel { get; set; } = true;
     [Parameter]
     public bool Editable { get; set; } = true;
     [Parameter]
-    public bool isTableCell { get; set; } = false;
+    public bool IsTableCell { get; set; } = false;
     [Parameter]
-    public bool hasLookup { get; set; } = false;
+    public bool HasLookup { get; set; } = false;
 
-    private string Id = Identifier.NewId();
+    private readonly string Id = Identifier.NewId();
     bool LookupOpen { get; set; } = false;
 
     private Dictionary<string, object> commonAttributes = [];
 
     private TypeCode GetFieldType()
     {
-
-      var temp = Type.GetTypeCode(field.FieldType);
-      var temp1 = Type.GetTypeCode(field.FieldType.BaseType);
-      return temp;
+      return Type.GetTypeCode(Field.FieldType);
     }
 
     protected override Task OnParametersSetAsync()
     {
       var styles = "width: 80%;";
-      if (field.Color != null)
-        styles += "color: " + field.Color.ToAttributeValue() + ";";
+      if (Field.Color != null)
+        styles += "color: " + Field.Color.ToAttributeValue() + ";";
       commonAttributes = new()
       {
         { "Id", Id },
@@ -44,13 +41,12 @@ namespace BlazorGenerator.Layouts.Partial
         {"ReadOnly", !Editable },
         {"role", "password" },
         {"style", styles },
-        {"Immediate", field.Immediate }
+        {"Immediate", Field.Immediate }
       };
 
-      hasLookup = field.OnLookup != null;
+      HasLookup = Field.OnLookup != null;
 
       return base.OnParametersSetAsync();
     }
-
   }
 }
