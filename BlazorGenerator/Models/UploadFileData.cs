@@ -1,11 +1,4 @@
-﻿using Microsoft.FluentUI.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlazorGenerator.Models
+﻿namespace BlazorGenerator.Models
 {
   public class UploadFileData
   {
@@ -22,11 +15,11 @@ namespace BlazorGenerator.Models
 
     public async Task fromStreamAsync(Stream input)
     {
-      
+
       using (MemoryStream ms = new MemoryStream())
       {
         await input.CopyToAsync(ms);
-        Data =  ms.ToArray();
+        Data = ms.ToArray();
 
 
       }

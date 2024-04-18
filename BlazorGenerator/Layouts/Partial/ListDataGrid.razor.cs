@@ -1,10 +1,8 @@
 ﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Components.Base;
 using BlazorGenerator.Models;
 using BlazorGenerator.Services;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components;
 using System.Reflection;
 
 namespace BlazorGenerator.Layouts.Partial

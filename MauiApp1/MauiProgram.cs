@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using BlazorGenerator;
+﻿using BlazorGenerator;
+using Microsoft.Extensions.Logging;
 
 namespace MauiApp1
 {
@@ -18,13 +18,13 @@ namespace MauiApp1
       builder.Services.AddMauiBlazorWebView();
       builder.Services.AddBlazorGenerator();
 #if DEBUG
-  		builder.Services.AddBlazorWebViewDeveloperTools();
-  		builder.Logging.AddDebug();
+      builder.Services.AddBlazorWebViewDeveloperTools();
+      builder.Logging.AddDebug();
 #endif
 
-      var app =  builder.Build();
+      var app = builder.Build();
 
-      
+
 
       return app;
     }

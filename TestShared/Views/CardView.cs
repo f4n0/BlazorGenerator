@@ -1,5 +1,4 @@
 ﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Components.Modals;
 using BlazorGenerator.Layouts;
 using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
@@ -71,7 +70,7 @@ namespace TestShared.Views
         Message = "Choose!",
         InputType = UserInputType.Choice,
         Choices = new List<string>() { "Uno", "Due", "Tre" }
-        
+
       });
       var pippo = 0;
     }

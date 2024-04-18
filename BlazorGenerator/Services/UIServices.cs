@@ -44,7 +44,7 @@ namespace BlazorGenerator.Services
     }
 
 
-    public async Task<UploadFileData?> UploadFile(bool multiple = true, string filefilters = "*.*", int maxfilecount = 50) 
+    public async Task<UploadFileData?> UploadFile(bool multiple = true, string filefilters = "*.*", int maxfilecount = 50)
     {
       var data = new UploadFileData()
       {
@@ -58,8 +58,8 @@ namespace BlazorGenerator.Services
         Width = "50%",
         Height = "300px",
         PrimaryAction = "",
-        SecondaryAction = ""        
-      }) ;
+        SecondaryAction = ""
+      });
       var result = (await DialogResult.Result);
       if (result.Data is not null)
       {
@@ -95,10 +95,11 @@ namespace BlazorGenerator.Services
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
       var Original = Data;
-      if(Data is ICloneable cloneable)
+      if (Data is ICloneable cloneable)
       {
-        Original = (T) cloneable.Clone();
-      } else
+        Original = (T)cloneable.Clone();
+      }
+      else
       {
         Original = JObject.Parse(JObject.FromObject(Data).ToString()).ToObject<T>();
       }
@@ -110,7 +111,7 @@ namespace BlazorGenerator.Services
         Width = "40%"
       });
       var result = (await DialogResult.Result);
-      if(result.Cancelled)
+      if (result.Cancelled)
       {
         return Original;
       }

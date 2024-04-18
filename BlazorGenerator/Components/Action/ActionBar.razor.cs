@@ -1,6 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Reflection;
 
 namespace BlazorGenerator.Components.Action
@@ -33,6 +32,6 @@ namespace BlazorGenerator.Components.Action
           ActionGroups.Add(item.Attribute.Group, 1);
         }
       }
-    }    
+    }
   }
 }

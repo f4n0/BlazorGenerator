@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using BlazorGenerator.Layouts;
+﻿using BlazorGenerator.Layouts;
+using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Components.Base
