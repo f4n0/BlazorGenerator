@@ -72,7 +72,6 @@ namespace TestShared.Views
         Choices = new List<string>() { "Uno", "Due", "Tre" }
 
       });
-      var pippo = 0;
     }
 
     [PageAction(Caption = "Show Upload")]
@@ -83,7 +82,6 @@ namespace TestShared.Views
       {
         foreach (var file in test.Files)
         {
-          var pippo = 0;
         }
       }
     }
