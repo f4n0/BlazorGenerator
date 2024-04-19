@@ -48,7 +48,8 @@
       {
         <TemplateColumn Context="data"
                         Sortable="true"
-                        Title="@field.Caption"
+                        Title="@field.Caption"                        
+                        SortBy="GridSort<T>.ByAscending(p => field.Getter(p))"
                         Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))">
           <ChildContent>
             <BlazorGeneratorFormFields IsTableCell="true" Data="data" Field="field" T="T"></BlazorGeneratorFormFields>
