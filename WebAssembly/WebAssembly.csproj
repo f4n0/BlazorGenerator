@@ -15,7 +15,11 @@
     <ProjectReference Include="..\BlazorGenerator\BlazorGenerator.csproj" />
     <ProjectReference Include="..\TestShared\TestShared.csproj" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components" />
+    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+  </ItemGroup>
   <ItemGroup>
     
   </ItemGroup>
