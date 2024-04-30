@@ -1,10 +1,10 @@
 ﻿@inherits BlazorgenComponentBase;
 
-<div class="navmenu">
+<div class="navmenu" style=" background: var(--neutral-fill-stealth-rest); height: 100%; box-shadow: 1px 0px 5px var(--neutral-fill-stealth-rest); ">
   <input type="checkbox" id="navmenu-toggle" />
   <nav class="sitenav" aria-labelledby="main-menu" onclick="document.getElementById('navmenu-toggle').click();">
     <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded">
-      <FluentNavLink Href="@NavManager?.BaseUri" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
+      <FluentNavLink Href="@NavManager?.BaseUri" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent" Tooltip="Home">Home</FluentNavLink>
 
 
       @{
@@ -15,16 +15,16 @@
           {
             foreach (var elem in filtered)
             {
-              <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+              <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>
 
             }
           }
           else
           {
-            <FluentNavGroup Id="@item.Key" Title="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
+            <FluentNavGroup Id="@item.Key" Title="@item.Key"  Tooltip="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
               @foreach (var elem in filtered)
               {
-                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>
 
               }
             </FluentNavGroup>
@@ -37,16 +37,16 @@
           {
             foreach (var elem in filtered)
             {
-              <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+              <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>
 
             }
           }
           else
           {
-            <FluentNavGroup Id="@item.Key" Title="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
+            <FluentNavGroup Id="@item.Key" Title="@item.Key" Tooltip="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
               @foreach (var elem in filtered)
               {
-                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent">@elem.Title</FluentNavLink>
+                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>
 
               }
             </FluentNavGroup>

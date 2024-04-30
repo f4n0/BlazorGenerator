@@ -113,9 +113,10 @@ code {
             display: none;
         }
 
-    .navmenu {
-        width: 100%;
-    }
+  .navmenu {
+    width: 100%;
+    height: fit-content !important;
+  }
 
   #navmenu-toggle {
     appearance: none;
