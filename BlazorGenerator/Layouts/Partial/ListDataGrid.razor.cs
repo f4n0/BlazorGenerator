@@ -46,6 +46,8 @@ namespace BlazorGenerator.Layouts.Partial
     [Parameter]
     public virtual Type? EditFormType { get; set; }
 
+    string SearchValue;
+
     private async Task EditAsync(T context)
     {
       T? res;
@@ -186,6 +188,24 @@ namespace BlazorGenerator.Layouts.Partial
     {
       if (Data is null) return null;
       var set = Data;
+      //first global search
+      if (!string.IsNullOrWhiteSpace(SearchValue))
+      {
+        set = set.AsEnumerable().Where(r =>
+        {
+          foreach (var field in VisibleFields)
+          {
+            var CellValue = field.Getter(r);
+            var cellStringValue = CellValue == null ? string.Empty : CellValue.ToString();
+            if (cellStringValue.Contains(SearchValue, StringComparison.InvariantCultureIgnoreCase))
+            {
+              return true;
+            }
+          }
+          return false;
+        }).AsQueryable();
+      }
+      //then field specific
       foreach (var field in VisibleFields)
       {
         if (FieldFilters.TryGetValue(field.Name, out var res))
@@ -208,6 +228,14 @@ namespace BlazorGenerator.Layouts.Partial
         FieldFilters[field.Name] = string.Empty;
       }
       return FieldFilters[field.Name];
+    }
+
+    private void HandleSearchInput()
+    {
+      if (string.IsNullOrWhiteSpace(SearchValue))
+      {
+        SearchValue = string.Empty;
+      }
     }
   }
 }
