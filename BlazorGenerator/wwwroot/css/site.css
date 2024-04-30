@@ -146,3 +146,8 @@ code {
             display: block;
         }
 }
+
+.contentblock {
+  box-shadow: 5px 5px 5px var(--neutral-fill-stealth-rest);
+  border-radius: 10px;
+}

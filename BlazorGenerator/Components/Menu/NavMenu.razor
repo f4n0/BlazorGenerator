@@ -1,6 +1,6 @@
 ﻿@inherits BlazorgenComponentBase;
 
-<div class="navmenu" style=" background: var(--neutral-fill-stealth-rest); height: 100%; box-shadow: 1px 0px 5px var(--neutral-fill-stealth-rest); ">
+<div class="navmenu" style=" background: var(--neutral-fill-stealth-rest); height: 100%; box-shadow: 1px 0px 5px var(--neutral-fill-stealth-rest); border-radius: 10px; ">
   <input type="checkbox" id="navmenu-toggle" />
   <nav class="sitenav" aria-labelledby="main-menu" onclick="document.getElementById('navmenu-toggle').click();">
     <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded">
