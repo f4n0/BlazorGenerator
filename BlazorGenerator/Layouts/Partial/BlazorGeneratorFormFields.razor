@@ -5,7 +5,8 @@
 {
   var link = Field.Href?.Invoke(Data) ?? "";
   var style = "";
-  switch (Field.TextStyle)
+  var fldStyle = Field.TextStyle?.Invoke(Data) ?? BlazorGenerator.Enum.TextStyle.Normal;
+  switch (fldStyle)
   {
     case BlazorGenerator.Enum.TextStyle.Normal:
       style = "";

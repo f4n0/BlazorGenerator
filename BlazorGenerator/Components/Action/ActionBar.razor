@@ -1,11 +1,11 @@
 ﻿
-<FluentGrid Style="overflow: hidden; flex: 0 0 auto; margin-bottom: 5px" Justify="JustifyContent.FlexStart" Spacing="1">
-  <FluentGridItem xs="12" Justify="JustifyContent.FlexStart" Style="">
+<FluentGrid Style="" Justify="JustifyContent.FlexStart" Spacing="1" Class="actionblock" >
+  <FluentGridItem Justify="JustifyContent.FlexStart" Style="" >
     <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align: text-top; padding-bottom: 0;">
       @((Context as BlazorgenComponentBase)?.Title)
     </FluentLabel>
   </FluentGridItem>
-  <FluentOverflow Style="width: 100%;">
+  <FluentOverflow Style="width: 100%; margin-bottom: 5px; ">
     <ChildContent>
       @{
         PopulateDictionary();
@@ -84,7 +84,6 @@
   </FluentOverflow>
 
 </FluentGrid>
-<FluentDivider Style="width: 100%; height:5px;" Orientation=Orientation.Horizontal Role="DividerRole.Presentation" ></FluentDivider>
 
 <style>
   .fluent-popover-content {

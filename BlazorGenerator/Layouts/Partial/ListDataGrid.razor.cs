@@ -150,7 +150,7 @@ namespace BlazorGenerator.Layouts.Partial
       const string select = "50px ";
       string actions = string.Empty;
       if (GridActions > 0)
-        actions = "50px ";
+        actions = "30px ";
 
       var spacing = 70 / VisibleFields.Count;
       string cols = "repeat(auto-fill," + spacing + "%) ";

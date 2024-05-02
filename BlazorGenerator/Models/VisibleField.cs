@@ -15,7 +15,7 @@ namespace BlazorGenerator.Models
     public Func<T, List<object>?>? OnLookup { get; set; }
     public Color? Color { get; set; }
     public bool Immediate { get; set; } = false;
-    public TextStyle TextStyle { get; set; } = TextStyle.Normal;
+    public Func<T, TextStyle>? TextStyle { get; set; }
 
     internal static VisibleField<T> NewField(string propertyName)
     {

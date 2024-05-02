@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<FluentDesignTheme OfficeColor="@(BlazorGeneratorSettings.Instance.BaseColor)" @ref="Theme">
+<FluentDesignTheme OfficeColor="@(BlazorGeneratorSettings.Instance.BaseColor)" @ref="Theme" StorageName="UITheme">
   <FluentLayout>
     <FluentHeader>
       <Back></Back>
@@ -51,6 +51,7 @@
   private void SwitchDarkLightTheme()
   {
     Theme!.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
+
   }
 
   protected override Task OnParametersSetAsync()

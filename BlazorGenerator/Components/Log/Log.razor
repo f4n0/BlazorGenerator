@@ -1,4 +1,6 @@
 ﻿@inherits BlazorgenComponentBase
+@implements IDisposable
+@implements IAsyncDisposable
 ﻿@using BlazorGenerator.Enum
 
 <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Log" @onclick="OnOpen">
@@ -26,6 +28,9 @@
   private FluentDialog? _myFluentDialog;
   private bool Hidden { get; set; } = true;
 
+  [Inject]
+  private IKeyCodeService KeyCodeService { get; set; }
+
   private void OnDismiss(DialogEventArgs args)
   {
     if (args is not null && args.Reason is not null && args.Reason == "dismiss")
@@ -51,6 +56,14 @@
   protected override void OnInitialized()
   {
     UIServices!.Logger.OnChange += UpdateLog;
+    KeyCodeService.RegisterListener(OnKeyDownAsync);
+  }
+  public async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
+  {
+    if(args.AltKey && args.Key == KeyCode.KeyL)
+    {
+      OnOpen();
+    }
   }
 
   protected override void OnAfterRender(bool firstRender)
@@ -74,5 +87,12 @@
   private void OnOpen()
   {
     _myFluentDialog!.Show();
+  }
+
+  public new  ValueTask DisposeAsync()
+  {
+    KeyCodeService.UnregisterListener(OnKeyDownAsync);
+    return base.DisposeAsync();
+
   }
 }
