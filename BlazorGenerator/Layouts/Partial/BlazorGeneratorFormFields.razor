@@ -1,6 +1,5 @@
 ﻿@typeparam T
 
-
 @if (IsTableCell)
 {
   var link = Field.Href?.Invoke(Data) ?? "";
@@ -24,6 +23,9 @@
       style = "text-decoration: line-through;";
       break;
   }
+  var color = Field.Color?.Invoke(Data);
+  if (color != null)
+    style += "color: " + color.ToAttributeValue() + ";";
   @if (string.IsNullOrEmpty(link))
   {
     if (Field.FieldType == typeof(Type))
