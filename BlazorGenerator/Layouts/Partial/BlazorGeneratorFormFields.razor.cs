@@ -33,8 +33,9 @@ namespace BlazorGenerator.Layouts.Partial
     protected override Task OnParametersSetAsync()
     {
       var styles = "width: 80%;";
-      if (Field.Color != null)
-        styles += "color: " + Field.Color.ToAttributeValue() + ";";
+      var color = Field.Color?.Invoke(Data);
+      if (color != null)
+        styles += "color: " + color.ToAttributeValue() + ";";
       commonAttributes = new()
       {
         { "Id", Id },
