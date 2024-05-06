@@ -46,7 +46,7 @@ namespace BlazorGenerator.Components.DataGrid
     [Parameter]
     public virtual Type? EditFormType { get; set; }
 
-    string SearchValue;
+    string SearchValue = string.Empty;
 
     private async Task EditAsync(T context)
     {
@@ -197,7 +197,7 @@ namespace BlazorGenerator.Components.DataGrid
           {
             var CellValue = field.Getter(r);
             var cellStringValue = CellValue == null ? string.Empty : CellValue.ToString();
-            if (cellStringValue.Contains(SearchValue, StringComparison.InvariantCultureIgnoreCase))
+            if (cellStringValue!.Contains(SearchValue, StringComparison.InvariantCultureIgnoreCase))
             {
               return true;
             }
