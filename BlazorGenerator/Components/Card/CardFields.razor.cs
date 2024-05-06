@@ -1,7 +1,7 @@
 ﻿using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorGenerator.Layouts.Partial
+namespace BlazorGenerator.Components.Card
 {
   public partial class CardFields<T>
   {

@@ -5,7 +5,7 @@ using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using System.Reflection;
 
-namespace BlazorGenerator.Layouts.Partial
+namespace BlazorGenerator.Components.DataGrid
 {
   public partial class ListDataGrid<T> where T : class
   {

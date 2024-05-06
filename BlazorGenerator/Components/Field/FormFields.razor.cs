@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 
-namespace BlazorGenerator.Layouts.Partial
+namespace BlazorGenerator.Components.Field
 {
-  public partial class BlazorGeneratorFormFields<T> : ComponentBase
+  public partial class FormFields<T> : ComponentBase
   {
     [Parameter]
     public required VisibleField<T> Field { get; set; }

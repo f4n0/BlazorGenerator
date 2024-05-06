@@ -57,7 +57,7 @@
                           SortBy="GridSort<T>.ByAscending(p => field.Getter(p))"
                           Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))">
             <ChildContent>
-              <BlazorGeneratorFormFields IsTableCell="true" Data="data" Field="field" T="T"></BlazorGeneratorFormFields>
+              <FormFields IsTableCell="true" Data="data" Field="field" T="T"></FormFields>
             </ChildContent>
             <ColumnOptions>
               <div class="search-box">

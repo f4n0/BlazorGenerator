@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using System.Reflection;
 
-namespace BlazorGenerator.Components.Action
+namespace BlazorGenerator.Components.PageAction
 {
   public partial class ActionBar
   {
