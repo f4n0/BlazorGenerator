@@ -10,29 +10,16 @@
       @{
         foreach (var item in MenuGroups.Where(o => o.Key.ToLower() == "default"))
         {
-          var filtered = Menus.Where(o => o.Group == item.Key);
-          if (item.Key.ToLower() == "default" || item.Value == 1)
+          var filtered = Menus.Where(o => (o.Group == item.Key)).OrderBy(o => o.OrderSequence);
+          foreach (var elem in filtered)
           {
-            foreach (var elem in filtered)
-            {
-              <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>
+            <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>
 
-            }
-          }
-          else
-          {
-            <FluentNavGroup Id="@item.Key" Title="@item.Key"  Tooltip="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
-              @foreach (var elem in filtered)
-              {
-                <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>
-
-              }
-            </FluentNavGroup>
           }
         }
         foreach (var item in MenuGroups.Where(o => o.Key.ToLower() != "default"))
         {
-          var filtered = Menus.Where(o => o.Group == item.Key);
+          var filtered = Menus.Where(o => (o.Group == item.Key)).OrderBy(o => o.OrderSequence);
           if (item.Key.ToLower() == "default" || item.Value == 1)
           {
             foreach (var elem in filtered)

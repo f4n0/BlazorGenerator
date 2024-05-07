@@ -12,6 +12,7 @@
                       ResizableColumns="true"
                       GenerateHeader="GenerateHeaderOption.Sticky"
                       GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
+                      ShowHover="@true"
                       RowClass="SelectedRowClass"
                       OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
