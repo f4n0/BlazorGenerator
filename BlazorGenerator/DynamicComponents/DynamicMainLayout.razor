@@ -8,8 +8,8 @@
       @BlazorGeneratorSettings.Instance.ApplicationName
       <FluentSpacer />
       <div style="padding-right: 6px; margin-left: 0; margin-right: 25px;">
-        <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" OnClick="SwitchDarkLightTheme" Title="Toggle Dark Theme">
-          <FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Neutral" Title="Toggle Dark Theme" />
+        <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" OnClick="SwitchDarkLightTheme" Title="@Captions.Instance.ToggleDarkTheme">
+          <FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Neutral" Title="@Captions.Instance.ToggleDarkTheme" />
         </FluentButton>
         <Log />
       </div>

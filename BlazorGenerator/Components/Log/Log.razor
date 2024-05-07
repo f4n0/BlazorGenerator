@@ -14,7 +14,7 @@
   <FluentLabel Typo="Typography.PaneHeader">Log</FluentLabel><br />
   @if (UIServices!.Logger.Logs.Count <= 0)
   {
-    <FluentLabel>No Logs found</FluentLabel>
+    <FluentLabel>@Captions.Instance.NoLog</FluentLabel>
   }
   <Virtualize Items="UIServices!.Logger.Logs">
     <FluentLabel Color="@(ConvertToColor(context.Item2))">

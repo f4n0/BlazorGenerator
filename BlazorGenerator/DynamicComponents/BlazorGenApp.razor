@@ -9,9 +9,9 @@
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
       </Found>
       <NotFound>
-        <PageTitle>Not found</PageTitle>
+        <PageTitle>@Captions.Instance.NotFound</PageTitle>
         <LayoutView Layout="@typeof(DynamicMainLayout)">
-          <p role="alert">Sorry, there's nothing at this address.</p>
+          <p role="alert">@Captions.Instance.NotFoundMessage</p>
         </LayoutView>
       </NotFound>
     </Router>
@@ -20,17 +20,17 @@
     <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal=@false TrapFocus=@true>
       <FluentDialogHeader Visible="false" />
       <div style="text-align:center">
-        <h2>Oh, An error occurred!</h2>
-        <b>Click refresh and start again!</b><br />
-        <i>The error persists? Click go to home page</i><br /><br />
-        <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> createExceptionDetails(context))">copy details</FluentAnchor>
+        <h2>@Captions.Instance.ErrorTitle</h2>
+        <b>@Captions.Instance.FileInputMessage</b><br />
+        <i>@Captions.Instance.ErrorMessagePersist</i><br /><br />
+                                                           <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> createExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchor>
 
       </div><br />
 
       <FluentStack Orientation="Orientation.Horizontal">
-        <FluentButton Appearance="Appearance.Accent" OnClick="@(()=> NavManager.NavigateTo("/", true))">Home Page</FluentButton>
+        <FluentButton Appearance="Appearance.Accent" OnClick="@(()=> NavManager.NavigateTo("/", true))">@Captions.Instance.ErrorHomePage</FluentButton>
         <FluentSpacer></FluentSpacer>
-        <FluentButton Appearance="Appearance.Accent" Autofocus="true" @onclick="() => errorBoundary?.Recover()">Refresh Page</FluentButton>
+        <FluentButton Appearance="Appearance.Accent" Autofocus="true" @onclick="() => errorBoundary?.Recover()">@Captions.Instance.ErrorRefresh</FluentButton>
       </FluentStack>
     </FluentDialog>
     @{
@@ -62,7 +62,7 @@
     var sb = new System.Text.StringBuilder();
     sb.AppendLine(ex.Message);
     sb.AppendLine(ex.StackTrace);
-    if(ex.InnerException != null)
+    if (ex.InnerException != null)
     {
       sb.AppendLine("Inner Exception");
       sb.AppendLine(ex.InnerException.Message);

@@ -4,7 +4,7 @@
   @if ((VisibleFields != null) && (VisibleFields.Count > 0))
   {
     <div style="width:100%; margin-bottom:5px;">
-        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="Search..." Style="float:right; width:300px;" Immediate="true"
+        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float:right; width:300px;" Immediate="true"
                       @bind-Value:after=HandleSearchInput />
     </div>
       <FluentDataGrid Items="@FilteredData"

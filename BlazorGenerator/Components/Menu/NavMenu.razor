@@ -3,7 +3,7 @@
   <FluentLayout >
     <FluentBodyContent>
       <FluentNavMenu @bind-Expanded="@Expanded" Width="250" Collapsible="true" CollapsedChildNavigation="true" Title="Collapsible demo">
-        <FluentNavLink Href="@NavManager?.BaseUri" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent" Tooltip="Home">Home</FluentNavLink>
+        <FluentNavLink Href="@NavManager?.BaseUri" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent" Tooltip="@Captions.Instance.Home">@Captions.Instance.Home</FluentNavLink>
 
 
         @{
