@@ -13,6 +13,7 @@ namespace BlazorGenerator
 
       services.AddSingleton<BlazorGenLogger>();
       services.AddScoped<ProgressService>();
+      services.AddScoped<LockUIService>();
 
       services.AddScoped<ISecurity, NullSecurity>();
       services.AddTransient<BlazorGeneratorSecurity>();
@@ -21,7 +22,8 @@ namespace BlazorGenerator
               (serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger)!,
               null!,
               (serviceProvider.CreateScope().ServiceProvider.GetService<ProgressService>())!,
-              null!
+              null!,
+              (serviceProvider.CreateScope().ServiceProvider.GetService<LockUIService>())!
            ));
 
       return services;

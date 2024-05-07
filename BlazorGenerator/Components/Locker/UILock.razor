@@ -1,0 +1,30 @@
+﻿@inject LockUIService LockUIService
+
+<FluentOverlay @bind-Visible=@ShowLock
+               Opacity="0.4"
+               Alignment="Align.Center"
+               Justification="JustifyContent.Center"
+               Dismissable="false"
+               PreventScroll="true">
+  <FluentLabel>Another operation is currently running, please wait</FluentLabel>
+</FluentOverlay>
+@code {
+
+  bool ShowLock = false;
+
+  protected override void OnInitialized()
+  {
+    LockUIService.OnChange += UpdateProgress;
+  }
+
+  private void UpdateProgress(bool show)
+  {
+    ShowLock = show;
+    StateHasChanged();
+  }
+
+  public void Dispose()
+  {
+    LockUIService.OnChange -= UpdateProgress;
+  }
+}

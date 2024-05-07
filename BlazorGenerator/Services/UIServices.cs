@@ -6,11 +6,12 @@ using Newtonsoft.Json.Linq;
 
 namespace BlazorGenerator.Services
 {
-  public class UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService _progressService, IKeyCodeService _keyCodeService)
+  public class UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService _progressService, IKeyCodeService _keyCodeService, LockUIService _lockService)
   {
     public BlazorGenLogger Logger { get; internal set; } = _logger;
     public IDialogService DialogService { get; internal set; } = _dialogService;
     public ProgressService ProgressService { get; internal set; } = _progressService;
+    public LockUIService LockService { get; internal set; } = _lockService;
     public IKeyCodeService KeyCodeService { get; internal set; } = _keyCodeService;
 
     public void StartLoader()
@@ -21,6 +22,15 @@ namespace BlazorGenerator.Services
     {
       ProgressService.StopProgress();
     }
+    public void LockUI()
+    {
+      LockService.LockUI();
+    }
+    public void UnlockUI()
+    {
+      LockService.UnlockUI();
+    }
+
 
     public async Task<T?> OpenModal<T>(Type PageType, T Data) where T : class
     {

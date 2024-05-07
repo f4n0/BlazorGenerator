@@ -20,6 +20,7 @@
         <FluentLayout>
           <FluentBodyContent style="height: calc(100dvh); padding: 10px; ">
             <Progress></Progress>
+            <UILock></UILock>
             <div class="content" style="display: flex; flex-direction: column; height: 100%; flex-flow: column;">
               @Body
             </div>
@@ -47,6 +48,8 @@
   public ProgressService? ProgressService { get; set; }
   [Inject]
   public IKeyCodeService? KeyCodeService { get; set; }
+  [Inject]
+  public LockUIService? LockUIService { get; set; }
 
   private void SwitchDarkLightTheme()
   {
@@ -59,6 +62,7 @@
     UIServices!.DialogService = DialogService!;
     UIServices!.ProgressService = ProgressService!;
     UIServices.KeyCodeService = KeyCodeService!;
+    UIServices.LockService = LockUIService!;
     return base.OnParametersSetAsync();
   }
 }
