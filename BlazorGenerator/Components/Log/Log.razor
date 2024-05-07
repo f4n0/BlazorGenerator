@@ -9,7 +9,7 @@
 
 
 
-<FluentDialog @ref="_myFluentDialog" @bind-Hidden="@Hidden" aria-label="Simple dialog" Modal=true TrapFocus=true PreventScroll=false @ondialogdismiss=OnDismiss>
+<FluentDialog @ref="_myFluentDialog" @bind-Hidden="@Hidden" aria-label="Simple dialog" Modal=true TrapFocus=true PreventScroll=false @ondialogdismiss=OnDismiss >
   <FluentDialogHeader Visible="false" />
   <FluentLabel Typo="Typography.PaneHeader">Log</FluentLabel><br />
   @if (UIServices!.Logger.Logs.Count <= 0)
@@ -96,3 +96,10 @@
 
   }
 }
+<style>
+  fluent-dialog::part(control) {
+    --dialog-width: 60%;
+    --dialog-height: 60%;
+    padding: 2rem !important;
+  }
+</style>
