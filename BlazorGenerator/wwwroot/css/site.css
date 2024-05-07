@@ -17,10 +17,6 @@ body {
     color: var(--neutral-foreground-rest);
 }
 
-.footer {
-    background-color: var(--neutral-fill-secondary-rest)
-}
-
 .alert {
     border: 1px dashed var(--accent-fill-rest);
     padding: 5px;

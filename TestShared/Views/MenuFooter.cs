@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TestShared.Views
 {
-  [AddToMenu(Title = "Issue?", Route = "https://github.com/EOS-Solutions/Gordon/issues", Icon = typeof(Icons.Regular.Size16.Archive), OrderSequence = 9999)]
+  [FooterLink(Title = "Issue?", Route = "https://github.com/f4n0/BlazorGenerator", Icon = typeof(Icons.Regular.Size16.Bug))]
   public class MenuFooter
   {
   }

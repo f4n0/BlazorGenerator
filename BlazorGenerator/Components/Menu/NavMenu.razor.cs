@@ -7,6 +7,7 @@ namespace BlazorGenerator.Components.Menu
     Dictionary<string, int> MenuGroups { get; set; } = [];
 
     List<AddToMenuAttribute> Menus { get; set; } = [];
+    FooterLinkAttribute? FooterLink { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -35,6 +36,9 @@ namespace BlazorGenerator.Components.Menu
           }
         }
       }
+
+      FooterLink = null;
+      FooterLink = Utils.AttributesUtils.GetModelsWithAttribute<FooterLinkAttribute>().FirstOrDefault().Attribute;
     }
   }
 }
