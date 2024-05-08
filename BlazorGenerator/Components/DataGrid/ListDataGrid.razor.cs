@@ -152,7 +152,7 @@ namespace BlazorGenerator.Components.DataGrid
       if (GridActions > 0)
         actions = "30px ";
 
-      var spacing = 70 / VisibleFields.Count;
+      var spacing = 80 / VisibleFields.Count;
       string cols = "repeat(auto-fill," + spacing + "%) ";
       string rowActions = string.Empty;
       if ((permissionSet?.Modify ?? false) || (permissionSet?.Delete ?? false))
