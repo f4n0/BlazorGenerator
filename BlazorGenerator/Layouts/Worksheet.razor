@@ -11,41 +11,40 @@
 
 }
 <PageTitle>@Title</PageTitle>
-<div style="height:100%">
-  @if (ShowActions)
-  {
-    <ActionBar Context="this" PageActions="PageActions" />
-  }
+<div style="display: flex; flex-flow: column; height: 100%;">
+  <div style="height: max-content;">
 
-  <div style="padding:10px; height: auto !important">
-    <div class="contentblock">
-          <CardFields T="TData"
-                      Data="Content"
-                      PermissionSet="permissionSet"
-                      GridSize="GridSize"
-                      ShowButtons="ShowButtons"
-                      VisibleFields="VisibleFields"
-                      OnDiscard="(data) => OnDelete(data)"
-                      OnSave="(data) => OnSave(data)" />
-    </div>
+    @if (ShowActions)
+    {
+      <ActionBar Context="this" PageActions="PageActions" />
+    }
 
-    <FluentDivider Style="width: 100%;margin-top:10px; margin-bottom:10px" Role="DividerRole.Presentation">
-      Data
-    </FluentDivider>
-
-    <div class="contentblock">
-      <ListDataGrid T="TList"
-                    Context="this"
-                    Data="ListContent?.AsQueryable()"
-                    VisibleFields="ListVisibleFields"
-                    OnDiscard="(data) => OnDelete(data)"
-                    OnSave="(data) => OnSave(data)"
+    <div style="padding:10px; height: auto !important">
+      <div class="contentblock">
+        <CardFields T="TData"
+                    Data="Content"
                     PermissionSet="permissionSet"
-                    @bind-Selected="ListSelected"
+                    GridSize="GridSize"
                     ShowButtons="ShowButtons"
-                    GridActions="gridActions"
-                    EditFormType="ListEditFormType" />
+                    VisibleFields="VisibleFields"
+                    OnDiscard="(data) => OnDelete(data)"
+                    OnSave="(data) => OnSave(data)" />
+      </div>
 
     </div>
+  </div>
+  <div class="contentblock" style="overflow:auto;">
+    <ListDataGrid T="TList"
+                  Context="this"
+                  Data="ListContent?.AsQueryable()"
+                  VisibleFields="ListVisibleFields"
+                  OnDiscard="(data) => OnDelete(data)"
+                  OnSave="(data) => OnSave(data)"
+                  PermissionSet="permissionSet"
+                  @bind-Selected="ListSelected"
+                  ShowButtons="ShowButtons"
+                  GridActions="gridActions"
+                  EditFormType="ListEditFormType" />
+
   </div>
 </div>

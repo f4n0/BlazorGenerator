@@ -11,10 +11,11 @@
   }
 </FluentGrid>
 <br />
-<FluentGrid >
+@if (ShowButtons)
+{
+  <FluentGrid>
 
-  @if (ShowButtons)
-  {
+
     <FluentGridItem md="GridSize">
       <FluentStack VerticalAlignment="VerticalAlignment.Center">
         @if ((PermissionSet?.Modify ?? false) || (PermissionSet?.Insert ?? false))
@@ -27,5 +28,6 @@
         }
       </FluentStack>
     </FluentGridItem>
-  }
 </FluentGrid>
+
+}

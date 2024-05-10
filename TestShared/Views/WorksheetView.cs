@@ -30,6 +30,8 @@ namespace TestShared.Views
 
     protected override Task LoadVisibleFields()
     {
+      ShowButtons = false;
+
       VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
       VisibleFields.AddField(nameof(Mock.Name));

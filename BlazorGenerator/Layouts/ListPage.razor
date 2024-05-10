@@ -8,26 +8,29 @@
 
 }
 <PageTitle>@Title</PageTitle>
-<div style="height:100%">
-  @if (ShowActions)
-  {
-    <ActionBar Context="this" PageActions="PageActions" />
-  }
+<div style="display: flex; flex-flow: column; height: 100%;">
+  <div style="height: max-content;">
 
-  <div style="padding:10px; height: auto !important" class="contentblock">
-    <ListDataGrid T="T"
-                  Context="this"
-                  Data="Content?.AsQueryable()"
-                  VisibleFields="VisibleFields"
-                  OnDiscard="(data) => OnDelete(data)"
-                  OnSave="(data) => OnSave(data)"
-                  OnNewItem="()=> NewItem()"
-                  PermissionSet="permissionSet"
-                  @bind-Selected="Selected"
-                  ShowButtons="ShowButtons"
-                  GridActions="gridActions"
-                  EditFormType="EditFormType"
-                  RefreshData="@(async () => await LoadData())" />
+    @if (ShowActions)
+    {
+      <ActionBar Context="this" PageActions="PageActions" />
+    }
+
+  </div>
+    <div style="padding:10px; height: auto !important; overflow:auto;" class="contentblock">
+      <ListDataGrid T="T"
+                    Context="this"
+                    Data="Content?.AsQueryable()"
+                    VisibleFields="VisibleFields"
+                    OnDiscard="(data) => OnDelete(data)"
+                    OnSave="(data) => OnSave(data)"
+                    OnNewItem="()=> NewItem()"
+                    PermissionSet="permissionSet"
+                    @bind-Selected="Selected"
+                    ShowButtons="ShowButtons"
+                    GridActions="gridActions"
+                    EditFormType="EditFormType"
+                    RefreshData="@(async () => await LoadData())" />
     </div>
 
   </div>
