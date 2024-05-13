@@ -16,12 +16,13 @@
   {
     <FluentLabel>@Captions.Instance.NoLog</FluentLabel>
   }
+<div style="overflow-y:auto; height:80%">
   <Virtualize Items="UIServices!.Logger.Logs">
     <FluentLabel Color="@(ConvertToColor(context.Item2))">
       @context.Item1
     </FluentLabel>
   </Virtualize>
-
+</div>
 </FluentDialog>
 
 @code{
@@ -46,7 +47,7 @@
       case LogType.Error:
         return Color.Error;
       case LogType.Info:
-        return Color.Info;
+        return Color.Neutral;
       case LogType.Warning:
         return Color.Warning;
     }

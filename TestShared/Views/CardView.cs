@@ -113,10 +113,13 @@ namespace TestShared.Views
       UIServices.UnlockUI();
     }
 
-    [PageAction(Caption = "Test5")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
+    [PageAction(Caption = "Write Log")]
     public void Test5()
     {
+      for (var i = 0; i < 30; i++)
+      {
+        UIServices.Logger.SendLogMessage($"Test{i}");
+      }
     }
     [PageAction(Caption = "Test6")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
