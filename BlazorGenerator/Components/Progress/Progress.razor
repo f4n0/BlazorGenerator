@@ -1,24 +1,2 @@
-﻿@inject ProgressService ProgressService
-
-
+﻿
 <FluentProgress Visible="ShowProgress" Style="position:absolute; top:5px; left:5px; right:20px; z-index:9999999;"></FluentProgress>
-
-@code {
-    bool ShowProgress = false;
-
-    protected override void OnInitialized()
-    {
-        ProgressService.OnChange += UpdateProgress;
-    }
-
-    private void UpdateProgress(bool show)
-    {
-        ShowProgress = show;
-        StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        ProgressService.OnChange -= UpdateProgress;
-    }
-}

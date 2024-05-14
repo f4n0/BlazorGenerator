@@ -1,5 +1,4 @@
-﻿@inherits BlazorgenComponentBase;
-
+﻿@inherits BlazorgenComponentBase
 
 @if (NavManager?.ToBaseRelativePath(NavManager.Uri.ToString()) != "")
 {
@@ -9,18 +8,4 @@
       <FluentIcon Value="@(new Icons.Regular.Size20.ArrowCircleLeft())"  Slot="start" Color="Color.Neutral"/>
     </span>
   </FluentButton>
-}
-
-@code {
-  Dictionary<string, string> UriParts { get; set; } = null!;
-
-  protected override void OnParametersSet()
-  {
-    var parts = NavManager!.ToBaseRelativePath(NavManager.Uri.ToString());
-
-    EventHandler<LocationChangedEventArgs> OnLocationChange = (sender ,args) => StateHasChanged();
-
-    NavManager!.LocationChanged += OnLocationChange;
-  }
-
 }

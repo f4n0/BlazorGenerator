@@ -1,6 +1,4 @@
-﻿@implements IDialogContentComponent<UserInputData>
-
-<FluentLabel Typo="Typography.Subject">@Content.Message</FluentLabel>
+﻿<FluentLabel Typo="Typography.Subject">@Content.Message</FluentLabel>
 @switch (Content.InputType)
 {
   case UserInputType.PlainText:
@@ -17,11 +15,4 @@
       }
     </FluentRadioGroup>
     break;
-}
-
-@code
-{
-  [Parameter]
-  public UserInputData Content { get; set; } = new();
-
 }

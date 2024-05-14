@@ -1,6 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
 using BlazorGenerator.Layouts;
-using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using TestShared.Data;
@@ -41,7 +40,7 @@ namespace TestShared.Views
 
       ListVisibleFields = [];
       ListVisibleFields.AddField(nameof(Mock.Id));
-      ListVisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(prop => prop.TextStyle = (d)=> BlazorGenerator.Enum.TextStyle.Italic);
+      ListVisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(prop => prop.TextStyle = (d) => BlazorGenerator.Enum.TextStyle.Italic);
       ListVisibleFields.AddField(nameof(Mock.Description));
       return Task.CompletedTask;
     }

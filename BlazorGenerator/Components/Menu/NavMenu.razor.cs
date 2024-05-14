@@ -4,6 +4,8 @@ namespace BlazorGenerator.Components.Menu
 {
   public partial class NavMenu
   {
+    bool Expanded = true;
+
     Dictionary<string, int> MenuGroups { get; set; } = [];
 
     List<AddToMenuAttribute> Menus { get; set; } = [];

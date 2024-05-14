@@ -1,5 +1,4 @@
 ﻿using BlazorGenerator.Layouts;
-using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
 using TestShared.Data;
 

@@ -1,6 +1,5 @@
 ﻿using BlazorGenerator.Attributes;
 using BlazorGenerator.Layouts;
-using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using TestShared.Data;

@@ -1,102 +1,25 @@
 ﻿@inherits BlazorgenComponentBase
-@implements IDisposable
-@implements IAsyncDisposable
-﻿@using BlazorGenerator.Enum
 
 <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Log" @onclick="OnOpen">
   <FluentIcon Value="@(new Icons.Regular.Size20.CodeText())" Color="Color.Neutral" Title="Log" />
 </FluentButton>
 
-
-
-<FluentDialog Class="log" @ref="_myFluentDialog" @bind-Hidden="@Hidden" aria-label="Simple dialog" Modal=true TrapFocus=true PreventScroll=false @ondialogdismiss=OnDismiss >
+<FluentDialog Class="log" @ref="_myFluentDialog" @bind-Hidden="@Hidden" aria-label="Simple dialog" Modal=true TrapFocus=true PreventScroll=false @ondialogdismiss=OnDismiss>
   <FluentDialogHeader Visible="false" />
   <FluentLabel Typo="Typography.PaneHeader">Log</FluentLabel><br />
   @if (UIServices!.Logger.Logs.Count <= 0)
   {
     <FluentLabel>@Captions.Instance.NoLog</FluentLabel>
   }
-<div style="overflow-y:auto; height:80%">
-  <Virtualize Items="UIServices!.Logger.Logs">
-    <FluentLabel Color="@(ConvertToColor(context.Item2))">
-      @context.Item1
-    </FluentLabel>
-  </Virtualize>
-</div>
+  <div style="overflow-y:auto; height:80%">
+    <Virtualize Items="UIServices!.Logger.Logs">
+      <FluentLabel Color="@(ConvertToColor(context.Item2))">
+        @context.Item1
+      </FluentLabel>
+    </Virtualize>
+  </div>
 </FluentDialog>
 
-@code{
-  private FluentDialog? _myFluentDialog;
-  private bool Hidden { get; set; } = true;
-
-  [Inject]
-  private IKeyCodeService KeyCodeService { get; set; }
-
-  private void OnDismiss(DialogEventArgs args)
-  {
-    if (args is not null && args.Reason is not null && args.Reason == "dismiss")
-    {
-      _myFluentDialog!.Hide();
-    }
-  }
-
-  private Color ConvertToColor(LogType logType)
-  {
-    switch (logType)
-    {
-      case LogType.Error:
-        return Color.Error;
-      case LogType.Info:
-        return Color.Neutral;
-      case LogType.Warning:
-        return Color.Warning;
-    }
-    return Color.Neutral;
-  }
-
-  protected override void OnInitialized()
-  {
-    UIServices!.Logger.OnChange += UpdateLog;
-    KeyCodeService.RegisterListener(OnKeyDownAsync);
-  }
-  public async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
-  {
-    if(args.AltKey && args.Key == KeyCode.KeyL)
-    {
-      OnOpen();
-    }
-  }
-
-  protected override void OnAfterRender(bool firstRender)
-  {
-    if (firstRender)
-      _myFluentDialog!.Hide();
-  }
-
-  private void UpdateLog()
-  {
-    InvokeAsync(() => StateHasChanged());
-  }
-
-  public new void Dispose()
-  {
-    UIServices!.Logger.OnChange -= UpdateLog;
-
-    base.Dispose();
-  }
-
-  private void OnOpen()
-  {
-    _myFluentDialog!.Show();
-  }
-
-  public new  ValueTask DisposeAsync()
-  {
-    KeyCodeService.UnregisterListener(OnKeyDownAsync);
-    return base.DisposeAsync();
-
-  }
-}
 <style>
   .log {
     --dialog-width: 60% !important;

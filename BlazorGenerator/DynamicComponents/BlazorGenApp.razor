@@ -1,9 +1,6 @@
-﻿@inject IJSRuntime JSRuntime;
-@inject NavigationManager NavManager;
-
-<ErrorBoundary @ref="errorBoundary">
+﻿<ErrorBoundary @ref="errorBoundary">
   <ChildContent>
-    <Router AppAssembly="@appAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] { typeof(BlazorGenApp).Assembly } : null)" @rendermode="BlazorGenRenderMode">
+    <Router AppAssembly="@AppAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] { typeof(BlazorGenApp).Assembly } : null)" @rendermode="BlazorGenRenderMode">
       <Found Context="routeData">
         <BlazorGeneratorRouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -23,12 +20,12 @@
         <h2>@Captions.Instance.ErrorTitle</h2>
         <b>@Captions.Instance.ErrorMessage</b><br />
         <i>@Captions.Instance.ErrorMessagePersist</i><br /><br />
-                                                           <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> createExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchor>
+                                                           <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> CreateExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchor>
 
       </div><br />
 
       <FluentStack Orientation="Orientation.Horizontal">
-        <FluentButton Appearance="Appearance.Accent" OnClick="@(()=> NavManager.NavigateTo("/", true))">@Captions.Instance.ErrorHomePage</FluentButton>
+        <FluentButton Appearance="Appearance.Accent" OnClick="@(()=> NavManager!.NavigateTo("/", true))">@Captions.Instance.ErrorHomePage</FluentButton>
         <FluentSpacer></FluentSpacer>
         <FluentButton Appearance="Appearance.Accent" Autofocus="true" @onclick="() => errorBoundary?.Recover()">@Captions.Instance.ErrorRefresh</FluentButton>
       </FluentStack>
@@ -42,32 +39,3 @@
 
 <link href="_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css" rel="stylesheet" />
 <link href="_content/BlazorGenerator/css/site.css" rel="stylesheet" />
-
-@code{
-  [Parameter]
-  public required Assembly appAssembly { get; set; }
-  [Parameter]
-  public bool UseDefaultTemplate { get; set; } = false;
-
-
-  [Parameter]
-  public IComponentRenderMode BlazorGenRenderMode { get; set; } = RenderMode.InteractiveAuto;
-
-  private ErrorBoundary? errorBoundary;
-
-  private FluentDialog? _myFluentDialog;
-
-  void createExceptionDetails(Exception ex)
-  {
-    var sb = new System.Text.StringBuilder();
-    sb.AppendLine(ex.Message);
-    sb.AppendLine(ex.StackTrace);
-    if (ex.InnerException != null)
-    {
-      sb.AppendLine("Inner Exception");
-      sb.AppendLine(ex.InnerException.Message);
-      sb.AppendLine(ex.InnerException.StackTrace);
-    }
-    JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", sb.ToString());
-  }
-}

@@ -1,6 +1,4 @@
-﻿@inject LockUIService LockUIService
-
-<FluentOverlay @bind-Visible=@ShowLock
+﻿<FluentOverlay @bind-Visible=@ShowLock
                Opacity="0.4"
                Alignment="Align.Center"
                Justification="JustifyContent.Center"
@@ -8,23 +6,3 @@
                PreventScroll="true">
   <FluentLabel>@Captions.Instance.LockUIMessage</FluentLabel>
 </FluentOverlay>
-@code {
-
-  bool ShowLock = false;
-
-  protected override void OnInitialized()
-  {
-    LockUIService.OnChange += UpdateProgress;
-  }
-
-  private void UpdateProgress(bool show)
-  {
-    ShowLock = show;
-    StateHasChanged();
-  }
-
-  public void Dispose()
-  {
-    LockUIService.OnChange -= UpdateProgress;
-  }
-}
