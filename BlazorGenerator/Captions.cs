@@ -28,5 +28,7 @@
     public string ErrorHomePage { get; set; } = "Home Page";
 
     public string ToggleDarkTheme { get; set; } = "Toggle Dark Theme";
+
+    public string ExportExcel { get; set; } = "Export to Excel";
   }
 }

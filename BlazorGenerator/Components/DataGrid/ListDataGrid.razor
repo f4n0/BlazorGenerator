@@ -3,9 +3,14 @@
 
   @if ((VisibleFields != null) && (VisibleFields.Count > 0))
   {
-    <div style="width:100%; margin-bottom:5px;">
-        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float:right; width:300px;" Immediate="true"
+    <div style="width:100%; margin-bottom:5px; ">
+        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true"
                       @bind-Value:after=HandleSearchInput />
+        <div style="float: right; margin-right: 20px;">
+          <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
+            <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel" />
+          </FluentButton>
+        </div>
     </div>
       <FluentDataGrid Items="@FilteredData"
                       TGridItem="T"

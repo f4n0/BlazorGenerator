@@ -3,6 +3,8 @@ using BlazorGenerator.Models;
 using BlazorGenerator.Services;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System.IO;
 using System.Reflection;
 
 namespace BlazorGenerator.Components.DataGrid
@@ -11,6 +13,9 @@ namespace BlazorGenerator.Components.DataGrid
   {
     [Inject]
     public UIServices? UIServices { get; set; }
+
+    [Inject]
+    IJSRuntime? JSRuntime { get; set; }
 
     [Parameter]
     public required object Context { get; set; }
@@ -236,6 +241,16 @@ namespace BlazorGenerator.Components.DataGrid
       {
         SearchValue = string.Empty;
       }
+    }
+
+    private async void ExportToExcel()
+    {
+      var DataToExport = Selected.Count > 0 ? Selected : Data?.ToList();
+      var res = ExcelUtilities.ExportToExcel(DataToExport!, VisibleFields);
+
+      using var streamRef = new DotNetStreamReference(stream: res);
+      await JSRuntime.InvokeVoidAsync("downloadFileFromStream", "Actual File Name.xlsx", streamRef);
+
     }
   }
 }
