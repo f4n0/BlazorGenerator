@@ -1,23 +1,17 @@
 ﻿using BlazorGenerator.Models;
 using ClosedXML.Excel;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorGenerator.Utils
 {
-  internal class ExcelUtilities
+  internal static class ExcelUtilities
   {
-
-    internal static Stream? ExportToExcel<T>(List<T> data, List<VisibleField<T>> visibleFields) where T : class
+    internal static Stream ExportToExcel<T>(List<T> data, List<VisibleField<T>> visibleFields) where T : class
     {
-      XLWorkbook wb = new XLWorkbook();
+      XLWorkbook wb = new();
       wb.Worksheets.Add(ToDataTable(data, visibleFields), "Export");
-      Stream stream = new MemoryStream(); 
+      Stream stream = new MemoryStream();
       wb.SaveAs(stream);
       stream.Position = 0;
       return stream;
@@ -26,8 +20,8 @@ namespace BlazorGenerator.Utils
     static DataTable ToDataTable<T>(IList<T> data, List<VisibleField<T>> visibleFields)
     {
       PropertyDescriptorCollection properties =
-          TypeDescriptor.GetProperties(data!.First()!.GetType());
-      DataTable table = new DataTable();
+          TypeDescriptor.GetProperties(data![0]!.GetType());
+      DataTable table = new();
       foreach (var field in visibleFields)
         table.Columns.Add(field.Caption, field.FieldType);
       foreach (T item in data)

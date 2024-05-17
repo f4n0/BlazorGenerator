@@ -5,6 +5,7 @@ namespace BlazorGenerator.Components.Navigation
 {
   public partial class Back : BlazorgenComponentBase
   {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0039:Use local function", Justification = "<Pending>")]
     protected override void OnParametersSet()
     {
       var parts = NavManager!.ToBaseRelativePath(NavManager.Uri);

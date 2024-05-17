@@ -25,11 +25,6 @@ namespace BlazorGenerator.Components.Field
 
     private Dictionary<string, object> commonAttributes = [];
 
-    private TypeCode GetFieldType()
-    {
-      return Type.GetTypeCode(Field.FieldType);
-    }
-
     protected override Task OnParametersSetAsync()
     {
       var styles = "width: 80%;";

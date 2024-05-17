@@ -31,7 +31,6 @@ namespace BlazorGenerator.Services
       LockService.UnlockUI();
     }
 
-
     public async Task<T?> OpenModal<T>(Type PageType, T Data) where T : class
     {
       if (PageType.BaseType != typeof(CardPage<T>))

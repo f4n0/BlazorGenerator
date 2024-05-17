@@ -5,7 +5,6 @@
     private static Captions? _instance;
     public static Captions Instance => _instance ??= new Captions();
 
-
     public string Save { get; set; } = "Save";
     public string Discard { get; set; } = "Discard";
     public string Cancel { get; set; } = "Cancel";

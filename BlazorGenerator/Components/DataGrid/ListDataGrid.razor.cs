@@ -4,7 +4,6 @@ using BlazorGenerator.Services;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.IO;
 using System.Reflection;
 
 namespace BlazorGenerator.Components.DataGrid
@@ -249,8 +248,7 @@ namespace BlazorGenerator.Components.DataGrid
       var res = ExcelUtilities.ExportToExcel(DataToExport!, VisibleFields);
 
       using var streamRef = new DotNetStreamReference(stream: res);
-      await JSRuntime.InvokeVoidAsync("downloadFileFromStream", "Actual File Name.xlsx", streamRef);
-
+      await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", "Actual File Name.xlsx", streamRef);
     }
   }
 }

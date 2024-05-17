@@ -13,6 +13,7 @@ namespace BlazorGenerator.Components.Modals
     [CascadingParameter]
     public FluentDialog? Dialog { get; set; }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0305:Simplify collection initialization", Justification = "<Pending>")]
     private async Task OnCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
     {
       var converted = new List<UploadFileResponse>();

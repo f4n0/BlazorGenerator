@@ -92,7 +92,6 @@ namespace TestShared.Views
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public void Test1()
     {
-
     }
     [PageAction(Caption = "Test2", Group = "grouped")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
