@@ -44,7 +44,7 @@
     @if (FooterLink != null)
     {
     <FluentFooter Style="font-family: var(--body-font); font-weight: normal; font-size: var(--type-ramp-base-font-size); line-height: var(--type-ramp-base-line-height);">
-      <FluentNavMenu>
+      <FluentNavMenu Expanded="Expanded">
         <FluentNavLink Href="@FooterLink.Route" Target="_blank" Icon="@(FooterLink.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@FooterLink.Title">@FooterLink.Title</FluentNavLink>
       </FluentNavMenu>
     </FluentFooter>
