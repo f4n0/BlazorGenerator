@@ -31,12 +31,12 @@ namespace BlazorGenerator.Components.Field
       var color = Field.Color?.Invoke(Data);
       if (color != null)
         styles += "color: " + color.ToAttributeValue() + ";";
+
       commonAttributes = new()
       {
         { "Id", Id },
         {"Appearance",FluentInputAppearance.Filled },
-        {"ReadOnly", !Editable },
-        {"role", "password" },
+        {"ReadOnly", !Editable || (Field.OnLookup != null) },
         {"style", styles },
         {"Immediate", Field.Immediate }
       };
@@ -44,6 +44,14 @@ namespace BlazorGenerator.Components.Field
       HasLookup = Field.OnLookup != null;
 
       return base.OnParametersSetAsync();
+    }
+
+    void GenericOnClick()
+    {
+      if (HasLookup)
+      {
+        LookupOpen = true;
+      }
     }
   }
 }

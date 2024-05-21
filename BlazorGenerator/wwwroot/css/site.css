@@ -156,3 +156,10 @@ code {
   margin-bottom: 5px
 
 }
+
+fluent-text-field::part(control), fluent-text-field::part(root) {
+  cursor: default;
+}
+fluent-number-field::part(control), fluent-text-field::part(root) {
+  cursor: default;
+}
