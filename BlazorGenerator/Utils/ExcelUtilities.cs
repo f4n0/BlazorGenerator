@@ -19,11 +19,10 @@ namespace BlazorGenerator.Utils
 
     static DataTable ToDataTable<T>(IList<T> data, List<VisibleField<T>> visibleFields)
     {
-      PropertyDescriptorCollection properties =
-          TypeDescriptor.GetProperties(data![0]!.GetType());
       DataTable table = new();
       foreach (var field in visibleFields)
         table.Columns.Add(field.Caption, field.FieldType);
+
       foreach (T item in data)
       {
         DataRow row = table.NewRow();
