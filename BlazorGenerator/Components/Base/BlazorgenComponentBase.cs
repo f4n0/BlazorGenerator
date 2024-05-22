@@ -4,7 +4,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Components.Base
 {
-  public partial class BlazorgenComponentBase : ComponentBase, IDisposable, IAsyncDisposable
+  public partial class BlazorGeneratorComponentBase : ComponentBase, IDisposable, IAsyncDisposable
   {
     public virtual string Title => this.GetType().Name;
 

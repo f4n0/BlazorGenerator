@@ -5,7 +5,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Layouts
 {
-  public partial class CardPage<T> : BlazorgenComponentBase, IDialogContentComponent<T>
+  public partial class CardPage<T> : BlazorGeneratorComponentBase, IDialogContentComponent<T>
   {
     public virtual int GridSize => 6;
 

@@ -250,7 +250,7 @@ namespace BlazorGenerator.Components.DataGrid
 
       using var streamRef = new DotNetStreamReference(stream: res);
       
-      await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorgenComponentBase).Title+".xlsx", streamRef);
+      await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase).Title+".xlsx", streamRef);
     }
   }
 }

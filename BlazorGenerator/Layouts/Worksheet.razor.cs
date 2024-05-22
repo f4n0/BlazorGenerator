@@ -3,7 +3,7 @@ using BlazorGenerator.Models;
 
 namespace BlazorGenerator.Layouts
 {
-  public partial class Worksheet<TData, TList> : BlazorgenComponentBase where TList : class
+  public partial class Worksheet<TData, TList> : BlazorGeneratorComponentBase where TList : class
   {
     public virtual int GridSize => 6;
     public TData? Content { get; set; }

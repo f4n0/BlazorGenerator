@@ -3,7 +3,7 @@ using BlazorGenerator.Models;
 
 namespace BlazorGenerator.Layouts
 {
-  public partial class TwoList<TFirstList, TSecondList> : BlazorgenComponentBase
+  public partial class TwoList<TFirstList, TSecondList> : BlazorGeneratorComponentBase
     where TFirstList : class
     where TSecondList : class
   {

@@ -3,7 +3,7 @@ using BlazorGenerator.Models;
 
 namespace BlazorGenerator.Layouts
 {
-  public partial class ListPage<T> : BlazorgenComponentBase where T : class
+  public partial class ListPage<T> : BlazorGeneratorComponentBase where T : class
   {
     public IEnumerable<T>? Content { get; set; }
     public required List<VisibleField<T>> VisibleFields { get; set; }

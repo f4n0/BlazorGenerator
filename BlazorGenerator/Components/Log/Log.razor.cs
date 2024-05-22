@@ -5,7 +5,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Components.Log
 {
-  public partial class Log : BlazorgenComponentBase, IDisposable, IAsyncDisposable
+  public partial class Log : BlazorGeneratorComponentBase, IDisposable, IAsyncDisposable
   {
     private FluentDialog? _myFluentDialog;
     private bool Hidden { get; set; } = true;
