@@ -86,8 +86,10 @@ namespace TestShared.Views
 
     [PageAction(Caption = "Test1", Group = "grouped")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
-    public void Test1()
+    public async void Test1()
     {
+      var mock = Mock.GetSingleMock();
+      _ = await UIServices!.OpenModal(typeof(ModalView), mock);
     }
     [PageAction(Caption = "Test2", Group = "grouped")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]

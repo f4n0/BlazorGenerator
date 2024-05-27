@@ -47,7 +47,7 @@
 
                   @foreach (var action in filtered)
                   {
-                    <FluentButton OnClick="@(() => ReflectionUtilites.InvokeAction(action.Method, Context))">
+                    <FluentButton OnClick="@(() => { PopOverBind[item.Key] = false; ReflectionUtilites.InvokeAction(action.Method, Context); })">
                       @(action.Attribute.Caption ?? action.Method.Name)
                       <span slot="start">
                         <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
