@@ -163,3 +163,6 @@ fluent-text-field::part(control), fluent-text-field::part(root) {
 fluent-number-field::part(control), fluent-text-field::part(root) {
   cursor: default;
 }
+fluent-checkbox::part(control), fluent-checkbox::part(root) {
+  cursor: default;
+}

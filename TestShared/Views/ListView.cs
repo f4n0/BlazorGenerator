@@ -23,6 +23,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Description));
       VisibleFields.AddField(nameof(Mock.OrderDate));
       VisibleFields.AddField(nameof(Mock.Icon));
+      VisibleFields.AddField(nameof(Mock.Enabled));
       return Task.CompletedTask;
     }
 

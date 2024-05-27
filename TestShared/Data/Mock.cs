@@ -12,6 +12,7 @@ namespace TestShared.Data
     public string NullTest { get; set; } = null!;
     public Type Icon { get; set; } = typeof(Icons.Regular.Size16.AddSquare);
     public MockEnum Type { get; set; }
+    public bool Enabled { get; set; }
 
     public static Mock GetSingleMock()
     {
@@ -25,7 +26,8 @@ namespace TestShared.Data
         Name = words[rand.Next(0, words.Length - 1)],
         OrderDate = DateTime.Now,
         Description = words[rand.Next(0, words.Length - 1)],
-        Price = (float)rand.NextDouble()
+        Price = (float)rand.NextDouble(),
+        Enabled = rand.NextDouble() >= 0.5
       };
     }
 

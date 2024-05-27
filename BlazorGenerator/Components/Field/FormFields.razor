@@ -32,6 +32,10 @@
     {
       <FluentIcon Value="@((Field.Getter(Data) as Type)?.ToFluentIcon())"></FluentIcon>
     }
+    else if (Field.FieldType == typeof(bool))
+    {
+      <FluentCheckbox Value="@(Convert.ToBoolean(Field.Getter(Data)))" ReadOnly="true"/>
+    }
     else
     {
       <span title="@Field.Getter(Data)" style="@style">@Field.Getter(Data)</span>
