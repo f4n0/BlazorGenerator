@@ -1,5 +1,7 @@
 ﻿using BlazorGenerator.Components.Base;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BlazorGenerator.Components.Navigation
 {
@@ -13,6 +15,19 @@ namespace BlazorGenerator.Components.Navigation
       EventHandler<LocationChangedEventArgs> OnLocationChange = (sender, args) => StateHasChanged();
 
       NavManager!.LocationChanged += OnLocationChange;
+
+      UIServices.KeyCodeService.RegisterListener(OnKeyDownAsync);
+    }
+
+
+    private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
+    {
+      if ((args.Key == KeyCode.Left && args.AltKey))
+      {
+        if (NavManager?.ToBaseRelativePath(NavManager.Uri.ToString()) != "")
+          await JSRuntime.InvokeVoidAsync("history.back");
+      }
+
     }
   }
 }

@@ -4,6 +4,7 @@ using BlazorGenerator.Models;
 using BlazorGenerator.Services;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Reflection;
 
@@ -52,6 +53,16 @@ namespace BlazorGenerator.Components.DataGrid
     public virtual Type? EditFormType { get; set; }
 
     string SearchValue = string.Empty;
+
+    FluentSearch SearchBarRef { get; set; }
+
+    bool ShiftPressed { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+      UIServices.KeyCodeService.RegisterListener(OnKeyDownAsync);
+      await base.OnInitializedAsync();
+    }
 
     private async Task EditAsync(T context)
     {
@@ -250,6 +261,18 @@ namespace BlazorGenerator.Components.DataGrid
 
       using var streamRef = new DotNetStreamReference(stream: res);
       await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase)?.Title+".xlsx", streamRef);
+    }
+
+    private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
+    {
+      if ((args.Key == KeyCode.Function3) || (args.Key == KeyCode.KeyF && args.CtrlKey))
+      {
+        SearchBarRef.FocusAsync();
+      } else if(args.ShiftKey)
+      {
+        ShiftPressed = true;
+      }
+
     }
   }
 }
