@@ -1,0 +1,19 @@
+﻿using BlazorGenerator.Models;
+using Microsoft.AspNetCore.Components;
+
+namespace BlazorGenerator.Components.Field;
+
+public partial class FormFields<T>
+{
+  [Parameter] public required VisibleField<T> Field { get; set; }
+
+  [Parameter] public required T Data { get; set; }
+
+  [Parameter] public bool ShowLabel { get; set; } = true;
+
+  [Parameter] public bool Editable { get; set; } = true;
+
+  [Parameter] public bool IsTableCell { get; set; } = false;
+
+  [Parameter] public bool HasLookup { get; set; } = false;
+}

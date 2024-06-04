@@ -7,22 +7,8 @@ namespace BlazorGenerator.Components.Field
 {
   public partial class FormFields<T> : ComponentBase
   {
-    [Parameter]
-    public required VisibleField<T> Field { get; set; }
-    [Parameter]
-    public required T Data { get; set; }
-    [Parameter]
-    public bool ShowLabel { get; set; } = true;
-    [Parameter]
-    public bool Editable { get; set; } = true;
-    [Parameter]
-    public bool IsTableCell { get; set; } = false;
-    [Parameter]
-    public bool HasLookup { get; set; } = false;
-
     private readonly string Id = Identifier.NewId();
     bool LookupOpen { get; set; } = false;
-
     private Dictionary<string, object> commonAttributes = [];
 
     protected override Task OnParametersSetAsync()
