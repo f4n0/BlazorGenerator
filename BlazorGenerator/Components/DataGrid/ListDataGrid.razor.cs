@@ -267,7 +267,13 @@ namespace BlazorGenerator.Components.DataGrid
     {
       if ((args.Key == KeyCode.Function3) || (args.Key == KeyCode.KeyF && args.CtrlKey))
       {
-        SearchBarRef.FocusAsync();
+        try
+        {
+          await SearchBarRef.Element.FocusAsync();
+        }
+        catch
+        {
+        }
       } else if(args.ShiftKey)
       {
         ShiftPressed = true;

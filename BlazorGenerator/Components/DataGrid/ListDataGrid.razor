@@ -1,113 +1,114 @@
 ﻿@typeparam T
 <div class="GridContainer">
-    @if ((VisibleFields != null) && (VisibleFields.Count > 0))
-    {
-      <div style="width:100%; margin-bottom:5px; ">
-        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true"
-                      @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
-        <div style="float: right; margin-right: 20px;">
-          <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
-            <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel" />
-          </FluentButton>
-        </div>
-      </div>
-      <FluentDataGrid Items="@FilteredData"
-                      TGridItem="T"
-                      ResizableColumns="true"
-                      GenerateHeader="GenerateHeaderOption.Sticky"
-                      GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
-                      ShowHover="@true"
-                      RowClass="SelectedRowClass"
-                      OnCellFocus="@((cell)=> {
+
+  <div style="width:100%; margin-bottom:5px; ">
+    <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true"
+                  @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
+    <div style="float: right; margin-right: 20px;">
+      <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
+        <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel" />
+      </FluentButton>
+    </div>
+  </div>
+  @if ((VisibleFields != null) && (VisibleFields.Count > 0))
+  {
+    <FluentDataGrid Items="@FilteredData"
+                    TGridItem="T"
+                    ResizableColumns="true"
+                    GenerateHeader="GenerateHeaderOption.Sticky"
+                    GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
+                    ShowHover="@true"
+                    RowClass="SelectedRowClass"
+                    OnCellFocus="@((cell)=> {
                                    if(cell.GridColumn > 1)
                                     HandleSingleRecSelection(cell.Item);
                                 })"
-                      Style="min-width: 900px; overflow:auto; flex: 0 1 auto;">
+                    Style="min-width: 900px; overflow:auto; flex: 0 1 auto;">
 
-        <TemplateColumn Align="@Align.End">
+      <TemplateColumn Align="@Align.End">
+        <ChildContent>
+          <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
+        </ChildContent>
+        <HeaderCellItemTemplate>
+          <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>
+        </HeaderCellItemTemplate>
+      </TemplateColumn>
+      @if (GridActions?.Count() > 0)
+      {
+        <TemplateColumn Title="" Align="@Align.Center">
           <ChildContent>
-            <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
-          </ChildContent>
-          <HeaderCellItemTemplate>
-            <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>
-          </HeaderCellItemTemplate>
-        </TemplateColumn>
-        @if (GridActions?.Count() > 0)
-        {
-          <TemplateColumn Title="" Align="@Align.Center">
-            <ChildContent>
-              <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
+            <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
                                                                                                                          {
                                                                                                                            CurrRec = context;
                                                                                                                          })"></FluentIcon>
-              <div style=" position: fixed; ">
-                <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true" Style="position:fixed;">
-                  @foreach (var a in GridActions)
-                  {
-                    <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec!]))">
-                      <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
-                    </FluentMenuItem>
-                  }
-                </FluentMenu>
-              </div>
-            </ChildContent>
-          </TemplateColumn>
-        }
-
-        @foreach (var field in VisibleFields)
-        {
-          <TemplateColumn Context="data"
-                          Sortable="true"
-                          Title="@field.Caption"
-                          SortBy="GridSort<T>.ByAscending(p => field.Getter(p))"
-                          Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))">
-            <ChildContent>
-              <FormFields IsTableCell="true" Data="data" Field="field" T="T"></FormFields>
-            </ChildContent>
-            <ColumnOptions>
-              <div class="search-box">
-                @{
-                  GetFilterValue(field.Name);
-                  var name = field.Name;
+            <div style=" position: fixed; ">
+              <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true" Style="position:fixed;">
+                @foreach (var a in GridActions)
+                {
+                  <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec!]))">
+                    <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
+                  </FluentMenuItem>
                 }
-                <FluentSearch type="search" Autofocus=true
-                              @bind-Value:get="(FieldFilters[name])"
-                              @bind-Value:after="()=> HandleClear(field)"
-                              @oninput="(e) => HandleFilter(e, field)"
-                              Placeholder="@field.Caption" />
-              </div>
-            </ColumnOptions>
-          </TemplateColumn>
-        }
+              </FluentMenu>
+            </div>
+          </ChildContent>
+        </TemplateColumn>
+      }
 
-        @if ((PermissionSet!.Modify) || (PermissionSet!.Delete) || (PermissionSet!.Insert))
-        {
-          <TemplateColumn Title="Actions" Align="@Align.End">
-            <ChildContent>
-              @if (PermissionSet!.Modify)
-              {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
+      @foreach (var field in VisibleFields)
+      {
+        <TemplateColumn Context="data"
+                        Sortable="true"
+                        Title="@field.Caption"
+                        SortBy="GridSort<T>.ByAscending(p => field.Getter(p))"
+                        Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))">
+          <ChildContent>
+            <FormFields IsTableCell="true" Data="data" Field="field" T="T"></FormFields>
+          </ChildContent>
+          <ColumnOptions>
+            <div class="search-box">
+              @{
+                GetFilterValue(field.Name);
+                var name = field.Name;
               }
-              @if (PermissionSet!.Delete)
-              {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
-              }
-            </ChildContent>
-            <HeaderCellItemTemplate>
-              @if (PermissionSet!.Modify)
-              {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => NewItem())" Style="margin-right:5px;" />
-              }
-            </HeaderCellItemTemplate>
-          </TemplateColumn>
-        }
-      </FluentDataGrid>
+              <FluentSearch type="search" Autofocus=true
+                            @bind-Value:get="(FieldFilters[name])"
+                            @bind-Value:after="()=> HandleClear(field)"
+                            @oninput="(e) => HandleFilter(e, field)"
+                            Placeholder="@field.Caption" />
+            </div>
+          </ColumnOptions>
+        </TemplateColumn>
+      }
 
-    }
-    else
-    {
-      <FluentProgressRing></FluentProgressRing>
-    }
+      @if ((PermissionSet!.Modify) || (PermissionSet!.Delete) || (PermissionSet!.Insert))
+      {
+        <TemplateColumn Title="Actions" Align="@Align.End">
+          <ChildContent>
+            @if (PermissionSet!.Modify)
+            {
+              <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
+            }
+            @if (PermissionSet!.Delete)
+            {
+              <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
+            }
+          </ChildContent>
+          <HeaderCellItemTemplate>
+            @if (PermissionSet!.Modify)
+            {
+              <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => NewItem())" Style="margin-right:5px;" />
+            }
+          </HeaderCellItemTemplate>
+        </TemplateColumn>
+      }
+    </FluentDataGrid>
+
+  }
+  else
+  {
+    <FluentProgressRing></FluentProgressRing>
+  }
 </div>
 
 <style>
