@@ -54,13 +54,11 @@ namespace BlazorGenerator.Components.DataGrid
 
     string SearchValue = string.Empty;
 
-    FluentSearch SearchBarRef { get; set; }
-
-    bool ShiftPressed { get; set; }
+    FluentSearch? SearchBarRef { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-      UIServices.KeyCodeService.RegisterListener(OnKeyDownAsync);
+      UIServices!.KeyCodeService.RegisterListener(OnKeyDownAsync);
       await base.OnInitializedAsync();
     }
 
@@ -269,16 +267,12 @@ namespace BlazorGenerator.Components.DataGrid
       {
         try
         {
-          await SearchBarRef.Element.FocusAsync();
+          await SearchBarRef!.Element.FocusAsync();
         }
         catch
         {
         }
-      } else if(args.ShiftKey)
-      {
-        ShiftPressed = true;
       }
-
     }
   }
 }
