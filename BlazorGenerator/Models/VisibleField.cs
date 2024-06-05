@@ -6,8 +6,10 @@ namespace BlazorGenerator.Models
   public class VisibleField<T>
   {
     public string Caption { get; set; } = null!;
+
     public required Action<T, object> Setter { get; set; }
     public required Func<T, object?> Getter { get; set; }
+
     public required Type FieldType { get; set; }
     public required string Name { get; set; }
     public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
@@ -26,8 +28,8 @@ namespace BlazorGenerator.Models
         Name = propertyName,
         FieldType = prop.PropertyType,
         Caption = propertyName,
-        Getter = f => prop.GetValue(f),
-        Setter = (f, v) => prop.SetValue(f, v)
+        Getter = (data) => prop.GetValue(data),
+        Setter = (data, value) => prop.SetValue(data, value)
       };
 
       if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))

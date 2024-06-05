@@ -4,6 +4,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Reflection;
 using System.Text;
+#pragma warning disable CA2012
 
 namespace BlazorGenerator.DynamicComponents
 {
@@ -27,7 +28,7 @@ namespace BlazorGenerator.DynamicComponents
 
     private FluentDialog? _myFluentDialog;
 
-    void CreateExceptionDetails(Exception ex)
+    private void CreateExceptionDetails(Exception ex)
     {
       var sb = new StringBuilder();
       sb.AppendLine(ex.Message);
@@ -38,6 +39,7 @@ namespace BlazorGenerator.DynamicComponents
         sb.AppendLine(ex.InnerException.Message);
         sb.AppendLine(ex.InnerException.StackTrace);
       }
+
       _ = JSRuntime!.InvokeVoidAsync("navigator.clipboard.writeText", sb.ToString());
     }
   }
