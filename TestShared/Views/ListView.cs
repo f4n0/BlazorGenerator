@@ -20,9 +20,9 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Id), (ref VisibleField<Mock> prop) => prop.Href = (data) => "/test/" + data.Id);
       VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(pro =>
       {
-        pro.Getter = (data) =>
+        pro.Get = (args) =>
         {
-          return data.Name;
+          return args.Data.Name;
         };
       });
       VisibleFields.AddField(nameof(Mock.Price));
@@ -92,7 +92,6 @@ namespace TestShared.Views
     }
 
     [PageAction(Caption = "Test1", Group = "grouped")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
     public async void Test1()
     {
       var mock = Mock.GetSingleMock();

@@ -1,10 +1,9 @@
 ﻿using BlazorGenerator.Layouts;
-using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Components.Base
 {
-  public partial class BlazorGeneratorComponentBase : ComponentBase, IDisposable, IAsyncDisposable
+  public partial class BlazorGeneratorComponentBase : IAsyncDisposable
   {
     public virtual string Title => this.GetType().Name;
 

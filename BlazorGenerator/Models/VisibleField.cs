@@ -7,8 +7,14 @@ namespace BlazorGenerator.Models
   {
     public string Caption { get; set; } = null!;
 
-    public required Action<T, object> Setter { get; set; }
-    public required Func<T, object?> Getter { get; set; }
+    [Obsolete("This will be removed in next major, use Set instead")]
+    public Action<T, object>? Setter { get; set; }
+    [Obsolete("This will be removed in next major, use Get instead")]
+    public Func<T, object?>? Getter { get; set; }
+
+    public Action<VisibleFieldSetterArgs<T>>? Set { get; set; }
+    public Func<VisibleFieldGetterArgs<T>, object?>? Get { get; set; }
+
 
     public required Type FieldType { get; set; }
     public required string Name { get; set; }
@@ -28,8 +34,8 @@ namespace BlazorGenerator.Models
         Name = propertyName,
         FieldType = prop.PropertyType,
         Caption = propertyName,
-        Getter = (data) => prop.GetValue(data),
-        Setter = (data, value) => prop.SetValue(data, value)
+        Get = (args) => prop.GetValue(args.Data),
+        Set = (args) => prop.SetValue(args.Data, args.Value)
       };
 
       if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -41,5 +47,45 @@ namespace BlazorGenerator.Models
 
       return field;
     }
+
+    internal object? InternalGet(T data)
+    {
+      if (Get != null)
+      {
+        return Get.Invoke(new VisibleFieldGetterArgs<T>()
+        {
+          Field = this,
+          Data = data
+        });
+#pragma warning disable CS0618 // Type or member is obsolete
+      }
+      else 
+      {
+        return Getter?.Invoke(data);
+      }
+#pragma warning restore CS0618 // Type or member is obsolete
+    }
+
+    internal void InternalSet(T data, object? value)
+    {
+      if (Set != null)
+      {
+        Set.Invoke(new VisibleFieldSetterArgs<T>()
+        {
+          Field = this,
+          Data = data,
+          Value = value
+        });
+      }
+      else
+      {
+#pragma warning disable CS0618 // Type or member is obsolete
+         Setter?.Invoke(data, value!);
+#pragma warning restore CS0618 // Type or member is obsolete
+      }
+
+    }
+
+
   }
 }

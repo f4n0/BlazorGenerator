@@ -43,7 +43,7 @@ public partial class ListDataGrid<T>
       {
         foreach (var field in VisibleFields)
         {
-          var CellValue = field.Getter(r);
+          var CellValue = field.InternalGet(r);
           var cellStringValue = CellValue == null ? string.Empty : CellValue.ToString();
           if (cellStringValue!.Contains(SearchValue, StringComparison.InvariantCultureIgnoreCase))
           {
@@ -61,7 +61,7 @@ public partial class ListDataGrid<T>
       if (FieldFilters.TryGetValue(field.Name, out var res))
       {
         set = from item in set
-          let CellValue = field.Getter(item)
+          let CellValue = field.InternalGet(item)
           let cellStringValue = CellValue == null ? string.Empty : CellValue.ToString()
           where cellStringValue.Contains(res, StringComparison.InvariantCultureIgnoreCase)
           select item;

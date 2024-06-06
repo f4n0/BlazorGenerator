@@ -27,7 +27,7 @@ namespace BlazorGenerator.Utils
       {
         DataRow row = table.NewRow();
         foreach (var field in visibleFields)
-          row[field.Name] = field.Getter(item) ?? DBNull.Value;
+          row[field.Name] = field.InternalGet(item) ?? DBNull.Value;
         table.Rows.Add(row);
       }
       return table;

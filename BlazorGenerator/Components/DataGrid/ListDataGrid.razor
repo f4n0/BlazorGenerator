@@ -60,7 +60,7 @@
         <TemplateColumn Context="data"
                         Sortable="true"
                         Title="@field.Caption"
-                        SortBy="GridSort<T>.ByAscending(p => field.Getter(p))"
+                        SortBy="GridSort<T>.ByAscending(p => field.InternalGet(p))"
                         Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))">
           <ChildContent>
             <FormFields IsTableCell="true" Data="data" Field="field" T="T"></FormFields>
