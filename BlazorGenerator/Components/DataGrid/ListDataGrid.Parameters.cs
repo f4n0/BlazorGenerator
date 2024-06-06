@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using BlazorGenerator.Attributes;
+﻿using BlazorGenerator.Attributes;
 using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
+using System.Reflection;
 
 namespace BlazorGenerator.Components.DataGrid;
 

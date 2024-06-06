@@ -59,7 +59,7 @@ namespace BlazorGenerator.Models
         });
 #pragma warning disable CS0618 // Type or member is obsolete
       }
-      else 
+      else
       {
         return Getter?.Invoke(data);
       }
@@ -80,7 +80,7 @@ namespace BlazorGenerator.Models
       else
       {
 #pragma warning disable CS0618 // Type or member is obsolete
-         Setter?.Invoke(data, value!);
+        Setter?.Invoke(data, value!);
 #pragma warning restore CS0618 // Type or member is obsolete
       }
 

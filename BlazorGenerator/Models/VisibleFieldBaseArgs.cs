@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace BlazorGenerator.Models;
+﻿namespace BlazorGenerator.Models;
 
 public class VisibleFieldBaseArgs<T>
 {

@@ -1,7 +1,4 @@
-﻿using BlazorGenerator.Models;
-using Microsoft.AspNetCore.Components;
-
-namespace BlazorGenerator.Components.Card
+﻿namespace BlazorGenerator.Components.Card
 {
   public partial class CardFields<T>
   {

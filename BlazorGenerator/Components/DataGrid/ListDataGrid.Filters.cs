@@ -61,10 +61,10 @@ public partial class ListDataGrid<T>
       if (FieldFilters.TryGetValue(field.Name, out var res))
       {
         set = from item in set
-          let CellValue = field.InternalGet(item)
-          let cellStringValue = CellValue == null ? string.Empty : CellValue.ToString()
-          where cellStringValue.Contains(res, StringComparison.InvariantCultureIgnoreCase)
-          select item;
+              let CellValue = field.InternalGet(item)
+              let cellStringValue = CellValue == null ? string.Empty : CellValue.ToString()
+              where cellStringValue.Contains(res, StringComparison.InvariantCultureIgnoreCase)
+              select item;
       }
     }
 
