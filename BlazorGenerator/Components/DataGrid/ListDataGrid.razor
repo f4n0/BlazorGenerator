@@ -41,8 +41,8 @@
                                                                                                                          {
                                                                                                                            CurrRec = context;
                                                                                                                          })"></FluentIcon>
-            <div style=" position: fixed; ">
-              <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true" Style="position:fixed;">
+           
+              <FluentMenu Anchor="@context.GetHashCode().ToString()" Trigger="MouseButton.Left" Anchored="true" VerticalThreshold="@(GridActions.Count() * 40)">
                 @foreach (var a in GridActions)
                 {
                   <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec!]))">
@@ -50,7 +50,6 @@
                   </FluentMenuItem>
                 }
               </FluentMenu>
-            </div>
           </ChildContent>
         </TemplateColumn>
       }
