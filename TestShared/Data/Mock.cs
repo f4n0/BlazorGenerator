@@ -1,12 +1,16 @@
-﻿using Microsoft.FluentUI.AspNetCore.Components;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace TestShared.Data
 {
   public class Mock : ICloneable
   {
+    [Display(Name = "Id")]
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    [Display(Name = "Order Date")]
     public DateTime? OrderDate { get; set; }
     public float Price { get; set; }
     public string NullTest { get; set; } = null!;

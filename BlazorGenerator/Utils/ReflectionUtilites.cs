@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace BlazorGenerator.Utils
@@ -41,6 +42,36 @@ namespace BlazorGenerator.Utils
         }
       }
       Method.Invoke(target, parameters);
+    }
+
+
+    internal static string GetCaption(PropertyInfo prop)
+    {
+      var attr = Attribute.GetCustomAttribute(prop, typeof(DisplayAttribute)) as DisplayAttribute;
+      if (attr != null)
+      {
+        return attr.Name ?? prop.Name;
+      }
+      else
+      {
+        return prop.Name;
+      }
+    }
+
+    internal static string? GetEnumCaption(MemberInfo? prop)
+    {
+      if(prop == null) 
+        return null;
+
+      var attr = Attribute.GetCustomAttribute(prop, typeof(DisplayAttribute)) as DisplayAttribute;
+      if (attr != null)
+      {
+        return attr.Name ?? prop.Name;
+      }
+      else
+      {
+        return prop.Name;
+      }
     }
   }
 }

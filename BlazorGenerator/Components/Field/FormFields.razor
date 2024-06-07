@@ -136,6 +136,8 @@ else
       commonAttributes["Appearance"] = Appearance.Filled;
 
       <FluentSelect Items=@values
+                    OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType.GetMember(val).FirstOrDefault()) ?? val)"
+                    OptionValue="@(val => val)"
                     Value="@( Enum.GetName(Field.FieldType, Field.InternalGet(Data)!))"
                     ValueChanged="(val) => Field.InternalSet(Data, Enum.Parse(Field.FieldType, val))"
                     @attributes="@commonAttributes" />

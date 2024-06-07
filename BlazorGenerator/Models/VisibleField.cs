@@ -1,4 +1,7 @@
-﻿using BlazorGenerator.Enum;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using BlazorGenerator.Enum;
+using BlazorGenerator.Utils;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Models
@@ -33,7 +36,7 @@ namespace BlazorGenerator.Models
       {
         Name = propertyName,
         FieldType = prop.PropertyType,
-        Caption = propertyName,
+        Caption = ReflectionUtilites.GetCaption(prop),
         Get = (args) => prop.GetValue(args.Data),
         Set = (args) => prop.SetValue(args.Data, args.Value)
       };
@@ -85,7 +88,5 @@ namespace BlazorGenerator.Models
       }
 
     }
-
-
   }
 }
