@@ -4,6 +4,8 @@ public partial class ListDataGrid<T>
 {
   internal Func<T, string> SelectedRowClass => (data) => Selected.Contains(data) ? "rowselected" : "";
 
+  bool MultipleSelectEnabled = false;
+
   private void HandleRecSelection(bool selected, T Rec)
   {
     if (selected)
@@ -18,7 +20,9 @@ public partial class ListDataGrid<T>
 
   private void HandleSingleRecSelection(T? Rec)
   {
-    Selected.Clear();
+    if (! MultipleSelectEnabled) 
+      Selected.Clear();
+
     if (Rec != null)
     {
       Selected.Add(Rec);

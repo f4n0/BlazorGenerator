@@ -87,19 +87,5 @@ public partial class ListDataGrid<T>
     {
       SearchValue = string.Empty;
     }
-  }
-
-  private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
-  {
-    if ((args.Key == KeyCode.Function3) || (args.Key == KeyCode.KeyF && args.CtrlKey))
-    {
-      try
-      {
-        await SearchBarRef!.Element.FocusAsync();
-      }
-      catch
-      {
-      }
-    }
-  }
+  } 
 }

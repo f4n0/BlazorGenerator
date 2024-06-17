@@ -1,6 +1,8 @@
 ﻿using BlazorGenerator.Components.Base;
 using BlazorGenerator.Models;
 using BlazorGenerator.Utils;
+using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace BlazorGenerator.Components.DataGrid
@@ -10,8 +12,7 @@ namespace BlazorGenerator.Components.DataGrid
     internal T? CurrRec { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {
-      UIServices!.KeyCodeService.RegisterListener(OnKeyDownAsync);
+    {      
       await base.OnInitializedAsync();
     }
 
@@ -78,6 +79,32 @@ namespace BlazorGenerator.Components.DataGrid
 
       using var streamRef = new DotNetStreamReference(stream: res);
       await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase)?.Title + ".xlsx", streamRef);
+    }
+
+    private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
+    {
+      if ((args.Key == KeyCode.Function3) || (args.Key == KeyCode.KeyF && args.CtrlKey))
+      {
+        try
+        {
+          await SearchBarRef!.Element.FocusAsync();
+        }
+        catch
+        {
+        }
+      }
+      else if (args.Key == KeyCode.Ctrl)
+      {
+        MultipleSelectEnabled = true;
+      }
+    }
+
+    private async Task OnKeyUpAsync(FluentKeyCodeEventArgs args)
+    {
+      if (args.Key == KeyCode.Ctrl)
+      {
+        MultipleSelectEnabled = false;
+      }
     }
   }
 }
