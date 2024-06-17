@@ -3,17 +3,13 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.Components.Base
 {
-  public partial class BlazorGeneratorComponentBase : IAsyncDisposable
+  public partial class BlazorGeneratorComponentBase : IAsyncDisposable, IDisposable
   {
     public virtual string Title => this.GetType().Name;
 
     public virtual bool ShowButtons { get; set; } = true;
     public virtual bool ShowActions { get; set; } = true;
 
-    public void Dispose()
-    {
-      GC.SuppressFinalize(this);
-    }
 
     protected virtual async Task LoadVisibleFields()
     {
@@ -76,11 +72,31 @@ namespace BlazorGenerator.Components.Base
       }
     }
 
+    private CancellationTokenSource? _cancellationTokenSource;
+    protected CancellationToken ComponentDetached => (_cancellationTokenSource ??= new()).Token;
+
+
     public ValueTask DisposeAsync()
     {
+      if (_cancellationTokenSource != null)
+      {
+        _cancellationTokenSource.Cancel(false);
+        _cancellationTokenSource.Dispose();
+        _cancellationTokenSource = null;
+      }
       UIServices.KeyCodeService.UnregisterListener(OnKeyDownAsync);
       GC.SuppressFinalize(this);
       return ValueTask.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+      if (_cancellationTokenSource != null)
+      {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource.Dispose();
+        _cancellationTokenSource = null;
+      }
     }
   }
 }

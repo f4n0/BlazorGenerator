@@ -30,7 +30,7 @@ namespace BlazorGenerator.Utils
       oProp.SetValue(target, Convert.ChangeType(propertyValue, tProp), null);
     }
 
-    internal static void InvokeAction(MethodInfo Method, object target, object[]? KnownParams = null)
+    internal static async Task InvokeAction(MethodInfo Method, object target, object[]? KnownParams = null)
     {
       int? mthParams = Method.GetParameters().Length;
       var parameters = (mthParams.HasValue ? Enumerable.Repeat(Type.Missing, mthParams.Value).ToArray() : Array.Empty<object>());
@@ -41,7 +41,15 @@ namespace BlazorGenerator.Utils
           parameters[i] = KnownParams[i];
         }
       }
-      Method.Invoke(target, parameters);
+      try
+      {
+        var ret = Method.Invoke(target, parameters);
+        if (ret is Task task)
+          await task;
+      }
+      catch (TaskCanceledException e)
+      {
+      }
     }
 
 

@@ -18,5 +18,6 @@ namespace BlazorGenerator.Components.Base
 
     [Inject]
     internal BlazorGeneratorSecurity Security { get; set; } = null!;
+
   }
 }

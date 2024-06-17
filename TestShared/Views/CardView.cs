@@ -88,15 +88,21 @@ namespace TestShared.Views
       NavManager.NavigateTo("WorksheetView", true);
     }
 
-    [PageAction(Caption = "Test1", Group = "grouped")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
-    public void Test1()
+    [PageAction(Caption = "No Cancellation", Group = "grouped")]
+    public async Task Test1()
     {
+      await LongProcedure();
     }
-    [PageAction(Caption = "Test2", Group = "grouped")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
-    public void Test2()
+    [PageAction(Caption = "With Cancellation", Group = "grouped")]
+    public async Task Test2()
     {
+      await LongProcedure();
+    }
+
+    async Task LongProcedure()
+    {
+      await Task.Delay(5000);
+      UIServices.DialogService.ShowInfo("Done");
     }
 
     [PageAction(Caption = "Thorow Error")]
