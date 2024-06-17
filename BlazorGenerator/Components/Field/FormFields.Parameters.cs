@@ -15,5 +15,4 @@ public partial class FormFields<T>
 
   [Parameter] public bool IsTableCell { get; set; } = false;
 
-  [Parameter] public bool HasLookup { get; set; } = false;
 }

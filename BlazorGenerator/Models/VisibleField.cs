@@ -27,6 +27,7 @@ namespace BlazorGenerator.Models
     public bool Immediate { get; set; } = false;
     public Func<T, TextStyle>? TextStyle { get; set; }
     public Func<T, Color>? Color { get; set; }
+    public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
 
     internal static VisibleField<T> NewField(string propertyName)
     {
@@ -87,6 +88,17 @@ namespace BlazorGenerator.Models
 #pragma warning restore CS0618 // Type or member is obsolete
       }
 
+    }
+
+    internal void InternalDrillDown(T Data)
+    {
+      if(OnDrillDown != null)
+      {
+        OnDrillDown.Invoke(new VisibleFieldDrillDownArgs<T>() { 
+          Data = Data,
+          Field = this
+        });
+      }
     }
   }
 }

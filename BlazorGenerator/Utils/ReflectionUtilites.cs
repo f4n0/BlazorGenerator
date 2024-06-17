@@ -47,7 +47,7 @@ namespace BlazorGenerator.Utils
         if (ret is Task task)
           await task;
       }
-      catch (TaskCanceledException e)
+      catch (TaskCanceledException)
       {
       }
     }

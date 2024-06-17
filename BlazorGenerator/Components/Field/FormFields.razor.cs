@@ -9,6 +9,8 @@ namespace BlazorGenerator.Components.Field
     private readonly string Id = Identifier.NewId();
     bool LookupOpen { get; set; } = false;
     private Dictionary<string, object> commonAttributes = [];
+    bool HasLookup { get; set; } = false;
+    bool HasDrillDown { get; set; } = false;
 
     protected override Task OnParametersSetAsync()
     {
@@ -27,6 +29,7 @@ namespace BlazorGenerator.Components.Field
       };
 
       HasLookup = Field.OnLookup != null;
+      HasDrillDown = Field.OnDrillDown != null;
 
       return base.OnParametersSetAsync();
     }
