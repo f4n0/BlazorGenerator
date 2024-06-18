@@ -99,7 +99,7 @@ namespace BlazorGenerator.Components.DataGrid
       }
     }
 
-    private async Task OnKeyUpAsync(FluentKeyCodeEventArgs args)
+    private void OnKeyUp(FluentKeyCodeEventArgs args)
     {
       if (args.Key == KeyCode.Ctrl)
       {
