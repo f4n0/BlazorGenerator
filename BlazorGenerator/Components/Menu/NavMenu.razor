@@ -29,7 +29,7 @@
             }
             else
             {
-              <FluentNavGroup Id="@item.Key" Title="@item.Key" Tooltip="@item.Key" Icon="@(new Icons.Regular.Size24.LeafOne())">
+              <FluentNavGroup Id="@item.Key.Replace(" ", "")" Title="@item.Key" Tooltip="@item.Key">
                 @foreach (var elem in filtered)
                 {
                   <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>
