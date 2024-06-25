@@ -29,7 +29,12 @@
             }
             else
             {
-              <FluentNavGroup Id="@(item.Key.Replace(" ", ""))" Title="@item.Key" Tooltip="@item.Key">
+              NavGroupExpanded.TryAdd(item.Key.Replace(" ", ""), false);
+              <FluentNavGroup Id="@(item.Key.Replace(" ", ""))" 
+                              Title="@item.Key" 
+                              Tooltip="@item.Key" 
+                              Icon="new Icons.Regular.Size16.ChevronRight()" 
+                              Expanded="@(NavGroupExpanded[item.Key.Replace(" ", "")])">
                 @foreach (var elem in filtered)
                 {
                   <FluentNavLink Href="@elem.Route" Match="NavLinkMatch.All" Icon="@(elem.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@elem.Title">@elem.Title</FluentNavLink>

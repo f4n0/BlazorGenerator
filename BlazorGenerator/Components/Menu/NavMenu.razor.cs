@@ -11,6 +11,9 @@ namespace BlazorGenerator.Components.Menu
     List<AddToMenuAttribute> Menus { get; set; } = [];
     FooterLinkAttribute? FooterLink { get; set; }
 
+
+    public Dictionary<string, bool> NavGroupExpanded { get; set; } = [];
+
     protected override async Task OnParametersSetAsync()
     {
       await PopulateDictionaryAsync();
