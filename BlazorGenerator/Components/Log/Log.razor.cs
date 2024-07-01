@@ -36,7 +36,7 @@ namespace BlazorGenerator.Components.Log
     {
       UIServices!.Logger.OnChange += UpdateLog;
       KeyCodeService!.RegisterListener(OnKeyDownAsync);
-      
+
     }
     public async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
     {

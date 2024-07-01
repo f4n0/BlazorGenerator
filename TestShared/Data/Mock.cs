@@ -1,6 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.FluentUI.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace TestShared.Data
 {

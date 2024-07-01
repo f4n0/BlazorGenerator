@@ -20,7 +20,7 @@ public partial class ListDataGrid<T>
 
   private void HandleSingleRecSelection(T? Rec)
   {
-    if (! MultipleSelectEnabled) 
+    if (!MultipleSelectEnabled)
       Selected.Clear();
 
     if (Rec != null)

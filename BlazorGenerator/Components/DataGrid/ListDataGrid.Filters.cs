@@ -87,5 +87,5 @@ public partial class ListDataGrid<T>
     {
       SearchValue = string.Empty;
     }
-  } 
+  }
 }

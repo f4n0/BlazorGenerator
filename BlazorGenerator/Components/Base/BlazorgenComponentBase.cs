@@ -97,6 +97,7 @@ namespace BlazorGenerator.Components.Base
         _cancellationTokenSource.Dispose();
         _cancellationTokenSource = null;
       }
+      GC.SuppressFinalize(this);
     }
   }
 }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using BlazorGenerator.Enum;
+﻿using BlazorGenerator.Enum;
 using BlazorGenerator.Utils;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -92,9 +90,10 @@ namespace BlazorGenerator.Models
 
     internal void InternalDrillDown(T Data)
     {
-      if(OnDrillDown != null)
+      if (OnDrillDown != null)
       {
-        OnDrillDown.Invoke(new VisibleFieldDrillDownArgs<T>() { 
+        OnDrillDown.Invoke(new VisibleFieldDrillDownArgs<T>()
+        {
           Data = Data,
           Field = this
         });

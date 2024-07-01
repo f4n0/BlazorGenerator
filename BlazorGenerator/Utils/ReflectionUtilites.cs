@@ -68,7 +68,7 @@ namespace BlazorGenerator.Utils
 
     internal static string? GetEnumCaption(MemberInfo? prop)
     {
-      if(prop == null) 
+      if (prop == null)
         return null;
 
       var attr = Attribute.GetCustomAttribute(prop, typeof(DisplayAttribute)) as DisplayAttribute;

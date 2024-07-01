@@ -12,7 +12,7 @@ namespace BlazorGenerator.Components.DataGrid
     internal T? CurrRec { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {      
+    {
       await base.OnInitializedAsync();
     }
 
