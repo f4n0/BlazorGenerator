@@ -11,8 +11,13 @@ namespace BlazorGenerator.Components.DataGrid
   {
     internal T? CurrRec { get; set; }
 
+    [Inject]
+    private IKeyCodeService? KeyCodeService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+      //for global F3, otherwise it won't work as soon the page load
+      KeyCodeService?.RegisterListener(OnKeyDownAsync);
       await base.OnInitializedAsync();
     }
 
@@ -64,10 +69,10 @@ namespace BlazorGenerator.Components.DataGrid
         actions = "30px ";
 
       var spacing = 80 / VisibleFields.Count;
-      string cols = "repeat(auto-fill," + spacing + "%) ";
+      string cols = string.Join(" ", Enumerable.Repeat($"{spacing}%", VisibleFields.Count));
       string rowActions = string.Empty;
       if ((permissionSet?.Modify ?? false) || (permissionSet?.Delete ?? false))
-        rowActions = "100px";
+        rowActions = " 100px";
 
       return select + actions + cols + rowActions;
     }

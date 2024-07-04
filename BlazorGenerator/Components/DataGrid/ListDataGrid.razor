@@ -1,5 +1,5 @@
 ﻿@typeparam T
-<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false">
+<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0">
   <div class="GridContainer">
     <div style="width:100%; margin-bottom:5px; ">
       <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true"
@@ -16,16 +16,17 @@
                       TGridItem="T"
                       ResizableColumns="true"
                       GenerateHeader="GenerateHeaderOption.Sticky"
-                      GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet!)"
                       ShowHover="@true"
                       RowClass="SelectedRowClass"
-                      OnCellFocus="@((cell)=> {
-                                   if(cell.GridColumn > 1)
-                                    HandleSingleRecSelection(cell.Item);
-                                })"
-                      Style="min-width: 900px; overflow:auto; flex: 0 1 auto;">
-
-        <TemplateColumn Align="@Align.End">
+                      OnCellClick="@((cell)=> {
+                                       if (cell.GridColumn > 1) {
+                                         HandleSingleRecSelection(cell.Item);
+                                         cell.ParentReference?.Current.FocusAsync();
+                                       }
+                                     })"
+                      Style="overflow:auto; flex: 0 1 auto;">
+        
+        <TemplateColumn Align="@Align.End" Width="50px">
           <ChildContent>
             <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
           </ChildContent>
@@ -35,7 +36,7 @@
         </TemplateColumn>
         @if (GridActions?.Count() > 0)
         {
-          <TemplateColumn Title="" Align="@Align.Center">
+          <TemplateColumn Title="" Align="@Align.Center" Width="30px">
             <ChildContent>
               <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
                                                                                                                          {
@@ -83,7 +84,7 @@
 
         @if ((PermissionSet!.Modify) || (PermissionSet!.Delete) || (PermissionSet!.Insert))
         {
-          <TemplateColumn Title="Actions" Align="@Align.End">
+          <TemplateColumn Title="Actions" Align="@Align.End" Width="100px">
             <ChildContent>
               @if (PermissionSet!.Modify)
               {

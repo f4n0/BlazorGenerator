@@ -16,6 +16,7 @@ namespace BlazorWpf
       serviceCollection.AddHttpClient();
       serviceCollection.AddWpfBlazorWebView();
       serviceCollection.AddBlazorGenerator();
+      serviceCollection.AddBlazorWebViewDeveloperTools();
       Resources.Add("services", serviceCollection.BuildServiceProvider());
     }
   }

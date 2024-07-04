@@ -9,7 +9,7 @@
     <RootNamespace>BlazorGenerator</RootNamespace>
     <RepositoryUrl>https://github.com/f4n0/BlazorGenerator</RepositoryUrl>
     <Authors>f4n0</Authors>
-    <Version>1.3.96.1</Version>
+    <Version>1.3.101.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,8 +26,8 @@
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.*" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.8.1" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.8.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.9.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
   </ItemGroup>
@@ -48,7 +48,7 @@
     <Title>BlazorGenerator</Title>
     <Description>
       You think of the models, Blazorgen the Blazor UI.
-      This is  a view creator based on fields in models
+      This is a view creator based on fields in models. You only need to define which type of page this model will become!
     </Description>
     <PackageProjectUrl>https://github.com/f4n0/BlazorGenerator</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>

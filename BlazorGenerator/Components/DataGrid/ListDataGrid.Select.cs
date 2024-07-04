@@ -23,7 +23,11 @@ public partial class ListDataGrid<T>
     if (!MultipleSelectEnabled)
       Selected.Clear();
 
-    if (Rec != null)
+    if (Selected.Contains(Rec) && MultipleSelectEnabled)
+    {
+      Selected.Remove(Rec);
+    }
+    else if (Rec != null)
     {
       Selected.Add(Rec);
     }
