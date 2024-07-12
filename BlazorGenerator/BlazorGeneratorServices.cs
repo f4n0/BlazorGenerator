@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Security;
+﻿using BlazorGenerator.DynamicComponents;
+using BlazorGenerator.Security;
 using BlazorGenerator.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -9,6 +10,7 @@ namespace BlazorGenerator
   {
     public static IServiceCollection AddBlazorGenerator(this IServiceCollection services)
     {
+      services.AddTransient<IMainLayout, DynamicMainLayout>();
       services.AddFluentUIComponents();
 
       services.AddSingleton<BlazorGenLogger>();

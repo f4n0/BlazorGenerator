@@ -1,13 +1,16 @@
-﻿<ErrorBoundary @ref="errorBoundary">
+﻿
+@inject BlazorGenerator.DynamicComponents.IMainLayout mainLayout
+
+<ErrorBoundary @ref="errorBoundary">
   <ChildContent>
     <Router AppAssembly="@AppAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] { typeof(BlazorGenApp).Assembly } : null)" @rendermode="BlazorGenRenderMode">
       <Found Context="routeData">
-        <BlazorGeneratorRouteView RouteData="@routeData" DefaultLayout="@typeof(DynamicMainLayout)" />
+        <BlazorGeneratorRouteView RouteData="@routeData" DefaultLayout="@mainLayout.GetType()" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
       </Found>
       <NotFound>
         <PageTitle>@Captions.Instance.NotFound</PageTitle>
-        <LayoutView Layout="@typeof(DynamicMainLayout)">
+        <LayoutView Layout="@mainLayout.GetType()">
           <p role="alert">@Captions.Instance.NotFoundMessage</p>
         </LayoutView>
       </NotFound>
@@ -20,7 +23,7 @@
         <h2>@Captions.Instance.ErrorTitle</h2>
         <b>@Captions.Instance.ErrorMessage</b><br />
         <i>@Captions.Instance.ErrorMessagePersist</i><br /><br />
-                                                           <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> CreateExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchor>
+        <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> CreateExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchor>
 
       </div><br />
 

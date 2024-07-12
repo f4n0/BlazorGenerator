@@ -1,10 +1,11 @@
-﻿using BlazorGenerator.Services;
+﻿using BlazorGenerator.DynamicComponents;
+using BlazorGenerator.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-namespace BlazorGenerator.DynamicComponents
+namespace BlazorGenerator.Authentication
 {
-  public partial class DynamicMainLayout : IMainLayout
+  public partial class AuthMainLayout : IMainLayout
   {
     FluentDesignTheme? Theme { get; set; }
 

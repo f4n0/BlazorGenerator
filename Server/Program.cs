@@ -1,12 +1,13 @@
 using BlazorGenerator;
+using BlazorGenerator.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddBlazorGenerator().UseBlazorGeneratorAuthentication();
 
-builder.Services.AddBlazorGenerator();
 BlazorGeneratorSettings.Instance.ApplicationName = "BlazorGenerator Demo App";
 BlazorGeneratorSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
 

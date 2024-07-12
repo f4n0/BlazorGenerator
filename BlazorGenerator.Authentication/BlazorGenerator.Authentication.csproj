@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorGenerator.Authentication\BlazorGenerator.Authentication.csproj" />
-    <ProjectReference Include="..\BlazorGenerator\BlazorGenerator.csproj" />
-    <ProjectReference Include="..\TestShared\TestShared.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlazorGenerator\BlazorGenerator.csproj" />
+  </ItemGroup>
+
+
 
 </Project>
