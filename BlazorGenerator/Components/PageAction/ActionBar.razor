@@ -1,6 +1,6 @@
 ﻿
-<FluentGrid Style="" Justify="JustifyContent.FlexStart" Spacing="1" Class="actionblock" >
-  <FluentGridItem Justify="JustifyContent.FlexStart" Style="" >
+<FluentGrid Style="" Justify="JustifyContent.FlexStart" Spacing="1" Class="actionblock">
+  <FluentGridItem Justify="JustifyContent.FlexStart" Style="">
     <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align: text-top; padding-bottom: 0;">
       @((Context as BlazorGeneratorComponentBase)?.Title)
     </FluentLabel>
@@ -17,12 +17,12 @@
           {
             foreach (var action in filtered)
             {
-              <FluentOverflowItem>
+              <FluentOverflowItem Data="action">
                 <FluentGridItem xs="12" sm="6" md="0">
                   <FluentButton OnClick="@(() => ReflectionUtilites.InvokeAction(action.Method, Context))">
                     @(action.Attribute.Caption ?? action.Method.Name)
                     <span slot="start">
-                      <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Neutral" />
+                      <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Accent" />
                     </span>
                   </FluentButton>
                 </FluentGridItem>
@@ -33,11 +33,11 @@
           {
 
             PopOverBind.TryAdd(@item.Key, false);
-            <FluentOverflowItem >
+            <FluentOverflowItem Data="filtered">
               <FluentGridItem xs="12" sm="6" md="0">
                 <FluentButton id="@item.Key" @onclick="() => PopOverBind[item.Key] = !PopOverBind[item.Key]">
                   @item.Key
-                  <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Neutral" />
+                  <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Accent" />
                 </FluentButton>
               </FluentGridItem>
             </FluentOverflowItem>
@@ -50,7 +50,7 @@
                     <FluentButton OnClick="@(() => { PopOverBind[item.Key] = false; _ = ReflectionUtilites.InvokeAction(action.Method, Context); })">
                       @(action.Attribute.Caption ?? action.Method.Name)
                       <span slot="start">
-                        <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Neutral" />
+                        <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Accent" />
                       </span>
                     </FluentButton>
                   }
@@ -68,15 +68,44 @@
       <FluentButton OnClick="@(()=> OpenMore = !OpenMore)">...</FluentButton>
     </MoreButtonTemplate>
     <OverflowTemplate>
-      <FluentPopover AnchorId="@context.IdMoreButton" @bind-Open="@OpenMore" HorizontalPosition="HorizontalPosition.Left" Style="width: 300px;" >
+      <FluentPopover AnchorId="@context.IdMoreButton" @bind-Open="@OpenMore" HorizontalPosition="HorizontalPosition.Left" Style="width: 300px;">
         <Body>
           <FluentGrid Style="overflow: hidden; flex: 0 0 auto; margin-bottom: 5px" Justify="JustifyContent.FlexStart" Spacing="1">
             @foreach (var item in context.ItemsOverflow)
             {
-              <slot></slot>
-              @item.ChildContent
+              <FluentGridItem xs="12" sm="6" md="0">
+                @if (item.Data is (MethodInfo Method, PageActionAttribute Attribute))
+                {
+                  var casted = ((MethodInfo Method, PageActionAttribute Attribute))item.Data;
+
+                  <FluentButton OnClick="@(() => ReflectionUtilites.InvokeAction(casted.Method, Context))">
+                    @(casted.Attribute.Caption ?? casted.Method.Name)
+                    <span slot="start">
+                      <FluentIcon Value="@(casted.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Accent" />
+                    </span>
+                  </FluentButton>
+                }
+                else if (item.Data is IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)>)
+                {
+                  var casted = item.Data as IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)>;
+                  <div style="border: 1px solid var(--neutral-fill-strong-focus) ">
+                    <FluentLabel Typo="Typography.Subject" Alignment="HorizontalAlignment.Center">@casted.First().Attribute.Group</FluentLabel>
+                    <FluentStack Orientation="Orientation.Horizontal" Wrap="true" Style="margin-top:10px;">
+                      @foreach (var action in casted)
+                      {
+                        <FluentButton OnClick="@(() => { _ = ReflectionUtilites.InvokeAction(action.Method, Context); })">
+                          @(action.Attribute.Caption ?? action.Method.Name)
+                          <span slot="start">
+                            <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Accent" />
+                          </span>
+                        </FluentButton>
+                      }
+                    </FluentStack>
+                  </div>
+                }
+              </FluentGridItem>
             }
-            </FluentGrid>
+          </FluentGrid>
         </Body>
       </FluentPopover>
     </OverflowTemplate>

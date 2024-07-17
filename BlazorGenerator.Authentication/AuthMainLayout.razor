@@ -16,12 +16,12 @@
         <Log />
       </div>
       <FluentProfileMenu 
-                         Status="@PresenceStatus.Available"
-                         HeaderLabel="Microsoft"
                          Initials="BG"
                          FullName="Bill Gates"
                          EMail="bill.gates@microsoft.com"
-                         PopoverStyle="min-width: 330px;" />
+                         PopoverStyle="min-width: 330px;" >
+        <FooterTemplate></FooterTemplate>
+        </FluentProfileMenu>
     </FluentHeader>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%" VerticalGap="0" HorizontalGap="0">
       <NavMenu />
