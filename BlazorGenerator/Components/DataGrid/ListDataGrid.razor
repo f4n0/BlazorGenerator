@@ -18,6 +18,7 @@
                       GenerateHeader="GenerateHeaderOption.Sticky"
                       ShowHover="@true"
                       RowClass="SelectedRowClass"
+                      GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet)"
                       OnCellClick="@((cell)=> {
                                        if (cell.GridColumn > 1) {
                                          HandleSingleRecSelection(cell.Item);
@@ -26,7 +27,7 @@
                                      })"
                       Style="overflow:auto; flex: 0 1 auto;">
         
-        <TemplateColumn Align="@Align.End" Width="50px">
+        <TemplateColumn Align="@Align.End">
           <ChildContent>
             <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
           </ChildContent>
@@ -36,7 +37,7 @@
         </TemplateColumn>
         @if (GridActions?.Count() > 0)
         {
-          <TemplateColumn Title="" Align="@Align.Center" Width="30px">
+          <TemplateColumn Title="" Align="@Align.Center">
             <ChildContent>
               <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
                                                                                                                          {
@@ -84,7 +85,7 @@
 
         @if ((PermissionSet!.Modify) || (PermissionSet!.Delete) || (PermissionSet!.Insert))
         {
-          <TemplateColumn Title="Actions" Align="@Align.End" Width="100px">
+          <TemplateColumn Title="Actions" Align="@Align.End">
             <ChildContent>
               @if (PermissionSet!.Modify)
               {
