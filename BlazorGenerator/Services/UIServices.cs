@@ -1,6 +1,7 @@
 ﻿using BlazorGenerator.Components.Modals;
 using BlazorGenerator.Layouts;
 using BlazorGenerator.Models;
+using DocumentFormat.OpenXml.Presentation;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Newtonsoft.Json.Linq;
 
@@ -42,7 +43,7 @@ namespace BlazorGenerator.Services
         Height = "fit-content"
       });
       var result = (await DialogResult.Result);
-      if (result.Data is not null)
+      if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as T;
       }
@@ -69,7 +70,7 @@ namespace BlazorGenerator.Services
         SecondaryAction = ""
       });
       var result = (await DialogResult.Result);
-      if (result.Data is not null)
+      if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as UploadFileData;
       }
@@ -87,7 +88,7 @@ namespace BlazorGenerator.Services
         Height = "fit-content"
       });
       var result = (await DialogResult.Result);
-      if (result.Data is not null)
+      if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as UserInputData;
       }
@@ -149,7 +150,7 @@ namespace BlazorGenerator.Services
         Width = "40%"
       });
       var result = (await DialogResult.Result);
-      if (result.Data is not null)
+      if ((result.Data is not null) && !result.Cancelled)
       {
         return (result.Data as ModalData<T>)?.Data;
       }
