@@ -24,10 +24,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.102.2" />
+    <PackageReference Include="ClosedXML" Version="0.102.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.*" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.9.1" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.9.1" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.9.2" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.9.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
   </ItemGroup>
