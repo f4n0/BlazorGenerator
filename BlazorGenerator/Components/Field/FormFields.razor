@@ -150,12 +150,12 @@ else
   }
   @if (HasLookup)
   {
-    var values = Field.OnLookup?.Invoke(Data) ?? new List<object>();
+    var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();
     <FluentMenu Anchor="@Id" @bind-Open="LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px" Anchored="true">
       @foreach (var item in values)
       {
-        <FluentMenuItem OnClick="@((e) => Field.InternalSet(Data, item))">
-          @item.ToString()
+        <FluentMenuItem OnClick="@((e) => Field.InternalSet(Data, item.Key))">
+          @((MarkupString)item.Value.ToString())
         </FluentMenuItem>
       }
     </FluentMenu>

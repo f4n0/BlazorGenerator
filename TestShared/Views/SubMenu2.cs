@@ -16,7 +16,7 @@ namespace TestShared.Views
       VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
 
-      VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(t => t.OnLookup = (_) => [.. (new List<string>() { "test", "test2" })]);
+      VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(t => t.OnLookup = (_) => new Dictionary<object, string> { { "test", "test view" }, { "test1", "test view 1" } });
       VisibleFields.AddField(nameof(Mock.Price)).AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
       VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o) => o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password);
       VisibleFields.AddField(nameof(Mock.OrderDate)).AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));

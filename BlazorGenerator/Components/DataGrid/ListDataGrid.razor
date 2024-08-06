@@ -2,7 +2,7 @@
 <FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0">
   <div class="GridContainer">
     <div style="width:100%; margin-bottom:5px; ">
-      <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true"
+      <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true" ImmediateDelay="200"
                     @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
       <div style="float: right; margin-right: 20px;">
         <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
@@ -89,17 +89,17 @@
             <ChildContent>
               @if (PermissionSet!.Modify)
               {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" OnClick="@(() => EditAsync(context))" />
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" Appearance="Appearance.Outline" OnClick="@(() => EditAsync(context))" />
               }
               @if (PermissionSet!.Delete)
               {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" OnClick="@(() => HandleDiscard(context))" />
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Outline" OnClick="@(() => HandleDiscard(context))" />
               }
             </ChildContent>
             <HeaderCellItemTemplate>
               @if (PermissionSet!.Modify)
               {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" OnClick="@(() => NewItem())" Style="margin-right:5px;" />
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Outline" OnClick="@(() => NewItem())" Style="margin-right:5px;" />
               }
             </HeaderCellItemTemplate>
           </TemplateColumn>
