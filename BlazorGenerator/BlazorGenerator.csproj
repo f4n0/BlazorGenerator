@@ -41,6 +41,8 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="Components\SplitButton\SplitButton.razor" />
+    <None Include="Components\SplitButton\SplitButtonItem.razor" />
   </ItemGroup>
 
   <PropertyGroup>

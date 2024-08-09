@@ -1,11 +1,11 @@
 ﻿
-<FluentGrid Style="" Justify="JustifyContent.FlexStart" Spacing="1" Class="actionblock">
-  <FluentGridItem Justify="JustifyContent.FlexStart" Style="">
-    <FluentLabel Typo="Typography.PaneHeader" Style="vertical-align: text-top; padding-bottom: 0;">
+<FluentStack HorizontalGap="5" VerticalAlignment="VerticalAlignment.Center" Class="actionblock">
+  <div style="margin-right:10px;">
+    <FluentLabel Typo="Typography.PaneHeader" Style=" width: max-content; ">
       @((Context as BlazorGeneratorComponentBase)?.Title)
     </FluentLabel>
-  </FluentGridItem>
-  <FluentOverflow Style="width: 100%; margin-bottom: 5px; ">
+  </div>
+  <FluentOverflow Style="width:100%; padding-right:10px;">
     <ChildContent>
       @{
         PopulateDictionary();
@@ -32,48 +32,43 @@
           else
           {
 
-            PopOverBind.TryAdd(@item.Key, false);
             <FluentOverflowItem Data="filtered">
-              <FluentGridItem xs="12" sm="6" md="0">
-                <FluentButton id="@item.Key" @onclick="() => PopOverBind[item.Key] = !PopOverBind[item.Key]">
-                  @item.Key
-                  <FluentIcon Value="@( new Icons.Regular.Size16.ChevronDown())" Slot="end" Color="Color.Accent" />
-                </FluentButton>
-              </FluentGridItem>
+              @{ 
+                var firstOne = filtered.First();
+              }
+              <SplitButton 
+                           Title="@(firstOne.Attribute.Caption ?? firstOne.Method.Name)" 
+                           Icon="@firstOne.Attribute.Icon.ToFluentIcon()"
+                           OnClick="@(() => { _ = ReflectionUtilites.InvokeAction(firstOne.Method, Context); })">
+                @foreach (var action in filtered.Skip(1))
+                {
+                  <SplitButtonItem OnClick="@(() => { _ = ReflectionUtilites.InvokeAction(action.Method, Context); })">
+                    @(action.Attribute.Caption ?? action.Method.Name)
+                    <span slot="start">
+                      <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Accent" />
+                    </span>
+                  </SplitButtonItem>
+                }
+              </SplitButton>
             </FluentOverflowItem>
-            <FluentPopover AnchorId="@item.Key" @bind-Open="PopOverBind[item.Key]" HorizontalPosition="HorizontalPosition.Right">
-              <Body>
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-
-                  @foreach (var action in filtered)
-                  {
-                    <FluentButton OnClick="@(() => { PopOverBind[item.Key] = false; _ = ReflectionUtilites.InvokeAction(action.Method, Context); })">
-                      @(action.Attribute.Caption ?? action.Method.Name)
-                      <span slot="start">
-                        <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Accent" />
-                      </span>
-                    </FluentButton>
-                  }
-                </FluentStack>
-              </Body>
-            </FluentPopover>
-
           }
         }
 
 
       }
     </ChildContent>
+
     <MoreButtonTemplate>
       <FluentButton OnClick="@(()=> OpenMore = !OpenMore)">...</FluentButton>
     </MoreButtonTemplate>
+
     <OverflowTemplate>
       <FluentPopover AnchorId="@context.IdMoreButton" @bind-Open="@OpenMore" HorizontalPosition="HorizontalPosition.Left" Style="width: 300px;">
         <Body>
           <FluentGrid Style="overflow: hidden; flex: 0 0 auto; margin-bottom: 5px" Justify="JustifyContent.FlexStart" Spacing="1">
             @foreach (var item in context.ItemsOverflow)
             {
-              <FluentGridItem xs="12" sm="6" md="0">
+              <FluentGridItem xs="12">
                 @if (item.Data is (MethodInfo Method, PageActionAttribute Attribute))
                 {
                   var casted = ((MethodInfo Method, PageActionAttribute Attribute))item.Data;
@@ -109,10 +104,9 @@
         </Body>
       </FluentPopover>
     </OverflowTemplate>
-
   </FluentOverflow>
+</FluentStack>
 
-</FluentGrid>
 
 <style>
   .fluent-popover-content {

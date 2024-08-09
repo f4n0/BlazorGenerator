@@ -1,15 +1,20 @@
 ﻿@typeparam T
 <FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0">
   <div class="GridContainer">
-    <div style="width:100%; margin-bottom:5px; ">
-      <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true" ImmediateDelay="200"
-                    @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
-      <div style="float: right; margin-right: 20px;">
+    <FluentStack Orientation="Orientation.Horizontal" Style="margin-bottom:10px;">
+      <div>
+        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true" ImmediateDelay="200"
+                      @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
+        <FluentDivider Orientation="Orientation.Vertical"></FluentDivider>
+
+      </div>
+      <FluentSpacer></FluentSpacer>
+      <div style="margin-right:10px;">
         <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
           <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel" />
         </FluentButton>
       </div>
-    </div>
+    </FluentStack>
     @if ((VisibleFields != null) && (VisibleFields.Count > 0))
     {
       <FluentDataGrid Items="@FilteredData"
@@ -25,7 +30,7 @@
                                          cell.ParentReference?.Current.FocusAsync();
                                        }
                                      })"
-                      Style="overflow:auto; flex: 0 1 auto;">
+                      Style="overflow:auto; flex: 0 1 auto; min-height:150px;">
         
         <TemplateColumn Align="@Align.End">
           <ChildContent>
@@ -99,7 +104,7 @@
             <HeaderCellItemTemplate>
               @if (PermissionSet!.Modify)
               {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Outline" OnClick="@(() => NewItem())" Style="margin-right:5px;" />
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" Style="margin-right:5px;" />
               }
             </HeaderCellItemTemplate>
           </TemplateColumn>
