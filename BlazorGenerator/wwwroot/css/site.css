@@ -154,7 +154,7 @@ code {
   overflow: hidden;
   flex: 0 0 auto;
   margin-bottom: 5px;
-  padding-bottom:5px;
+  padding-bottom:10px;
 }
 
 fluent-text-field::part(control), fluent-text-field::part(root) {
