@@ -33,11 +33,11 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Include="..\LICENSE">
+    <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\README.md">
+    <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
@@ -53,8 +53,8 @@
       This is a view creator based on fields in models. You only need to define which type of page this model will become!
     </Description>
     <PackageProjectUrl>https://github.com/f4n0/BlazorGenerator</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>..\..\README.md</PackageReadmeFile>
+    <PackageLicenseFile>..\..\LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
