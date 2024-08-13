@@ -20,7 +20,7 @@ jobs:
 
       # Publish the site
       - name: Publish
-        run: dotnet publish "WebAssembly/Demo/WebAssembly.csproj" -c:Release -o:public 
+        run: dotnet publish "Demo/WebAssembly/WebAssembly.csproj" -c:Release -o:public 
 
       # changes the base-tag in index.html from '/' to 'BlazorGitHubPagesDemo' to match GitHub Pages repository subdirectory
       - name: Change base-tag in index.html from / to BlazorGenerator
