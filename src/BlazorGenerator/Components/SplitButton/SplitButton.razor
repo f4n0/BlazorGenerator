@@ -30,7 +30,7 @@
   public RenderFragment? ChildContent { get; set; }
 
   [Parameter]
-  public string Title { get; set; }
+  public string? Title { get; set; }
 
   [Parameter]
   public EventCallback<MouseEventArgs> OnClick { get; set; }
@@ -40,6 +40,6 @@
   public Appearance Appearance { get; set; }
 
   [Parameter]
-  public Icon Icon { get; set; }
+  public Icon? Icon { get; set; }
 
 }

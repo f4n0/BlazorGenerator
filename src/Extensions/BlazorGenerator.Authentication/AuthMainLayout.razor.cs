@@ -22,7 +22,9 @@ namespace BlazorGenerator.Authentication
 
     private void SwitchDarkLightTheme()
     {
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
       Theme!.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     }
 
     protected override Task OnParametersSetAsync()

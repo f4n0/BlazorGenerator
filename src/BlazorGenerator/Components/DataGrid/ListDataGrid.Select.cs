@@ -22,6 +22,8 @@ public partial class ListDataGrid<T>
   {
     if (!MultipleSelectEnabled)
       Selected.Clear();
+    if (Rec == null)
+      return;
 
     if (Selected.Contains(Rec) && MultipleSelectEnabled)
     {
