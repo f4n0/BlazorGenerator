@@ -23,7 +23,7 @@ namespace BlazorGenerator.Components.Field
       {
         { "Id", Id },
         {"Appearance",FluentInputAppearance.Filled },
-        {"ReadOnly", !Editable || (Field.OnLookup != null) },
+        {"ReadOnly", Field.ReadOnly || (Field.OnLookup != null) },
         {"style", styles },
         {"Immediate", Field.Immediate }
       };

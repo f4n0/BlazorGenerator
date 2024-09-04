@@ -23,6 +23,7 @@ namespace BlazorGenerator.Models
     public Func<T, string>? Href { get; set; }
     public Func<T, Dictionary<object, string>?>? OnLookup { get; set; }
     public bool Immediate { get; set; } = false;
+    public bool ReadOnly { get; set; } = false;
     public Func<T, TextStyle>? TextStyle { get; set; }
     public Func<T, Color>? Color { get; set; }
     public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
