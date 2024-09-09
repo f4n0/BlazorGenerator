@@ -1,7 +1,7 @@
 ﻿
 <FluentStack HorizontalGap="5" VerticalAlignment="VerticalAlignment.Center" Class="actionblock">
   <div style="margin-right:10px;">
-    <FluentLabel Typo="Typography.PaneHeader" Style=" width: max-content; ">
+    <FluentLabel Weight="FontWeight.Bold" Typo="Typography.H4" Style=" width: max-content; ">
       @((Context as BlazorGeneratorComponentBase)?.Title)
     </FluentLabel>
   </div>
@@ -39,6 +39,14 @@
               <SplitButton Title="@(firstOne.Attribute.Caption ?? firstOne.Method.Name)"
                            Icon="@firstOne.Attribute.Icon.ToFluentIcon()"
                            OnClick="@(() => { _ = ReflectionUtilites.InvokeAction(firstOne.Method, Context); })">
+
+                <SplitButtonItem OnClick="@(() => { _ = ReflectionUtilites.InvokeAction(firstOne.Method, Context); })">
+                  @(firstOne.Attribute.Caption ?? firstOne.Method.Name)
+                  <span slot="start">
+                    <FluentIcon Value="@firstOne.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Accent" />
+                  </span>
+                </SplitButtonItem>
+
                 @foreach (var action in filtered.Skip(1))
                 {
                   <SplitButtonItem OnClick="@(() => { _ = ReflectionUtilites.InvokeAction(action.Method, Context); })">

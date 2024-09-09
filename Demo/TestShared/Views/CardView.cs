@@ -11,6 +11,7 @@ namespace TestShared.Views
   [AddToMenu(Title = "Card Page", Route = "card")]
   public class CardView : CardPage<Mock>
   {
+    public override string Title => "br-labsdev2 Integration - Apps";
     protected override Task LoadVisibleFields()
     {
       VisibleFields = [];
