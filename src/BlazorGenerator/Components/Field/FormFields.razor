@@ -59,7 +59,10 @@ else
 {
   @if (ShowLabel)
   {
-    <FluentInputLabel ForId="@Id" Label="@Field.Caption" AriaLabel="@Field.Caption" id="@(Id+"-Label")" Title="@(Field.Tooltip ?? Field.Caption)"/>
+    <FluentInputLabel ForId="@Id" Label="@Field.Caption"
+                      AriaLabel="@Field.Caption" Required="@Field.Required"
+                      id="@(Id+"-Label")" 
+                      Title="@(Field.Tooltip ?? Field.Caption)"/>
 
     <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
   }
