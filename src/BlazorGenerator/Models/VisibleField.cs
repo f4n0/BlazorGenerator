@@ -27,6 +27,7 @@ namespace BlazorGenerator.Models
     public Func<T, TextStyle>? TextStyle { get; set; }
     public Func<T, Color>? Color { get; set; }
     public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
+    public string? Tooltip { get; set; }
 
     internal static VisibleField<T> NewField(string propertyName)
     {

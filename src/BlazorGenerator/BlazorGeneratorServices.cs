@@ -3,6 +3,7 @@ using BlazorGenerator.Security;
 using BlazorGenerator.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components.Components.Tooltip;
 
 namespace BlazorGenerator
 {
@@ -16,6 +17,7 @@ namespace BlazorGenerator
       services.AddSingleton<BlazorGenLogger>();
       services.AddScoped<ProgressService>();
       services.AddScoped<LockUIService>();
+
 
       services.AddScoped<ISecurity, NullSecurity>();
       services.AddTransient<BlazorGeneratorSecurity>();
