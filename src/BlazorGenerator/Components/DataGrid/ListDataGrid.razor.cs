@@ -11,6 +11,8 @@ namespace BlazorGenerator.Components.DataGrid
   {
     internal T? CurrRec { get; set; }
 
+    FluentMenu? GridActionRef { get; set; }
+
     [Inject]
     private IKeyCodeService? KeyCodeService { get; set; }
 
