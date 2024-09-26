@@ -61,8 +61,8 @@ else
   {
     <FluentInputLabel ForId="@Id" Label="@Field.Caption"
                       AriaLabel="@Field.Caption" Required="@Field.Required"
-                      id="@(Id+"-Label")" 
-                      Title="@(Field.Tooltip ?? Field.Caption)"/>
+                      id="@(Id+"-Label")"
+                      Title="@(Field.Tooltip ?? Field.Caption)" />
 
     <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
   }
@@ -70,62 +70,62 @@ else
   @if (Field.FieldType == typeof(bool))
   {
     <FluentCheckbox Value="@(Convert.ToBoolean(Field.InternalGet(Data)))" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                    @attributes="@commonAttributes" />
+                    @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(short))
   {
     <FluentNumberField TValue="short" Value="@(Convert.ToInt16(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(ushort))
   {
     <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(int))
   {
     <FluentNumberField TValue="int" Value="@(Convert.ToInt32(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(uint))
   {
     <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(long))
   {
     <FluentNumberField TValue="long" Value="@(Convert.ToInt64(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(ulong))
   {
     <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(float))
   {
     <FluentNumberField TValue="float" Value="@(Convert.ToSingle(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(double))
   {
     <FluentNumberField TValue="double" Value="@(Convert.ToDouble(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(decimal))
   {
     <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" />
+                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if ((Field.FieldType == typeof(string)))
   {
     <FluentTextField Value="@Field.InternalGet(Data)?.ToString()" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                     TextFieldType="@Field.TextFieldType" @attributes="@commonAttributes" />
+                     TextFieldType="@Field.TextFieldType" @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
 
   }
   else if (Field.FieldType == typeof(DateTime))
   {
-    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val!))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick" />
+    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val!))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(Type))
   {
@@ -144,6 +144,7 @@ else
                     OptionValue="@(val => val)"
                     Value="@( Enum.GetName(Field.FieldType, Field.InternalGet(Data)!))"
                     ValueChanged="(val) => Field.InternalSet(Data, Enum.Parse(Field.FieldType, val))"
+                    Placeholder="@Field.PlaceHolder"
                     @attributes="@commonAttributes" />
 
     }
