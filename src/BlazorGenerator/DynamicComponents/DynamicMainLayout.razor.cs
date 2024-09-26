@@ -18,6 +18,8 @@ namespace BlazorGenerator.DynamicComponents
     public IKeyCodeService? KeyCodeService { get; set; }
     [Inject]
     public LockUIService? LockUIService { get; set; }
+    [Inject]
+    public IHelpService? HelpService { get; set; }
 
     private void SwitchDarkLightTheme()
     {

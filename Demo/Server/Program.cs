@@ -1,5 +1,8 @@
 using BlazorGenerator;
 using BlazorGenerator.Authentication;
+using BlazorGenerator.Services;
+using Microsoft.JSInterop;
+using TestShared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,11 @@ builder.Services.AddBlazorGenerator();//.UseBlazorGeneratorAuthentication();
 
 BlazorGeneratorSettings.Instance.ApplicationName = "BlazorGenerator Demo App";
 BlazorGeneratorSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
+BlazorGeneratorSettings.Instance.ShowHelpButton = true;
+
+builder.Services.AddTransient<IHelpService, HelpService>(o => new HelpService(
+  o.GetRequiredService<IJSRuntime>()
+  ));
 
 var app = builder.Build();
 

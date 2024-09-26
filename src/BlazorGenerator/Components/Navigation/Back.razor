@@ -2,10 +2,8 @@
 
 @if (NavManager?.ToBaseRelativePath(NavManager.Uri.ToString()) != "")
 {
-  <FluentButton OnClick="@(() => JSRuntime.InvokeVoidAsync("history.back"))" Title="Go Back (Alt + ←)" >
+  <FluentButton IconStart="new Icons.Regular.Size20.ArrowCircleLeft()"
+                OnClick="@(() => JSRuntime.InvokeVoidAsync("history.back"))" Title="Go Back (Alt + ←)" Style=" margin-left: -15px; width:100px;">
     @Captions.Instance.NavigationBack
-    <span slot="start">
-      <FluentIcon Value="@(new Icons.Regular.Size20.ArrowCircleLeft())"  Slot="start" Color="Color.Neutral"/>
-    </span>
   </FluentButton>
 }

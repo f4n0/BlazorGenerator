@@ -13,5 +13,7 @@ namespace BlazorGenerator
     public string UnauthorizedRoute { get; set; } = "/Unauthorized";
     public string LoginRoute { get; set; } = "/Login";
 
+    public bool ShowHelpButton { get; set; } = false;
+
   }
 }
