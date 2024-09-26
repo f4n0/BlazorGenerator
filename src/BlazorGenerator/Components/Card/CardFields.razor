@@ -1,7 +1,7 @@
 ﻿@typeparam T
 
 <FluentGrid Spacing="3">
-  @foreach (var context in VisibleFields)
+  @foreach (var context in VisibleFields.Where(o => o.Group == string.Empty))
   {
     <FluentGridItem md="GridSize">
       <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
@@ -10,6 +10,37 @@
     </FluentGridItem>
   }
 </FluentGrid>
+@{
+  var groups = VisibleFields.Where(o => o.Group != string.Empty).Select(o => o.Group).Distinct();
+  if (groups.Count() > 0)
+  {
+    <hr />
+    <FluentAccordion Class="contentblock"> 
+
+      @foreach (var group in groups)
+      {
+        <FluentAccordionItem Expanded="true" >
+          <HeadingTemplate>
+            <FluentLabel Typo="Typography.H6">@group</FluentLabel>
+          </HeadingTemplate>
+          <ChildContent>
+
+            <FluentGrid Spacing="3">
+              @foreach (var context in VisibleFields.Where(o => o.Group == group))
+              {
+                <FluentGridItem md="GridSize">
+                  <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
+                    <FormFields Data="Data" Field="context" T="T" />
+                  </FluentStack>
+                </FluentGridItem>
+              }
+            </FluentGrid>
+          </ChildContent>
+        </FluentAccordionItem>
+      }
+    </FluentAccordion>
+  }
+}
 <br />
 @if (ShowButtons)
 {
@@ -28,6 +59,6 @@
         }
       </FluentStack>
     </FluentGridItem>
-</FluentGrid>
+  </FluentGrid>
 
 }

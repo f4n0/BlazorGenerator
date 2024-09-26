@@ -30,6 +30,7 @@ namespace BlazorGenerator.Models
     public string? Tooltip { get; set; }
     public bool Required { get; set; }
     public string? PlaceHolder { get; set; } = string.Empty;
+    public string? Group { get; set; } = string.Empty;
 
     internal static VisibleField<T> NewField(string propertyName)
     {
