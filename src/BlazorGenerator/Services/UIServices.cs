@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace BlazorGenerator.Services
 {
-  public class UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService _progressService, IKeyCodeService _keyCodeService, LockUIService _lockService)
+  public partial class UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService _progressService, IKeyCodeService _keyCodeService, LockUIService _lockService)
   {
     public BlazorGenLogger Logger { get; internal set; } = _logger;
     public IDialogService DialogService { get; internal set; } = _dialogService;
