@@ -73,7 +73,7 @@ namespace BlazorGenerator.Components.Base
     }
 
     private CancellationTokenSource? _cancellationTokenSource;
-    protected CancellationToken ComponentDetached => (_cancellationTokenSource ??= new()).Token;
+    public CancellationToken ComponentDetached => (_cancellationTokenSource ??= new()).Token;
 
 
     public ValueTask DisposeAsync()

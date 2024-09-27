@@ -8,6 +8,7 @@ namespace BlazorGenerator.Components.Modals
   {
     [Parameter]
     public UploadFileData Content { get; set; } = new();
+
     int ProgressPercent = 0;
 
     [CascadingParameter]
@@ -25,14 +26,14 @@ namespace BlazorGenerator.Components.Modals
         };
         if (file.Stream != null)
         {
-          await res.FromStreamAsync(file.Stream);
+          await res.FromStreamAsync(file.Stream, Content.CancellationToken);
         }
         converted.Add(res);
       }
 
       Content.Files = converted.ToArray();
 
-      await Task.Delay(500);
+      await Task.Delay(500, Content.CancellationToken);
       ProgressPercent = 0;
       await Dialog!.CloseAsync(Content);
     }

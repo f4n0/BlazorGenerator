@@ -32,8 +32,8 @@ namespace BlazorGenerator.Components.DataGrid
       }
       else
       {
-        var typeDelegate = RoslynUtilities.CreateAndInstatiateClass(VisibleFields, "edit");
-        var type = (Type)typeDelegate.Invoke().Result;
+        var typeDelegate = RoslynUtilities.CreateAndInstatiateClass(VisibleFields, "edit", ct: (Context as BlazorGeneratorComponentBase).ComponentDetached);
+        var type = (Type)typeDelegate.Invoke(cancellationToken: (Context as BlazorGeneratorComponentBase).ComponentDetached).Result;
         res = await UIServices!.OpenPanel<T>(type, context);
         GC.Collect();
       }
@@ -85,7 +85,7 @@ namespace BlazorGenerator.Components.DataGrid
       var res = ExcelUtilities.ExportToExcel(DataToExport!, VisibleFields);
 
       using var streamRef = new DotNetStreamReference(stream: res);
-      await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase)?.Title + ".xlsx", streamRef);
+      await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase).ComponentDetached,(Context as BlazorGeneratorComponentBase)?.Title + ".xlsx", streamRef);
     }
 
     private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)

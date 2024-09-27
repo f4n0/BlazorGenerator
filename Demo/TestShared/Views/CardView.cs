@@ -100,12 +100,12 @@ namespace TestShared.Views
     [PageAction(Caption = "With Cancellation", Group = "grouped")]
     public async Task Test2()
     {
-      await LongProcedure();
+      await LongProcedure(ComponentDetached);
     }
 
-    async Task LongProcedure()
+    async Task LongProcedure(CancellationToken cy = default)
     {
-      await Task.Delay(5000);
+      await Task.Delay(5000, cy);
       UIServices.DialogService.ShowInfo("Done");
     }
 

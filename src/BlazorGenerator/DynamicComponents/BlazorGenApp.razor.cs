@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BlazorGenerator.DynamicComponents
 {
-  public partial class BlazorGenApp
+  public partial class BlazorGenApp : IDisposable
   {
     [Inject]
     IJSRuntime? JSRuntime { get; set; }
@@ -28,6 +28,10 @@ namespace BlazorGenerator.DynamicComponents
 
     private FluentDialog? _myFluentDialog;
 
+
+    private CancellationTokenSource? _cancellationTokenSource;
+    public CancellationToken ComponentDetached => (_cancellationTokenSource ??= new()).Token;
+
     private void CreateExceptionDetails(Exception ex)
     {
       var sb = new StringBuilder();
@@ -40,7 +44,18 @@ namespace BlazorGenerator.DynamicComponents
         sb.AppendLine(ex.InnerException.StackTrace);
       }
 
-      _ = JSRuntime!.InvokeVoidAsync("navigator.clipboard.writeText", sb.ToString());
+      _ = JSRuntime!.InvokeVoidAsync("navigator.clipboard.writeText",ComponentDetached, sb.ToString());
+    }
+
+    public void Dispose()
+    {
+      if (_cancellationTokenSource != null)
+      {
+        _cancellationTokenSource.Cancel();
+        _cancellationTokenSource.Dispose();
+        _cancellationTokenSource = null;
+      }
+      GC.SuppressFinalize(this);
     }
   }
 }

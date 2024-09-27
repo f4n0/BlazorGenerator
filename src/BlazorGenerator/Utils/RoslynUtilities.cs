@@ -8,7 +8,7 @@ namespace BlazorGenerator.Utils
 {
   internal static class RoslynUtilities
   {
-    internal static ScriptRunner<object> CreateAndInstatiateClass<T>(List<VisibleField<T>> visibleFields, string? Title = null)
+    internal static ScriptRunner<object> CreateAndInstatiateClass<T>(List<VisibleField<T>> visibleFields, string? Title = null, CancellationToken ct = default)
     {
       string TypeName = typeof(T).Name;
       var sb = new StringBuilder();
@@ -41,9 +41,9 @@ namespace BlazorGenerator.Utils
         return typeof(TempListEditDialog);
         ";
       var script = CSharpScript.Create(string.Format(classdeclaration, TypeName, Title, sb.ToString(), typeof(T).Namespace), ScriptOptions.Default.WithReferences(Assembly.GetExecutingAssembly(), typeof(T).Assembly));
-      script.Compile();
+      script.Compile(ct);
 
-      return script.CreateDelegate();
+      return script.CreateDelegate(ct);
       // run and you get Type object for your fresh type
       //return (Type)script.RunAsync().Result.ReturnValue;
     }

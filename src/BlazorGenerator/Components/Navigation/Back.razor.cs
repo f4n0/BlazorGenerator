@@ -25,7 +25,7 @@ namespace BlazorGenerator.Components.Navigation
       if ((args.Key == KeyCode.Left && args.AltKey))
       {
         if (NavManager?.ToBaseRelativePath(NavManager.Uri.ToString()) != "")
-          await JSRuntime.InvokeVoidAsync("history.back");
+          await JSRuntime.InvokeVoidAsync("history.back", ComponentDetached);
       }
 
     }
