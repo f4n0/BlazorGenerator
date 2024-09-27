@@ -19,8 +19,8 @@
       <ActionBar Context="this" PageActions="PageActions" />
     }
 
-    <div style="padding:10px; height: auto !important">
-      <div class="contentblock">
+  </div>
+      <div style="padding:10px; height: auto !important" class="contentblock">
         <CardFields T="TData"
                     Data="Content"
                     PermissionSet="permissionSet"
@@ -31,9 +31,7 @@
                     OnSave="(data) => OnSave(data)" />
       </div>
 
-    </div>
-  </div>
-  <div class="contentblock" style="overflow:auto;">
+  <div class="contentblock" style="overflow:auto; margin-top:10px;">
     <ListDataGrid T="TList"
                   Context="this"
                   Data="ListContent?.AsQueryable()"
