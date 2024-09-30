@@ -14,7 +14,7 @@ namespace BlazorGenerator.Components.Field
 
     protected override Task OnParametersSetAsync()
     {
-      var styles = "width: 80%;";
+      var styles = "min-width: 75%;";
       var color = Field.Color?.Invoke(Data);
       if (color != null)
         styles += "color: " + color.ToAttributeValue() + ";";
