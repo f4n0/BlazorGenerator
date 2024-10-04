@@ -11,12 +11,18 @@ namespace BlazorGenerator.Services
 
     public void SendLogMessage(string message, LogType logType = LogType.Info)
     {
-      Logs.Add((message, logType));
+      Logs.Add((formatLogMessage(message), logType));
       NotifyStateChanged();
 
       OnLogWrite?.Invoke(message, logType);
     }
 
     public List<(string, LogType)> Logs = [];
+
+
+    string formatLogMessage(string message)
+    {
+      return DateTime.Now.ToString() + " - " + message;
+    }
   }
 }
