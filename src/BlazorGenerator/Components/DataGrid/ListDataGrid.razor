@@ -3,7 +3,9 @@
   <div class="GridContainer">
     <FluentStack Orientation="Orientation.Horizontal" Style="margin-bottom: 10px; ">
       <div>
-        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")" Style="float: left; width: 300px;" Immediate="true" ImmediateDelay="200"
+        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")"
+                      Style="float: left; width: 300px;" 
+                      Immediate="true" ImmediateDelay="500"
                       @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
         <FluentDivider Orientation="Orientation.Vertical"></FluentDivider>
 
