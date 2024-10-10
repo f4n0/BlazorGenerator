@@ -57,9 +57,12 @@ namespace TestShared.Views
     }
 
     [PageAction(Caption = "Page Action")]
-    public void PageAction()
+    public async void PageAction()
     {
-      UIServices!.DialogService.ShowInfo("Page Action");
+      var test = Selected;
+      //await LoadData();
+      StateHasChanged();
+      //UIServices!.DialogService.ShowInfo("Page Action");
     }
 
     [GridAction(Caption = "Install", GridIcon = typeof(Icons.Regular.Size16.AirplaneTakeOff))]

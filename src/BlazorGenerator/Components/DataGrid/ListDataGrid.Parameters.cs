@@ -7,11 +7,17 @@ namespace BlazorGenerator.Components.DataGrid;
 
 public partial class ListDataGrid<T>
 {
+
   [Parameter] public required object Context { get; set; }
 
   [Parameter] public required List<VisibleField<T>> VisibleFields { get; set; }
 
-  [Parameter] public IQueryable<T>? Data { get; set; }
+  private IQueryable<T>? data;
+  [Parameter] 
+  public IQueryable<T>? Data { get => data; set { 
+      data = value;
+      Selected.Clear();
+    } }
 
   [Parameter] public bool ShowButtons { get; set; }
 
