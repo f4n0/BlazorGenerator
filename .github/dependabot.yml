@@ -4,8 +4,14 @@
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+registries:
+  nuget:
+    type: nuget-feed
+    url: https://api.nuget.org/v3/index.json
 updates:
   - package-ecosystem: "nuget" # See documentation for possible values
     directory: "/src/BlazorGenerator" # Location of package manifests
+    registries:
+      - nuget
     schedule:
       interval: "daily"
