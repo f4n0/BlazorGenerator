@@ -26,6 +26,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.OrderDate)).AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
       VisibleFields.AddField(nameof(Mock.Type));
       VisibleFields.AddField(nameof(Mock.NullTest));
+      VisibleFields.AddField(nameof(Mock.Enabled));
 
       return Task.CompletedTask;
     }

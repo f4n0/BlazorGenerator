@@ -69,8 +69,10 @@ else
 
   @if (Field.FieldType == typeof(bool))
   {
-    <FluentCheckbox Value="@(Convert.ToBoolean(Field.InternalGet(Data)))" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                    @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+    <div style="min-width: 75%">
+      <FluentCheckbox Value="@(Convert.ToBoolean(Field.InternalGet(Data)))" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
+                      @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+    </div>
   }
   else if (Field.FieldType == typeof(short))
   {

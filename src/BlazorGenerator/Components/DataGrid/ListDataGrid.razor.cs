@@ -85,7 +85,7 @@ namespace BlazorGenerator.Components.DataGrid
       var res = ExcelUtilities.ExportToExcel(DataToExport!, VisibleFields);
 
       using var streamRef = new DotNetStreamReference(stream: res);
-      await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase).ComponentDetached,(Context as BlazorGeneratorComponentBase)?.Title + ".xlsx", streamRef);
+      await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase).ComponentDetached, (Context as BlazorGeneratorComponentBase)?.Title + ".xlsx", streamRef);
     }
 
     private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
@@ -104,6 +104,10 @@ namespace BlazorGenerator.Components.DataGrid
       {
         MultipleSelectEnabled = true;
       }
+      else if (args.Key == KeyCode.Shift)
+      {
+        ShiftModifierEnabled = true;
+      }
     }
 
     private void OnKeyUp(FluentKeyCodeEventArgs args)
@@ -111,6 +115,10 @@ namespace BlazorGenerator.Components.DataGrid
       if (args.Key == KeyCode.Ctrl)
       {
         MultipleSelectEnabled = false;
+      }
+      else if (args.Key == KeyCode.Shift)
+      {
+        ShiftModifierEnabled = false;
       }
     }
   }
