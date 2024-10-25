@@ -32,7 +32,7 @@ public partial class ListDataGrid<T>
       var startIndex = 0;
       if (Selected.Count > 0)
         startIndex = ListData.IndexOf(Selected.Last());
-      
+
       var endIndex = ListData.IndexOf(Rec);
 
       if (startIndex == -1 || endIndex == -1)
@@ -41,11 +41,13 @@ public partial class ListDataGrid<T>
       if (endIndex - startIndex > 0)
       {
         Selected.AddRange(ListData.GetRange(startIndex, (endIndex - startIndex) + 1));
-      }else
+      }
+      else
       {
-        var found = ListData.GetRange(endIndex+1, (startIndex - endIndex));
+        var found = ListData.GetRange(endIndex + 1, (startIndex - endIndex));
         found.ForEach(o => Selected.Remove(o));
       }
+
     }
     else
     {
