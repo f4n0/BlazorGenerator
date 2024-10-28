@@ -14,7 +14,8 @@ namespace BlazorGenerator.Components.Field
 
     protected override Task OnParametersSetAsync()
     {
-      var styles = (Field.FieldType == typeof(bool)) ? "": "min-width: 75%;";
+      var className = (Field.FieldType == typeof(bool)) ? "" : "FullSpanWidth";
+      var styles = "";
       var color = Field.Color?.Invoke(Data);
       if (color != null)
         styles += "color: " + color.ToAttributeValue() + ";";
@@ -25,6 +26,7 @@ namespace BlazorGenerator.Components.Field
         {"Appearance",FluentInputAppearance.Filled },
         {"ReadOnly", Field.ReadOnly || (Field.OnLookup != null) },
         {"style", styles },
+        {"class", className },
         {"Immediate", Field.Immediate }
       };
 

@@ -69,7 +69,7 @@ else
 
   @if (Field.FieldType == typeof(bool))
   {
-    <div style="min-width: 75%">
+    <div class="AfterFullSpanWidth">
       <FluentCheckbox Value="@(Convert.ToBoolean(Field.InternalGet(Data)))" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
     </div>
@@ -185,3 +185,23 @@ else
     }
   };
 }
+
+
+<style>
+  .FullSpanWidth {
+    min-width: 50%;
+    width: inherit;
+    max-width: 80%;
+  }
+  .AfterFullSpanWidth::after {
+    content: "";
+    min-width: 50%;
+    width: inherit;
+    max-width: 80%;
+  }
+  .AfterFullSpanWidth {
+    min-width: 50%;
+    width: inherit;
+    max-width: 80%;
+  }
+</style>
