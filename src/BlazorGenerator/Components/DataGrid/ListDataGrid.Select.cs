@@ -19,6 +19,8 @@ public partial class ListDataGrid<T>
     }
   }
 
+  int LastSelectedIndex = 0;
+
   private void HandleSingleRecSelection(T? Rec)
   {
     if (!MultipleSelectEnabled && !ShiftModifierEnabled)
@@ -26,27 +28,22 @@ public partial class ListDataGrid<T>
     if (Rec == null)
       return;
 
+    var ListData = Data.ToList();
+
     if (ShiftModifierEnabled)
     {
-      var ListData = Data.ToList();
-      var startIndex = 0;
-      if (Selected.Count > 0)
-        startIndex = ListData.IndexOf(Selected.Last());
+      var StartIndex = LastSelectedIndex;
+      var EndIndex = ListData.IndexOf(Rec);
 
-      var endIndex = ListData.IndexOf(Rec);
-
-      if (startIndex == -1 || endIndex == -1)
+      if (StartIndex == -1 || EndIndex == -1)
         return;
 
-      if (endIndex - startIndex > 0)
-      {
-        Selected.AddRange(ListData.GetRange(startIndex, (endIndex - startIndex) + 1));
-      }
-      else
-      {
-        var found = ListData.GetRange(endIndex + 1, (startIndex - endIndex));
-        found.ForEach(o => Selected.Remove(o));
-      }
+      Selected.Clear();
+
+      if (StartIndex > EndIndex)
+        (StartIndex, EndIndex) = (EndIndex, StartIndex);
+
+      Selected = ListData.GetRange(StartIndex, (EndIndex - StartIndex) + 1);
 
     }
     else
@@ -58,7 +55,9 @@ public partial class ListDataGrid<T>
       else if (Rec != null)
       {
         Selected.Add(Rec);
+        LastSelectedIndex = ListData.IndexOf(Rec);
       }
+
     }
   }
 
