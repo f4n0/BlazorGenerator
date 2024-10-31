@@ -1,64 +1,63 @@
-﻿namespace BlazorGenerator.Components.DataGrid;
+﻿using Microsoft.FluentUI.AspNetCore.Components;
+
+namespace BlazorGenerator.Components.DataGrid;
 
 public partial class ListDataGrid<T>
 {
-  internal Func<T, string> SelectedRowClass => (data) => Selected.Contains(data) ? "rowselected" : "";
+  internal Func<T, string> SelectedRowClass => (data) => Selected.IndexOf(data) != -1 ? "rowselected" : "";
 
   bool MultipleSelectEnabled = false;
   bool ShiftModifierEnabled = false;
+  bool isFromSingleSelection = false;
 
-  private void HandleRecSelection(bool selected, T Rec)
-  {
-    if (selected)
-    {
-      Selected.Add(Rec);
-    }
-    else
-    {
-      Selected.Remove(Rec);
-    }
-  }
+
 
   int LastSelectedIndex = 0;
 
   private void HandleSingleRecSelection(T? Rec)
   {
-    if (!MultipleSelectEnabled && !ShiftModifierEnabled)
-      Selected.Clear();
     if (Rec == null)
       return;
 
-    var ListData = Data.ToList();
+    if (!MultipleSelectEnabled && !ShiftModifierEnabled)
+      Selected.Clear();
+
+
+    isFromSingleSelection = true;
+    int recIndex = Data.ToList().IndexOf(Rec);
+    if (recIndex == -1)
+      return;
 
     if (ShiftModifierEnabled)
     {
-      var StartIndex = LastSelectedIndex;
-      var EndIndex = ListData.IndexOf(Rec);
-
-      if (StartIndex == -1 || EndIndex == -1)
+      int StartIndex = LastSelectedIndex;
+      Selected.Clear();
+      // Exit early if LastSelectedIndex is invalid.
+      if (StartIndex == -1)
         return;
 
-      Selected.Clear();
 
-      if (StartIndex > EndIndex)
-        (StartIndex, EndIndex) = (EndIndex, StartIndex);
+      // Ensure StartIndex is less than or equal to EndIndex.
+      if (StartIndex > recIndex)
+        (StartIndex, recIndex) = (recIndex, StartIndex);
 
-      Selected = ListData.GetRange(StartIndex, (EndIndex - StartIndex) + 1);
-
+      // Add range directly without using GetRange to avoid new list allocation.
+      Selected.AddRange(Data.ToList().GetRange(StartIndex, (recIndex-StartIndex+1))); //(DataAsList.Skip(StartIndex).Take(recIndex - StartIndex + 1));
     }
     else
     {
-      if (Selected.Contains(Rec) && MultipleSelectEnabled)
+      if (MultipleSelectEnabled && Selected.Contains(Rec))
       {
         Selected.Remove(Rec);
       }
-      else if (Rec != null)
+      else
       {
         Selected.Add(Rec);
-        LastSelectedIndex = ListData.IndexOf(Rec);
+        LastSelectedIndex = recIndex;
       }
-
     }
+    isFromSingleSelection = false;
+
   }
 
   private bool? AllRecSelected
@@ -87,4 +86,5 @@ public partial class ListDataGrid<T>
       }
     }
   }
+
 }

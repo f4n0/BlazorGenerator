@@ -38,7 +38,7 @@ public partial class ListDataGrid<T>
     var set = Data;
     //first global search
     if (!string.IsNullOrWhiteSpace(SearchValue))
-    {
+    {      
       set = set.AsEnumerable().Where(r =>
       {
         foreach (var field in VisibleFields)

@@ -1,5 +1,6 @@
 ﻿@typeparam T
-<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0">
+<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0" 
+               Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl, KeyCode.Shift]" PreventDefault="true" StopPropagation="true">
   <div class="GridContainer">
     <FluentStack Orientation="Orientation.Horizontal" Style="margin-bottom: 10px; ">
       <div>
@@ -26,17 +27,15 @@
                       ShowHover="@true"
                       RowClass="SelectedRowClass"
                       GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet)"
-                      OnCellClick="@((cell)=> {
-                                       if (cell.GridColumn > 1) {
-                                         HandleSingleRecSelection(cell.Item);
-                                         cell.ParentReference?.Current.FocusAsync();
-                                       }
-                                     })"
-                      Style="overflow:auto; flex: 0 1 auto; min-height:150px;">
+                      OnCellClick="@HandleCellClick"
+                      Style="overflow:auto; flex: 0 1 auto; min-height:150px;"
+                      Id="table">
         
         <TemplateColumn Align="@Align.End">
           <ChildContent>
-            <FluentCheckbox ValueChanged="(e) => HandleRecSelection(e, context)" Value="@Selected.Contains(context)"></FluentCheckbox>
+            <div onclick="(e) => HandleSingleRecSelection(context)">
+              <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)"></FluentCheckbox>
+            </div>
           </ChildContent>
           <HeaderCellItemTemplate>
             <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>

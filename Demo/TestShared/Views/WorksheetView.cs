@@ -44,5 +44,11 @@ namespace TestShared.Views
       ListVisibleFields.AddField(nameof(Mock.Description));
       return Task.CompletedTask;
     }
+
+    [PageAction(Caption="Test")]
+    public void Test()
+    {
+      var test = ListSelected;
+    }
   }
 }

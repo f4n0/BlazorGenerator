@@ -4,6 +4,7 @@ using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Diagnostics;
 
 namespace BlazorGenerator.Components.DataGrid
 {
@@ -19,7 +20,7 @@ namespace BlazorGenerator.Components.DataGrid
     protected override async Task OnInitializedAsync()
     {
       //for global F3, otherwise it won't work as soon the page load
-      KeyCodeService?.RegisterListener(OnKeyDownAsync);
+      KeyCodeService?.RegisterListener(OnSearchBarFocus);
       await base.OnInitializedAsync();
     }
 
@@ -88,19 +89,10 @@ namespace BlazorGenerator.Components.DataGrid
       await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase).ComponentDetached, (Context as BlazorGeneratorComponentBase)?.Title + ".xlsx", streamRef);
     }
 
-    private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
+    private void OnKeyDownAsync(FluentKeyCodeEventArgs args)
     {
-      if ((args.Key == KeyCode.Function3) || (args.Key == KeyCode.KeyF && args.CtrlKey))
-      {
-        try
-        {
-          await SearchBarRef!.Element.FocusAsync();
-        }
-        catch
-        {
-        }
-      }
-      else if (args.Key == KeyCode.Ctrl)
+      if (MultipleSelectEnabled | ShiftModifierEnabled) return;
+      if (args.Key == KeyCode.Ctrl)
       {
         MultipleSelectEnabled = true;
       }
@@ -108,6 +100,7 @@ namespace BlazorGenerator.Components.DataGrid
       {
         ShiftModifierEnabled = true;
       }
+
     }
 
     private void OnKeyUp(FluentKeyCodeEventArgs args)
@@ -120,6 +113,30 @@ namespace BlazorGenerator.Components.DataGrid
       {
         ShiftModifierEnabled = false;
       }
+    }
+
+    private async Task OnSearchBarFocus(FluentKeyCodeEventArgs args)
+    {
+      if ((args.Key == KeyCode.Function3) || (args.Key == KeyCode.KeyF && args.CtrlKey))
+      {
+        try
+        {
+          await SearchBarRef!.Element.FocusAsync();
+        }
+        catch
+        {
+        }
+      }
+    }
+
+    private async Task HandleCellClick(FluentDataGridCell<T> cell)
+    {
+      if (cell.GridColumn > 1)
+      {
+        HandleSingleRecSelection(cell.Item);
+        cell.ParentReference?.Current.FocusAsync();
+      }
+
     }
   }
 }

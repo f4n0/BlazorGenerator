@@ -13,6 +13,7 @@ public partial class ListDataGrid<T>
   [Parameter] public required List<VisibleField<T>> VisibleFields { get; set; }
 
   private IQueryable<T>? data;
+
   [Parameter] 
   public IQueryable<T>? Data { get => data; set { 
       data = value;
