@@ -33,9 +33,7 @@
         
         <TemplateColumn Align="@Align.End">
           <ChildContent>
-            <div onclick="(e) => HandleSingleRecSelection(context)">
-              <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)"></FluentCheckbox>
-            </div>
+              <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)" @onclick="(e) => HandleSingleRecSelection(context, true)"></FluentCheckbox>
           </ChildContent>
           <HeaderCellItemTemplate>
             <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>

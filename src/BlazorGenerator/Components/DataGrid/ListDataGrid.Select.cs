@@ -14,12 +14,12 @@ public partial class ListDataGrid<T>
 
   int LastSelectedIndex = 0;
 
-  private void HandleSingleRecSelection(T? Rec)
+  private void HandleSingleRecSelection(T? Rec, bool FromFirstColumn = false)
   {
     if (Rec == null)
       return;
 
-    if (!MultipleSelectEnabled && !ShiftModifierEnabled)
+    if (!MultipleSelectEnabled && !ShiftModifierEnabled && !FromFirstColumn)
       Selected.Clear();
 
 
