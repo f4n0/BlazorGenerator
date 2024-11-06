@@ -1,4 +1,5 @@
 ﻿using BlazorGenerator.DynamicComponents;
+using BlazorGenerator.Models;
 using BlazorGenerator.Security;
 using BlazorGenerator.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ namespace BlazorGenerator
 
       services.AddScoped<ISecurity, NullSecurity>();
       services.AddTransient<BlazorGeneratorSecurity>();
+      services.AddTransient<IHelpService, EmptyHelpService>();
 
       services.AddSingleton<UIServices>(serviceProvider => new UIServices(
               (serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger)!,
