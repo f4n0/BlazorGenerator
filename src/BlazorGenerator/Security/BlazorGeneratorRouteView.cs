@@ -9,7 +9,7 @@ namespace BlazorGenerator.Security
 
     [Inject]
     BlazorGeneratorSecurity Security { get; set; } = null!;
-
+    
     public async Task OnAfterRenderAsync()
     {
       var permissionSet = await Security.GetPermissionSet(RouteData.PageType);
@@ -20,7 +20,7 @@ namespace BlazorGenerator.Security
       }
       if ((permissionSet.RequireAuthentication) && string.IsNullOrEmpty(await Security.GetSessionIdentifier()))
       {
-        NavigationManager?.NavigateTo(BlazorGeneratorSettings.Instance.UnauthorizedRoute);
+        NavigationManager?.NavigateTo(BlazorGeneratorSettings.Instance.LoginRoute);
       }
       await Task.CompletedTask;
     }
