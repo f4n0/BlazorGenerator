@@ -46,7 +46,7 @@ public partial class ListDataGrid<T>
     }
     else
     {
-      if (MultipleSelectEnabled && Selected.Contains(Rec))
+      if ((MultipleSelectEnabled || FromFirstColumn) && Selected.Contains(Rec))
       {
         Selected.Remove(Rec);
       }
