@@ -15,7 +15,7 @@
         <Log />
         @if (BlazorGeneratorSettings.Instance.ShowHelpButton)
         {
-        <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help" OnClick="@(()=> HelpService?.GetHelp((Body.Target as BlazorGeneratorRouteView).RouteData.PageType))">
+        <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help" OnClick="@(()=> HelpService?.GetHelp((Body.Target as RouteView).RouteData.PageType))">
           <FluentIcon Value="@(new Icons.Regular.Size20.Question())" Color="Color.Neutral" Title="Help" />
         </FluentButton>
         }

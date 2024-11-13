@@ -21,7 +21,7 @@ namespace BlazorGenerator
 
 
       services.AddScoped<ISecurity, NullSecurity>();
-      services.AddTransient<BlazorGeneratorSecurity>();
+      services.AddScoped<BlazorGeneratorSecurityService>();
       services.AddTransient<IHelpService, EmptyHelpService>();
 
       services.AddSingleton<UIServices>(serviceProvider => new UIServices(

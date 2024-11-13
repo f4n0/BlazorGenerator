@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "Server",
+    "Projects": [
+      {
+        "Path": "Demo\\Server\\Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  },
+  {
+    "Name": "WebAssembly",
+    "Projects": [
+      {
+        "Path": "Demo\\WebAssembly\\WebAssembly.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  }
+]

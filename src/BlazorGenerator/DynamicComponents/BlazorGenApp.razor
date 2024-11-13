@@ -5,7 +5,9 @@
   <ChildContent>
     <Router AppAssembly="@AppAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] { typeof(BlazorGenApp).Assembly } : null)" @rendermode="BlazorGenRenderMode">
       <Found Context="routeData">
-        <BlazorGeneratorRouteView RouteData="@routeData" DefaultLayout="@mainLayout.GetType()" />
+        <BlazorGeneratorSecurity RouteData="@routeData">
+          <RouteView RouteData="@routeData" DefaultLayout="@mainLayout.GetType()"></RouteView>
+        </BlazorGeneratorSecurity>
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
       </Found>
       <NotFound>
