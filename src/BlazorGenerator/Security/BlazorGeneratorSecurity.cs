@@ -2,7 +2,7 @@
 
 namespace BlazorGenerator.Security
 {
-  internal class BlazorGeneratorSecurity(IServiceProvider services)
+  internal class BlazorGeneratorSecurityService(IServiceProvider services)
   {
     public ISecurity Security { get; set; } = (ISecurity)services.GetService(typeof(ISecurity))!;
 

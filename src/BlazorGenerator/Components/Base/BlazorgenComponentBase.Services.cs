@@ -17,7 +17,7 @@ namespace BlazorGenerator.Components.Base
     public IJSRuntime JSRuntime { get; set; } = null!;
 
     [Inject]
-    internal BlazorGeneratorSecurity Security { get; set; } = null!;
+    internal BlazorGeneratorSecurityService Security { get; set; } = null!;
 
   }
 }
