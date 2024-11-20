@@ -37,7 +37,7 @@ namespace TestShared.Views
 
     protected override Task LoadData()
     {
-      Content = Mock.GetMultipleMock(150).OrderBy(p => p.Id);
+      Content = Mock.GetMultipleMock(50).OrderBy(p => p.Id);
       return Task.CompletedTask;
     }
 
