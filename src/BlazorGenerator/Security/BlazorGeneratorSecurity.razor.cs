@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 
 namespace BlazorGenerator.Security;
-public partial class BlazorGeneratorSecurity
+public partial class BlazorGeneratorSecurity : ComponentBase
 {
   [Parameter]
   public required RenderFragment ChildContent { get; set; }
@@ -19,8 +19,16 @@ public partial class BlazorGeneratorSecurity
   [Inject]
   BlazorGeneratorSecurityService Security { get; set; } = null!;
 
-  protected override async Task OnInitializedAsync()  {
+  Uri? UnauthorizedUri { get; set; }
+  Uri? LoginUri { get; set; }
 
+  protected override async Task OnParametersSetAsync()
+  {
+    UnauthorizedUri ??= NavigationManager.ToAbsoluteUri(BlazorGeneratorSettings.Instance.UnauthorizedRoute);
+    LoginUri ??= NavigationManager.ToAbsoluteUri(BlazorGeneratorSettings.Instance.LoginRoute);
+
+    if ((NavigationManager.Uri == UnauthorizedUri.ToString()) || (NavigationManager.Uri == LoginUri.ToString()))
+      return;
     permissionSet = await Security.GetPermissionSet(RouteData.PageType);
 
     if (!permissionSet.Execute)
