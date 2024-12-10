@@ -127,7 +127,7 @@ else
   }
   else if (Field.FieldType == typeof(DateTime))
   {
-    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val!))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick" Placeholder="@Field.PlaceHolder" />
+    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(Type))
   {
@@ -193,12 +193,14 @@ else
     width: inherit;
     max-width: 80%;
   }
+
   .AfterFullSpanWidth::after {
     content: "";
     min-width: 50%;
     width: inherit;
     max-width: 80%;
   }
+
   .AfterFullSpanWidth {
     min-width: 50%;
     width: inherit;

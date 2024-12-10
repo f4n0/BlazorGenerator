@@ -13,6 +13,7 @@ namespace TestShared.Views
   public class ListView : ListPage<Mock>
   {
     public override string Title => "List View";
+    public override Type? EditFormType => typeof(MockEditForm);
 
     protected override Task LoadVisibleFields()
     {

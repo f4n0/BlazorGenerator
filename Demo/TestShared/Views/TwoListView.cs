@@ -11,6 +11,8 @@ namespace TestShared.Views
   public class TwoListView : TwoList<Mock, Mock>
   {
     public override string Title => "List View";
+    public override Type? SecondListEditFormType => typeof(MockEditForm);
+    public override Type? FirstListEditFormType => typeof(MockEditForm);
 
     protected override Task LoadVisibleFields()
     {

@@ -19,6 +19,7 @@ namespace TestShared.Views
     public string Description { get; set; } = string.Empty;
 
     public override string Title => "List View";
+    public override Type? ListEditFormType => typeof(MockEditForm);
 
     protected override Task LoadData()
     {

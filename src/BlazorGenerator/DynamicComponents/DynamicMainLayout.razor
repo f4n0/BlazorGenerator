@@ -8,16 +8,19 @@
       <FluentSpacer />
       @BlazorGeneratorSettings.Instance.ApplicationName
       <FluentSpacer />
-      <div style="padding-right: 6px; margin-left: 0; margin-right: -15px;">
+      <div style="padding-right: 6px; margin-left: 0; margin-right: -15px; display: flex; flex-direction: row; gap: 5px; flex-wrap: nowrap;">
         <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" OnClick="SwitchDarkLightTheme" Title="@Captions.Instance.ToggleDarkTheme">
           <FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Neutral" Title="@Captions.Instance.ToggleDarkTheme" />
-        </FluentButton>
-        <Log />
+        </FluentButton>        
+        @if (BlazorGeneratorSettings.Instance.ShowLogButton)
+        {
+          <Log />
+        }
         @if (BlazorGeneratorSettings.Instance.ShowHelpButton)
         {
-        <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help" OnClick="@(()=> HelpService?.GetHelp((Body.Target as RouteView).RouteData.PageType))">
-          <FluentIcon Value="@(new Icons.Regular.Size20.Question())" Color="Color.Neutral" Title="Help" />
-        </FluentButton>
+          <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help" OnClick="@(()=> HelpService?.GetHelp((Body.Target as RouteView).RouteData.PageType))">
+            <FluentIcon Value="@(new Icons.Regular.Size20.Question())" Color="Color.Neutral" Title="Help" />
+          </FluentButton>
         }
       </div>
     </FluentHeader>

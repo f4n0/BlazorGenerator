@@ -14,6 +14,6 @@ namespace BlazorGenerator
     public string LoginRoute { get; set; } = "/Login";
 
     public bool ShowHelpButton { get; set; } = false;
-
+    public bool ShowLogButton { get; set; } = true;
   }
 }
