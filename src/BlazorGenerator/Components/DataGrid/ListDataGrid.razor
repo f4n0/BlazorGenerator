@@ -26,12 +26,12 @@
                       GenerateHeader="GenerateHeaderOption.Sticky"
                       ShowHover="@true"
                       RowClass="SelectedRowClass"
-                      GridTemplateColumns="@GetCssGridTemplate(GridActions?.Count() ?? 0, PermissionSet)"
                       OnCellClick="@HandleCellClick"
                       Style="overflow:auto; flex: 0 1 auto; min-height:150px;"
+                      RowSize="DataGridRowSize.Medium"
                       Id="table">
         
-        <TemplateColumn Align="@Align.End">
+        <TemplateColumn Align="@Align.Center" Width="50px">
           <ChildContent>
               <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)" @onclick="(e) => HandleSingleRecSelection(context, true)"></FluentCheckbox>
           </ChildContent>
@@ -41,7 +41,7 @@
         </TemplateColumn>
         @if (GridActions?.Count() > 0)
         {
-          <TemplateColumn Title="&nbsp;" Align="@Align.Center">
+          <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px">
             <ChildContent>
               <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
                                                                                                                          {
@@ -74,7 +74,8 @@
                           Sortable="true"
                           Title="@field.Caption"
                           SortBy="GridSort<T>.ByAscending(p => field.InternalGet(p))"
-                          Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))">
+                          Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))"
+                          Width="auto">
             <ChildContent>
               <FormFields IsTableCell="true" Data="data" Field="field" T="T"></FormFields>
             </ChildContent>
@@ -96,7 +97,7 @@
 
         @if ((PermissionSet!.Modify) || (PermissionSet!.Delete) || (PermissionSet!.Insert))
         {
-          <TemplateColumn Title="Actions" Align="@Align.End">
+          <TemplateColumn Title="Actions" Align="@Align.Center" Width="110px">
             <ChildContent>
               @if (PermissionSet!.Modify)
               {
@@ -110,8 +111,10 @@
             <HeaderCellItemTemplate>
               @if (PermissionSet!.Modify)
               {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" Style="margin-right:5px;" />
-              }
+                <div style="width:90%; text-align:center">
+                  <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" />
+                </div>
+                  }
             </HeaderCellItemTemplate>
           </TemplateColumn>
         }
