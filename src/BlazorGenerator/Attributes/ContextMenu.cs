@@ -1,4 +1,5 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
+using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20;
 
 namespace BlazorGenerator.Attributes
 {
@@ -6,6 +7,6 @@ namespace BlazorGenerator.Attributes
   public class ContextMenuAttribute : Attribute
   {
     public required string Caption { get; set; }
-    public object Icon { get; set; } = typeof(Icons.Regular.Size20.Balloon);
+    public object Icon { get; set; } = typeof(Balloon);
   }
 }

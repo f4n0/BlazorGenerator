@@ -5,11 +5,12 @@ using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using TestShared.Data;
+using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size16;
 
 namespace TestShared.Views
 {
   [Route("list")]
-  [AddToMenu(Title = "List Page", Route = "list", Icon = typeof(Icons.Regular.Size16.AddSquare))]
+  [AddToMenu(Title = "List Page", Route = "list", Icon = typeof(AddSquare))]
   public class ListView : ListPage<Mock>
   {
     public override string Title => "List View";
@@ -66,7 +67,7 @@ namespace TestShared.Views
       //UIServices!.DialogService.ShowInfo("Page Action");
     }
 
-    [GridAction(Caption = "Install", GridIcon = typeof(Icons.Regular.Size16.AirplaneTakeOff))]
+    [GridAction(Caption = "Install", GridIcon = typeof(AirplaneTakeOff))]
     [PageAction(Caption = "Install")]
     public void GridAction(Mock? rec = null)
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
 using System.ComponentModel.DataAnnotations;
+using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size16;
 
 namespace TestShared.Data
 {
@@ -13,7 +14,7 @@ namespace TestShared.Data
     public DateTime? OrderDate { get; set; }
     public float Price { get; set; }
     public string NullTest { get; set; } = null!;
-    public Type Icon { get; set; } = typeof(Icons.Regular.Size16.AddSquare);
+    public Type Icon { get; set; } = typeof(AddSquare);
     public MockEnum Type { get; set; }
     public bool Enabled { get; set; }
 

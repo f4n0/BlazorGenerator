@@ -1,4 +1,5 @@
 ﻿using Microsoft.FluentUI.AspNetCore.Components;
+using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20;
 
 namespace BlazorGenerator.Attributes
 {
@@ -7,6 +8,6 @@ namespace BlazorGenerator.Attributes
   {
     public required string Caption { get; set; }
     public string Group { get; set; } = "Default";
-    public Type Icon { get; set; } = typeof(Icons.Regular.Size20.Run);
+    public Type Icon { get; set; } = typeof(Run);
   }
 }

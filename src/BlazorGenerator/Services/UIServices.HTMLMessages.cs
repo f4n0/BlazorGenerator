@@ -5,6 +5,8 @@ using DocumentFormat.OpenXml.Presentation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Newtonsoft.Json.Linq;
+using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24;
+using Color = Microsoft.FluentUI.AspNetCore.Components.Color;
 
 namespace BlazorGenerator.Services
 {
@@ -22,7 +24,7 @@ namespace BlazorGenerator.Services
       {
         Title = string.IsNullOrWhiteSpace(title) ? "Success" : title,
         Intent = MessageBoxIntent.Success,
-        Icon = new Icons.Filled.Size24.CheckmarkCircle(),
+        Icon = new CheckmarkCircle(),
         IconColor = Color.Success,
         MarkupMessage = (MarkupString)message,
       },
@@ -42,7 +44,7 @@ namespace BlazorGenerator.Services
       {
         Title = string.IsNullOrWhiteSpace(title) ? "Warning" : title,
         Intent = MessageBoxIntent.Warning,
-        Icon = new Icons.Filled.Size24.Warning(),
+        Icon = new Warning(),
         IconColor = Color.Warning,
         MarkupMessage = (MarkupString)message,
       },
@@ -62,7 +64,7 @@ namespace BlazorGenerator.Services
       {
         Title = string.IsNullOrWhiteSpace(title) ? "Error" : title,
         Intent = MessageBoxIntent.Error,
-        Icon = new Icons.Filled.Size24.DismissCircle(),
+        Icon = new DismissCircle(),
         IconColor = Color.Error,
         MarkupMessage = (MarkupString)message,
       },
@@ -82,7 +84,7 @@ namespace BlazorGenerator.Services
       {
         Title = string.IsNullOrWhiteSpace(title) ? "Information" : title,
         Intent = MessageBoxIntent.Info,
-        Icon = new Icons.Filled.Size24.Info(),
+        Icon = new Info(),
         IconColor = Color.Info,
         MarkupMessage = (MarkupString)message,
       },
@@ -108,7 +110,7 @@ namespace BlazorGenerator.Services
           {
             Title = string.IsNullOrWhiteSpace(title) ? "Confirmation" : title,
             Intent = MessageBoxIntent.Confirmation,
-            Icon = new Icons.Regular.Size24.QuestionCircle(),
+            Icon = new QuestionCircle(),
             IconColor = Color.Success,
             MarkupMessage = (MarkupString)message,
           },
@@ -157,7 +159,7 @@ namespace BlazorGenerator.Services
           {
             Title = string.IsNullOrWhiteSpace(title) ? "Success" : title,
             Intent = MessageBoxIntent.Success,
-            Icon = new Icons.Filled.Size24.CheckmarkCircle(),
+            Icon = new CheckmarkCircle(),
             IconColor = Color.Success,
             MarkupMessage = (MarkupString)message,
           },
@@ -178,7 +180,7 @@ namespace BlazorGenerator.Services
           {
             Title = string.IsNullOrWhiteSpace(title) ? "Warning" : title,
             Intent = MessageBoxIntent.Warning,
-            Icon = new Icons.Filled.Size24.Warning(),
+            Icon = new Warning(),
             IconColor = Color.Warning,
             MarkupMessage = (MarkupString)message,
           },
@@ -199,7 +201,7 @@ namespace BlazorGenerator.Services
           {
             Title = string.IsNullOrWhiteSpace(title) ? "Error" : title,
             Intent = MessageBoxIntent.Error,
-            Icon = new Icons.Filled.Size24.DismissCircle(),
+            Icon = new DismissCircle(),
             IconColor = Color.Error,
             MarkupMessage = (MarkupString)message,
           },
@@ -220,7 +222,7 @@ namespace BlazorGenerator.Services
           {
             Title = string.IsNullOrWhiteSpace(title) ? "Information" : title,
             Intent = MessageBoxIntent.Info,
-            Icon = new Icons.Filled.Size24.Info(),
+            Icon = new Info(),
             IconColor = Color.Info,
             MarkupMessage = (MarkupString)message,
           },
@@ -246,7 +248,7 @@ namespace BlazorGenerator.Services
           {
             Title = string.IsNullOrWhiteSpace(title) ? "Confirm" : title,
             Intent = MessageBoxIntent.Confirmation,
-            Icon = new Icons.Regular.Size24.QuestionCircle(),
+            Icon = new QuestionCircle(),
             IconColor = Color.Success,
             MarkupMessage = (MarkupString)message,
           },
@@ -271,7 +273,7 @@ namespace BlazorGenerator.Services
           {
             Title = string.IsNullOrWhiteSpace(title) ? "Confirm" : title,
             Intent = MessageBoxIntent.Confirmation,
-            Icon = new Icons.Regular.Size24.QuestionCircle(),
+            Icon = new QuestionCircle(),
             IconColor = Color.Success,
             MarkupMessage = (MarkupString)message,
           },
