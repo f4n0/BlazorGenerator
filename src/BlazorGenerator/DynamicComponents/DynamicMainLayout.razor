@@ -18,7 +18,7 @@
         }
         @if (BlazorGeneratorSettings.Instance.ShowHelpButton)
         {
-          <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help" OnClick="@(()=> HelpService?.GetHelp((Body.Target as RouteView).RouteData.PageType))">
+          <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help" OnClick="@(()=> HelpService?.GetHelp((Body?.Target as RouteView)!.RouteData.PageType))">
             <FluentIcon Value="@(new Icons.Regular.Size20.Question())" Color="Color.Neutral" Title="Help" />
           </FluentButton>
         }
@@ -29,7 +29,7 @@
       <FluentBodyContent>
         <FluentLayout>
           <FluentBodyContent style="height: calc(100dvh); padding: 10px; ">
-            <Progress></Progress>
+            <ProgressBar></ProgressBar>
             <UILock></UILock>
             <div class="content" style="display: flex; flex-direction: column; height: 100%; flex-flow: column;">
               @Body

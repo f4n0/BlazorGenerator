@@ -3,7 +3,7 @@ using BlazorGenerator.Enum;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-namespace BlazorGenerator.Components.Log
+namespace BlazorGenerator.Components.Logs
 {
   public partial class Log : BlazorGeneratorComponentBase, IDisposable, IAsyncDisposable
   {

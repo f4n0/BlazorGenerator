@@ -65,6 +65,7 @@ namespace TestShared.Views
       //await LoadData();
       StateHasChanged();
       //UIServices!.DialogService.ShowInfo("Page Action");
+      await Task.CompletedTask;
     }
 
     [GridAction(Caption = "Install", GridIcon = typeof(AirplaneTakeOff))]

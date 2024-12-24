@@ -11,7 +11,7 @@ public partial class BlazorGeneratorSecurity : ComponentBase
   [Parameter]
   public required RouteData RouteData { get; set; }
 
-  PermissionSet permissionSet { get; set; }
+  PermissionSet? permissionSet { get; set; }
 
   [Inject]
   NavigationManager? NavigationManager { get; set; }
@@ -24,10 +24,10 @@ public partial class BlazorGeneratorSecurity : ComponentBase
 
   protected override async Task OnParametersSetAsync()
   {
-    UnauthorizedUri ??= NavigationManager.ToAbsoluteUri(BlazorGeneratorSettings.Instance.UnauthorizedRoute);
-    LoginUri ??= NavigationManager.ToAbsoluteUri(BlazorGeneratorSettings.Instance.LoginRoute);
+    UnauthorizedUri ??= NavigationManager!.ToAbsoluteUri(BlazorGeneratorSettings.Instance.UnauthorizedRoute);
+    LoginUri ??= NavigationManager!.ToAbsoluteUri(BlazorGeneratorSettings.Instance.LoginRoute);
 
-    if ((NavigationManager.Uri == UnauthorizedUri.ToString()) || (NavigationManager.Uri == LoginUri.ToString()))
+    if ((NavigationManager!.Uri == UnauthorizedUri.ToString()) || (NavigationManager.Uri == LoginUri.ToString()))
       return;
     permissionSet = await Security.GetPermissionSet(RouteData.PageType);
 

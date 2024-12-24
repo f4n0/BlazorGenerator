@@ -8,22 +8,18 @@ public partial class ListDataGrid<T>
 
   bool MultipleSelectEnabled = false;
   bool ShiftModifierEnabled = false;
-  bool isFromSingleSelection = false;
-
-
 
   int LastSelectedIndex = 0;
 
   private void HandleSingleRecSelection(T? Rec, bool FromFirstColumn = false)
   {
-    if (Rec == null)
+    if (Rec == null || Data == null)
       return;
 
     if (!MultipleSelectEnabled && !ShiftModifierEnabled && !FromFirstColumn)
       Selected.Clear();
 
 
-    isFromSingleSelection = true;
     int recIndex = Data.ToList().IndexOf(Rec);
     if (recIndex == -1)
       return;
@@ -56,7 +52,6 @@ public partial class ListDataGrid<T>
         LastSelectedIndex = recIndex;
       }
     }
-    isFromSingleSelection = false;
 
   }
 

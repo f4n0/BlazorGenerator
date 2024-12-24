@@ -5,83 +5,16 @@
     <Description Resource="HelloWorldRules_Description" />
   </Localization>
   <Rules AnalyzerId="Meziantou.Analyzer" RuleNamespace="Meziantou.Analyzer">
-    <Rule Id="MA0001" Action="None" />
-    <Rule Id="MA0002" Action="None" />
-    <Rule Id="MA0003" Action="None" />
-    <Rule Id="MA0004" Action="None" />
-    <Rule Id="MA0005" Action="None" />
-    <Rule Id="MA0006" Action="None" />
-    <Rule Id="MA0007" Action="None" />
-    <Rule Id="MA0008" Action="None" />
     <Rule Id="MA0009" Action="None" />
-    <Rule Id="MA0010" Action="None" />
-    <Rule Id="MA0011" Action="None" />
-    <Rule Id="MA0012" Action="None" />
-    <Rule Id="MA0013" Action="None" />
-    <Rule Id="MA0014" Action="None" />
-    <Rule Id="MA0015" Action="None" />
-    <Rule Id="MA0016" Action="None" />
-    <Rule Id="MA0017" Action="None" />
-    <Rule Id="MA0018" Action="None" />
-    <Rule Id="MA0019" Action="None" />
-    <Rule Id="MA0020" Action="None" />
-    <Rule Id="MA0021" Action="None" />
-    <Rule Id="MA0022" Action="None" />
     <Rule Id="MA0023" Action="None" />
-    <Rule Id="MA0024" Action="None" />
-    <Rule Id="MA0025" Action="None" />
-    <Rule Id="MA0026" Action="None" />
-    <Rule Id="MA0027" Action="None" />
-    <Rule Id="MA0028" Action="None" />
-    <Rule Id="MA0029" Action="None" />
-    <Rule Id="MA0030" Action="None" />
-    <Rule Id="MA0031" Action="None" />
-    <Rule Id="MA0032" Action="Error" />
-    <Rule Id="MA0033" Action="None" />
-    <Rule Id="MA0035" Action="None" />
-    <Rule Id="MA0036" Action="None" />
-    <Rule Id="MA0037" Action="None" />
-    <Rule Id="MA0038" Action="None" />
-    <Rule Id="MA0039" Action="None" />
-    <Rule Id="MA0040" Action="Error" />
-    <Rule Id="MA0041" Action="None" />
-    <Rule Id="MA0042" Action="None" />
-    <Rule Id="MA0043" Action="None" />
-    <Rule Id="MA0044" Action="None" />
-    <Rule Id="MA0045" Action="None" />
-    <Rule Id="MA0046" Action="None" />
-    <Rule Id="MA0047" Action="None" />
-    <Rule Id="MA0048" Action="None" />
-    <Rule Id="MA0049" Action="None" />
-    <Rule Id="MA0050" Action="None" />
-    <Rule Id="MA0051" Action="None" />
-    <Rule Id="MA0052" Action="None" />
-    <Rule Id="MA0053" Action="None" />
-    <Rule Id="MA0054" Action="None" />
-    <Rule Id="MA0055" Action="None" />
-    <Rule Id="MA0056" Action="None" />
-    <Rule Id="MA0057" Action="None" />
-    <Rule Id="MA0058" Action="None" />
-    <Rule Id="MA0059" Action="None" />
-    <Rule Id="MA0060" Action="None" />
-    <Rule Id="MA0061" Action="None" />
-    <Rule Id="MA0062" Action="None" />
-    <Rule Id="MA0063" Action="None" />
-    <Rule Id="MA0064" Action="None" />
-    <Rule Id="MA0065" Action="None" />
-    <Rule Id="MA0066" Action="None" />
-    <Rule Id="MA0067" Action="None" />
-    <Rule Id="MA0068" Action="None" />
-    <Rule Id="MA0069" Action="None" />
-    <Rule Id="MA0070" Action="None" />
-    <Rule Id="MA0071" Action="None" />
-    <Rule Id="MA0072" Action="None" />
-    <Rule Id="MA0073" Action="None" />
-    <Rule Id="MA0074" Action="None" />
-    <Rule Id="MA0075" Action="None" />
-    <Rule Id="MA0076" Action="None" />
-    <Rule Id="MA0077" Action="None" />
-    <Rule Id="MA0078" Action="None" />
+    <Rule Id="MA0032" Action="Warning" />
+    <Rule Id="MA0045" Action="Warning" />
+    <Rule Id="MA0080" Action="Warning" />
+    <Rule Id="MA0104" Action="Warning" />
+    <Rule Id="MA0107" Action="Warning" />
+    <Rule Id="MA0109" Action="Warning" />
+    <Rule Id="MA0112" Action="Warning" />
+    <Rule Id="MA0121" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
