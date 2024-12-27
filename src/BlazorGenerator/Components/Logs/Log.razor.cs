@@ -56,7 +56,7 @@ namespace BlazorGenerator.Components.Logs
 
     private void UpdateLog()
     {
-      InvokeAsync(() => StateHasChanged());
+      _ = InvokeAsync(() => StateHasChanged());
     }
 
     public new void Dispose()

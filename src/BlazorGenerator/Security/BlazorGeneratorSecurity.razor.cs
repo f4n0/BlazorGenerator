@@ -27,7 +27,7 @@ public partial class BlazorGeneratorSecurity : ComponentBase
     UnauthorizedUri ??= NavigationManager!.ToAbsoluteUri(BlazorGeneratorSettings.Instance.UnauthorizedRoute);
     LoginUri ??= NavigationManager!.ToAbsoluteUri(BlazorGeneratorSettings.Instance.LoginRoute);
 
-    if ((NavigationManager!.Uri == UnauthorizedUri.ToString()) || (NavigationManager.Uri == LoginUri.ToString()))
+    if ((NavigationManager!.Uri.Equals(UnauthorizedUri.ToString())) || (NavigationManager.Uri.Equals(LoginUri.ToString())))
       return;
     permissionSet = await Security.GetPermissionSet(RouteData.PageType);
 

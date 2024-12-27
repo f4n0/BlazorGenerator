@@ -34,7 +34,7 @@ namespace BlazorGenerator.Models
 
     internal static VisibleField<T> NewField(string propertyName)
     {
-      var prop = typeof(T).GetProperty(propertyName) ?? throw new NullReferenceException("Cannot find property with name \"" + propertyName + "\"");
+      var prop = typeof(T).GetProperty(propertyName) ?? throw new Exception("Cannot find property with name \"" + propertyName + "\"");
 
       var field = new VisibleField<T>()
       {

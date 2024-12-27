@@ -6,12 +6,11 @@
   </Localization>
   <Rules AnalyzerId="Meziantou.Analyzer" RuleNamespace="Meziantou.Analyzer">
     <Rule Id="MA0009" Action="None" />
+    <Rule Id="MA0011" Action="None" />
     <Rule Id="MA0023" Action="None" />
     <Rule Id="MA0032" Action="Warning" />
     <Rule Id="MA0045" Action="Warning" />
     <Rule Id="MA0080" Action="Warning" />
-    <Rule Id="MA0104" Action="Warning" />
-    <Rule Id="MA0107" Action="Warning" />
     <Rule Id="MA0109" Action="Warning" />
     <Rule Id="MA0112" Action="Warning" />
     <Rule Id="MA0121" Action="Warning" />

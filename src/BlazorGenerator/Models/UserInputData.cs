@@ -7,11 +7,4 @@
     public UserInputType InputType { get; set; } = UserInputType.PlainText;
     public List<string> Choices { get; set; } = [];
   }
-
-  public enum UserInputType
-  {
-    PlainText,
-    Secret,
-    Choice
-  }
 }

@@ -27,9 +27,9 @@ namespace BlazorGenerator
       services.AddSingleton<UIServices>(serviceProvider => new UIServices(
               (serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger)!,
               null!,
-              (serviceProvider.CreateScope().ServiceProvider.GetService<ProgressService>())!,
+              serviceProvider.CreateAsyncScope().ServiceProvider.GetService<ProgressService>()!,
               null!,
-              (serviceProvider.CreateScope().ServiceProvider.GetService<LockUIService>())!
+              (serviceProvider.CreateAsyncScope().ServiceProvider.GetService<LockUIService>())!
            ));
 
       return services;
