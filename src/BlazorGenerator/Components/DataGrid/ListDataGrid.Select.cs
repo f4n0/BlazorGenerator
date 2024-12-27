@@ -1,6 +1,4 @@
-﻿using Microsoft.FluentUI.AspNetCore.Components;
-
-namespace BlazorGenerator.Components.DataGrid;
+﻿namespace BlazorGenerator.Components.DataGrid;
 
 public partial class ListDataGrid<T>
 {

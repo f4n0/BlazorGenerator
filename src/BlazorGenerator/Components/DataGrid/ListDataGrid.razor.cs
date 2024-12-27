@@ -4,7 +4,6 @@ using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Diagnostics;
 
 namespace BlazorGenerator.Components.DataGrid
 {

@@ -1,0 +1,16 @@
+.rowselected {
+  background: var(--neutral-fill-secondary-rest)
+}
+
+.GridContainer {
+  overflow-x: auto;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+thead {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

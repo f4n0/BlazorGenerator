@@ -7,6 +7,7 @@
   <Rules AnalyzerId="Meziantou.Analyzer" RuleNamespace="Meziantou.Analyzer">
     <Rule Id="MA0009" Action="None" />
     <Rule Id="MA0011" Action="None" />
+    <Rule Id="MA0016" Action="None" />
     <Rule Id="MA0023" Action="None" />
     <Rule Id="MA0032" Action="Warning" />
     <Rule Id="MA0045" Action="Warning" />

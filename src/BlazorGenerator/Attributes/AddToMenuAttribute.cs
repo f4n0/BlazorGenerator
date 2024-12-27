@@ -1,5 +1,4 @@
-﻿using Microsoft.FluentUI.AspNetCore.Components;
-using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20;
+﻿using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20;
 
 namespace BlazorGenerator.Attributes
 {

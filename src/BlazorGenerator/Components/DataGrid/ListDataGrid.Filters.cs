@@ -17,11 +17,8 @@ public partial class ListDataGrid<T>
     {
       return res;
     }
-    else
-    {
-      FieldFilters.Add(fieldName, string.Empty);
-      return string.Empty;
-    }
+    FieldFilters.Add(fieldName, string.Empty);
+    return string.Empty;
   }
 
   private void HandleFilter(ChangeEventArgs e, VisibleField<T> field)
@@ -38,7 +35,7 @@ public partial class ListDataGrid<T>
     var set = Data;
     //first global search
     if (!string.IsNullOrWhiteSpace(SearchValue))
-    {      
+    {
       set = set.AsEnumerable().Where(r =>
       {
         foreach (var field in VisibleFields)

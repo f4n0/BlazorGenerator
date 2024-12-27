@@ -11,10 +11,10 @@ namespace BlazorGenerator.Security
     public async Task<PermissionSet> GetPermissionSet(Type? Object = null)
     {
       PermissionSet permissionSet = null!;
-      var sessionId = await Security.GetCurrentSessionIdentifier();
+      var sessionId = await Security.GetCurrentSessionIdentifier().ConfigureAwait(true);
       if (string.IsNullOrEmpty(sessionId))
       {
-        return await Security.GetPermissionSet(Object);
+        return await Security.GetPermissionSet(Object).ConfigureAwait(true);
       }
       if (PermissionCache.TryGetValue(sessionId, out var cached))
       {
@@ -30,7 +30,7 @@ namespace BlazorGenerator.Security
 
       if (permissionSet == null)
       {
-        permissionSet = await Security.GetPermissionSet(Object);
+        permissionSet = await Security.GetPermissionSet(Object).ConfigureAwait(true);
         if (PermissionCache.TryGetValue(sessionId, out var current))
         {
           if (!current.Contains(permissionSet))
@@ -48,6 +48,6 @@ namespace BlazorGenerator.Security
       return permissionSet;
     }
 
-    public async Task<string> GetSessionIdentifier() => await Security.GetCurrentSessionIdentifier();
+    public async Task<string> GetSessionIdentifier() => await Security.GetCurrentSessionIdentifier().ConfigureAwait(true);
   }
 }

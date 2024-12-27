@@ -45,7 +45,7 @@ namespace BlazorGenerator.Utils
       {
         var ret = Method.Invoke(target, parameters);
         if (ret is Task task)
-          await task;
+          await task.ConfigureAwait(true);
       }
       catch (TaskCanceledException)
       {

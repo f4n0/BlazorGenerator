@@ -40,17 +40,14 @@ namespace BlazorGenerator.Services
       var DialogResult = await DialogService.ShowDialogAsync(PageType, Data, new DialogParameters()
       {
         Width = "50%",
-        Height = "fit-content"
-      });
-      var result = (await DialogResult.Result);
+        Height = "fit-content",
+      }).ConfigureAwait(true);
+      var result = await DialogResult.Result.ConfigureAwait(true);
       if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as T;
       }
-      else
-      {
-        return null;
-      }
+      return null;
     }
 
     public async Task<UploadFileData?> UploadFile(bool multiple = true, string filefilters = "*.*", int maxfilecount = 50)
@@ -59,7 +56,7 @@ namespace BlazorGenerator.Services
       {
         Multiple = multiple,
         FileFilters = filefilters,
-        MaximumFileCount = maxfilecount
+        MaximumFileCount = maxfilecount,
       };
 
       var DialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
@@ -67,17 +64,14 @@ namespace BlazorGenerator.Services
         Width = "50%",
         Height = "300px",
         PrimaryAction = "",
-        SecondaryAction = ""
-      });
-      var result = (await DialogResult.Result);
+        SecondaryAction = "",
+      }).ConfigureAwait(true);
+      var result = await DialogResult.Result.ConfigureAwait(true);
       if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as UploadFileData;
       }
-      else
-      {
-        return null;
-      }
+      return null;
     }
 
     public async Task<UserInputData?> UserInput(UserInputData userInputData)
@@ -85,17 +79,14 @@ namespace BlazorGenerator.Services
       var DialogResult = await DialogService.ShowDialogAsync(typeof(UserInput), userInputData, new DialogParameters()
       {
         Width = "50%",
-        Height = "fit-content"
-      });
-      var result = (await DialogResult.Result);
+        Height = "fit-content",
+      }).ConfigureAwait(true);
+      var result = await DialogResult.Result.ConfigureAwait(true);
       if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as UserInputData;
       }
-      else
-      {
-        return null;
-      }
+      return null;
     }
 
     public async Task<T?> OpenPanel<T>(Type PageType, T Data) where T : class
@@ -124,9 +115,9 @@ namespace BlazorGenerator.Services
       {
         DialogType = DialogType.Panel,
         Alignment = HorizontalAlignment.Right,
-        Width = "40%"
-      });
-      var result = (await DialogResult.Result);
+        Width = "40%",
+      }).ConfigureAwait(true);
+      var result = await DialogResult.Result.ConfigureAwait(true);
       if (result.Cancelled)
       {
         return Original;
@@ -135,10 +126,7 @@ namespace BlazorGenerator.Services
       {
         return result.Data as T;
       }
-      else
-      {
-        return null;
-      }
+      return null;
     }
 
     public async Task<T?> OpenPanel<T>(Type PageType, ModalData<T> Data) where T : class
@@ -147,17 +135,14 @@ namespace BlazorGenerator.Services
       {
         DialogType = DialogType.Panel,
         Alignment = HorizontalAlignment.Right,
-        Width = "40%"
-      });
-      var result = (await DialogResult.Result);
+        Width = "40%",
+      }).ConfigureAwait(true);
+      var result = await DialogResult.Result.ConfigureAwait(true);
       if ((result.Data is not null) && !result.Cancelled)
       {
         return (result.Data as ModalData<T>)?.Data;
       }
-      else
-      {
-        return null;
-      }
+      return null;
     }
   }
 }

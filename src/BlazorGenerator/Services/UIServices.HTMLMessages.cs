@@ -166,7 +166,7 @@ namespace BlazorGenerator.Services
           DialogType = DialogType.MessageBox,
           PrimaryAction = "OK",
           SecondaryAction = string.Empty,
-        });
+        }).ConfigureAwait(true);
 
     /// <summary>
     /// Shows a warning message box. Does not have a callback function.
@@ -187,7 +187,7 @@ namespace BlazorGenerator.Services
           DialogType = DialogType.MessageBox,
           PrimaryAction = "OK",
           SecondaryAction = string.Empty,
-        });
+        }).ConfigureAwait(true);
 
     /// <summary>
     /// Shows an error message box. Does not have a callback function.
@@ -208,7 +208,7 @@ namespace BlazorGenerator.Services
           DialogType = DialogType.MessageBox,
           PrimaryAction = "OK",
           SecondaryAction = string.Empty,
-        });
+        }).ConfigureAwait(true);
 
     /// <summary>
     /// Shows an information message box. Does not have a callback function.
@@ -229,7 +229,7 @@ namespace BlazorGenerator.Services
           DialogType = DialogType.MessageBox,
           PrimaryAction = "OK",
           SecondaryAction = string.Empty,
-        });
+        }).ConfigureAwait(true);
 
     /// <summary>
     /// Shows a confirmation message box. Has a callback function which returns boolean 
@@ -256,7 +256,7 @@ namespace BlazorGenerator.Services
           PrimaryAction = primaryText,
           SecondaryAction = secondaryText,
           OnDialogResult = EventCallback.Factory.Create(receiver, callback)
-        });
+        }).ConfigureAwait(true);
 
     /// <summary>
     /// Shows a confirmation message box. Has no callback function
@@ -280,7 +280,7 @@ namespace BlazorGenerator.Services
           DialogType = DialogType.MessageBox,
           PrimaryAction = primaryText,
           SecondaryAction = secondaryText,
-        });
+        }).ConfigureAwait(true);
 
     /// <summary>
     /// Shows a custom message box. Has a callback function which returns boolean
@@ -304,7 +304,7 @@ namespace BlazorGenerator.Services
         OnDialogResult = parameters.OnDialogResult,
       };
 
-      return await DialogService.ShowDialogAsync(typeof(MessageBox), parameters.Content, dialogParameters);
+      return await DialogService.ShowDialogAsync(typeof(MessageBox), parameters.Content, dialogParameters).ConfigureAwait(true);
     }
   }
 }
