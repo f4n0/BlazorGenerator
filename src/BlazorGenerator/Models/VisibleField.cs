@@ -6,26 +6,52 @@ namespace BlazorGenerator.Models
 {
   public class VisibleField<T>
   {
+    /// <summary>
+    /// The type of the original field. Used for correct cast
+    /// </summary>
+    public required Type FieldType { get; set; }
+
+    /// <summary>
+    /// The unique name of the field
+    /// </summary>
+    public required string Name { get; set; }
+
+    /// <summary>
+    /// The caption, this will be the name visible to the users
+    /// </summary>
     public string Caption { get; set; } = null!;
+
+    /// <summary>
+    /// The tooltip of the field, shown when the user hoover on the field
+    /// </summary>
+    public string? Tooltip { get; set; }
+
+    /// <summary>
+    /// The placeholder text for the field
+    /// </summary>
+    public string? PlaceHolder { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The fields can be grouped based on this field, default is Empty (no group created)
+    /// </summary>
+    public string? Group { get; set; } = string.Empty;
 
     public Action<VisibleFieldSetterArgs<T>>? Set { get; set; }
     public Func<VisibleFieldGetterArgs<T>, object?>? Get { get; set; }
 
-    public required Type FieldType { get; set; }
-    public required string Name { get; set; }
-    public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
-    public Func<T, string>? Href { get; set; }
-    public Func<T, Dictionary<object, string>?>? OnLookup { get; set; }
     public bool Immediate { get; set; } = false;
+    public bool Additional { get; set; } = false;
+
+    public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
     public bool ReadOnly { get; set; } = false;
     public Func<T, TextStyle>? TextStyle { get; set; }
     public Func<T, Color>? Color { get; set; }
-    public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
-    public string? Tooltip { get; set; }
     public bool Required { get; set; }
-    public string? PlaceHolder { get; set; } = string.Empty;
-    public string? Group { get; set; } = string.Empty;
-    public bool Additional { get; set; } = false;
+
+    public Func<T, string>? Href { get; set; }
+    public Func<T, Dictionary<object, string>?>? OnLookup { get; set; }
+    public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
+
 
     internal static VisibleField<T> NewField(string propertyName)
     {
