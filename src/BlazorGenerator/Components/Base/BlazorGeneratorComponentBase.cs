@@ -68,7 +68,7 @@ namespace BlazorGenerator.Components.Base
     {
       if (args.Key == KeyCode.Function5)
       {
-        await OnRefreshAsync();
+        await OnRefreshAsync();        
       }
     }
 

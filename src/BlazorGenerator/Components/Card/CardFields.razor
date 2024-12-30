@@ -1,9 +1,21 @@
 ﻿@typeparam T
 
-<FluentGrid Spacing="3">
+<FluentGrid Id="FieldGroup" Spacing="3">
+  @if (VisibleFields.Any(o => o.Additional))
+  {
+  <FluentGridItem Justify="JustifyContent.FlexEnd" xs="12" Style="padding-top:3px; padding-bottom:0;">
+    <FluentAnchor Href="#" Appearance="Appearance.Hypertext" OnClick="ShowAdditionalFields">@(_ShowAdditional ? "Show less" : "Show more")</FluentAnchor>
+  </FluentGridItem>
+  }
+
   @foreach (var context in VisibleFields.Where(o => o.Group == string.Empty))
   {
-    <FluentGridItem md="GridSize">
+    var attrs = new Dictionary<string, object>();
+    if (context.Additional)
+    {
+      attrs.Add("Style", $"display: {(_ShowAdditional ? "inherit" : "none")}");
+    }
+    <FluentGridItem md="GridSize" AdditionalAttributes="attrs">
       <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
         <FormFields Data="Data" Field="context" T="T" />
       </FluentStack>
@@ -15,11 +27,11 @@
   if (groups.Count() > 0)
   {
     <hr />
-    <FluentAccordion Class="contentblock"> 
+    <FluentAccordion Class="contentblock">
 
       @foreach (var group in groups)
       {
-        <FluentAccordionItem Expanded="true" >
+        <FluentAccordionItem Expanded="true">
           <HeadingTemplate>
             <FluentLabel Typo="Typography.H6">@group</FluentLabel>
           </HeadingTemplate>
@@ -51,7 +63,7 @@
       <FluentStack VerticalAlignment="VerticalAlignment.Center">
         @if ((PermissionSet?.Modify ?? false) || (PermissionSet?.Insert ?? false))
         {
-          <FluentButton OnClick="@(() => HandleSave(Data!))">@Captions.Instance.Save</FluentButton>
+          <FluentButton OnClick="@(() => HandleSave(Data!))" Appearance="Appearance.Accent">@Captions.Instance.Save</FluentButton>
         }
         @if (PermissionSet?.Delete ?? false)
         {

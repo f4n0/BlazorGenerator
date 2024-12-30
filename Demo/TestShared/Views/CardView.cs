@@ -22,11 +22,15 @@ namespace TestShared.Views
         .AddFieldProperty(p=> p.Required = true)
         .AddFieldProperty(t => t.OnLookup = (_) => new Dictionary<object, string> { { "test", "test <i>view</i>" }, { "test1", "test view 1" } });
       VisibleFields.AddField(nameof(Mock.Price)).AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
-      VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o) => o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password);
+      VisibleFields.AddField(nameof(Mock.Description), (ref VisibleField<Mock> o) => {
+        o.TextFieldType = Microsoft.FluentUI.AspNetCore.Components.TextFieldType.Password;
+        o.Additional = true;
+        }
+      );
       VisibleFields.AddField(nameof(Mock.OrderDate)).AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
       VisibleFields.AddField(nameof(Mock.Type));
-      VisibleFields.AddField(nameof(Mock.NullTest));
-      VisibleFields.AddField(nameof(Mock.Enabled));
+      VisibleFields.AddField(nameof(Mock.NullTest)).AddFieldProperty(p => p.Additional = true);
+      VisibleFields.AddField(nameof(Mock.Enabled)).AddFieldProperty(p => p.Additional = true);
 
       return Task.CompletedTask;
     }

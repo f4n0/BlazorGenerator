@@ -21,5 +21,6 @@ namespace BlazorGenerator.Layouts
     public virtual void OnDelete(T entity)
     {
     }
+
   }
 }

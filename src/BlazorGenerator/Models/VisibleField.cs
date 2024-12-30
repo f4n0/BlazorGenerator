@@ -8,14 +8,8 @@ namespace BlazorGenerator.Models
   {
     public string Caption { get; set; } = null!;
 
-    [Obsolete("This will be removed in next major, use Set instead")]
-    public Action<T, object>? Setter { get; set; }
-    [Obsolete("This will be removed in next major, use Get instead")]
-    public Func<T, object?>? Getter { get; set; }
-
     public Action<VisibleFieldSetterArgs<T>>? Set { get; set; }
     public Func<VisibleFieldGetterArgs<T>, object?>? Get { get; set; }
-
 
     public required Type FieldType { get; set; }
     public required string Name { get; set; }
@@ -31,6 +25,7 @@ namespace BlazorGenerator.Models
     public bool Required { get; set; }
     public string? PlaceHolder { get; set; } = string.Empty;
     public string? Group { get; set; } = string.Empty;
+    public bool Additional { get; set; } = false;
 
     internal static VisibleField<T> NewField(string propertyName)
     {
@@ -55,54 +50,27 @@ namespace BlazorGenerator.Models
       return field;
     }
 
-    internal object? InternalGet(T data)
-    {
-      if (Get != null)
+    internal object? InternalGet(T data) =>
+      Get?.Invoke(new VisibleFieldGetterArgs<T>()
       {
-        return Get.Invoke(new VisibleFieldGetterArgs<T>()
-        {
-          Field = this,
-          Data = data
-        });
-#pragma warning disable CS0618 // Type or member is obsolete
-      }
-      else
-      {
-        return Getter?.Invoke(data);
-      }
-#pragma warning restore CS0618 // Type or member is obsolete
-    }
+        Field = this,
+        Data = data
+      });
 
-    internal void InternalSet(T data, object? value)
-    {
-      if (Set != null)
+    internal void InternalSet(T data, object? value) =>
+      Set?.Invoke(new VisibleFieldSetterArgs<T>()
       {
-        Set.Invoke(new VisibleFieldSetterArgs<T>()
-        {
-          Field = this,
-          Data = data,
-          Value = value
-        });
-      }
-      else
-      {
-#pragma warning disable CS0618 // Type or member is obsolete
-        Setter?.Invoke(data, value!);
-#pragma warning restore CS0618 // Type or member is obsolete
-      }
+        Field = this,
+        Data = data,
+        Value = value
+      });
 
-    }
-
-    internal void InternalDrillDown(T Data)
-    {
-      if (OnDrillDown != null)
+    internal void InternalDrillDown(T Data) =>
+      OnDrillDown?.Invoke(new VisibleFieldDrillDownArgs<T>()
       {
-        OnDrillDown.Invoke(new VisibleFieldDrillDownArgs<T>()
-        {
-          Data = Data,
-          Field = this
-        });
-      }
-    }
+        Data = Data,
+        Field = this
+      });
   }
+
 }
