@@ -14,9 +14,7 @@ BlazorGeneratorSettings.Instance.ApplicationName = "BlazorGenerator Demo App";
 BlazorGeneratorSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
 BlazorGeneratorSettings.Instance.ShowHelpButton = true;
 
-builder.Services.AddTransient<IHelpService, HelpService>(o => new HelpService(
-  o.GetRequiredService<IJSRuntime>()
-  ));
+builder.Services.AddScoped<IHelpService, HelpService>();
 
 var app = builder.Build();
 

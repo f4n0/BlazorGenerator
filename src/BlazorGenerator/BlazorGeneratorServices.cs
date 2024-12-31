@@ -17,19 +17,11 @@ namespace BlazorGenerator
       services.AddSingleton<BlazorGenLogger>();
       services.AddScoped<ProgressService>();
       services.AddScoped<LockUIService>();
-
-
+      
       services.AddScoped<ISecurity, NullSecurity>();
       services.AddScoped<BlazorGeneratorSecurityService>();
-      services.AddTransient<IHelpService, EmptyHelpService>();
-
-      services.AddSingleton<UIServices>(serviceProvider => new UIServices(
-              (serviceProvider.GetService(typeof(BlazorGenLogger)) as BlazorGenLogger)!,
-              null!,
-              serviceProvider.CreateAsyncScope().ServiceProvider.GetService<ProgressService>()!,
-              null!,
-              (serviceProvider.CreateAsyncScope().ServiceProvider.GetService<LockUIService>())!
-           ));
+      services.AddScoped<IHelpService, EmptyHelpService>();
+      services.AddScoped<UIServices>();
 
       return services;
     }

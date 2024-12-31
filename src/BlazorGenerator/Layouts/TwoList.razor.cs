@@ -32,5 +32,18 @@ namespace BlazorGenerator.Layouts
     public virtual void OnDelete(TSecondList entity)
     {
     }
+    
+    
+    public override void InternalDispose()
+    {
+      GC.SuppressFinalize(this);
+      base.InternalDispose();
+    }
+
+    public override ValueTask InternalDisposeAsync()
+    {
+      GC.SuppressFinalize(this);
+      return base.InternalDisposeAsync();
+    }
   }
 }

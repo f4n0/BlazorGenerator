@@ -24,5 +24,18 @@ namespace BlazorGenerator.Layouts
     }
     
     async void RefreshData() => await LoadData();
+    
+    
+    public override void InternalDispose()
+    {
+      GC.SuppressFinalize(this);
+      base.InternalDispose();
+    }
+
+    public override ValueTask InternalDisposeAsync()
+    {
+      GC.SuppressFinalize(this);
+      return base.InternalDisposeAsync();
+    }
   }
 }

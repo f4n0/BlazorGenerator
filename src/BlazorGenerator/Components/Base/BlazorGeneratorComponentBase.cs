@@ -76,7 +76,7 @@ namespace BlazorGenerator.Components.Base
     public CancellationToken ComponentDetached => (_cancellationTokenSource ??= new()).Token;
 
 
-    public ValueTask DisposeAsync()
+    public virtual ValueTask InternalDisposeAsync()
     {
       if (_cancellationTokenSource != null)
       {
@@ -89,7 +89,7 @@ namespace BlazorGenerator.Components.Base
       return ValueTask.CompletedTask;
     }
 
-    public void Dispose()
+    public virtual void InternalDispose()
     {
       if (_cancellationTokenSource != null)
       {
@@ -98,6 +98,11 @@ namespace BlazorGenerator.Components.Base
         _cancellationTokenSource = null;
       }
       GC.SuppressFinalize(this);
+      GC.Collect();
     }
+
+
+    public ValueTask DisposeAsync() => InternalDisposeAsync();
+    public void Dispose() => InternalDispose();
   }
 }
