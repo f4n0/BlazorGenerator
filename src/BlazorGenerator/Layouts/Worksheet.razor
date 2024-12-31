@@ -4,9 +4,9 @@
 
 
 @{
-  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+  var pageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
   var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
-  var permissionSet = Security?.GetPermissionSet(this.GetType()).Result;
+  var permissionSet = Security.GetPermissionSet(this.GetType()).Result;
 
 
 }
@@ -16,7 +16,7 @@
 
     @if (ShowActions)
     {
-      <ActionBar Context="this" PageActions="PageActions" />
+      <ActionBar Context="this" PageActions="pageActions" />
     }
 
   </div>

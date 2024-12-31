@@ -11,7 +11,7 @@ namespace BlazorGenerator.Services
 
     public void SendLogMessage(string message, LogType logType = LogType.Info)
     {
-      Logs.Add((formatLogMessage(message), logType));
+      Logs.Add((FormatLogMessage(message), logType));
       NotifyStateChanged();
 
       OnLogWrite?.Invoke(message, logType);
@@ -20,9 +20,9 @@ namespace BlazorGenerator.Services
     public List<(string, LogType)> Logs = [];
 
 
-    string formatLogMessage(string message)
+    string FormatLogMessage(string message)
     {
-      return DateTime.Now.ToString() + " - " + message;
+      return DateTime.Now + " - " + message;
     }
   }
 }

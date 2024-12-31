@@ -1,24 +1,26 @@
 ﻿@typeparam T
-<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0" 
+<!--suppress CssUnresolvedCustomProperty, CssUnusedSymbol -->
+@* ReSharper disable  AssignmentInsteadOfDiscard *@
+<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0"
                Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl, KeyCode.Shift]" StopPropagation="true" StopRepeat="true">
   <div class="GridContainer">
     <FluentStack Orientation="Orientation.Horizontal" Style="margin-bottom: 10px; ">
       <div>
-        <FluentSearch @bind-Value=SearchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search+"...")"
-                      Style="float: left; width: 300px;" 
+        <FluentSearch @bind-Value=_searchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
+                      Style="float: left; width: 300px;"
                       Immediate="true" ImmediateDelay="500"
-                      @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
+                      @bind-Value:after=HandleSearchInput @ref="SearchBarRef"/>
         <FluentDivider Orientation="Orientation.Vertical"></FluentDivider>
 
       </div>
       <FluentSpacer></FluentSpacer>
       <div style="margin-right:10px;">
         <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
-          <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel" />
+          <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel"/>
         </FluentButton>
       </div>
     </FluentStack>
-    @if ((VisibleFields != null) && (VisibleFields.Count > 0))
+    @if (VisibleFields.Count > 0)
     {
       <FluentDataGrid Items="@FilteredData"
                       TGridItem="T"
@@ -30,10 +32,10 @@
                       Style="overflow:auto; flex: 0 1 auto; min-height:150px;"
                       RowSize="DataGridRowSize.Medium"
                       Id="table">
-        
+
         <TemplateColumn Align="@Align.Center" Width="50px">
           <ChildContent>
-              <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)" @onclick="(e) => HandleSingleRecSelection(context, true)"></FluentCheckbox>
+            <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)" @onclick="(_) => HandleSingleRecSelection(context, true)"></FluentCheckbox>
           </ChildContent>
           <HeaderCellItemTemplate>
             <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>
@@ -43,23 +45,19 @@
         {
           <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px">
             <ChildContent>
-              <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((e) =>
-                                                                                                                         {
-                                                                                                                            CurrRec = context;
-                                                                                                                         })"></FluentIcon>
+              <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((_) => { CurrRec = context; })">
+              </FluentIcon>
               <div style="position:fixed; z-index:4;">
                 <FluentMenu Anchor="@context.GetHashCode().ToString()"
-                            Trigger="MouseButton.Left" Anchored="true" 
+                            Trigger="MouseButton.Left" Anchored="true"
                             VerticalThreshold="@(GridActions.Count() * 40)" VerticalInset="false"
                             @ref="@GridActionRef" UseMenuService="false">
                   @foreach (var a in GridActions)
                   {
-                    <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((e) => {
-                                                                              if (GridActionRef != null)
-                                                                                GridActionRef.Open = false;
-                                                                              _ = ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec!]);
-                                                                            })">
-                      <span slot="start"><FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" /></span>
+                    <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((_) => { if (GridActionRef != null) GridActionRef.Open = false; ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec!]); })">
+                      <span slot="start">
+                        <FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start"/>
+                      </span>
                     </FluentMenuItem>
                   }
                 </FluentMenu>
@@ -87,9 +85,9 @@
                 }
                 <FluentSearch type="search" Autofocus=true
                               @bind-Value:get="(FieldFilters[name])"
-                              @bind-Value:after="()=> HandleClear(field)"
+                              @bind-Value:after="() => HandleClear(field)"
                               @oninput="(e) => HandleFilter(e, field)"
-                              Placeholder="@field.Caption" />
+                              Placeholder="@field.Caption"/>
               </div>
             </ColumnOptions>
           </TemplateColumn>
@@ -101,25 +99,24 @@
             <ChildContent>
               @if (PermissionSet!.Modify)
               {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" Appearance="Appearance.Outline" OnClick="@(() => EditAsync(context))" />
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" Appearance="Appearance.Outline" OnClick="@(() => EditAsync(context))"/>
               }
               @if (PermissionSet!.Delete)
               {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Outline" OnClick="@(() => HandleDiscard(context))" />
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Outline" OnClick="@(() => HandleDiscard(context))"/>
               }
             </ChildContent>
             <HeaderCellItemTemplate>
               @if (PermissionSet!.Modify)
               {
                 <div style="width:90%; text-align:center">
-                  <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" />
+                  <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())"/>
                 </div>
-                  }
+              }
             </HeaderCellItemTemplate>
           </TemplateColumn>
         }
       </FluentDataGrid>
-
     }
     else
     {

@@ -3,7 +3,7 @@
                  Multiple="@Content.Multiple"
                  MaximumFileCount="@Content.MaximumFileCount"
                  Accept="@Content.FileFilters"
-                 @bind-ProgressPercent="@ProgressPercent"
+                 @bind-ProgressPercent="@_progressPercent"
                  OnCompleted="@OnCompletedAsync"
                  Style="height: 200px; border: 1px dashed var(--accent-fill-rest);">
   <ChildContent>

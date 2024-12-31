@@ -11,7 +11,7 @@ public partial class BlazorGeneratorSecurity : ComponentBase
   [Parameter]
   public required RouteData RouteData { get; set; }
 
-  PermissionSet? permissionSet { get; set; }
+  PermissionSet? PermissionSet { get; set; }
 
   [Inject]
   NavigationManager? NavigationManager { get; set; }
@@ -29,13 +29,13 @@ public partial class BlazorGeneratorSecurity : ComponentBase
 
     if ((NavigationManager!.Uri.Equals(UnauthorizedUri.ToString())) || (NavigationManager.Uri.Equals(LoginUri.ToString())))
       return;
-    permissionSet = await Security.GetPermissionSet(RouteData.PageType);
+    PermissionSet = await Security.GetPermissionSet(RouteData.PageType);
 
-    if (!permissionSet.Execute)
+    if (!PermissionSet.Execute)
     {
       NavigationManager?.NavigateTo(BlazorGeneratorSettings.Instance.UnauthorizedRoute);
     }
-    if ((permissionSet.RequireAuthentication) && string.IsNullOrEmpty(await Security.GetSessionIdentifier()))
+    if ((PermissionSet.RequireAuthentication) && string.IsNullOrEmpty(await Security.GetSessionIdentifier()))
     {
       NavigationManager?.NavigateTo(BlazorGeneratorSettings.Instance.LoginRoute);
     }

@@ -11,7 +11,7 @@ namespace BlazorGenerator.Security
 
     public Task<PermissionSet> GetPermissionSet(Type? type = null)
     {
-      return Task.FromResult<PermissionSet>(new PermissionSet()
+      return Task.FromResult(new PermissionSet()
       {
         Insert = true,
         Delete = true,

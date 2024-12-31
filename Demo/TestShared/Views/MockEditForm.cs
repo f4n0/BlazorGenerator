@@ -1,9 +1,5 @@
-﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Layouts;
-using BlazorGenerator.Models;
+﻿using BlazorGenerator.Layouts;
 using BlazorGenerator.Utils;
-using Microsoft.AspNetCore.Components;
-using Microsoft.FluentUI.AspNetCore.Components;
 using TestShared.Data;
 
 namespace TestShared.Views

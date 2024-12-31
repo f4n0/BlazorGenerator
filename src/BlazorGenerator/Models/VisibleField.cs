@@ -91,10 +91,10 @@ namespace BlazorGenerator.Models
         Value = value
       });
 
-    internal void InternalDrillDown(T Data) =>
+    internal void InternalDrillDown(T data) =>
       OnDrillDown?.Invoke(new VisibleFieldDrillDownArgs<T>()
       {
-        Data = Data,
+        Data = data,
         Field = this
       });
   }

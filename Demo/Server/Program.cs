@@ -1,5 +1,4 @@
 using BlazorGenerator;
-using BlazorGenerator.Authentication;
 using BlazorGenerator.Services;
 using Microsoft.JSInterop;
 using TestShared.Services;

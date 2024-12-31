@@ -8,19 +8,19 @@ namespace BlazorGenerator.Security
 
     private Dictionary<string, List<PermissionSet>> PermissionCache { get; } = [];
 
-    public async Task<PermissionSet> GetPermissionSet(Type? Object = null)
+    public async Task<PermissionSet> GetPermissionSet(Type? @object = null)
     {
-      PermissionSet permissionSet = null!;
+      PermissionSet? permissionSet = null;
       var sessionId = await Security.GetCurrentSessionIdentifier().ConfigureAwait(true);
       if (string.IsNullOrEmpty(sessionId))
       {
-        return await Security.GetPermissionSet(Object).ConfigureAwait(true);
+        return await Security.GetPermissionSet(@object).ConfigureAwait(true);
       }
       if (PermissionCache.TryGetValue(sessionId, out var cached))
       {
-        if (cached.Any(o => o.Object == Object))
+        if (cached.Any(o => o.Object == @object))
         {
-          permissionSet = cached.First(o => o.Object == Object);
+          permissionSet = cached.First(o => o.Object == @object);
         }
         else if (cached.Any(o => o.Object == null))
         {
@@ -30,7 +30,7 @@ namespace BlazorGenerator.Security
 
       if (permissionSet == null)
       {
-        permissionSet = await Security.GetPermissionSet(Object).ConfigureAwait(true);
+        permissionSet = await Security.GetPermissionSet(@object).ConfigureAwait(true);
         if (PermissionCache.TryGetValue(sessionId, out var current))
         {
           if (!current.Contains(permissionSet))

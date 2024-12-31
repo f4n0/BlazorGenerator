@@ -9,7 +9,7 @@ namespace BlazorGenerator.Components.Modals
     [Parameter]
     public UploadFileData Content { get; set; } = new();
 
-    int ProgressPercent = 0;
+    int _progressPercent;
 
     [CascadingParameter]
     public FluentDialog? Dialog { get; set; }
@@ -34,7 +34,7 @@ namespace BlazorGenerator.Components.Modals
       Content.Files = converted.ToArray();
 
       await Task.Delay(500, Content.CancellationToken);
-      ProgressPercent = 0;
+      _progressPercent = 0;
       await Dialog!.CloseAsync(Content);
     }
   }

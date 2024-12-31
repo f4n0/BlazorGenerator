@@ -8,7 +8,7 @@ namespace BlazorGenerator.Components.Locker
     [Inject]
     LockUIService? LockUIService { get; set; }
 
-    bool ShowLock = false;
+    bool _showLock = false;
 
     protected override void OnInitialized()
     {
@@ -17,7 +17,7 @@ namespace BlazorGenerator.Components.Locker
 
     private void UpdateProgress(bool show)
     {
-      ShowLock = show;
+      _showLock = show;
       StateHasChanged();
     }
 

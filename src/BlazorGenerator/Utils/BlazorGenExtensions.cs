@@ -6,7 +6,7 @@ namespace BlazorGenerator.Utils
 {
   public static class BlazorGenExtensions
   {
-    public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, AdditionalProperties<T>? additionalProperties = null) where T : class
+    public static void AddField<T>(this List<VisibleField<T>> visibleFields, string propertyName, AdditionalProperties<T>? additionalProperties) where T : class
     {
       var field = VisibleField<T>.NewField(propertyName);
       additionalProperties?.Invoke(ref field);
@@ -21,9 +21,9 @@ namespace BlazorGenerator.Utils
       visibleFields.Add(field);
       return field;
     }
-    public static VisibleField<T> AddFieldProperty<T>(this VisibleField<T> field, Action<VisibleField<T>>? AdditionalProperty) where T : class
+    public static VisibleField<T> AddFieldProperty<T>(this VisibleField<T> field, Action<VisibleField<T>>? additionalProperty) where T : class
     {
-      AdditionalProperty?.Invoke(field);
+      additionalProperty?.Invoke(field);
       return field;
     }
 

@@ -19,12 +19,12 @@ namespace BlazorGenerator.DynamicComponents
     [Parameter]
     public required Assembly AppAssembly { get; set; }
     [Parameter]
-    public bool UseDefaultTemplate { get; set; } = false;
+    public bool UseDefaultTemplate { get; set; }
 
     [Parameter]
     public IComponentRenderMode BlazorGenRenderMode { get; set; } = RenderMode.InteractiveAuto;
 
-    private ErrorBoundary? errorBoundary;
+    private ErrorBoundary? _errorBoundary;
 
     private FluentDialog? _myFluentDialog;
 

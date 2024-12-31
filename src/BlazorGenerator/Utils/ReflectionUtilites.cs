@@ -6,7 +6,7 @@ namespace BlazorGenerator.Utils
 {
   internal static class ReflectionUtilites
   {
-    internal static void SetPropertyValueFromString(object target, PropertyInfo oProp, string propertyValue)
+    internal static void SetPropertyValueFromString(object target, PropertyInfo oProp, string? propertyValue)
     {
       Type tProp = oProp.PropertyType;
 
@@ -30,20 +30,20 @@ namespace BlazorGenerator.Utils
       oProp.SetValue(target, Convert.ChangeType(propertyValue, tProp), null);
     }
 
-    internal static async Task InvokeAction(MethodInfo Method, object target, object[]? KnownParams = null)
+    internal static async Task InvokeAction(MethodInfo method, object target, object[]? knownParams = null)
     {
-      int? mthParams = Method.GetParameters().Length;
-      var parameters = (mthParams.HasValue ? Enumerable.Repeat(Type.Missing, mthParams.Value).ToArray() : Array.Empty<object>());
-      if (KnownParams != null && parameters.Length >= KnownParams.Length)
+      int? mthParams = method.GetParameters().Length;
+      var parameters = (mthParams > 0 ? Enumerable.Repeat(Type.Missing, mthParams.Value).ToArray() : Array.Empty<object>());
+      if (knownParams != null && parameters.Length >= knownParams.Length)
       {
-        for (var i = 0; i < KnownParams.Length; i++)
+        for (var i = 0; i < knownParams.Length; i++)
         {
-          parameters[i] = KnownParams[i];
+          parameters[i] = knownParams[i];
         }
       }
       try
       {
-        var ret = Method.Invoke(target, parameters);
+        var ret = method.Invoke(target, parameters);
         if (ret is Task task)
           await task.ConfigureAwait(true);
       }

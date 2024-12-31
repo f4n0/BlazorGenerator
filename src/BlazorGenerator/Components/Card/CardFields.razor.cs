@@ -2,20 +2,20 @@
 {
   public partial class CardFields<T>
   {
-    bool _ShowAdditional { get; set; } = false;
-    protected void HandleSave(T Data)
+    bool ShowAdditional { get; set; } = false;
+    protected void HandleSave(T data)
     {
-      OnSave?.Invoke(Data);
+      OnSave?.Invoke(data);
     }
 
-    protected void HandleDiscard(T Data)
+    protected void HandleDiscard(T data)
     {
-      OnDiscard?.Invoke(Data);
+      OnDiscard?.Invoke(data);
     }
 
     protected void ShowAdditionalFields()
     {
-      _ShowAdditional = !_ShowAdditional;
+      ShowAdditional = !ShowAdditional;
     }
   }
 }

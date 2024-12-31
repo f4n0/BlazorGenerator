@@ -11,6 +11,6 @@ public partial class FormFields<T>
 
   [Parameter] public bool ShowLabel { get; set; } = true;
 
-  [Parameter] public bool IsTableCell { get; set; } = false;
+  [Parameter] public bool IsTableCell { get; set; }
 
 }

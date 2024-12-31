@@ -6,9 +6,9 @@ namespace BlazorGenerator.Components.Field
 {
   public partial class FormFields<T> : ComponentBase
   {
-    private readonly string Id = Identifier.NewId();
+    private readonly string _id = Identifier.NewId();
     bool LookupOpen { get; set; } = false;
-    private Dictionary<string, object> commonAttributes = [];
+    private Dictionary<string, object> _commonAttributes = [];
     bool HasLookup { get; set; } = false;
     bool HasDrillDown { get; set; } = false;
 
@@ -20,9 +20,9 @@ namespace BlazorGenerator.Components.Field
       if (color != null)
         styles += "color: " + color.ToAttributeValue() + ";";
 
-      commonAttributes = new()
+      _commonAttributes = new()
       {
-        { "Id", Id },
+        { "Id", _id },
         {"Appearance",FluentInputAppearance.Filled },
         {"ReadOnly", Field.ReadOnly || (Field.OnLookup != null) },
         {"style", styles },

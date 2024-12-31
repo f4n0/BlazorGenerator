@@ -59,9 +59,9 @@ else
 {
   @if (ShowLabel)
   {
-    <FluentInputLabel ForId="@Id" Label="@Field.Caption"
+    <FluentInputLabel ForId="@_id" Label="@Field.Caption"
                       AriaLabel="@Field.Caption" Required="@Field.Required"
-                      id="@(Id+"-Label")"
+                      id="@(_id+"-Label")"
                       Title="@(Field.Tooltip ?? Field.Caption)" />
 
     <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
@@ -71,63 +71,63 @@ else
   {
     <div class="AfterFullSpanWidth">
       <FluentCheckbox Value="@(Convert.ToBoolean(Field.InternalGet(Data)))" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                      @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                      @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
     </div>
   }
   else if (Field.FieldType == typeof(short))
   {
     <FluentNumberField TValue="short" Value="@(Convert.ToInt16(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(ushort))
   {
     <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(int))
   {
     <FluentNumberField TValue="int" Value="@(Convert.ToInt32(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(uint))
   {
     <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(long))
   {
     <FluentNumberField TValue="long" Value="@(Convert.ToInt64(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(ulong))
   {
     <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(float))
   {
     <FluentNumberField TValue="float" Value="@(Convert.ToSingle(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(double))
   {
     <FluentNumberField TValue="double" Value="@(Convert.ToDouble(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(decimal))
   {
     <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
   }
   else if ((Field.FieldType == typeof(string)))
   {
     <FluentTextField Value="@Field.InternalGet(Data)?.ToString()" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                     TextFieldType="@Field.TextFieldType" @attributes="@commonAttributes" Placeholder="@Field.PlaceHolder" />
+                     TextFieldType="@Field.TextFieldType" @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
 
   }
   else if (Field.FieldType == typeof(DateTime))
   {
-    <FluentDatePicker @attributes="@commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder" />
+    <FluentDatePicker @attributes="@_commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder" />
   }
   else if (Field.FieldType == typeof(Type))
   {
@@ -139,15 +139,15 @@ else
     @if (Field.FieldType.IsEnum)
     {
       var values = Enum.GetNames(Field.FieldType);
-      commonAttributes["Appearance"] = Appearance.Filled;
+      _commonAttributes["Appearance"] = Appearance.Filled;
 
       <FluentSelect Items=@values
                     OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType.GetMember(val).FirstOrDefault()) ?? val)"
                     OptionValue="@(val => val)"
                     Value="@( Enum.GetName(Field.FieldType, Field.InternalGet(Data)!))"
-                    ValueChanged="(val) => Field.InternalSet(Data, Enum.Parse(Field.FieldType, val))"
+                    ValueChanged="(val) => { if (val != null) Field.InternalSet(Data, Enum.Parse(Field.FieldType, val)); }"
                     Placeholder="@Field.PlaceHolder"
-                    @attributes="@commonAttributes" />
+                    @attributes="@_commonAttributes" />
 
     }
     else
@@ -158,11 +158,11 @@ else
   @if (HasLookup)
   {
     var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();
-    <FluentMenu Anchor="@Id" @bind-Open="LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px" Anchored="true">
+    <FluentMenu Anchor="@_id" @bind-Open="LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px" Anchored="true">
       @foreach (var item in values)
       {
-        <FluentMenuItem OnClick="@((e) => Field.InternalSet(Data, item.Key))">
-          @((MarkupString)item.Value.ToString())
+        <FluentMenuItem OnClick="@(() => Field.InternalSet(Data, item.Key))">
+          @((MarkupString)item.Value)
         </FluentMenuItem>
       }
     </FluentMenu>
@@ -171,6 +171,7 @@ else
 }
 
 
+@* ReSharper disable once InconsistentNaming *@
 @code {
 
   RenderFragment DrillDownOrLookup(FormFields<T> self) => __builder =>

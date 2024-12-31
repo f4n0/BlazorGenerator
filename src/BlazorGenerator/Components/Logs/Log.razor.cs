@@ -15,7 +15,7 @@ namespace BlazorGenerator.Components.Logs
 
     private void OnDismiss(DialogEventArgs args)
     {
-      if (args?.Reason is not null && args.Reason == "dismiss")
+      if (args.Reason is not null && args.Reason == "dismiss")
       {
         _myFluentDialog!.Hide();
       }
@@ -34,7 +34,7 @@ namespace BlazorGenerator.Components.Logs
 
     protected override void OnInitialized()
     {
-      UIServices!.Logger.OnChange += UpdateLog;
+      UIServices.Logger.OnChange += UpdateLog;
       KeyCodeService!.RegisterListener(OnKeyDownAsync);
 
     }
@@ -61,7 +61,7 @@ namespace BlazorGenerator.Components.Logs
 
     public new void Dispose()
     {
-      UIServices!.Logger.OnChange -= UpdateLog;
+      UIServices.Logger.OnChange -= UpdateLog;
       GC.SuppressFinalize(this);
       base.Dispose();
     }

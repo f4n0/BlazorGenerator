@@ -1,5 +1,4 @@
 ﻿using BlazorGenerator.Attributes;
-using Microsoft.FluentUI.AspNetCore.Components;
 using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size16;
 
 namespace TestShared.Views

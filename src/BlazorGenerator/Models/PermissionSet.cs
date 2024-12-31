@@ -7,6 +7,6 @@
     public bool Delete { get; set; }
     public bool Modify { get; set; }
     public bool Execute { get; set; }
-    public bool RequireAuthentication { get; set; } = false;
+    public bool RequireAuthentication { get; set; }
   }
 }

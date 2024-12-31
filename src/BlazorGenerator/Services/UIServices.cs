@@ -1,19 +1,18 @@
 ﻿using BlazorGenerator.Components.Modals;
 using BlazorGenerator.Layouts;
 using BlazorGenerator.Models;
-using DocumentFormat.OpenXml.Presentation;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Newtonsoft.Json.Linq;
 
 namespace BlazorGenerator.Services
 {
-  public partial class UIServices(BlazorGenLogger _logger, IDialogService _dialogService, ProgressService _progressService, IKeyCodeService _keyCodeService, LockUIService _lockService)
+  public partial class UIServices(BlazorGenLogger logger, IDialogService dialogService, ProgressService progressService, IKeyCodeService keyCodeService, LockUIService lockService)
   {
-    public BlazorGenLogger Logger { get; internal set; } = _logger;
-    public IDialogService DialogService { get; internal set; } = _dialogService;
-    public ProgressService ProgressService { get; internal set; } = _progressService;
-    public LockUIService LockService { get; internal set; } = _lockService;
-    public IKeyCodeService KeyCodeService { get; internal set; } = _keyCodeService;
+    public BlazorGenLogger Logger { get; internal set; } = logger;
+    public IDialogService DialogService { get; internal set; } = dialogService;
+    public ProgressService ProgressService { get; internal set; } = progressService;
+    public LockUIService LockService { get; internal set; } = lockService;
+    public IKeyCodeService KeyCodeService { get; internal set; } = keyCodeService;
 
     public void StartLoader()
     {
@@ -32,17 +31,17 @@ namespace BlazorGenerator.Services
       LockService.UnlockUI();
     }
 
-    public async Task<T?> OpenModal<T>(Type PageType, T Data) where T : class
+    public async Task<T?> OpenModal<T>(Type pageType, T data) where T : class
     {
-      if (PageType.BaseType != typeof(CardPage<T>))
+      if (pageType.BaseType != typeof(CardPage<T>))
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
-      var DialogResult = await DialogService.ShowDialogAsync(PageType, Data, new DialogParameters()
+      var dialogResult = await DialogService.ShowDialogAsync(pageType, data, new DialogParameters()
       {
         Width = "50%",
         Height = "fit-content",
       }).ConfigureAwait(true);
-      var result = await DialogResult.Result.ConfigureAwait(true);
+      var result = await dialogResult.Result.ConfigureAwait(true);
       if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as T;
@@ -50,23 +49,23 @@ namespace BlazorGenerator.Services
       return null;
     }
 
-    public async Task<UploadFileData?> UploadFile(bool multiple = true, string filefilters = "*.*", int maxfilecount = 50)
+    public async Task<UploadFileData?> UploadFile(bool multiple = true, string fileFilters = "*.*", int maxFileCount = 50)
     {
       var data = new UploadFileData()
       {
         Multiple = multiple,
-        FileFilters = filefilters,
-        MaximumFileCount = maxfilecount,
+        FileFilters = fileFilters,
+        MaximumFileCount = maxFileCount,
       };
 
-      var DialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
+      var dialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
       {
         Width = "50%",
         Height = "300px",
         PrimaryAction = "",
         SecondaryAction = "",
       }).ConfigureAwait(true);
-      var result = await DialogResult.Result.ConfigureAwait(true);
+      var result = await dialogResult.Result.ConfigureAwait(true);
       if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as UploadFileData;
@@ -76,12 +75,12 @@ namespace BlazorGenerator.Services
 
     public async Task<UserInputData?> UserInput(UserInputData userInputData)
     {
-      var DialogResult = await DialogService.ShowDialogAsync(typeof(UserInput), userInputData, new DialogParameters()
+      var dialogResult = await DialogService.ShowDialogAsync(typeof(UserInput), userInputData, new DialogParameters()
       {
         Width = "50%",
         Height = "fit-content",
       }).ConfigureAwait(true);
-      var result = await DialogResult.Result.ConfigureAwait(true);
+      var result = await dialogResult.Result.ConfigureAwait(true);
       if ((result.Data is not null) && !result.Cancelled)
       {
         return result.Data as UserInputData;
@@ -89,38 +88,38 @@ namespace BlazorGenerator.Services
       return null;
     }
 
-    public async Task<T?> OpenPanel<T>(Type PageType, T Data) where T : class
+    public async Task<T?> OpenPanel<T>(Type pageType, T data) where T : class
     {
-      if (PageType.BaseType != typeof(CardPage<T>))
+      if (pageType.BaseType != typeof(CardPage<T>))
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
-      T? Original;
-      if (Data is ICloneable cloneable)
+      T? original;
+      if (data is ICloneable cloneable)
       {
-        Original = (T)cloneable.Clone();
+        original = (T)cloneable.Clone();
       }
       else
       {
         try
         {
-          Original = JObject.Parse(JObject.FromObject(Data).ToString()).ToObject<T>();
+          original = JObject.Parse(JObject.FromObject(data).ToString()).ToObject<T>();
         }
         catch (Exception)
         {
-          Original = Data;
+          original = data;
         }
       }
 
-      var DialogResult = await DialogService.ShowPanelAsync(PageType, Data, new DialogParameters()
+      var dialogResult = await DialogService.ShowPanelAsync(pageType, data, new DialogParameters()
       {
         DialogType = DialogType.Panel,
         Alignment = HorizontalAlignment.Right,
         Width = "40%",
       }).ConfigureAwait(true);
-      var result = await DialogResult.Result.ConfigureAwait(true);
+      var result = await dialogResult.Result.ConfigureAwait(true);
       if (result.Cancelled)
       {
-        return Original;
+        return original;
       }
       if (result.Data is not null)
       {
@@ -129,15 +128,15 @@ namespace BlazorGenerator.Services
       return null;
     }
 
-    public async Task<T?> OpenPanel<T>(Type PageType, ModalData<T> Data) where T : class
+    public async Task<T?> OpenPanel<T>(Type pageType, ModalData<T> data) where T : class
     {
-      var DialogResult = await DialogService.ShowPanelAsync(PageType, Data, new DialogParameters()
+      var dialogResult = await DialogService.ShowPanelAsync(pageType, data, new DialogParameters()
       {
         DialogType = DialogType.Panel,
         Alignment = HorizontalAlignment.Right,
         Width = "40%",
       }).ConfigureAwait(true);
-      var result = await DialogResult.Result.ConfigureAwait(true);
+      var result = await dialogResult.Result.ConfigureAwait(true);
       if ((result.Data is not null) && !result.Cancelled)
       {
         return (result.Data as ModalData<T>)?.Data;

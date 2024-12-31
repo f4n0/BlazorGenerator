@@ -1,9 +1,9 @@
 ﻿@typeparam T
 @inherits BlazorGeneratorComponentBase
 @{
-  var PageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+  var pageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
   var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
-  var permissionSet = Security?.GetPermissionSet(this.GetType()).Result;
+  var permissionSet = Security.GetPermissionSet(this.GetType()).Result;
 
 
 }
@@ -13,11 +13,12 @@
 
     @if (ShowActions)
     {
-      <ActionBar Context="this" PageActions="PageActions" />
+      <ActionBar Context="this" PageActions="pageActions" />
     }
 
   </div>
     <div style="padding:10px; height: auto !important; overflow:auto;" class="contentblock">
+
       <ListDataGrid T="T"
                     Context="this"
                     Data="Content?.AsQueryable()"
@@ -30,7 +31,7 @@
                     ShowButtons="ShowButtons"
                     GridActions="gridActions"
                     EditFormType="EditFormType"
-                    RefreshData="@(async () => await LoadData())" />
+                    RefreshData="@(RefreshData)" />
     </div>
 
   </div>

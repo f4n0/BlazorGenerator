@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace BlazorWpf
+﻿namespace BlazorWpf
 {
   /// <summary>
   /// Interaction logic for App.xaml
   /// </summary>
-  public partial class App : Application
+  public partial class App
   {
   }
 }

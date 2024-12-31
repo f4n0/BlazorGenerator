@@ -28,28 +28,28 @@ namespace BlazorGenerator.Components.DataGrid
       T? res;
       if (EditFormType != null)
       {
-        res = await UIServices!.OpenPanel<T>(EditFormType, context);
+        res = await UIServices!.OpenPanel(EditFormType, context);
       }
       else
       {
         var typeDelegate = RoslynUtilities.CreateAndInstatiateClass(VisibleFields, "edit", ct: (Context as BlazorGeneratorComponentBase)!.ComponentDetached);
         var type = (Type)typeDelegate.Invoke(cancellationToken: (Context as BlazorGeneratorComponentBase)!.ComponentDetached).Result;
-        res = await UIServices!.OpenPanel<T>(type, context);
+        res = await UIServices!.OpenPanel(type, context);
         GC.Collect();
       }
       HandleSave(res!);
     }
 
-    protected void HandleSave(T Data)
+    protected void HandleSave(T data)
     {
-      OnSave?.Invoke(Data);
+      OnSave?.Invoke(data);
       //RefreshData?.Invoke();
       StateHasChanged();
     }
 
-    protected void HandleDiscard(T Data)
+    protected void HandleDiscard(T data)
     {
-      OnDiscard?.Invoke(Data);
+      OnDiscard?.Invoke(data);
       //RefreshData?.Invoke();
       StateHasChanged();
     }
@@ -63,11 +63,11 @@ namespace BlazorGenerator.Components.DataGrid
       StateHasChanged();
     }
 
-    string GetCssGridTemplate(int GridActions, PermissionSet? permissionSet)
+    string GetCssGridTemplate(int gridActions, PermissionSet? permissionSet)
     {
       const string select = "50px ";
       string actions = string.Empty;
-      if (GridActions > 0)
+      if (gridActions > 0)
         actions = "30px ";
 
       var spacing = 80 / VisibleFields.Count;
@@ -81,8 +81,8 @@ namespace BlazorGenerator.Components.DataGrid
 
     private async void ExportToExcel()
     {
-      var DataToExport = Selected.Count > 0 ? Selected : Data?.ToList();
-      var res = ExcelUtilities.ExportToExcel(DataToExport!, VisibleFields);
+      var dataToExport = Selected.Count > 0 ? Selected : Data?.ToList();
+      var res = ExcelUtilities.ExportToExcel(dataToExport!, VisibleFields);
 
       using var streamRef = new DotNetStreamReference(stream: res);
       await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorGeneratorComponentBase)!.ComponentDetached, (Context as BlazorGeneratorComponentBase)?.Title + ".xlsx", streamRef);
@@ -90,14 +90,14 @@ namespace BlazorGenerator.Components.DataGrid
 
     private void OnKeyDownAsync(FluentKeyCodeEventArgs args)
     {
-      if (MultipleSelectEnabled | ShiftModifierEnabled) return;
+      if (_multipleSelectEnabled | _shiftModifierEnabled) return;
       if (args.Key == KeyCode.Ctrl)
       {
-        MultipleSelectEnabled = true;
+        _multipleSelectEnabled = true;
       }
       else if (args.Key == KeyCode.Shift)
       {
-        ShiftModifierEnabled = true;
+        _shiftModifierEnabled = true;
       }
 
     }
@@ -106,11 +106,11 @@ namespace BlazorGenerator.Components.DataGrid
     {
       if (args.Key == KeyCode.Ctrl)
       {
-        MultipleSelectEnabled = false;
+        _multipleSelectEnabled = false;
       }
       else if (args.Key == KeyCode.Shift)
       {
-        ShiftModifierEnabled = false;
+        _shiftModifierEnabled = false;
       }
     }
 
@@ -124,6 +124,7 @@ namespace BlazorGenerator.Components.DataGrid
         }
         catch
         {
+          // ignored
         }
       }
     }

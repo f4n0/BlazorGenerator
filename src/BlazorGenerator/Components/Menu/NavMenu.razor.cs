@@ -4,7 +4,7 @@ namespace BlazorGenerator.Components.Menu
 {
   public partial class NavMenu
   {
-    bool Expanded = true;
+    bool _expanded = true;
 
     Dictionary<string, int> MenuGroups { get; set; } = [];
 
@@ -27,7 +27,7 @@ namespace BlazorGenerator.Components.Menu
       MenuGroups = [];
       foreach (var item in allMenu)
       {
-        if ((await Security?.GetPermissionSet(item.Type)!).Execute)
+        if ((await Security.GetPermissionSet(item.Type)).Execute)
         {
           if (!Menus.Contains(item.Attribute))
             Menus.Add(item.Attribute);

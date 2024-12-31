@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
         xmlns:local="clr-namespace:BlazorWpf"
-        xmlns:shared="clr-namespace:TestShared;assembly=TestShared"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
   <Grid>

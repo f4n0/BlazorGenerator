@@ -5,8 +5,8 @@ using Microsoft.FluentUI.AspNetCore.Components;
 namespace BlazorGenerator.Components.SplitButton;
 public partial class SplitButton
 {
-  bool OpenMenu = false;
-  string id = Identifier.NewId();
+  bool _openMenu = false;
+  string _id = Identifier.NewId();
 
 
   [Parameter]

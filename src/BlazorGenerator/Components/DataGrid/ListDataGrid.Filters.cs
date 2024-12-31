@@ -7,7 +7,7 @@ namespace BlazorGenerator.Components.DataGrid;
 public partial class ListDataGrid<T>
 {
   private IQueryable<T>? FilteredData => FilterData();
-  private string SearchValue = string.Empty;
+  private string _searchValue = string.Empty;
   private FluentSearch? SearchBarRef { get; set; }
   private Dictionary<string, string> FieldFilters { get; set; } = [];
 
@@ -34,15 +34,15 @@ public partial class ListDataGrid<T>
     if (Data is null) return null;
     var set = Data;
     //first global search
-    if (!string.IsNullOrWhiteSpace(SearchValue))
+    if (!string.IsNullOrWhiteSpace(_searchValue))
     {
       set = set.AsEnumerable().Where(r =>
       {
         foreach (var field in VisibleFields)
         {
-          var CellValue = field.InternalGet(r);
-          var cellStringValue = CellValue == null ? string.Empty : CellValue.ToString();
-          if (cellStringValue!.Contains(SearchValue, StringComparison.InvariantCultureIgnoreCase))
+          var cellValue = field.InternalGet(r);
+          var cellStringValue = cellValue == null ? string.Empty : cellValue.ToString();
+          if (cellStringValue!.Contains(_searchValue, StringComparison.InvariantCultureIgnoreCase))
           {
             return true;
           }
@@ -80,9 +80,9 @@ public partial class ListDataGrid<T>
 
   private void HandleSearchInput()
   {
-    if (string.IsNullOrWhiteSpace(SearchValue))
+    if (string.IsNullOrWhiteSpace(_searchValue))
     {
-      SearchValue = string.Empty;
+      _searchValue = string.Empty;
     }
   }
 }

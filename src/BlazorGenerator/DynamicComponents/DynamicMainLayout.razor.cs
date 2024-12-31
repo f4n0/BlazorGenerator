@@ -4,7 +4,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorGenerator.DynamicComponents
 {
-  public partial class DynamicMainLayout : IMainLayout
+  public partial class DynamicMainLayout
   {
     FluentDesignTheme? Theme { get; set; }
 

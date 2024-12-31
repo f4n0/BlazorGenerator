@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 
 namespace BlazorGenerator.Components.Base
 {
-  public partial class BlazorGeneratorComponentBase : ComponentBase, IDisposable
+  public partial class BlazorGeneratorComponentBase : ComponentBase
   {
     [Inject]
     public NavigationManager NavManager { get; set; } = null!;

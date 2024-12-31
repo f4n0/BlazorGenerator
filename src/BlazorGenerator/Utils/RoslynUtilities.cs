@@ -8,9 +8,9 @@ namespace BlazorGenerator.Utils
 {
   internal static class RoslynUtilities
   {
-    internal static ScriptRunner<object> CreateAndInstatiateClass<T>(List<VisibleField<T>> visibleFields, string? Title = null, CancellationToken ct = default)
+    internal static ScriptRunner<object> CreateAndInstatiateClass<T>(List<VisibleField<T>> visibleFields, string? title = null, CancellationToken ct = default)
     {
-      string TypeName = typeof(T).Name;
+      string typeName = typeof(T).Name;
       var sb = new StringBuilder();
       foreach (var field in visibleFields)
       {
@@ -40,7 +40,7 @@ namespace BlazorGenerator.Utils
         }}
         return typeof(TempListEditDialog);
         ";
-      var script = CSharpScript.Create(string.Format(classdeclaration, TypeName, Title, sb.ToString(), typeof(T).Namespace), ScriptOptions.Default.WithReferences(Assembly.GetExecutingAssembly(), typeof(T).Assembly));
+      var script = CSharpScript.Create(string.Format(classdeclaration, typeName, title, sb, typeof(T).Namespace), ScriptOptions.Default.WithReferences(Assembly.GetExecutingAssembly(), typeof(T).Assembly));
       script.Compile(ct);
 
       return script.CreateDelegate(ct);

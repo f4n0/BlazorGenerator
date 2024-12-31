@@ -1,10 +1,5 @@
-﻿using BlazorGenerator.Components.Modals;
-using BlazorGenerator.Layouts;
-using BlazorGenerator.Models;
-using DocumentFormat.OpenXml.Presentation;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Newtonsoft.Json.Linq;
 using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24;
 using Color = Microsoft.FluentUI.AspNetCore.Components.Color;
 

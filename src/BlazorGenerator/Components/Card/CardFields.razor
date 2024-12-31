@@ -4,7 +4,7 @@
   @if (VisibleFields.Any(o => o.Additional))
   {
   <FluentGridItem Justify="JustifyContent.FlexEnd" xs="12" Style="padding-top:3px; padding-bottom:0;">
-    <FluentAnchor Href="#" Appearance="Appearance.Hypertext" OnClick="ShowAdditionalFields">@(_ShowAdditional ? "Show less" : "Show more")</FluentAnchor>
+    <FluentAnchor Href="#" Appearance="Appearance.Hypertext" OnClick="ShowAdditionalFields">@(ShowAdditional ? "Show less" : "Show more")</FluentAnchor>
   </FluentGridItem>
   }
 
@@ -13,7 +13,7 @@
     var attrs = new Dictionary<string, object>();
     if (context.Additional)
     {
-      attrs.Add("Style", $"display: {(_ShowAdditional ? "inherit" : "none")}");
+      attrs.Add("Style", $"display: {(ShowAdditional ? "inherit" : "none")}");
     }
     <FluentGridItem md="GridSize" AdditionalAttributes="attrs">
       <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
@@ -23,8 +23,8 @@
   }
 </FluentGrid>
 @{
-  var groups = VisibleFields.Where(o => o.Group != string.Empty).Select(o => o.Group).Distinct();
-  if (groups.Count() > 0)
+  var groups = VisibleFields.Where(o => o.Group != string.Empty).Select(o => o.Group).Distinct().ToArray();
+  if (groups.Any())
   {
     <hr />
     <FluentAccordion Class="contentblock">

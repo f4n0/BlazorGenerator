@@ -6,15 +6,15 @@
                       Style="border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;" IconStart="Icon">
           @Title
         </FluentButton>
-        <FluentButton Id="@id"
+        <FluentButton Id="@_id"
                       Style="border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important;"
                       IconEnd="@(new Icons.Regular.Size16.ChevronDown())"
                       Appearance="@Appearance"
-                      OnClick="@(() => OpenMenu = !OpenMenu)" />
+                      OnClick="@(() => _openMenu = !_openMenu)" />
 
 
 
-        <FluentMenu Anchor="@id" @bind-Open="OpenMenu"  Style="min-width: 100px; max-width:300px;" HorizontalPosition="HorizontalPosition.Start" UseMenuService="false">
+        <FluentMenu Anchor="@_id" @bind-Open="_openMenu"  Style="min-width: 100px; max-width:300px;" HorizontalPosition="HorizontalPosition.Start" UseMenuService="false">
           @ChildContent
         </FluentMenu>
       </FluentStack>

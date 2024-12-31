@@ -8,7 +8,7 @@ namespace BlazorGenerator.Components.Progress
     [Inject]
     ProgressService? ProgressService { get; set; }
 
-    bool ShowProgress = false;
+    bool _showProgress = false;
 
     protected override void OnInitialized()
     {
@@ -17,7 +17,7 @@ namespace BlazorGenerator.Components.Progress
 
     private void UpdateProgress(bool show)
     {
-      ShowProgress = show;
+      _showProgress = show;
       StateHasChanged();
     }
 

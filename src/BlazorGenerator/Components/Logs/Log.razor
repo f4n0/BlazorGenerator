@@ -7,12 +7,12 @@
 <FluentDialog Class="log" @ref="_myFluentDialog" @bind-Hidden="@Hidden" aria-label="Simple dialog" Modal=true TrapFocus=true PreventScroll=false @ondialogdismiss=OnDismiss>
   <FluentDialogHeader Visible="false" />
   <FluentLabel Typo="Typography.PaneHeader">Log</FluentLabel><br />
-  @if (UIServices!.Logger.Logs.Count <= 0)
+  @if (UIServices.Logger.Logs.Count <= 0)
   {
     <FluentLabel>@Captions.Instance.NoLog</FluentLabel>
   }
   <div style="overflow-y:auto; height:80%">
-    <Virtualize Items="UIServices!.Logger.Logs">
+    <Virtualize Items="UIServices.Logger.Logs">
       <FluentLabel Color="@(ConvertToColor(context.Item2))">
         @context.Item1
       </FluentLabel>

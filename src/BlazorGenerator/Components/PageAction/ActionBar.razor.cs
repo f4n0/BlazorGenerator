@@ -16,7 +16,7 @@ namespace BlazorGenerator.Components.PageAction
 
     public Dictionary<string, bool> PopOverBind { get; set; } = [];
 
-    public bool OpenMore { get; set; } = false;
+    public bool OpenMore { get; set; }
 
     void PopulateDictionary()
     {

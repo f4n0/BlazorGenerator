@@ -1,9 +1,10 @@
-﻿@inherits BlazorGeneratorComponentBase;
-<div class="navmenu" style=" background: var(--neutral-fill-stealth-rest); height: 100%; box-shadow: 1px 0px 5px var(--neutral-fill-stealth-rest); border-radius: 10px; ">
+﻿<!--suppress CssUnresolvedCustomProperty, CssNoGenericFontName -->
+@inherits BlazorGeneratorComponentBase;
+<div class="navmenu" style=" background: var(--neutral-fill-stealth-rest); height: 100%; box-shadow: 1px 0 5px var(--neutral-fill-stealth-rest); border-radius: 10px; ">
   <FluentLayout >
     <FluentBodyContent>
-      <FluentNavMenu @bind-Expanded="@Expanded" Width="250" Collapsible="true" CollapsedChildNavigation="true" Title="Collapsible demo">
-        <FluentNavLink Href="@NavManager?.BaseUri" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent" Tooltip="@Captions.Instance.Home">@Captions.Instance.Home</FluentNavLink>
+      <FluentNavMenu @bind-Expanded="@_expanded" Width="250" Collapsible="true" CollapsedChildNavigation="true" Title="Collapsible demo">
+        <FluentNavLink Href="@NavManager.BaseUri" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent" Tooltip="@Captions.Instance.Home">@Captions.Instance.Home</FluentNavLink>
 
 
         @{
@@ -47,7 +48,7 @@
     @if (FooterLink != null)
     {
     <FluentFooter Style="font-family: var(--body-font); font-weight: normal; font-size: var(--type-ramp-base-font-size); line-height: var(--type-ramp-base-line-height);">
-      <FluentNavMenu Expanded="Expanded">
+      <FluentNavMenu Expanded="_expanded">
         <FluentNavLink Href="@FooterLink.Route" Target="_blank" Icon="@(FooterLink.Icon.ToFluentIcon())" IconColor="Color.Accent" Tooltip="@FooterLink.Title">@FooterLink.Title</FluentNavLink>
       </FluentNavMenu>
     </FluentFooter>

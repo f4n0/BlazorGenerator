@@ -1,6 +1,6 @@
 ﻿@inherits BlazorGeneratorComponentBase
 
-@if (NavManager?.ToBaseRelativePath(NavManager.Uri.ToString()) != "")
+@if (NavManager.ToBaseRelativePath(NavManager.Uri) != "")
 {
   <FluentButton IconStart="new Icons.Regular.Size20.ArrowCircleLeft()"
                 OnClick="@(() => JSRuntime.InvokeVoidAsync("history.back"))" Title="Go Back (Alt + ←)" Style=" margin-left: -15px; width:100px;">

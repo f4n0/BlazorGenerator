@@ -10,11 +10,9 @@ namespace BlazorGenerator.Components.Navigation
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0039:Use local function", Justification = "<Pending>")]
     protected override void OnParametersSet()
     {
-      var parts = NavManager!.ToBaseRelativePath(NavManager.Uri);
+      EventHandler<LocationChangedEventArgs> onLocationChange = (_, _) => StateHasChanged();
 
-      EventHandler<LocationChangedEventArgs> OnLocationChange = (sender, args) => StateHasChanged();
-
-      NavManager!.LocationChanged += OnLocationChange;
+      NavManager.LocationChanged += onLocationChange;
 
       UIServices.KeyCodeService.RegisterListener(OnKeyDownAsync);
     }
@@ -24,7 +22,7 @@ namespace BlazorGenerator.Components.Navigation
     {
       if ((args.Key == KeyCode.Left && args.AltKey))
       {
-        if (NavManager?.ToBaseRelativePath(NavManager.Uri.ToString()) != "")
+        if (NavManager.ToBaseRelativePath(NavManager.Uri) != "")
           await JSRuntime.InvokeVoidAsync("history.back", ComponentDetached);
       }
 
