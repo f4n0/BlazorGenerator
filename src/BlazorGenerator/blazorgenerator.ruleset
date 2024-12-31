@@ -11,6 +11,7 @@
     <Rule Id="MA0023" Action="None" />
     <Rule Id="MA0032" Action="Warning" />
     <Rule Id="MA0045" Action="Warning" />
+    <Rule Id="MA0049" Action="None" />
     <Rule Id="MA0080" Action="Warning" />
     <Rule Id="MA0109" Action="Warning" />
     <Rule Id="MA0112" Action="Warning" />

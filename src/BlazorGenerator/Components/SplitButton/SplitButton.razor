@@ -20,26 +20,3 @@
       </FluentStack>
     </CascadingValue>
 </div>
-
-@code {
-  bool OpenMenu = false;
-  string id = Identifier.NewId();
-
-
-  [Parameter]
-  public RenderFragment? ChildContent { get; set; }
-
-  [Parameter]
-  public string? Title { get; set; }
-
-  [Parameter]
-  public EventCallback<MouseEventArgs> OnClick { get; set; }
-
-
-  [Parameter]
-  public Appearance Appearance { get; set; }
-
-  [Parameter]
-  public Icon? Icon { get; set; }
-
-}
