@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.github\workflows\Build3.yml = .github\workflows\Build3.yml
 		.github\workflows\main.yml = .github\workflows\main.yml
 		README.md = README.md
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGenerator", "src\BlazorGenerator\BlazorGenerator.csproj", "{E498E47B-F49D-448F-B528-C5EFF5AD8CD8}"
