@@ -19,7 +19,6 @@ namespace BlazorGenerator.Components.Base
     {
       await Task.CompletedTask;
     }
-
     protected override async Task OnParametersSetAsync()
     {
       if (UseBlazorGeneratorLayouts())

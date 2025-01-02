@@ -6,7 +6,7 @@ namespace BlazorGenerator.Layouts
   public partial class ListPage<T> : BlazorGeneratorComponentBase where T : class
   {
     public IEnumerable<T>? Content { get; set; }
-    public required List<VisibleField<T>> VisibleFields { get; set; }
+    public required List<VisibleField<T>> VisibleFields { get; set; } = new();
     public virtual Type? EditFormType { get; set; }
 
     public List<T> Selected { get; set; } = [];
