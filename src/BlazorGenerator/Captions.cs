@@ -10,7 +10,7 @@
     public string Cancel { get; set; } = "Cancel";
     public string Search { get; set; } = "Search";
     public string LockUIMessage { get; set; } = "Another operation is currently running, please wait";
-    public string NoLog { get; set; } = "No Logs found";
+    public string NoLog { get; set; } = "No logs found";
     public string Home { get; set; } = "Home";
     public string FileInputMessage { get; set; } = "Drag files here you wish to upload, or";
     public string Browse { get; set; } = "Browse";

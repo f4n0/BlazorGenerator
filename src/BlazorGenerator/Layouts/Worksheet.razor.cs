@@ -1,5 +1,6 @@
 ﻿using BlazorGenerator.Components.Base;
 using BlazorGenerator.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorGenerator.Layouts
 {
@@ -12,7 +13,18 @@ namespace BlazorGenerator.Layouts
     public IEnumerable<TList>? ListContent { get; set; }
     public List<VisibleField<TList>> ListVisibleFields { get; set; } = [];
     public virtual Type? ListEditFormType { get; set; }
-    public List<TList> ListSelected { get; set; } = [];
+
+    public Action? OnSelectedChanged { get; set; }
+    private List<TList> _listSelected = [];
+    public List<TList> ListSelected
+    {
+      get => _listSelected;
+      set
+      {
+        _listSelected = value;
+        OnSelectedChanged?.Invoke();
+      }
+    }
 
     public virtual void OnSave(TList entity)
     {
@@ -29,7 +41,7 @@ namespace BlazorGenerator.Layouts
     public virtual void OnDelete(TData entity)
     {
     }
-    
+
     public override void InternalDispose()
     {
       GC.SuppressFinalize(this);

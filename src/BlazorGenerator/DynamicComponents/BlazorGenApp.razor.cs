@@ -18,11 +18,12 @@ namespace BlazorGenerator.DynamicComponents
 
     [Parameter]
     public required Assembly AppAssembly { get; set; }
-    [Parameter]
-    public bool UseDefaultTemplate { get; set; }
-
+    
     [Parameter]
     public IComponentRenderMode BlazorGenRenderMode { get; set; } = RenderMode.InteractiveAuto;
+    
+    [Parameter]
+    public IEnumerable<Assembly>? AdditionalAssemblies { get; set; } 
 
     private ErrorBoundary? _errorBoundary;
 
@@ -57,5 +58,6 @@ namespace BlazorGenerator.DynamicComponents
       }
       GC.SuppressFinalize(this);
     }
+
   }
 }

@@ -8,5 +8,6 @@ namespace BlazorGenerator.Attributes
     public required string Title { get; set; }
     public required string Route { get; set; }
     public Type Icon { get; set; } = typeof(Balloon);
+    public bool OpenNewWindow { get; set; } = true;
   }
 }

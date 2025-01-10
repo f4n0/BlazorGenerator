@@ -77,5 +77,11 @@ namespace BlazorGenerator.Components.Logs
       GC.SuppressFinalize(this);
       return base.DisposeAsync();
     }
+
+    private void ClearLog()
+    {
+      UIServices.Logger.Logs.Clear();
+      StateHasChanged();
+    }
   }
 }

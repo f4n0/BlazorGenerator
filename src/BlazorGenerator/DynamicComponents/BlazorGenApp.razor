@@ -3,7 +3,7 @@
 
 <ErrorBoundary @ref="_errorBoundary">
   <ChildContent>
-    <Router AppAssembly="@AppAssembly" AdditionalAssemblies="@(UseDefaultTemplate ? new[] { typeof(BlazorGenApp).Assembly } : null)" @rendermode="BlazorGenRenderMode">
+    <Router AppAssembly="@AppAssembly" AdditionalAssemblies="@AdditionalAssemblies" @rendermode="BlazorGenRenderMode">
       <Found Context="routeData">
         <BlazorGeneratorSecurity RouteData="@routeData">
           <RouteView RouteData="@routeData" DefaultLayout="@MainLayout.GetType()"></RouteView>

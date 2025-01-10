@@ -9,7 +9,17 @@ namespace BlazorGenerator.Layouts
     public required List<VisibleField<T>> VisibleFields { get; set; } = new();
     public virtual Type? EditFormType { get; set; }
 
-    public List<T> Selected { get; set; } = [];
+    public Action? OnSelectedChanged { get; set; }
+    private List<T> _selected = [];
+    public List<T> Selected
+    {
+      get => _selected;
+      set
+      {
+        _selected = value;
+        OnSelectedChanged?.Invoke();
+      }
+    }
 
     public virtual void OnSave(T entity)
     {
