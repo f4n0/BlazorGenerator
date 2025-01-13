@@ -35,13 +35,11 @@ namespace BlazorGenerator.Models
     /// The fields can be grouped based on this field, default is Empty (no group created)
     /// </summary>
     public string? Group { get; set; } = string.Empty;
-
+    public bool Multiline { get; set; }
     public Action<VisibleFieldSetterArgs<T>>? Set { get; set; }
     public Func<VisibleFieldGetterArgs<T>, object?>? Get { get; set; }
-
     public bool Immediate { get; set; } = false;
     public bool Additional { get; set; } = false;
-
     public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
     public bool ReadOnly { get; set; } = false;
     public Func<T, TextStyle>? TextStyle { get; set; }

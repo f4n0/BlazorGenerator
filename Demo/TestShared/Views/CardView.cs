@@ -27,6 +27,7 @@ namespace TestShared.Views
         o.Additional = true;
         }
       );
+      VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(p => p.Multiline = true);
       VisibleFields.AddField(nameof(Mock.OrderDate)).AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
       VisibleFields.AddField(nameof(Mock.Type));
       VisibleFields.AddField(nameof(Mock.NullTest)).AddFieldProperty(p => p.Additional = true);
