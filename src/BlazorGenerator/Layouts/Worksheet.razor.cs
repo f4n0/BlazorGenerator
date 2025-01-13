@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using BlazorGenerator.Components.Base;
+using BlazorGenerator.Components.Card;
+using BlazorGenerator.Components.DataGrid;
 using BlazorGenerator.Models;
-using Microsoft.AspNetCore.Components;
 
 namespace BlazorGenerator.Layouts
 {
@@ -16,6 +17,9 @@ namespace BlazorGenerator.Layouts
     public virtual Type? ListEditFormType { get; set; }
 
     public ObservableCollection<TList> ListSelected { get; set; } = [];
+    
+    private CardFields<TData>? Card { get; set; }
+    private ListDataGrid<TList>? List { get; set; }
 
     public virtual void OnSave(TList entity)
     {
@@ -43,6 +47,26 @@ namespace BlazorGenerator.Layouts
     {
       GC.SuppressFinalize(this);
       return base.InternalDisposeAsync();
+    }
+    
+    
+    public void RefreshCard()
+    {
+      if (Card != null)
+      {
+        Card.Data = Content;
+        Card.VisibleFields = VisibleFields;
+        Card.Refresh();
+      }
+    }
+    public void RefreshList()
+    {
+      if (List != null)
+      {
+        List.Data = ListContent?.AsQueryable();
+        List.VisibleFields = ListVisibleFields;
+        List.Refresh();
+      }
     }
   }
 }

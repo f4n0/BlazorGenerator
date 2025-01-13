@@ -34,8 +34,8 @@ namespace TestShared.Views
     {
       if (e.NewItems != null)
       {
-        Content = (Mock)e.NewItems[e.NewStartingIndex];
-        InvokeAsync(StateHasChanged);
+        Content = (Mock)e.NewItems[0];
+        RefreshCard();
       }
     }
 

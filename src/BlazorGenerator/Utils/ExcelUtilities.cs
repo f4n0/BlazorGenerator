@@ -14,7 +14,6 @@ namespace BlazorGenerator.Utils
       wb.SaveAs(stream);
       stream.Position = 0;
       return stream;
-      return null;
     }
 
     static DataTable ToDataTable<T>(IList<T> data, List<VisibleField<T>> visibleFields)

@@ -22,6 +22,7 @@
   </div>
       <div style="padding:10px; height: auto !important" class="contentblock">
         <CardFields T="TData"
+                    @ref="Card"
                     Data="Content"
                     PermissionSet="permissionSet"
                     GridSize="GridSize"
@@ -33,6 +34,7 @@
 
   <div class="contentblock" style="overflow:auto; margin-top:10px;">
     <ListDataGrid T="TList"
+                  @ref="List"
                   Context="this"
                   Data="ListContent?.AsQueryable()"
                   VisibleFields="ListVisibleFields"

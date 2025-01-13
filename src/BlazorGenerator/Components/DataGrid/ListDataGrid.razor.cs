@@ -137,7 +137,11 @@ namespace BlazorGenerator.Components.DataGrid
         cell.ParentReference?.Current.FocusAsync();
         await Task.CompletedTask;
       }
-
+    }
+    
+    internal void Refresh()
+    {
+      StateHasChanged();
     }
   }
 }

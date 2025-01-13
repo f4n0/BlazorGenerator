@@ -17,5 +17,10 @@
     {
       ShowAdditional = !ShowAdditional;
     }
+
+    internal void Refresh()
+    {
+      StateHasChanged();
+    }
   }
 }
