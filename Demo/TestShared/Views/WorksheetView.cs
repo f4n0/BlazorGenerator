@@ -38,7 +38,7 @@ namespace TestShared.Views
         InvokeAsync(StateHasChanged);
       }
     }
-<
+
     protected override Task LoadVisibleFields()
     {
       ShowButtons = false;
