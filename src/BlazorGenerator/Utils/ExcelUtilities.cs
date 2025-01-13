@@ -6,7 +6,7 @@ namespace BlazorGenerator.Utils
 {
   internal static class ExcelUtilities
   {
-    internal static Stream ExportToExcel<T>(List<T> data, List<VisibleField<T>> visibleFields) where T : class
+    internal static Stream ExportToExcel<T>(IList<T> data, List<VisibleField<T>> visibleFields) where T : class
     {
       XLWorkbook wb = new();
       wb.Worksheets.Add(ToDataTable(data, visibleFields), "Export");

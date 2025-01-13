@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Attributes;
+﻿using System.Collections.ObjectModel;
+using BlazorGenerator.Attributes;
 using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 using System.Reflection;
@@ -26,9 +27,9 @@ public partial class ListDataGrid<T>
 
   [Parameter] public IEnumerable<(MethodInfo Method, GridActionAttribute Attribute)>? GridActions { get; set; } = [];
 
-  [Parameter] public List<T> Selected { get; set; } = [];
+  [Parameter] public ObservableCollection<T> Selected { get; set; } = [];
 
-  [Parameter] public EventCallback<List<T>> SelectedChanged { get; set; }
+  [Parameter] public EventCallback<ObservableCollection<T>> SelectedChanged { get; set; }
 
   [Parameter] public Action? RefreshData { get; set; }
 

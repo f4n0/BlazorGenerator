@@ -1,4 +1,8 @@
-﻿namespace BlazorGenerator.Components.DataGrid;
+﻿
+
+using BlazorGenerator.Utils;
+
+namespace BlazorGenerator.Components.DataGrid;
 
 public partial class ListDataGrid<T>
 {

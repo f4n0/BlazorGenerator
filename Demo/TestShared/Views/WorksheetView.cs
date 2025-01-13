@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Attributes;
+﻿using System.Collections.Specialized;
+using BlazorGenerator.Attributes;
 using BlazorGenerator.Layouts;
 using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
@@ -23,11 +24,21 @@ namespace TestShared.Views
 
     protected override Task LoadData()
     {
+      ListSelected.CollectionChanged += SelectedChanged;
       Content = Mock.GetSingleMock();
       ListContent = Mock.GetMultipleMock(16);
       return Task.CompletedTask;
     }
 
+    private void SelectedChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (e.NewItems != null)
+      {
+        Content = (Mock)e.NewItems[e.NewStartingIndex];
+        InvokeAsync(StateHasChanged);
+      }
+    }
+<
     protected override Task LoadVisibleFields()
     {
       ShowButtons = false;

@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Components.Base;
+﻿using System.Collections.ObjectModel;
+using BlazorGenerator.Components.Base;
 using BlazorGenerator.Models;
 
 namespace BlazorGenerator.Layouts
@@ -9,18 +10,7 @@ namespace BlazorGenerator.Layouts
     public required List<VisibleField<T>> VisibleFields { get; set; } = new();
     public virtual Type? EditFormType { get; set; }
 
-    public Action? OnSelectedChanged { get; set; }
-    private List<T> _selected = [];
-    public List<T> Selected
-    {
-      get => _selected;
-      set
-      {
-        _selected = value;
-        OnSelectedChanged?.Invoke();
-      }
-    }
-
+    public ObservableCollection<T> Selected { get; set; } = [];
     public virtual void OnSave(T entity)
     {
     }

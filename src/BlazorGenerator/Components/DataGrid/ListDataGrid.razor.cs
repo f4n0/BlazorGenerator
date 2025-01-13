@@ -81,7 +81,7 @@ namespace BlazorGenerator.Components.DataGrid
 
     private async void ExportToExcel()
     {
-      var dataToExport = Selected.Count > 0 ? Selected : Data?.ToList();
+      var dataToExport = Selected.Count > 0 ? Selected.ToList() : Data?.ToList();
       var res = ExcelUtilities.ExportToExcel(dataToExport!, VisibleFields);
 
       using var streamRef = new DotNetStreamReference(stream: res);

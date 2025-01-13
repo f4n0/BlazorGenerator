@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Components.Base;
+﻿using System.Collections.ObjectModel;
+using BlazorGenerator.Components.Base;
 using BlazorGenerator.Models;
 
 namespace BlazorGenerator.Layouts
@@ -10,33 +11,12 @@ namespace BlazorGenerator.Layouts
     public IEnumerable<TFirstList>? FirstListContent { get; set; }
     public required List<VisibleField<TFirstList>> FirstListVisibleFields { get; set; }
     public virtual Type? FirstListEditFormType { get; set; }
-    public Action? OnFirstListSelectedChanged { get; set; }
-    private List<TFirstList> _firstListSelected = [];
-    public List<TFirstList> FirstListSelected
-    {
-      get => _firstListSelected;
-      set
-      {
-        _firstListSelected = value;
-        OnFirstListSelectedChanged?.Invoke();
-      }
-    }
+    public ObservableCollection<TFirstList> FirstListSelected { get; set; } = [];
 
     public IEnumerable<TSecondList>? SecondListContent { get; set; }
     public required List<VisibleField<TSecondList>> SecondListVisibleFields { get; set; }
     public virtual Type? SecondListEditFormType { get; set; }
-    public Action? OnSecondListSelectedChanged { get; set; }
-    private List<TSecondList> _secondListSelected = [];
-    public List<TSecondList> SecondListSelected
-    {
-      get => _secondListSelected;
-      set
-      {
-        _secondListSelected = value;
-        OnSecondListSelectedChanged?.Invoke();
-      }
-    }
-
+    public ObservableCollection<TSecondList> SecondListSelected { get; set; } = [];
 
     public virtual void OnSave(TFirstList entity)
     {

@@ -1,4 +1,5 @@
-﻿using BlazorGenerator.Components.Base;
+﻿using System.Collections.ObjectModel;
+using BlazorGenerator.Components.Base;
 using BlazorGenerator.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -14,17 +15,7 @@ namespace BlazorGenerator.Layouts
     public List<VisibleField<TList>> ListVisibleFields { get; set; } = [];
     public virtual Type? ListEditFormType { get; set; }
 
-    public Action? OnSelectedChanged { get; set; }
-    private List<TList> _listSelected = [];
-    public List<TList> ListSelected
-    {
-      get => _listSelected;
-      set
-      {
-        _listSelected = value;
-        OnSelectedChanged?.Invoke();
-      }
-    }
+    public ObservableCollection<TList> ListSelected { get; set; } = [];
 
     public virtual void OnSave(TList entity)
     {
