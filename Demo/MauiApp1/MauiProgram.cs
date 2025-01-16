@@ -1,5 +1,7 @@
-﻿using BlazorGenerator;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using BlazorEngine;
+using BlazorEngine.Services;
+using TestShared.Services;
 
 namespace MauiApp1
 {

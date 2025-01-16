@@ -1,8 +1,8 @@
-﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Layouts;
-using BlazorGenerator.Utils;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using TestShared.Data;
+using BlazorEngine.Attributes;
+using BlazorEngine.Layouts;
+using BlazorEngine.Utils;
 
 namespace TestShared.Views
 {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Specialized;
-using BlazorGenerator.Attributes;
-using BlazorGenerator.Layouts;
-using BlazorGenerator.Utils;
 using Microsoft.AspNetCore.Components;
 using TestShared.Data;
+using BlazorEngine.Attributes;
+using BlazorEngine.Layouts;
+using BlazorEngine.Utils;
 
 namespace TestShared.Views
 {
@@ -52,7 +52,7 @@ namespace TestShared.Views
 
       ListVisibleFields = [];
       ListVisibleFields.AddField(nameof(Mock.Id));
-      ListVisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(prop => prop.TextStyle = (_) => BlazorGenerator.Enum.TextStyle.Italic);
+      ListVisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(prop => prop.TextStyle = (_) => BlazorEngine.Enum.TextStyle.Italic);
       ListVisibleFields.AddField(nameof(Mock.Description));
       return Task.CompletedTask;
     }

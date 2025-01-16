@@ -1,24 +1,24 @@
-using BlazorGenerator;
-using BlazorGenerator.Services;
-using Microsoft.JSInterop;
 using TestShared.Services;
+using BlazorEngine;
+using BlazorEngine.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddBlazorGenerator();//.UseBlazorGeneratorAuthentication();
+builder.Services.AddBlazorGenerator(); //.UseBlazorGeneratorAuthentication();
 
-BlazorGeneratorSettings.Instance.ApplicationName = "BlazorGenerator Demo App";
-BlazorGeneratorSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
-BlazorGeneratorSettings.Instance.ShowHelpButton = true;
+BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
+BlazorEngineSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
+BlazorEngineSettings.Instance.ShowHelpButton = true;
 
 builder.Services.AddScoped<IHelpService, HelpService>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseDeveloperExceptionPage();
 if (!app.Environment.IsDevelopment())
 {
   app.UseExceptionHandler("/Error");

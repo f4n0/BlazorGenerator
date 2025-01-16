@@ -1,10 +1,9 @@
-using BlazorGenerator;
-using BlazorGenerator.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.JSInterop;
 using TestShared.Services;
 using WebAssembly;
+using BlazorEngine;
+using BlazorEngine.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -15,7 +14,7 @@ builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.H
 builder.Services.AddScoped<IHelpService, HelpService>();
 
 builder.Services.AddBlazorGenerator();
-BlazorGeneratorSettings.Instance.ApplicationName = "BlazorGenerator Demo App";
-BlazorGeneratorSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
+BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
+BlazorEngineSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
 
 await builder.Build().RunAsync();

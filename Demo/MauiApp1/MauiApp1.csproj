@@ -60,7 +60,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\BlazorGenerator\BlazorGenerator.csproj" />
+      <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj" />
       <ProjectReference Include="..\TestShared\TestShared.csproj" />
     </ItemGroup>
 

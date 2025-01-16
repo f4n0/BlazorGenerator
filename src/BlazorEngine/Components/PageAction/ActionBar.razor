@@ -1,0 +1,123 @@
+﻿<!--suppress CssUnresolvedCustomProperty, CssUnusedSymbol -->
+@* ReSharper disable  AssignmentInsteadOfDiscard *@
+<FluentStack HorizontalGap="5" VerticalAlignment="VerticalAlignment.Center" Class="actionblock">
+  <div style="margin-right:10px;">
+    <FluentLabel Weight="FontWeight.Bold" Typo="Typography.H4" Style=" width: max-content; ">
+      @((Context as BlazorEngineComponentBase)?.Title)
+    </FluentLabel>
+  </div>
+  <FluentOverflow Style="width:100%; padding-right:10px;">
+    <ChildContent>
+      @{
+        PopulateDictionary();
+        foreach (var item in ActionGroups)
+        {
+          var filtered = PageActions.Where(o =>
+            o.Attribute.Group == item.Key).ToArray();
+          if (item.Key.ToLower() == "default" || item.Value == 1)
+          {
+            foreach (var action in filtered)
+            {
+              <FluentOverflowItem Data="action">
+                <FluentGridItem xs="12" sm="6" md="0">
+                  <FluentButton OnClick="@(() => ReflectionUtilites.InvokeAction(action.Method, Context))">
+                    @(action.Attribute.Caption)
+                    <span slot="start">
+                      <FluentIcon Value="@(action.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Accent"/>
+                    </span>
+                  </FluentButton>
+                </FluentGridItem>
+              </FluentOverflowItem>
+            }
+          }
+          else
+          {
+            <FluentOverflowItem Data="filtered">
+              @{
+                var firstOne = filtered.First();
+              }
+              <SplitButton Title="@(firstOne.Attribute.Caption)"
+                           Icon="@firstOne.Attribute.Icon.ToFluentIcon()"
+                           OnClick="@(() => { ReflectionUtilites.InvokeAction(firstOne.Method, Context); })">
+
+                <SplitButtonItem OnClick="@(() => { ReflectionUtilites.InvokeAction(firstOne.Method, Context); })">
+                  @firstOne.Attribute.Caption
+                  <span slot="start">
+                    <FluentIcon Value="@firstOne.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Accent"/>
+                  </span>
+                </SplitButtonItem>
+
+                @foreach (var action in filtered.Skip(1))
+                {
+                  <SplitButtonItem OnClick="@(() => { ReflectionUtilites.InvokeAction(action.Method, Context); })">
+                    @action.Attribute.Caption
+                    <span slot="start">
+                      <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Accent"/>
+                    </span>
+                  </SplitButtonItem>
+                }
+              </SplitButton>
+            </FluentOverflowItem>
+          }
+        }
+      }
+    </ChildContent>
+
+    <MoreButtonTemplate>
+      <FluentButton OnClick="@(() => OpenMore = !OpenMore)">...</FluentButton>
+    </MoreButtonTemplate>
+
+    <OverflowTemplate>
+      <FluentPopover AnchorId="@context.IdMoreButton" @bind-Open="@OpenMore" HorizontalPosition="HorizontalPosition.Left" Style="width: 300px;">
+        <Body>
+        <FluentGrid Style="overflow: hidden; flex: 0 0 auto; margin-bottom: 5px" Justify="JustifyContent.FlexStart" Spacing="1">
+          @foreach (var item in context.ItemsOverflow)
+          {
+            <FluentGridItem xs="12">
+              @if (item.Data is (MethodInfo, PageActionAttribute))
+              {
+                var casted = ((MethodInfo Method, PageActionAttribute Attribute))item.Data;
+
+                <FluentButton OnClick="@(() => ReflectionUtilites.InvokeAction(casted.Method, Context))">
+                  @casted.Attribute.Caption
+                  <span slot="start">
+                    <FluentIcon Value="@(casted.Attribute.Icon.ToFluentIcon())" Slot="start" Color="Color.Accent"/>
+                  </span>
+                </FluentButton>
+              }
+              else if (item.Data is IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)>)
+              {
+                var casted = item.Data as IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)>;
+                @if (casted != null)
+                {
+                  <div style="border: 1px solid var(--neutral-fill-strong-focus) ">
+                    <FluentLabel Typo="Typography.Subject" Alignment="HorizontalAlignment.Center">@casted.First().Attribute.Group</FluentLabel>
+                    <FluentStack Orientation="Orientation.Horizontal" Wrap="true" Style="margin-top:10px;">
+                      @foreach (var action in casted)
+                      {
+                        <FluentButton OnClick="@(() => { ReflectionUtilites.InvokeAction(action.Method, Context); })">
+                          @action.Attribute.Caption
+                          <span slot="start">
+                            <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start" Color="Color.Accent"/>
+                          </span>
+                        </FluentButton>
+                      }
+                    </FluentStack>
+                  </div>
+                }
+              }
+            </FluentGridItem>
+          }
+        </FluentGrid>
+        </Body>
+      </FluentPopover>
+    </OverflowTemplate>
+  </FluentOverflow>
+</FluentStack>
+
+
+<style>
+  .fluent-popover-content {
+    padding: 5px !important;
+  }
+</style>

@@ -1,5 +1,5 @@
-﻿using BlazorGenerator;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using BlazorEngine;
 
 namespace BlazorWpf
 {

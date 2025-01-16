@@ -1,7 +1,7 @@
 ![Nuget](https://img.shields.io/nuget/v/BlazorGenerator)
 
-# BlazorGenerator
-You create the models and BlazorGenerator will create the pages!
+# BlazorEngine
+You create the models and BlazorEngine will create the UI pages!
 All the components are made from Microsoft Fluent UI. 
 
 
@@ -22,7 +22,7 @@ Look at the Server/WebAssembly/Maui Project and see by yourself
 add in your index.html before the webassembly script
   `<script app-name="MauiApp1" src="./_content/Microsoft.FluentUI.AspNetCore.Components/js/initializersLoader.webview.js"></script>`
 
-In the tag `<BlazorGenApp>` add this parameter `BlazorGenRenderMode="null"`
+In the tag `<BlazorEngineApp>` add this parameter `BlazorEngineRenderMode="null"`
 
 ## Contributing
 I'm a lonely programmer, feel free to open issues or submit Pull Requests!

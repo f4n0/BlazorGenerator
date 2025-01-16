@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BlazorGenerator\BlazorGenerator.csproj" />
-    <ProjectReference Include="..\..\src\Extensions\BlazorGenerator.Authentication\BlazorGenerator.Authentication.csproj" />
+    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj" />
     <ProjectReference Include="..\TestShared\TestShared.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
-﻿using BlazorGenerator.Layouts;
-using BlazorGenerator.Utils;
-using TestShared.Data;
+﻿using TestShared.Data;
+using BlazorEngine.Layouts;
+using BlazorEngine.Utils;
 
 namespace TestShared.Views
 {

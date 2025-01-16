@@ -1,5 +1,5 @@
-﻿using BlazorGenerator.Services;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
+using BlazorEngine.Services;
 
 namespace TestShared.Services
 {

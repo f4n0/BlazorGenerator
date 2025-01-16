@@ -1,0 +1,69 @@
+﻿@using BlazorEngine.Security
+
+@inject IMainLayout MainLayout
+
+<ErrorBoundary @ref="_errorBoundary">
+  <ChildContent>
+    <Router AppAssembly="@AppAssembly" AdditionalAssemblies="@AdditionalAssemblies" @rendermode="BlazorGenRenderMode">
+      <Found Context="routeData">
+        <BlazorEngineSecurity RouteData="@routeData">
+          <RouteView RouteData="@routeData" DefaultLayout="@MainLayout.GetType()"></RouteView>
+        </BlazorEngineSecurity>
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+      </Found>
+      <NotFound>
+        <PageTitle>@Captions.Instance.NotFound</PageTitle>
+        <LayoutView Layout="@MainLayout.GetType()">
+          <p role="alert">@Captions.Instance.NotFoundMessage</p>
+        </LayoutView>
+      </NotFound>
+    </Router>
+  </ChildContent>
+  <ErrorContent>
+    <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal=@false TrapFocus=@true>
+      <FluentDialogHeader Visible="false" />
+      <div style="text-align:center">
+        <h2>@Captions.Instance.ErrorTitle</h2>
+        <b>@Captions.Instance.ErrorMessage</b><br />
+        <i>@Captions.Instance.ErrorMessagePersist</i><br /><br />
+        <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> CreateExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchor>
+
+      </div><br />
+
+      <FluentStack Orientation="Orientation.Horizontal">
+        <FluentButton Appearance="Appearance.Accent" OnClick="@(()=> NavManager!.NavigateTo("/", true))">@Captions.Instance.ErrorHomePage</FluentButton>
+        <FluentSpacer></FluentSpacer>
+        <FluentButton Appearance="Appearance.Accent" Autofocus="true" @onclick="() => _errorBoundary?.Recover()">@Captions.Instance.ErrorRefresh</FluentButton>
+      </FluentStack>
+    </FluentDialog>
+    @{
+      _myFluentDialog?.Show();
+    }
+  </ErrorContent>
+</ErrorBoundary>
+
+
+<link href="_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css" rel="stylesheet" />
+<link href="_content/BlazorEngine/css/site.css" rel="stylesheet" />
+
+<script>
+  window.downloadFileFromStream = async (fileName, contentStreamReference) => {
+    const arrayBuffer = await contentStreamReference.arrayBuffer();
+    const blob = new Blob([arrayBuffer]);
+    const url = URL.createObjectURL(blob);
+    const anchorElement = document.createElement('a');
+    anchorElement.href = url;
+    anchorElement.download = fileName ?? '';
+    anchorElement.click();
+    anchorElement.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  ["keyup","keydown"].forEach((event) => {
+    window.addEventListener(event, (e) => {
+        document.onselectstart = function() {
+            return !(e.key === "Shift" && e.shiftKey);
+        }
+    });
+});
+</script>

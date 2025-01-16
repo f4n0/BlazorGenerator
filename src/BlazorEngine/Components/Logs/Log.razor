@@ -1,0 +1,37 @@
+﻿@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
+
+<FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Log" @onclick="OnOpen">
+  <FluentIcon Value="@(new Icons.Regular.Size20.CodeText())" Color="Color.Neutral" Title="Log" />
+</FluentButton>
+
+<FluentDialog Class="log" @ref="_myFluentDialog" 
+              @bind-Hidden="@Hidden" Modal=true
+              TrapFocus=true PreventScroll=false @ondialogdismiss=OnDismiss>
+  <FluentDialogHeader ShowDismiss="true">
+    <FluentStack HorizontalAlignment="HorizontalAlignment.SpaceBetween" VerticalAlignment="VerticalAlignment.Center"> 
+      <FluentLabel Typo="Typography.PaneHeader">Log</FluentLabel>
+
+      <FluentAnchor Href="#" OnClick="ClearLog" Appearance="Appearance.Hypertext">Clear Log</FluentAnchor>
+    </FluentStack>
+  </FluentDialogHeader>
+  <div style="overflow-y:auto; height:80%">
+    <Virtualize Items="UIServices.Logger.Logs">
+      <ChildContent>
+        <FluentLabel Color="@(ConvertToColor(context.Item2))">
+          @context.Item1
+        </FluentLabel>
+      </ChildContent>
+      <EmptyContent>
+        <FluentLabel Color="Color.Neutral">@Captions.Instance.NoLog</FluentLabel>
+      </EmptyContent>
+    </Virtualize>
+  </div>
+</FluentDialog>
+
+<style>
+  .log {
+    --dialog-width: 60% !important;
+    --dialog-height: 60% !important;
+    padding: 2rem !important;
+  }
+</style>

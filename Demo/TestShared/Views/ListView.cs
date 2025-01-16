@@ -1,10 +1,10 @@
-﻿using BlazorGenerator.Attributes;
-using BlazorGenerator.Layouts;
-using BlazorGenerator.Models;
-using BlazorGenerator.Utils;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using TestShared.Data;
 using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size16;
+using BlazorEngine.Attributes;
+using BlazorEngine.Layouts;
+using BlazorEngine.Models;
+using BlazorEngine.Utils;
 
 namespace TestShared.Views
 {
