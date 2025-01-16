@@ -9,7 +9,7 @@ namespace BlazorEngine
 {
   public static class BlazorEngineServices
   {
-    public static IServiceCollection AddBlazorGenerator(this IServiceCollection services)
+    public static IServiceCollection AddBlazorEngine(this IServiceCollection services)
     {
       services.AddTransient<IMainLayout, DynamicMainLayout>();
       services.AddFluentUIComponents();

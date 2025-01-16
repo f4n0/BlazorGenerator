@@ -21,7 +21,7 @@ namespace BlazorEngine.Components.Base
     }
     protected override async Task OnParametersSetAsync()
     {
-      if (UseBlazorGeneratorLayouts())
+      if (UseBlazorEngineLayouts())
       {
         await LoadVisibleFields();
         UIServices.KeyCodeService.RegisterListener(OnKeyDownAsync);
@@ -32,14 +32,14 @@ namespace BlazorEngine.Components.Base
 
     protected override async Task OnInitializedAsync()
     {
-      if (UseBlazorGeneratorLayouts())
+      if (UseBlazorEngineLayouts())
       {
         await LoadData();
       }
       await base.OnInitializedAsync();
     }
 
-    private bool UseBlazorGeneratorLayouts()
+    private bool UseBlazorEngineLayouts()
     {
       var loadingBaseType = this.GetType().BaseType;
       if (loadingBaseType == null)

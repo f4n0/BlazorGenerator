@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddBlazorGenerator(); //.UseBlazorGeneratorAuthentication();
+builder.Services.AddBlazorEngine(); //.UseBlazorGeneratorAuthentication();
 
 BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
 BlazorEngineSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;

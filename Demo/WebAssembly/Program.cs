@@ -13,7 +13,7 @@ builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.H
 
 builder.Services.AddScoped<IHelpService, HelpService>();
 
-builder.Services.AddBlazorGenerator();
+builder.Services.AddBlazorEngine();
 BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
 BlazorEngineSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
 
