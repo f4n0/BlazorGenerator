@@ -1,4 +1,4 @@
-![Nuget](https://img.shields.io/nuget/v/BlazorGenerator)
+![Nuget](https://img.shields.io/nuget/v/BlazorEngine)
 
 # BlazorEngine
 You create the models and BlazorEngine will create the UI pages!
