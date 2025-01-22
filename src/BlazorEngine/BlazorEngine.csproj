@@ -10,7 +10,6 @@
     <RepositoryUrl>https://github.com/f4n0/BlazorGenerator</RepositoryUrl>
     <Authors>f4n0</Authors>
     <Version>1.0.0.0</Version>
-    <CodeAnalysisRuleSet>blazorgenerator.ruleset</CodeAnalysisRuleSet>
     <PackageId>BlazorEngine</PackageId>
     <Product>BlazorEngine</Product>
   </PropertyGroup>
