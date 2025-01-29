@@ -15,9 +15,8 @@ namespace BlazorEngine.Layouts
     public IEnumerable<TList>? ListContent { get; set; }
     public List<VisibleField<TList>> ListVisibleFields { get; set; } = [];
     public virtual Type? ListEditFormType { get; set; }
-
+    public virtual bool ShowExportToExcel { get; set; } = true;
     public ObservableCollection<TList> ListSelected { get; set; } = [];
-    
     private CardFields<TData>? Card { get; set; }
     private ListDataGrid<TList>? List { get; set; }
 

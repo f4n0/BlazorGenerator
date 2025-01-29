@@ -12,11 +12,13 @@ namespace BlazorEngine.Layouts
     public required List<VisibleField<TFirstList>> FirstListVisibleFields { get; set; }
     public virtual Type? FirstListEditFormType { get; set; }
     public ObservableCollection<TFirstList> FirstListSelected { get; set; } = [];
+    public virtual bool ShowExportToExcelFirstList { get; set; } = true;
 
     public IEnumerable<TSecondList>? SecondListContent { get; set; }
     public required List<VisibleField<TSecondList>> SecondListVisibleFields { get; set; }
     public virtual Type? SecondListEditFormType { get; set; }
     public ObservableCollection<TSecondList> SecondListSelected { get; set; } = [];
+    public virtual bool ShowExportToExcelSecondList { get; set; } = true;
 
     public virtual void OnSave(TFirstList entity)
     {

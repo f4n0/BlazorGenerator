@@ -32,7 +32,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Type));
       VisibleFields.AddField(nameof(Mock.NullTest)).AddFieldProperty(p => p.Additional = true);
       VisibleFields.AddField(nameof(Mock.Enabled)).AddFieldProperty(p => p.Additional = true);
-
+      
       return Task.CompletedTask;
     }
 

@@ -9,6 +9,7 @@ namespace BlazorEngine.Layouts
     public IEnumerable<T>? Content { get; set; }
     public required List<VisibleField<T>> VisibleFields { get; set; } = new();
     public virtual Type? EditFormType { get; set; }
+    public virtual bool ShowExportToExcel { get; set; } = true;
 
     public ObservableCollection<T> Selected { get; set; } = [];
     public virtual void OnSave(T entity)

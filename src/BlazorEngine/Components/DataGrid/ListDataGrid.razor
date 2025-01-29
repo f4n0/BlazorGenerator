@@ -14,11 +14,14 @@
 
       </div>
       <FluentSpacer></FluentSpacer>
-      <div style="margin-right:10px;">
-        <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
-          <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel"/>
-        </FluentButton>
-      </div>
+      @if (ShowExportToExcel)
+      {
+        <div style="margin-right:10px;">
+          <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
+            <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel"/>
+          </FluentButton>
+        </div>
+      }
     </FluentStack>
     @if (VisibleFields.Count > 0)
     {
@@ -107,7 +110,7 @@
               }
             </ChildContent>
             <HeaderCellItemTemplate>
-              @if (PermissionSet!.Modify)
+              @if (PermissionSet!.Insert)
               {
                 <div style="width:90%; text-align:center">
                   <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())"/>

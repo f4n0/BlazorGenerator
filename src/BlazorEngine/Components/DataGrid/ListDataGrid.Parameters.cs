@@ -40,4 +40,6 @@ public partial class ListDataGrid<T>
   [Parameter] public Action<T>? OnDiscard { get; set; }
 
   [Parameter] public Func<T>? OnNewItem { get; set; }
+
+  [Parameter] public bool ShowExportToExcel { get; set; } = true;
 }

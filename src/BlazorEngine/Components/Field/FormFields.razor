@@ -142,7 +142,10 @@ else
   {
     <FluentIcon Value="@((Field.InternalGet(Data) as Type)?.ToFluentIcon())"></FluentIcon>
   }
-
+  else if (Field.FieldType == typeof(Action) )
+  {
+    <FluentButton OnClick="() => Field.InternalSet(Data, null)" @attributes="@_commonAttributes">@Field.Caption</FluentButton>
+  }
   else
   {
     @if (Field.FieldType.IsEnum)

@@ -19,6 +19,7 @@ namespace TestShared.Views
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
+    public override bool ShowExportToExcel => false;
     public override string Title => "List View";
     public override Type? ListEditFormType => typeof(MockEditForm);
 

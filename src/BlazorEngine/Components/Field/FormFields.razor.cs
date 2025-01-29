@@ -14,7 +14,7 @@ namespace BlazorEngine.Components.Field
 
     protected override Task OnParametersSetAsync()
     {
-      var className = (Field.FieldType == typeof(bool)) ? "" : "FullSpanWidth";
+      var className = (Field.FieldType == typeof(bool) || Field.FieldType == typeof(Action)) ? "" : "FullSpanWidth";
       var styles = "";
       var color = Field.Color?.Invoke(Data);
       if (color != null)
@@ -23,12 +23,15 @@ namespace BlazorEngine.Components.Field
       _commonAttributes = new()
       {
         { "Id", _id },
-        {"Appearance",FluentInputAppearance.Filled },
+        {"Appearance", Field.FieldType == typeof(Action) ? Appearance.Accent : FluentInputAppearance.Filled },
         {"ReadOnly", Field.ReadOnly || (Field.OnLookup != null) },
         {"style", styles },
         {"class", className },
         {"Immediate", Field.Immediate }
       };
+
+      if (Field.FieldType == typeof(Action))
+        ShowLabel = false;
 
       HasLookup = Field.OnLookup != null;
       HasDrillDown = Field.OnDrillDown != null;
