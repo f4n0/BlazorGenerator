@@ -1,0 +1,17 @@
+/* _content/BlazorEngine/Components/DataGrid/ListDataGrid.razor.rz.scp.css */
+.rowselected[b-xrc8wk6f1p] {
+  background: var(--neutral-fill-secondary-rest)
+}
+
+.GridContainer[b-xrc8wk6f1p] {
+  overflow-x: auto;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+thead[b-xrc8wk6f1p] {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
