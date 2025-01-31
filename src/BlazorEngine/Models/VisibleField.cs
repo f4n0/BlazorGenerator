@@ -38,6 +38,7 @@ namespace BlazorEngine.Models
     public string? Group { get; set; } = string.Empty;
     public bool Multiline { get; set; }
     public Action<VisibleFieldSetterArgs<T>>? Set { get; set; }
+    public Action<VisibleFieldSetterArgs<T>>? OnChange { get; set; }
     public Func<VisibleFieldGetterArgs<T>, object?>? Get { get; set; }
     public bool Immediate { get; set; } = false;
     public bool Additional { get; set; } = false;
@@ -46,7 +47,7 @@ namespace BlazorEngine.Models
     public Func<T, TextStyle>? TextStyle { get; set; }
     public Func<T, Color>? Color { get; set; }
     public bool Required { get; set; }
-
+    public bool EnableSearch { get; set; } = false;
     public Func<T, string>? Href { get; set; }
     public Func<T, Dictionary<object, string>?>? OnLookup { get; set; }
     public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
@@ -82,6 +83,14 @@ namespace BlazorEngine.Models
       {
         Field = this,
         Data = data
+      });
+
+    internal void InternalChange(T data, string? value) =>
+    OnChange?.Invoke(new VisibleFieldSetterArgs<T>()
+      {
+        Field = this,
+        Data = data,
+        Value = value
       });
 
     internal void InternalSet(T data, object? value) =>

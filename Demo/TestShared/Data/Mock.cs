@@ -16,6 +16,7 @@ namespace TestShared.Data
     public Type Icon { get; set; } = typeof(AddSquare);
     public MockEnum Type { get; set; }
     public bool Enabled { get; set; }
+    public Dictionary<object, string> test { get; set; } = new Dictionary<object, string> { { "test", "test <i>view</i>" }, { "test1", "test view 1" } };
 
     public static Mock GetSingleMock()
     {

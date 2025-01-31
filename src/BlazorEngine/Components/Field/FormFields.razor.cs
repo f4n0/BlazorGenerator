@@ -10,6 +10,7 @@ namespace BlazorEngine.Components.Field
     bool LookupOpen { get; set; } = false;
     private Dictionary<string, object> _commonAttributes = [];
     bool HasLookup { get; set; } = false;
+    bool IsSearchable { get; set; } = false;
     bool HasDrillDown { get; set; } = false;
 
     protected override Task OnParametersSetAsync()
