@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using BlazorEngine.Models;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Utils
@@ -12,6 +14,20 @@ namespace BlazorEngine.Utils
       var field = VisibleField<T>.NewField(propertyName);
       additionalProperties?.Invoke(ref field);
       visibleFields.Add(field);
+    }
+    
+    public static VisibleField<T> AddCustomField<T>(this List<VisibleField<T>> visibleFields, string name,
+      RenderFragment customContent) where T : class
+    {
+      var field = new VisibleField<T>()
+      {
+        FieldType = typeof(object),
+        Name = name,
+        Caption = name,
+        CustomContent = customContent
+      };
+      visibleFields.Add(field);
+      return field;
     }
 
     public delegate void AdditionalProperties<T>(ref VisibleField<T> reference) where T : class;

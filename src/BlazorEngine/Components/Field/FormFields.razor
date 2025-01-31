@@ -68,7 +68,12 @@ else
 
     <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
   }
-
+  @if (Field.CustomContent != null)
+  {
+    
+    @Field.CustomContent
+    
+  }else {
   @if (Field.FieldType == typeof(bool))
   {
     <div class="AfterFullSpanWidth">
@@ -156,16 +161,17 @@ else
       <FluentSelect Items=@values
                     OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType.GetMember(val).FirstOrDefault()) ?? val)"
                     OptionValue="@(val => val)"
-                    Value="@( Enum.GetName(Field.FieldType, Field.InternalGet(Data)!))"
+                    Value="@(Enum.GetName(Field.FieldType, Field.InternalGet(Data)!))"
                     ValueChanged="(val) => { if (val != null) Field.InternalSet(Data, Enum.Parse(Field.FieldType, val.ToString())); }"
                     Placeholder="@Field.PlaceHolder"
-                    @attributes="@_commonAttributes" />
+                    @attributes="@_commonAttributes"/>
 
     }
     else
     {
       <p>Not defined @Field.FieldType.ToString()</p>
     }
+  }
   }
   @if (HasLookup)
   {

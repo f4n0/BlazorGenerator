@@ -32,7 +32,21 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Type));
       VisibleFields.AddField(nameof(Mock.NullTest)).AddFieldProperty(p => p.Additional = true);
       VisibleFields.AddField(nameof(Mock.Enabled)).AddFieldProperty(p => p.Additional = true);
-      
+      VisibleFields.AddCustomField("test custom", builder =>
+      {
+        bool value = true;
+        var seq = 0;
+        builder.OpenElement(seq, "fluent-checkbox");
+        builder.AddAttribute(++seq, "Value", value);
+        builder.AddAttribute(++seq, "ValueChanged", onValueChanged);
+
+        void onValueChanged(object e)
+        {
+          value = (bool)e;
+        }
+        builder.CloseElement();
+        
+      });
       return Task.CompletedTask;
     }
 

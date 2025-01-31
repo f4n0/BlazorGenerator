@@ -1,5 +1,6 @@
 ﻿using BlazorEngine.Enum;
 using BlazorEngine.Utils;
+using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Models
@@ -49,6 +50,8 @@ namespace BlazorEngine.Models
     public Func<T, string>? Href { get; set; }
     public Func<T, Dictionary<object, string>?>? OnLookup { get; set; }
     public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
+    
+    public RenderFragment? CustomContent { get; set; }
 
 
     internal static VisibleField<T> NewField(string propertyName)
