@@ -125,13 +125,13 @@ else
   {
     if (Field.Multiline)
     {
-      <FluentTextArea Rows="4" Value="@Field.InternalGet(Data)?.ToString()" ValueChanged="(val) => Field.InternalSet(Data, val)"ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
+      <FluentTextArea Rows="4" Value="@Field.InternalGet(Data)?.ToString()" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"></FluentTextArea>
     }
     else
     {
       <FluentTextField Value="@Field.InternalGet(Data)?.ToString()" ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup(this)" @onclick="GenericOnClick"
-                       TextFieldType="@Field.TextFieldType" @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+                       TextFieldType="@Field.TextFieldType" @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
     }
   }
   else if (Field.FieldType == typeof(DateTime))
@@ -142,9 +142,23 @@ else
   {
     <FluentIcon Value="@((Field.InternalGet(Data) as Type)?.ToFluentIcon())"></FluentIcon>
   }
-  else if (Field.FieldType == typeof(Action) )
+  else if (Field.FieldType == typeof(Action))
   {
     <FluentButton OnClick="() => Field.InternalSet(Data, null)" @attributes="@_commonAttributes">@Field.Caption</FluentButton>
+  }
+  else if (Field.FieldType == typeof(Dictionary<object, string>))
+  {
+    _commonAttributes["Appearance"] = Appearance.Filled;
+    //var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();
+    var values = (Field.InternalGet(Data) as Dictionary<object, string>) ?? new Dictionary<object, string>();
+    <FluentCombobox Id="@_id" Placeholder="@Field.PlaceHolder" Autocomplete="ComboboxAutocomplete.Inline" @attributes="@_commonAttributes" @oninput="@((args) => Field.InternalChange(Data, ((string)args.Value)?.ToString()))" Immediate TOption="string">
+      @foreach (var item in values)
+      {
+        <FluentOption OnSelect="@(() => Field.InternalSet(Data, new Dictionary<object, string>(){ { item.Key, item.Value } }))">
+          @((MarkupString)item.Value)
+        </FluentOption>
+      }
+    </FluentCombobox>
   }
   else
   {
@@ -169,6 +183,7 @@ else
   }
   @if (HasLookup)
   {
+    _commonAttributes["Appearance"] = Appearance.Filled;
     var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();
     <FluentMenu Anchor="@_id" @bind-Open="LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px" Anchored="true">
       @foreach (var item in values)
