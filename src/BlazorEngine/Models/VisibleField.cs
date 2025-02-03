@@ -52,7 +52,7 @@ namespace BlazorEngine.Models
     public Func<T, Dictionary<object, string>?>? OnLookup { get; set; }
     public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
     
-    public RenderFragment? CustomContent { get; set; }
+    public Func<T, VisibleField<T>,RenderFragment>? CustomContent { get; set; }
 
 
     internal static VisibleField<T> NewField(string propertyName)

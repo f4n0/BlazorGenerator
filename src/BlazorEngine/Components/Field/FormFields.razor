@@ -71,7 +71,7 @@ else
   @if (Field.CustomContent != null)
   {
     
-    @Field.CustomContent
+    @Field.CustomContent.Invoke(Data,Field);
     
   }else {
   @if (Field.FieldType == typeof(bool))
@@ -176,7 +176,7 @@ else
                     OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType.GetMember(val).FirstOrDefault()) ?? val)"
                     OptionValue="@(val => val)"
                     Value="@(Enum.GetName(Field.FieldType, Field.InternalGet(Data)!))"
-                    ValueChanged="(val) => { if (val != null) Field.InternalSet(Data, Enum.Parse(Field.FieldType, val.ToString())); }"
+                    ValueChanged="@((val) => { if (val != null) Field.InternalSet(Data, Enum.Parse(Field.FieldType, val.ToString())); })"
                     Placeholder="@Field.PlaceHolder"
                     @attributes="@_commonAttributes"/>
 

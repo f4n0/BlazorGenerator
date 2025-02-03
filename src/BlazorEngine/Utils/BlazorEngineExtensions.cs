@@ -17,7 +17,7 @@ namespace BlazorEngine.Utils
     }
     
     public static VisibleField<T> AddCustomField<T>(this List<VisibleField<T>> visibleFields, string name,
-      RenderFragment customContent) where T : class
+       Func<T, VisibleField<T>, RenderFragment> customContent) where T : class
     {
       var field = new VisibleField<T>()
       {
