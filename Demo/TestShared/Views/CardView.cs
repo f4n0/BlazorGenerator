@@ -37,7 +37,7 @@ namespace TestShared.Views
       VisibleFields.AddField(nameof(Mock.Type));
       VisibleFields.AddField(nameof(Mock.NullTest)).AddFieldProperty(p => p.Additional = true);
       VisibleFields.AddField(nameof(Mock.Enabled)).AddFieldProperty(p => p.Additional = true);
-      VisibleFields.AddCustomField("test custom", builder =>
+      VisibleFields.AddCustomField("test custom", (data, field) => builder =>
       {
         bool value = true;
         var seq = 0;
@@ -52,6 +52,15 @@ namespace TestShared.Views
         builder.CloseElement();
         
       });
+      
+      VisibleFields.Add(new VisibleField<Mock>().Configure(field => field
+        .FieldType(typeof(string))
+        .Name("stani")
+        .Caption("stani cap")
+        .Get(args => "test field")
+        .ReadOnly()
+      ));
+      
       return Task.CompletedTask;
     }
 

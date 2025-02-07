@@ -10,12 +10,12 @@ namespace BlazorEngine.Models
     /// <summary>
     /// The type of the original field. Used for correct cast
     /// </summary>
-    public required Type FieldType { get; set; }
+    public Type FieldType { get; set; }
 
     /// <summary>
     /// The unique name of the field
     /// </summary>
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// The caption, this will be the name visible to the users

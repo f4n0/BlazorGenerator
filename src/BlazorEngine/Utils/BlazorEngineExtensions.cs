@@ -71,5 +71,12 @@ namespace BlazorEngine.Utils
         }
       }
     }
+    
+    public static VisibleField<T> Configure<T>(this VisibleField<T> field, Action<FieldBuilder<T>> config)
+    {
+      var builder = new FieldBuilder<T>(field);
+      config(builder);
+      return builder.Build();
+    }
   }
 }
