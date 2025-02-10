@@ -119,7 +119,7 @@ namespace BlazorEngine.Services
       var result = await dialogResult.Result.ConfigureAwait(true);
       if (result.Cancelled)
       {
-        return original;
+        return null;
       }
       if (result.Data is not null)
       {

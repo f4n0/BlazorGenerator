@@ -10,7 +10,6 @@ namespace BlazorEngine.Components.DataGrid
   public partial class ListDataGrid<T> where T : class
   {
     internal T? CurrRec { get; set; }
-
     FluentMenu? GridActionRef { get; set; }
 
     [Inject]
@@ -37,7 +36,8 @@ namespace BlazorEngine.Components.DataGrid
         res = await UIServices!.OpenPanel(type, context);
         GC.Collect();
       }
-      HandleSave(res!);
+      if (res != null)
+        HandleSave(res!);
     }
 
     protected void HandleSave(T data)
@@ -138,7 +138,7 @@ namespace BlazorEngine.Components.DataGrid
         await Task.CompletedTask;
       }
     }
-    
+
     internal void Refresh()
     {
       StateHasChanged();
