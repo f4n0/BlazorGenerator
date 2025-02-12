@@ -57,14 +57,13 @@ namespace TestShared.Views
       Content = tmp;
     }
 
-    [PageAction(Caption = "Page Action")]
+    [PageAction(Caption = "Add Rows")]
     public async void PageAction()
     {
-      var test = Selected;
-      //await LoadData();
+      var test = Content?.ToList() ?? new List<Mock>();
+     test.AddRange(Mock.GetMultipleMock(10));
+     Content = test;
       StateHasChanged();
-      //UIServices!.DialogService.ShowInfo("Page Action");
-      await Task.CompletedTask;
     }
 
     [GridAction(Caption = "Install", GridIcon = typeof(AirplaneTakeOff))]

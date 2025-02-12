@@ -70,9 +70,7 @@ else
   }
   @if (Field.CustomContent != null)
   {
-    
     @Field.CustomContent.Invoke(Data,Field);
-    
   }else {
   @if (Field.FieldType == typeof(bool))
   {
