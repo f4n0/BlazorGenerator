@@ -53,6 +53,8 @@ namespace BlazorEngine.Models
     public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
     
     public Func<T, VisibleField<T>,RenderFragment>? CustomContent { get; set; }
+    public string CssStyle { get; set; }
+    public string CssClass { get; set; }
 
 
     internal static VisibleField<T> NewField(string propertyName)

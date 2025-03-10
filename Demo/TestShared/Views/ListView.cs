@@ -65,6 +65,13 @@ namespace TestShared.Views
      Content = test;
       StateHasChanged();
     }
+    
+    [PageAction(Caption = "Remove Rows")]
+    public async void RemoveRows()
+    {
+      Content = null;
+      StateHasChanged();
+    }
 
     [GridAction(Caption = "Install", GridIcon = typeof(AirplaneTakeOff))]
     [PageAction(Caption = "Install")]

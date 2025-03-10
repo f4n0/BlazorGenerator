@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DocumentFormat.OpenXml.Vml.Spreadsheet;
+using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 
@@ -20,7 +21,9 @@ namespace BlazorEngine.Components.Field
       var color = Field.Color?.Invoke(Data);
       if (color != null)
         styles += "color: " + color.ToAttributeValue() + ";";
-
+      styles += Field.CssStyle;
+      className += $" {Field.CssClass}";
+      
       _commonAttributes = new()
       {
         { "Id", _id },
