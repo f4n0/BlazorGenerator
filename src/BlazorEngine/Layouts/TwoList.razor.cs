@@ -19,6 +19,8 @@ namespace BlazorEngine.Layouts
     public virtual Type? SecondListEditFormType { get; set; }
     public ObservableCollection<TSecondList> SecondListSelected { get; set; } = [];
     public virtual bool ShowExportToExcelSecondList { get; set; } = true;
+    
+    
 
     public virtual void OnSave(TFirstList entity)
     {

@@ -10,6 +10,8 @@ namespace BlazorEngine.Layouts
     public required List<VisibleField<T>> VisibleFields { get; set; } = new();
     public virtual Type? EditFormType { get; set; }
     public virtual bool ShowExportToExcel { get; set; } = true;
+    
+    public virtual bool UseVirtualization { get; set; } = false;
 
     public ObservableCollection<T> Selected { get; set; } = [];
     public virtual void OnSave(T entity)

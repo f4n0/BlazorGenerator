@@ -42,4 +42,6 @@ public partial class ListDataGrid<T>
   [Parameter] public Func<T>? OnNewItem { get; set; }
 
   [Parameter] public bool ShowExportToExcel { get; set; } = true;
+  
+  [Parameter] public bool UseVirtualization { get; set; } = false;
 }

@@ -14,7 +14,7 @@ namespace TestShared.Views
   {
     public override string Title => "List View";
     public override Type? EditFormType => typeof(MockEditForm);
-
+    public override bool UseVirtualization => true;
     protected override Task LoadVisibleFields()
     {
       VisibleFields = [];
