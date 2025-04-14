@@ -22,6 +22,7 @@ namespace BlazorEngine
       services.AddScoped<BlazorEngineSecurityService>();
       services.AddScoped<IHelpService, EmptyHelpService>();
       services.AddScoped<UIServices>();
+      services.AddScoped<BackgroundExecutor>();
 
       return services;
     }

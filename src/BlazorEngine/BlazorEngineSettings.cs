@@ -15,5 +15,6 @@ namespace BlazorEngine
 
     public bool ShowHelpButton { get; set; } = false;
     public bool ShowLogButton { get; set; } = true;
+    public bool ShowBackgroundTasks { get; set; } = false;
   }
 }

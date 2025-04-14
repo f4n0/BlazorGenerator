@@ -1,0 +1,56 @@
+﻿
+@inject IMessageService MessageService
+@inject IDialogService DialogService
+
+<FluentCounterBadge Count="@MessageService.Count(BackgroundExecutor.SectionName)"
+                    Max="9"
+                    ShowWhen="@((i)=> MessageService.Count(BackgroundExecutor.SectionName) > 0)"
+                    ShowOverflow="true"
+                    BackgroundColor="@Color.Error"
+                    VerticalPosition="48"
+                    Class="badge"
+                    Color="Color.Fill"
+                    Appearance="Appearance.Accent">
+  <ChildContent>
+    <FluentButton OnClick="OpenNotificationCenterAsync" BackgroundColor="var(--neutral-fill-stealth-rest)"
+                  Title="Notification center">
+      @NotificationIcon()
+    </FluentButton>
+  </ChildContent>
+</FluentCounterBadge>
+
+<style>
+  
+  .fluentui-counterbadge-container{
+    margin-top: -2px;
+  }
+</style>
+
+@code{
+
+  protected override void OnInitialized()
+  {
+    MessageService.OnMessageItemsUpdated += UpdateCount;
+  }
+
+  private void UpdateCount()
+  {
+    InvokeAsync(StateHasChanged);
+  }
+
+  private RenderFragment NotificationIcon() =>
+    @<FluentIcon Value="@(new Icons.Regular.Size20.PersonRunning())" Color="Color.Neutral" Title="Background Tasks"/>;
+
+  private async Task OpenNotificationCenterAsync()
+  {
+    await DialogService.ShowPanelAsync<NotificationCenterPanel>(new DialogParameters<GlobalState>()
+    {
+      Alignment = HorizontalAlignment.Right,
+      Title = $"Background Tasks",
+      PrimaryAction = null,
+      SecondaryAction = null,
+      ShowDismiss = true
+    });
+  }
+
+}

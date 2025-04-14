@@ -16,6 +16,10 @@
         {
           <Log />
         }
+        @if (BlazorEngineSettings.Instance.ShowBackgroundTasks)
+        {
+          <BackgroundExecutorButton />
+        }
         @if (BlazorEngineSettings.Instance.ShowHelpButton)
         {
           <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help" OnClick="@(()=> HelpService?.GetHelp((Body?.Target as RouteView)!.RouteData.PageType))">
@@ -38,7 +42,8 @@
             <FluentMenuProvider />
             <FluentDialogProvider />
             <FluentKeyCodeProvider  />
-
+            <FluentToastProvider MaxToastCount="10" />
+            
           </FluentBodyContent>
 
         </FluentLayout>

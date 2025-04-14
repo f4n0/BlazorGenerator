@@ -3,6 +3,7 @@ using TestShared.Data;
 using BlazorEngine.Attributes;
 using BlazorEngine.Layouts;
 using BlazorEngine.Models;
+using BlazorEngine.Services;
 using BlazorEngine.Utils;
 
 namespace TestShared.Views
@@ -118,6 +119,16 @@ namespace TestShared.Views
           _ = file;
         }
       }
+    }
+    
+    [Inject] public BackgroundExecutor BackgroundExecutor { get; set; }
+    [PageAction(Caption = "Enqueue Action")]
+    public async void Enqueue()
+    {
+      BackgroundExecutor.QueueAction("Test", async () =>
+      {
+        await Task.Delay(5000);
+      });
     }
 
     [PageAction(Caption = "Go To")]
