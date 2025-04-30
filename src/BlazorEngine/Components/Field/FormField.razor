@@ -20,7 +20,6 @@ else
   @if (Field.CustomContent != null)
   {
     @Field.CustomContent.Invoke(Data, Field)
-    ;
   }
   else
   {
@@ -284,6 +283,16 @@ else
     {
       <FluentIcon Value="@(new Icons.Regular.Size16.ChevronDown())" Color="@Color.Neutral" Slot="end"
                   OnClick="@(() => { LookupOpen = !LookupOpen; })"/>
+      
+      var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();
+      <FluentMenu Anchor="@_id" @bind-Open="LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px" Anchored="true" Style="animation: alternate">
+        @foreach (var item in values)
+        {
+          <FluentMenuItem OnClick="@(() => Field.InternalSet(Data, item.Key))">
+            @((MarkupString)item.Value)
+          </FluentMenuItem>
+        }
+      </FluentMenu>
     }
   };
 

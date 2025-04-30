@@ -17,11 +17,6 @@ namespace TestShared.Views
     {
       VisibleFields = [];
       VisibleFields.AddField(nameof(Mock.Id));
-      VisibleFields.AddField(nameof(Mock.test))
-        .AddFieldProperty(p => p.Required = true)
-        .AddFieldProperty(p => p.EnableSearch = true)
-        .AddFieldProperty(t => t.OnLookup = (_) => new Dictionary<object, string> { { "test", "test <i>view</i>" }, { "test1", "test view 1" } });
-
       VisibleFields.AddField(nameof(Mock.Name))
         .AddFieldProperty(p=> p.Tooltip = "Lorem ipsum dolor sit admet, qui really long text!")
         .AddFieldProperty(p=> p.Required = true)
