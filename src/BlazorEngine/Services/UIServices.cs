@@ -93,23 +93,6 @@ namespace BlazorEngine.Services
       if (pageType.BaseType != typeof(CardPage<T>))
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
-      T? original;
-      if (data is ICloneable cloneable)
-      {
-        original = (T)cloneable.Clone();
-      }
-      else
-      {
-        try
-        {
-          original = JObject.Parse(JObject.FromObject(data).ToString()).ToObject<T>();
-        }
-        catch (Exception)
-        {
-          original = data;
-        }
-      }
-
       var dialogResult = await DialogService.ShowPanelAsync(pageType, data, new DialogParameters()
       {
         DialogType = DialogType.Panel,

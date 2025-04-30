@@ -35,7 +35,7 @@ public partial class ListDataGrid<T>
 
   [Parameter] public virtual Type? EditFormType { get; set; }
 
-  [Parameter] public Action<T>? OnSave { get; set; }
+  [Parameter] public Action<T?>? OnSave { get; set; }
 
   [Parameter] public Action<T>? OnDiscard { get; set; }
 

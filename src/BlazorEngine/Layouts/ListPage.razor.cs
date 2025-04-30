@@ -14,7 +14,7 @@ namespace BlazorEngine.Layouts
     public virtual bool UseVirtualization { get; set; } = false;
 
     public ObservableCollection<T> Selected { get; set; } = [];
-    public virtual void OnSave(T entity)
+    public virtual void OnSave(T? entity)
     {
     }
     public virtual T NewItem()

@@ -108,7 +108,7 @@
               }
               @if (PermissionSet!.Delete)
               {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Outline" OnClick="@(() => HandleDiscard(context))"/>
+                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Outline" OnClick="@(() => HandleDelete(context))"/>
               }
             </ChildContent>
             <HeaderCellItemTemplate>
