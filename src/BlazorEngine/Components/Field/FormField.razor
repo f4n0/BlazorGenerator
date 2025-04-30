@@ -1,0 +1,311 @@
+﻿@using BlazorEngine.Enum
+@typeparam T
+
+@if (IsTableCell)
+{
+  @TableCell
+}
+else
+{
+  @if (ShowLabel)
+  {
+    <FluentInputLabel ForId="@_id" Label="@Field.Caption"
+                      AriaLabel="@Field.Caption" Required="@Field.Required"
+                      id="@(_id + "-Label")"
+                      Title="@(Field.Tooltip ?? Field.Caption)"/>
+
+    <!--suppress CssUnresolvedCustomProperty -->
+    <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
+  }
+  @if (Field.CustomContent != null)
+  {
+    @Field.CustomContent.Invoke(Data, Field)
+    ;
+  }
+  else
+  {
+    @RenderField
+  }
+}
+
+
+
+@code{
+
+  RenderFragment RenderField => __builder =>
+  {
+    var typeSwitch = new Dictionary<Type, RenderFragment>()
+    {
+      {
+        typeof(bool), BoolField
+      },
+      {
+        typeof(short), ShortField
+      },
+      {
+        typeof(ushort), UShortField
+      },
+      {
+        typeof(int), IntField
+      },
+      {
+        typeof(uint), UIntField
+      },
+      {
+        typeof(long), LongField
+      },
+      {
+        typeof(ulong), UlongField
+      },
+      {
+        typeof(float), FloatField
+      },
+      {
+        typeof(double), DoubleField
+      },
+      {
+        typeof(decimal), DecimalField
+      },
+      {
+        typeof(string), TextField
+      },
+      {
+        typeof(DateTime), DateTimeField
+      },
+      {
+        typeof(Type), IconField
+      },
+      {
+        typeof(Action), ActionField
+      }
+    };
+
+    if (typeSwitch.ContainsKey(Field.FieldType))
+    {
+      @typeSwitch[Field.FieldType]
+    }
+    else if (Field.FieldType.IsEnum)
+    {
+      @EnumField
+    }
+    else
+    {
+      <p>Unsupported field type: @Field.FieldType</p>
+    }
+    
+  };
+
+  RenderFragment BoolField => __builder =>
+  {
+    <div class="AfterFullSpanWidth">
+      <FluentCheckbox Value="@(Convert.ToBoolean(Field.InternalGet(Data)))"
+                      ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup()"
+                      @onclick="GenericOnClick"
+                      @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+    </div>
+  };
+  RenderFragment ShortField => __builder =>
+  {
+    <FluentNumberField TValue="short" Value="@(Convert.ToInt16(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+  RenderFragment UShortField => __builder =>
+  {
+    <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+  RenderFragment IntField => __builder =>
+  {
+    <FluentNumberField TValue="int" Value="@(Convert.ToInt32(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+  RenderFragment UIntField => __builder =>
+  {
+    <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+  RenderFragment LongField => __builder =>
+  {
+    <FluentNumberField TValue="long" Value="@(Convert.ToInt64(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+  RenderFragment UlongField => __builder =>
+  {
+    <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+  RenderFragment FloatField => __builder =>
+  {
+    <FluentNumberField TValue="float" Value="@(Convert.ToSingle(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+  RenderFragment DoubleField => __builder =>
+  {
+    <FluentNumberField TValue="double" Value="@(Convert.ToDouble(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+  RenderFragment DecimalField => __builder =>
+  {
+    <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(Field.InternalGet(Data)))"
+                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                       @onclick="GenericOnClick"
+                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
+  };
+
+  RenderFragment DateTimeField => __builder => 
+  {
+    <FluentDatePicker @attributes="@_commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder" />
+  };
+  RenderFragment IconField => __builder =>
+  {
+    <FluentIcon Value="@((Field.InternalGet(Data) as Type)?.ToFluentIcon())"></FluentIcon>
+  };
+  RenderFragment ActionField => __builder =>
+  {
+    <FluentButton OnClick="() => Field.InternalSet(Data, null)"
+                  @attributes="@_commonAttributes">@Field.Caption</FluentButton>
+  };
+  RenderFragment EnumField => __builder =>
+  {
+    var values = Enum.GetNames(Field.FieldType);
+    _commonAttributes["Appearance"] = Appearance.Filled;
+
+    <FluentSelect Items=@values
+                  OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType.GetMember(val).FirstOrDefault()) ?? val)"
+                  OptionValue="@(val => val)"
+                  Value="@(Enum.GetName(Field.FieldType, Field.InternalGet(Data)!))"
+                  ValueChanged="@((val) =>
+                                {
+                                  if (val != null) Field.InternalSet(Data, Enum.Parse(Field.FieldType, val.ToString()));
+                                })"
+                  Placeholder="@Field.PlaceHolder"
+                  @attributes="@_commonAttributes"/>
+  };
+
+  RenderFragment TextField => __builder =>
+  {
+    if (Field.Multiline)
+    {
+      <FluentTextArea Rows="4" Value="@Field.InternalGet(Data)?.ToString()"
+                      ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup()"
+                      @onclick="GenericOnClick"
+                      @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"></FluentTextArea>
+    }
+    else
+    {
+      <FluentTextField Value="@Field.InternalGet(Data)?.ToString()" ValueChanged="(val) => Field.InternalSet(Data, val)"
+                       ChildContent="@DrillDownOrLookup()" @onclick="GenericOnClick"
+                       TextFieldType="@Field.TextFieldType" @attributes="@_commonAttributes"
+                       Placeholder="@Field.PlaceHolder"/>
+    }
+  };
+
+  RenderFragment TableCell => __builder =>
+  {
+    var link = Field.Href?.Invoke(Data) ?? "";
+    var style = "";
+    var fldStyle = Field.TextStyle?.Invoke(Data) ?? TextStyle.Normal;
+    switch (fldStyle)
+    {
+      case TextStyle.Normal:
+        style = "";
+        break;
+      case TextStyle.Bold:
+        style = "font-weight: bold;";
+        break;
+      case TextStyle.Italic:
+        style = "font-style: italic;";
+        break;
+      case TextStyle.Underline:
+        style = "text-decoration: underline;";
+        break;
+      case TextStyle.Strikethrough:
+        style = "text-decoration: line-through;";
+        break;
+    }
+    var color = Field.Color?.Invoke(Data);
+    if (color != null)
+      style += "color: " + color.ToAttributeValue() + ";";
+    @if (string.IsNullOrEmpty(link))
+    {
+      if (Field.FieldType == typeof(Type))
+      {
+        <!--suppress CssUnresolvedCustomProperty -->
+        <FluentIcon Value="@((Field.InternalGet(Data) as Type)?.ToFluentIcon())"></FluentIcon>
+      }
+      else if (Field.FieldType == typeof(bool))
+      {
+        <FluentCheckbox Value="@(Convert.ToBoolean(Field.InternalGet(Data)))" ReadOnly="true"/>
+      }
+      else
+      {
+        <span title="@Field.InternalGet(Data)" style="@style">@Field.InternalGet(Data)</span>
+      }
+    }
+    else
+    {
+      <a href="@link" title="@Field.InternalGet(Data)" style="@style">
+        @if (Field.FieldType == typeof(Type))
+        {
+          <FluentIcon Value="@((Field.InternalGet(Data) as Type)?.ToFluentIcon())"></FluentIcon>
+        }
+        else
+        {
+          @Field.InternalGet(Data)
+        }
+      </a>
+    }
+  };
+
+  RenderFragment DrillDownOrLookup() => __builder =>
+  {
+    @if (Field.OnDrillDown != null)
+    {
+      <FluentIcon Value="@(new Icons.Regular.Size16.MoreHorizontal())" Color="@Color.Neutral" Slot="end"
+                  OnClick="@(() => { Field.InternalDrillDown(Data); })"/>
+    }
+    else if (Field.OnLookup != null)
+    {
+      <FluentIcon Value="@(new Icons.Regular.Size16.ChevronDown())" Color="@Color.Neutral" Slot="end"
+                  OnClick="@(() => { LookupOpen = !LookupOpen; })"/>
+    }
+  };
+
+}
+
+<style>
+  .FullSpanWidth {
+    min-width: 50%;
+    width: inherit;
+    max-width: 80%;
+  }
+
+  .AfterFullSpanWidth::after {
+    content: "";
+    min-width: 50%;
+    width: inherit;
+    max-width: 80%;
+  }
+
+  .AfterFullSpanWidth {
+    min-width: 50%;
+    width: inherit;
+    max-width: 80%;
+  }
+</style>

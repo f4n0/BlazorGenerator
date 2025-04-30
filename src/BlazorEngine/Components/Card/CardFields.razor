@@ -16,8 +16,8 @@
       attrs.Add("Style", $"display: {(ShowAdditional ? "inherit" : "none")}");
     }
     <FluentGridItem md="GridSize" AdditionalAttributes="attrs">
-      <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
-        <FormFields Data="Data" Field="context" T="T" />
+      <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="">
+        <FormField Data="Data" Field="context" T="T" />
       </FluentStack>
     </FluentGridItem>
   }
@@ -42,7 +42,7 @@
               {
                 <FluentGridItem md="GridSize">
                   <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
-                    <FormFields Data="Data" Field="context" T="T" />
+                    <FormField Data="Data" Field="context" T="T" />
                   </FluentStack>
                 </FluentGridItem>
               }

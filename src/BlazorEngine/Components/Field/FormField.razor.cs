@@ -1,19 +1,31 @@
-﻿using DocumentFormat.OpenXml.Vml.Spreadsheet;
+﻿using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 
 namespace BlazorEngine.Components.Field
 {
-  public partial class FormFields<T> : ComponentBase
+  public partial class FormField<T>
   {
-    private readonly string _id = Identifier.NewId();
-    bool LookupOpen { get; set; } = false;
-    private Dictionary<string, object> _commonAttributes = [];
-    bool HasLookup { get; set; } = false;
-    bool IsSearchable { get; set; } = false;
-    bool HasDrillDown { get; set; } = false;
+    [Parameter] public required VisibleField<T> Field { get; set; }
+    [Parameter] public required T Data { get; set; }
 
+    [Parameter] public bool ShowLabel { get; set; } = true;
+
+    [Parameter] public bool IsTableCell { get; set; }
+
+    private bool LookupOpen = false;
+    private Dictionary<string, object> _commonAttributes = [];
+    private readonly string _id = Identifier.NewId();
+    
+    void GenericOnClick()
+    {
+      if (Field.OnLookup != null)
+      {
+        LookupOpen = true;
+      }
+    }
+    
     protected override Task OnParametersSetAsync()
     {
       var className = (Field.FieldType == typeof(bool) || Field.FieldType == typeof(Action)) ? "" : "FullSpanWidth";
@@ -37,18 +49,7 @@ namespace BlazorEngine.Components.Field
       if (Field.FieldType == typeof(Action))
         ShowLabel = false;
 
-      HasLookup = Field.OnLookup != null;
-      HasDrillDown = Field.OnDrillDown != null;
-
       return base.OnParametersSetAsync();
-    }
-
-    void GenericOnClick()
-    {
-      if (HasLookup)
-      {
-        LookupOpen = true;
-      }
     }
   }
 }
