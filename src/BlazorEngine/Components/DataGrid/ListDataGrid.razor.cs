@@ -64,12 +64,20 @@ namespace BlazorEngine.Components.DataGrid
 
     private async void ExportToExcel()
     {
-      var dataToExport = Selected.Count > 0 ? Selected.ToList() : Data?.ToList();
-      var res = ExcelUtilities.ExportToExcel(dataToExport!, VisibleFields);
+      try
+      {
+        var dataToExport = Selected.Count > 0 ? Selected.ToList() : Data?.ToList();
+        var res = ExcelUtilities.ExportToExcel(dataToExport!, VisibleFields);
 
-      using var streamRef = new DotNetStreamReference(stream: res);
-      await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorEngineComponentBase)!.ComponentDetached, (Context as BlazorEngineComponentBase)?.Title + ".xlsx", streamRef);
-    }
+        using var streamRef = new DotNetStreamReference(stream: res);
+        await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorEngineComponentBase)!.ComponentDetached, (Context as BlazorEngineComponentBase)?.Title + ".xlsx", streamRef);
+
+      }
+      catch (Exception )
+      {
+        UIServices.ShowError("Something went wrong while exporting to Excel. Please try again.");
+      }
+   }
 
     private void OnKeyDownAsync(FluentKeyCodeEventArgs args)
     {
