@@ -52,7 +52,7 @@
             <ChildContent>
               <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((_) => { CurrRec = context; })">
               </FluentIcon>
-              <div style="position:fixed; z-index:4;">
+              <div style="position:fixed; z-index:10;">
                 <FluentMenu Anchor="@context.GetHashCode().ToString()"
                             Trigger="MouseButton.Left" Anchored="true"
                             VerticalThreshold="@(GridActions.Count() * 40)" VerticalInset="false"
