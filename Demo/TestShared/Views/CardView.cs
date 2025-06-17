@@ -106,6 +106,9 @@ namespace TestShared.Views
     [PageAction(Caption = "Show Upload")]
     public async void UploadFiles()
     {
+      try
+      {
+
       var test = await UIServices.UploadFile();
       if (test?.Files != null)
       {
@@ -114,6 +117,12 @@ namespace TestShared.Views
           _ = file;
         }
       }
+      }
+      catch (Exception e)
+      {
+        UIServices.ShowError(e.Message);
+      }
+      
     }
     
     [Inject] public BackgroundExecutor BackgroundExecutor { get; set; }

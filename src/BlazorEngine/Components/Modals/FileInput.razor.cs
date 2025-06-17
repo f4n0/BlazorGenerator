@@ -22,7 +22,8 @@ namespace BlazorEngine.Components.Modals
       {
         var res = new UploadFileResponse()
         {
-          FileName = file.Name
+          FileName = file.Name,
+          ErrorMessage = file.ErrorMessage,
         };
         if (file.Stream != null)
         {

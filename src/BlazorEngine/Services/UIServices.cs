@@ -49,27 +49,35 @@ namespace BlazorEngine.Services
       return null;
     }
 
-    public async Task<UploadFileData?> UploadFile(bool multiple = true, string fileFilters = "*.*", int maxFileCount = 50)
+    public async Task<UploadFileData?> UploadFile(bool multiple = true, string fileFilters = "*.*", int maxFileCount = 50, long maxFileSize = 10 * 1024 * 1024)
     {
       var data = new UploadFileData()
       {
         Multiple = multiple,
         FileFilters = fileFilters,
         MaximumFileCount = maxFileCount,
+        MaximumFileSize = maxFileSize
       };
 
-      var dialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
-      {
-        Width = "50%",
-        Height = "300px",
-        PrimaryAction = "",
-        SecondaryAction = "",
-      }).ConfigureAwait(true);
-      var result = await dialogResult.Result.ConfigureAwait(true);
-      if ((result.Data is not null) && !result.Cancelled)
-      {
-        return result.Data as UploadFileData;
-      }
+        var dialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
+        {
+          Width = "50%",
+          Height = "300px",
+          PrimaryAction = "",
+          SecondaryAction = "",
+        });
+
+        var result = await dialogResult.Result;
+        if ((result.Data is not null) && !result.Cancelled)
+        {
+          var ret = result.Data as UploadFileData;
+          var err = ret.Files.FirstOrDefault(o => o.ErrorMessage != "");
+          if (err is not null)
+          {
+            throw new Exception(err.ErrorMessage);
+          }
+          return ret;
+        }
       return null;
     }
 

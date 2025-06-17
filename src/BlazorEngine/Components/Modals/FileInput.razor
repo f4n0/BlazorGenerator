@@ -1,6 +1,7 @@
 ﻿<FluentInputFile Id="my-file-uploader"
                  Mode="InputFileMode.Stream"
                  Multiple="@Content.Multiple"
+                 MaximumFileSize="@Content.MaximumFileSize"
                  MaximumFileCount="@Content.MaximumFileCount"
                  Accept="@Content.FileFilters"
                  @bind-ProgressPercent="@_progressPercent"
