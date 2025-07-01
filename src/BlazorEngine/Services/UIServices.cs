@@ -71,10 +71,10 @@ namespace BlazorEngine.Services
         if ((result.Data is not null) && !result.Cancelled)
         {
           var ret = result.Data as UploadFileData;
-          var err = ret.Files.FirstOrDefault(o => o.ErrorMessage != "");
+          var err = ret?.Files.FirstOrDefault(o => o.ErrorMessage != "")?.ErrorMessage;
           if (err is not null)
           {
-            throw new Exception(err.ErrorMessage);
+            throw new Exception(err);
           }
           return ret;
         }
