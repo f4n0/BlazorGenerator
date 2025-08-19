@@ -27,7 +27,7 @@ namespace TestShared.Views
     {
       ListSelected.CollectionChanged += SelectedChanged;
       Content = Mock.GetSingleMock();
-      ListContent = Mock.GetMultipleMock(16);
+      ListContent = Mock.GetMultipleMock(30);
       return Task.CompletedTask;
     }
 
@@ -61,7 +61,8 @@ namespace TestShared.Views
     [PageAction(Caption="Test")]
     public void Test()
     {
-      var test = ListSelected;
+      ListContent = Mock.GetMultipleMock(2);
+      StateHasChanged();
     }
   }
 }
