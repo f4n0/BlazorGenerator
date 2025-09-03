@@ -2,6 +2,7 @@
 using BlazorEngine.Enum;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace BlazorEngine.Components.Logs
 {
@@ -12,6 +13,8 @@ namespace BlazorEngine.Components.Logs
 
     [Inject]
     private IKeyCodeService? KeyCodeService { get; set; }
+    
+    ElementReference DivRef;
 
     private void OnDismiss(DialogEventArgs args)
     {
@@ -52,11 +55,15 @@ namespace BlazorEngine.Components.Logs
     {
       if (firstRender)
         _myFluentDialog!.Hide();
+      JSRuntime.InvokeVoidAsync("scrollToEnd", new object[] {DivRef});
     }
 
     private void UpdateLog()
     {
-      _ = InvokeAsync(() => StateHasChanged());
+      _ = InvokeAsync(() =>
+      {
+        StateHasChanged();
+      });
     }
 
     public new void Dispose()
