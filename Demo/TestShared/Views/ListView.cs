@@ -56,7 +56,13 @@ namespace TestShared.Views
       tmp[Content!.ToList().FindIndex(o => o.Id == xRec.Id)] = Rec;
       Content = tmp;
     }
-
+    [PageAction(Caption = "Refresh")]
+    public async void Refresh()
+    {
+      await LoadData();
+      StateHasChanged();
+    }
+    
     [PageAction(Caption = "Add Rows")]
     public async void PageAction()
     {

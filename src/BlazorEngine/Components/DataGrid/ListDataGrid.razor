@@ -39,7 +39,7 @@
                       ResizeColumnOnAllRows="false"
                       Id="table">
 
-        <TemplateColumn Align="@Align.Center" Width="50px" Style="text-overflow: clip !important;">
+        <TemplateColumn Align="@Align.Center" Width="50px" MinWidth="50px" Style="text-overflow: clip !important;">
           <ChildContent>
             <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)" @onclick="(_) => HandleSingleRecSelection(context, true)"></FluentCheckbox>
           </ChildContent>
@@ -49,7 +49,7 @@
         </TemplateColumn>
         @if (GridActions?.Count() > 0)
         {
-          <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" Style="padding: 0 !important;">
+          <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" MinWidth="30px" Style="padding: 0 !important;">
             <ChildContent>
               <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((_) => { CurrRec = context; })">
               </FluentIcon>
