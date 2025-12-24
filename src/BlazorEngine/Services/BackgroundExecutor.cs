@@ -120,7 +120,7 @@ namespace BlazorEngine.Services
 
       _cancellationTokenSource.Dispose();
       _semaphore.Dispose();
-      GC.Collect();
+
     }
   }
 }

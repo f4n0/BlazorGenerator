@@ -51,5 +51,27 @@ namespace BlazorEngine.Components.Field
 
       return base.OnParametersSetAsync();
     }
+    
+    private Dictionary<Type, RenderFragment>? _typeSwitch;
+
+    private Dictionary<Type, RenderFragment> TypeSwitch => _typeSwitch ??= new()
+    {
+      { typeof(bool), BoolField },
+      { typeof(short), ShortField },
+      { typeof(ushort), UShortField },
+      { typeof(int), IntField },
+      { typeof(uint), UIntField },
+      { typeof(long), LongField },
+      { typeof(ulong), UlongField },
+      { typeof(float), FloatField },
+      { typeof(double), DoubleField },
+      { typeof(decimal), DecimalField },
+      { typeof(string), TextField },
+      { typeof(DateTime), DateTimeField },
+      { typeof(Type), IconField },
+      { typeof(Action), ActionField }
+    };
   }
+  
+  
 }

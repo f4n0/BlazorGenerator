@@ -42,8 +42,10 @@ namespace TestShared.Views
       return Task.CompletedTask;
     }
 
-    public override void OnSave(Mock entity)
+    public override void OnSave(Mock? entity)
     {
+      if(entity == null)
+        return;
       var tmp = Content!.ToList();
       tmp[Content!.ToList().FindIndex(o => o.Id == entity.Id)] = entity;
       Content = tmp;

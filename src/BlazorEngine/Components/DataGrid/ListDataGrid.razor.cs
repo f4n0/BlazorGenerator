@@ -14,7 +14,13 @@ namespace BlazorEngine.Components.DataGrid
 
     [Inject]
     private IKeyCodeService? KeyCodeService { get; set; }
+    private int _gridActionsCount;
 
+    protected override void OnParametersSet()
+    {
+      _gridActionsCount = GridActions?.Count() ?? 0;
+      base.OnParametersSet();
+    }
     protected override async Task OnInitializedAsync()
     {
       //for global F3, otherwise it won't work as soon the page load
@@ -28,15 +34,8 @@ namespace BlazorEngine.Components.DataGrid
       if (EditFormType != null)
       {
         res = await UIServices!.OpenPanel(EditFormType, context);
+        HandleSave(res);
       }
-      else
-      {
-        var typeDelegate = RoslynUtilities.CreateAndInstatiateClass(VisibleFields, "edit", ct: (Context as BlazorEngineComponentBase)!.ComponentDetached);
-        var type = (Type)typeDelegate.Invoke(cancellationToken: (Context as BlazorEngineComponentBase)!.ComponentDetached).Result;
-        res = await UIServices!.OpenPanel(type, context);
-        GC.Collect();
-      }
-      HandleSave(res);
     }
 
     protected void HandleSave(T? data)

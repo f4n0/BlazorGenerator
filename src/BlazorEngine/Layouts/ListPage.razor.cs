@@ -26,6 +26,15 @@ namespace BlazorEngine.Layouts
     {
     }
     
+    private PermissionSet permissionSet;
+
+    protected override async Task OnInitializedAsync()
+    {
+      permissionSet = await Security.GetPermissionSet(this.GetType());
+      await base.OnInitializedAsync();
+    }
+
+    
     async void RefreshData() => await LoadData();
     
     

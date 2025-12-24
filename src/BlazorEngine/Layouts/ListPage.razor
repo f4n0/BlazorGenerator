@@ -3,10 +3,8 @@
 @{
   var pageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
   var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
-  var permissionSet = Security.GetPermissionSet(this.GetType()).Result;
-
-
 }
+
 <PageTitle>@Title</PageTitle>
 <div style="display: flex; flex-flow: column; height: 100%;">
   <div style="height: max-content;">

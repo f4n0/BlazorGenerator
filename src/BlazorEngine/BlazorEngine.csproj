@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
@@ -13,6 +13,11 @@
     <PackageId>BlazorEngine</PackageId>
     <Product>BlazorEngine</Product>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <IsTrimmable>true</IsTrimmable>
+    <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
+  </PropertyGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
@@ -20,11 +25,8 @@
   
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.105.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.14.0" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.13.0" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.13.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.13.2" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.13.2" />
   </ItemGroup>
   
   <PropertyGroup>

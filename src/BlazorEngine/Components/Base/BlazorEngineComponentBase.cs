@@ -39,18 +39,27 @@ namespace BlazorEngine.Components.Base
       await base.OnInitializedAsync();
     }
 
+    private bool? _useBlazorEngineLayoutsCached;
+    
     private bool UseBlazorEngineLayouts()
     {
+      if (_useBlazorEngineLayoutsCached.HasValue)
+        return _useBlazorEngineLayoutsCached.Value;
+
       var loadingBaseType = this.GetType().BaseType;
       if (loadingBaseType == null)
+      {
+        _useBlazorEngineLayoutsCached = false;
         return false;
-      bool ret = false;
+      }
 
-      ret = ret || (loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(CardPage<>));
-      ret = ret || (loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(ListPage<>));
-      ret = ret || (loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(Worksheet<,>));
-      ret = ret || (loadingBaseType.IsGenericType && loadingBaseType.GetGenericTypeDefinition() == typeof(TwoList<,>));
+      bool ret = loadingBaseType.IsGenericType && (
+        loadingBaseType.GetGenericTypeDefinition() == typeof(CardPage<>) ||
+        loadingBaseType.GetGenericTypeDefinition() == typeof(ListPage<>) ||
+        loadingBaseType.GetGenericTypeDefinition() == typeof(Worksheet<,>) ||
+        loadingBaseType.GetGenericTypeDefinition() == typeof(TwoList<,>));
 
+      _useBlazorEngineLayoutsCached = ret;
       return ret;
     }
 
@@ -96,12 +105,16 @@ namespace BlazorEngine.Components.Base
         _cancellationTokenSource.Dispose();
         _cancellationTokenSource = null;
       }
+      UIServices.KeyCodeService.UnregisterListener(OnKeyDownAsync);
       GC.SuppressFinalize(this);
-      GC.Collect();
     }
 
 
-    public ValueTask DisposeAsync() => InternalDisposeAsync();
+    public async ValueTask DisposeAsync()
+    {
+      await InternalDisposeAsync();
+      GC.SuppressFinalize(this);
+    }
     public void Dispose() => InternalDispose();
   }
 }
