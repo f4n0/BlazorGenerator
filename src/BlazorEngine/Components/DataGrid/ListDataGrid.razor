@@ -47,7 +47,7 @@
             <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>
           </HeaderCellItemTemplate>
         </TemplateColumn>
-        @if (GridActions?.Count() > 0)
+        @if (_gridActionsCount > 0)
         {
           <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" MinWidth="30px" Style="padding: 0 !important;">
             <ChildContent>

@@ -17,6 +17,7 @@ else
     <!--suppress CssUnresolvedCustomProperty -->
     <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
   }
+
   @if (Field.CustomContent != null)
   {
     @Field.CustomContent.Invoke(Data, Field)
@@ -33,55 +34,9 @@ else
 
   RenderFragment RenderField => __builder =>
   {
-    var typeSwitch = new Dictionary<Type, RenderFragment>()
+    if (TypeSwitch.TryGetValue(Field.FieldType, out var fragment))
     {
-      {
-        typeof(bool), BoolField
-      },
-      {
-        typeof(short), ShortField
-      },
-      {
-        typeof(ushort), UShortField
-      },
-      {
-        typeof(int), IntField
-      },
-      {
-        typeof(uint), UIntField
-      },
-      {
-        typeof(long), LongField
-      },
-      {
-        typeof(ulong), UlongField
-      },
-      {
-        typeof(float), FloatField
-      },
-      {
-        typeof(double), DoubleField
-      },
-      {
-        typeof(decimal), DecimalField
-      },
-      {
-        typeof(string), TextField
-      },
-      {
-        typeof(DateTime), DateTimeField
-      },
-      {
-        typeof(Type), IconField
-      },
-      {
-        typeof(Action), ActionField
-      }
-    };
-
-    if (typeSwitch.ContainsKey(Field.FieldType))
-    {
-      @typeSwitch[Field.FieldType]
+      @fragment
     }
     else if (Field.FieldType.IsEnum)
     {
@@ -91,7 +46,6 @@ else
     {
       <p>Unsupported field type: @Field.FieldType</p>
     }
-    
   };
 
   RenderFragment BoolField => __builder =>
@@ -103,6 +57,7 @@ else
                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
     </div>
   };
+
   RenderFragment ShortField => __builder =>
   {
     <FluentNumberField TValue="short" Value="@(Convert.ToInt16(Field.InternalGet(Data)))"
@@ -110,6 +65,7 @@ else
                        @onclick="GenericOnClick"
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment UShortField => __builder =>
   {
     <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(Field.InternalGet(Data)))"
@@ -117,6 +73,7 @@ else
                        @onclick="GenericOnClick"
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment IntField => __builder =>
   {
     <FluentNumberField TValue="int" Value="@(Convert.ToInt32(Field.InternalGet(Data)))"
@@ -124,6 +81,7 @@ else
                        @onclick="GenericOnClick"
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment UIntField => __builder =>
   {
     <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(Field.InternalGet(Data)))"
@@ -131,6 +89,7 @@ else
                        @onclick="GenericOnClick"
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment LongField => __builder =>
   {
     <FluentNumberField TValue="long" Value="@(Convert.ToInt64(Field.InternalGet(Data)))"
@@ -138,6 +97,7 @@ else
                        @onclick="GenericOnClick"
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment UlongField => __builder =>
   {
     <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(Field.InternalGet(Data)))"
@@ -145,6 +105,7 @@ else
                        @onclick="GenericOnClick"
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment FloatField => __builder =>
   {
     <FluentNumberField TValue="float" Value="@(Convert.ToSingle(Field.InternalGet(Data)))"
@@ -152,6 +113,7 @@ else
                        @onclick="GenericOnClick"
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment DoubleField => __builder =>
   {
     <FluentNumberField TValue="double" Value="@(Convert.ToDouble(Field.InternalGet(Data)))"
@@ -159,6 +121,7 @@ else
                        @onclick="GenericOnClick"
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment DecimalField => __builder =>
   {
     <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(Field.InternalGet(Data)))"
@@ -167,19 +130,23 @@ else
                        @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
   };
 
-  RenderFragment DateTimeField => __builder => 
+  RenderFragment DateTimeField => __builder =>
   {
-    <FluentDatePicker @attributes="@_commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))" ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder" />
+    <FluentDatePicker @attributes="@_commonAttributes" Value="@(Convert.ToDateTime(Field.InternalGet(Data)))"
+                      ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder"/>
   };
+
   RenderFragment IconField => __builder =>
   {
     <FluentIcon Value="@((Field.InternalGet(Data) as Type)?.ToFluentIcon())"></FluentIcon>
   };
+
   RenderFragment ActionField => __builder =>
   {
     <FluentButton OnClick="() => Field.InternalSet(Data, null)"
                   @attributes="@_commonAttributes">@Field.Caption</FluentButton>
   };
+
   RenderFragment EnumField => __builder =>
   {
     var values = Enum.GetNames(Field.FieldType);
@@ -238,6 +205,7 @@ else
         style = "text-decoration: line-through;";
         break;
     }
+
     var color = Field.Color?.Invoke(Data);
     if (color != null)
       style += "color: " + color.ToAttributeValue() + ";";
@@ -283,9 +251,10 @@ else
     {
       <FluentIcon Value="@(new Icons.Regular.Size16.ChevronDown())" Color="@Color.Neutral" Slot="end"
                   OnClick="@(() => { LookupOpen = !LookupOpen; })"/>
-      
+
       var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();
-      <FluentMenu Anchor="@_id" @bind-Open="LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px" Anchored="true" Style="animation: alternate">
+      <FluentMenu Anchor="@_id" @bind-Open="LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px"
+                  Anchored="true" Style="animation: alternate">
         @foreach (var item in values)
         {
           <FluentMenuItem OnClick="@(() => Field.InternalSet(Data, item.Key))">

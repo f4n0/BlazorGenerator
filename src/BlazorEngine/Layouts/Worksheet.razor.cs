@@ -38,6 +38,15 @@ namespace BlazorEngine.Layouts
     {
     }
 
+    private PermissionSet permissionSet;
+
+    protected override async Task OnInitializedAsync()
+    {
+      permissionSet = await Security.GetPermissionSet(this.GetType());
+      await base.OnInitializedAsync();
+    }
+
+    
     public override void InternalDispose()
     {
       GC.SuppressFinalize(this);

@@ -8,7 +8,7 @@
   </FluentGridItem>
   }
 
-  @foreach (var context in VisibleFields.Where(o => o.Group == string.Empty))
+  @foreach (var context in _groupedFields[string.Empty])
   {
     var attrs = new Dictionary<string, object>();
     if (context.Additional)
@@ -23,13 +23,13 @@
   }
 </FluentGrid>
 @{
-  var groups = VisibleFields.Where(o => o.Group != string.Empty).Select(o => o.Group).Distinct().ToArray();
-  if (groups.Any())
+  
+  if (_groups.Any())
   {
     <hr />
     <FluentAccordion Class="contentblock">
 
-      @foreach (var group in groups)
+      @foreach (var group in _groups)
       {
         <FluentAccordionItem Expanded="true">
           <HeadingTemplate>
@@ -38,7 +38,7 @@
           <ChildContent>
 
             <FluentGrid Spacing="3">
-              @foreach (var context in VisibleFields.Where(o => o.Group == group))
+              @foreach (var context in _groupedFields[group])
               {
                 <FluentGridItem md="GridSize">
                   <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
