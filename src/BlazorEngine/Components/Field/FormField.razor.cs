@@ -38,9 +38,13 @@ namespace BlazorEngine.Components.Field
       
       _commonAttributes.Clear();
       _commonAttributes["Id"] = _id;
-      _commonAttributes["Appearance"] = (Field.FieldType == typeof(Action) || Field.FieldType.IsEnum)
+      _commonAttributes["Appearance"] = (Field.FieldType == typeof(Action))
         ? Appearance.Accent
         : FluentInputAppearance.Filled;
+      if ((Field.FieldType?.IsEnum ?? false))
+      {
+        _commonAttributes["Appearance"] = Appearance.Filled;
+      }
       _commonAttributes["ReadOnly"] = Field.ReadOnly || (Field.OnLookup != null);
       _commonAttributes["style"] = styles;
       _commonAttributes["class"] = className;

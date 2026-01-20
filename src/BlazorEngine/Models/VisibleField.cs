@@ -10,7 +10,7 @@ namespace BlazorEngine.Models
     /// <summary>
     /// The type of the original field. Used for correct cast
     /// </summary>
-    public Type FieldType { get; set; }
+    public Type? FieldType { get; set; }
 
     /// <summary>
     /// The unique name of the field
@@ -62,7 +62,7 @@ namespace BlazorEngine.Models
       var prop = typeof(T).GetProperty(propertyName) ?? throw new Exception("Cannot find property with name \"" + propertyName + "\"");
 
       var getter = ReflectionUtilites.GetPropertyGetter<T>(prop);
-      var setter = ReflectionUtilites.GetPropertySetter<T>(prop);
+      Action<T, object?>? setter = prop.SetMethod is null  ? null  : ReflectionUtilites.GetPropertySetter<T>(prop);
 
       var field = new VisibleField<T>()
       {
@@ -70,7 +70,8 @@ namespace BlazorEngine.Models
         FieldType = prop.PropertyType,
         Caption = ReflectionUtilites.GetCaption(prop),
         Get = (args) => getter(args.Data),
-        Set = (args) => setter(args.Data, args.Value)
+        ReadOnly = setter is null,
+        Set = setter is null ? null : (args) => setter(args.Data, args.Value)
       };
 
       if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
