@@ -42,7 +42,7 @@ namespace BlazorEngine.Models
     public Func<VisibleFieldGetterArgs<T>, object?>? Get { get; set; }
     public bool Immediate { get; set; } = false;
     public bool Additional { get; set; } = false;
-    public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
+    public TextInputType TextFieldType { get; set; } = TextInputType.Text;
     public bool ReadOnly { get; set; } = false;
     public Func<T, TextStyle>? TextStyle { get; set; }
     public Func<T, Color>? Color { get; set; }

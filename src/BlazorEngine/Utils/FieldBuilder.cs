@@ -79,7 +79,7 @@ namespace BlazorEngine.Utils
       return this;
     }
 
-    public FieldBuilder<T> TextFieldType(TextFieldType type)
+    public FieldBuilder<T> TextFieldType(TextInputType type)
     {
       field.TextFieldType = type;
       return this;

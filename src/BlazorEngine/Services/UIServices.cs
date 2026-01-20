@@ -34,15 +34,17 @@ namespace BlazorEngine.Services
       if (pageType.BaseType != typeof(CardPage<T>))
         throw new Exception("In order to use the modal, the pageType must have CardPage as baseType");
 
-      var dialogResult = await DialogService.ShowDialogAsync(pageType, data, new DialogParameters()
+      var dialogResult = await DialogService.ShowDialogAsync(pageType,new DialogOptions()
       {
         Width = "50%",
         Height = "fit-content",
+        Data = data
       }).ConfigureAwait(true);
-      var result = await dialogResult.Result.ConfigureAwait(true);
-      if ((result.Data is not null) && !result.Cancelled)
+      var result = dialogResult.Value;
+      
+      if ((result is not null) && !dialogResult.Cancelled)
       {
-        return result.Data as T;
+        return result as T;
       }
       return null;
     }
@@ -57,18 +59,17 @@ namespace BlazorEngine.Services
         MaximumFileSize = maxFileSize
       };
 
-        var dialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
+        var dialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), new DialogOptions()
         {
           Width = "50%",
           Height = "300px",
-          PrimaryAction = "",
-          SecondaryAction = "",
+          Data = data
         });
 
-        var result = await dialogResult.Result;
-        if ((result.Data is not null) && !result.Cancelled)
+        var result = dialogResult.Value;
+        if ((result is not null) && !dialogResult.Cancelled)
         {
-          var ret = result.Data as UploadFileData;
+          var ret = result as UploadFileData;
           var err = ret?.Files.FirstOrDefault(o => o.ErrorMessage != "")?.ErrorMessage;
           if (err is not null)
           {
@@ -81,15 +82,16 @@ namespace BlazorEngine.Services
 
     public async Task<UserInputData?> UserInput(UserInputData userInputData)
     {
-      var dialogResult = await DialogService.ShowDialogAsync(typeof(UserInput), userInputData, new DialogParameters()
+      var dialogResult = await DialogService.ShowDialogAsync(typeof(UserInput), new DialogOptions()
       {
         Width = "50%",
         Height = "fit-content",
+        Data = userInputData
       }).ConfigureAwait(true);
-      var result = await dialogResult.Result.ConfigureAwait(true);
-      if ((result.Data is not null) && !result.Cancelled)
+      var result =  dialogResult.Value;
+      if ((result is not null) && !dialogResult.Cancelled)
       {
-        return result.Data as UserInputData;
+        return result as UserInputData;
       }
       return null;
     }

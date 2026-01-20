@@ -6,14 +6,14 @@ namespace BlazorEngine.DynamicComponents
 {
   public partial class DynamicMainLayout
   {
-    FluentDesignTheme? Theme { get; set; }
+    //FluentDesignTheme? Theme { get; set; }
 
     [Inject]
     public IHelpService? HelpService { get; set; }
 
     private void SwitchDarkLightTheme()
     {
-      Theme!.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
+      //TODO:TBR Theme!.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
     }
 
   }

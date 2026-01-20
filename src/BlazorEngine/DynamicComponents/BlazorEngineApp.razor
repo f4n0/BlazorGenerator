@@ -1,5 +1,4 @@
 ﻿@using BlazorEngine.Security
-
 @inject IMainLayout MainLayout
 
 <ErrorBoundary @ref="_errorBoundary">
@@ -21,30 +20,30 @@
   </ChildContent>
   <ErrorContent>
     <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal=@false TrapFocus=@true>
-      <FluentDialogHeader Visible="false" />
-      <div style="text-align:center">
-        <h2>@Captions.Instance.ErrorTitle</h2>
-        <b>@Captions.Instance.ErrorMessage</b><br />
-        <i>@Captions.Instance.ErrorMessagePersist</i><br /><br />
-        <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det" OnClick="@(()=> CreateExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchor>
+      <FluentDialogBody>
+        <TitleTemplate>@Captions.Instance.ErrorTitle</TitleTemplate>
+        <ChildContent>
+          <b>@Captions.Instance.ErrorMessage</b><br/>
+          <i>@Captions.Instance.ErrorMessagePersist</i><br/><br/>
+          <FluentAnchorButton Appearance="ButtonAppearance.Subtle" Href="#" Id="det" OnClick="@(() => CreateExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchorButton>
+        </ChildContent>
+        <ActionTemplate>
+            <FluentButton Appearance="ButtonAppearance.Primary" OnClick="@(() => NavManager!.NavigateTo("/", true))">@Captions.Instance.ErrorHomePage</FluentButton>
+            <FluentSpacer></FluentSpacer>
+            <FluentButton Appearance="ButtonAppearance.Primary" Autofocus="true" @onclick="() => _errorBoundary?.Recover()">@Captions.Instance.ErrorRefresh</FluentButton>
 
-      </div><br />
+        </ActionTemplate>
+      </FluentDialogBody>
 
-      <FluentStack Orientation="Orientation.Horizontal">
-        <FluentButton Appearance="Appearance.Accent" OnClick="@(()=> NavManager!.NavigateTo("/", true))">@Captions.Instance.ErrorHomePage</FluentButton>
-        <FluentSpacer></FluentSpacer>
-        <FluentButton Appearance="Appearance.Accent" Autofocus="true" @onclick="() => _errorBoundary?.Recover()">@Captions.Instance.ErrorRefresh</FluentButton>
-      </FluentStack>
     </FluentDialog>
     @{
-      _myFluentDialog?.Show();
+      _myFluentDialog?.ShowAsync();
     }
   </ErrorContent>
 </ErrorBoundary>
 
+<link href="_content/Microsoft.FluentUI.AspNetCore.Components/Microsoft.FluentUI.AspNetCore.Components.bundle.scp.css" rel="stylesheet" />
 
-<link href="_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css" rel="stylesheet" />
-<link href="_content/BlazorEngine/css/site.css" rel="stylesheet" />
 
 <script>
   window.downloadFileFromStream = async (fileName, contentStreamReference) => {
