@@ -1,80 +1,88 @@
 ﻿@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
 
-<div class="navmenu" style=" background: var(--neutral-fill-stealth-rest); height: 100%; box-shadow: 1px 0 5px var(--neutral-fill-stealth-rest); border-radius: 10px; ">
+<div class="navmenu"
+     style=" background: var(--neutral-fill-stealth-rest); height: 100%; box-shadow: 1px 0 5px var(--neutral-fill-stealth-rest); border-radius: 10px; ">
+  @if (_loading)
+  {
+    <FluentProgressRing/>
+  }
+  else
+  {
     <FluentLayout>
-        <FluentBodyContent>
-            <FluentNavMenu @bind-Expanded="@_expanded" Width="250" Collapsible="true" 
-                           CollapsedChildNavigation="true" Title="Navigation">
-                
-                <FluentNavLink Href="@NavManager.BaseUri" 
-                               Match="NavLinkMatch.All" 
-                               Icon="@HomeIcon" 
-                               IconColor="Color.Accent" 
-                               Tooltip="@Captions.Instance.Home">
-                    @Captions.Instance.Home
-                </FluentNavLink>
+      <FluentBodyContent>
+        <FluentNavMenu @bind-Expanded="@_expanded" Width="250" Collapsible="true"
+                       CollapsedChildNavigation="true" Title="Navigation">
 
-                @* Default group items *@
-                @foreach (var menu in _defaultMenus)
+          <FluentNavLink Href="@NavManager.BaseUri"
+                         Match="NavLinkMatch.All"
+                         Icon="@HomeIcon"
+                         IconColor="Color.Accent"
+                         Tooltip="@Captions.Instance.Home">
+            @Captions.Instance.Home
+          </FluentNavLink>
+
+          @* Default group items *@
+          @foreach (var menu in _defaultMenus)
+          {
+            <FluentNavLink Href="@menu.Route"
+                           Match="NavLinkMatch.All"
+                           Icon="@(menu.Icon.ToFluentIcon())"
+                           IconColor="Color.Accent"
+                           Tooltip="@menu.Title">
+              @menu.Title
+            </FluentNavLink>
+          }
+
+          @* Non-default groups *@
+          @foreach (var group in _nonDefaultGroups)
+          {
+            @if (group.IsSingleItem)
+            {
+              var menu = group.Items[0];
+              <FluentNavLink Href="@menu.Route"
+                             Match="NavLinkMatch.All"
+                             Icon="@(menu.Icon.ToFluentIcon())"
+                             IconColor="Color.Accent"
+                             Tooltip="@menu.Title">
+                @menu.Title
+              </FluentNavLink>
+            }
+            else
+            {
+              <FluentNavGroup Id="@(group.GroupName.Replace(" ", ""))"
+                              Title="@group.GroupName"
+                              Tooltip="@group.GroupName"
+                              Icon="@(new Icons.Regular.Size16.ChevronRight())">
+                @foreach (var menu in group.Items)
                 {
-                    <FluentNavLink Href="@menu.Route" 
-                                   Match="NavLinkMatch.All" 
-                                   Icon="@(menu.Icon.ToFluentIcon())" 
-                                   IconColor="Color.Accent" 
-                                   Tooltip="@menu.Title">
-                        @menu.Title
-                    </FluentNavLink>
+                  <FluentNavLink Href="@menu.Route"
+                                 Match="NavLinkMatch.All"
+                                 Icon="@(menu.Icon.ToFluentIcon())"
+                                 IconColor="Color.Accent"
+                                 Tooltip="@menu.Title">
+                    @menu.Title
+                  </FluentNavLink>
                 }
+              </FluentNavGroup>
+            }
+          }
+        </FluentNavMenu>
+      </FluentBodyContent>
 
-                @* Non-default groups *@
-                @foreach (var group in _nonDefaultGroups)
-                {
-                    @if (group.IsSingleItem)
-                    {
-                        var menu = group.Items[0];
-                        <FluentNavLink Href="@menu.Route" 
-                                       Match="NavLinkMatch.All" 
-                                       Icon="@(menu.Icon.ToFluentIcon())" 
-                                       IconColor="Color.Accent" 
-                                       Tooltip="@menu.Title">
-                            @menu.Title
-                        </FluentNavLink>
-                    }
-                    else
-                    {
-                        <FluentNavGroup Id="@(group.GroupName.Replace(" ", ""))"
-                                        Title="@group.GroupName"
-                                        Tooltip="@group.GroupName"
-                                        Icon="@(new Icons.Regular.Size16.ChevronRight())">
-                            @foreach (var menu in group.Items)
-                            {
-                                <FluentNavLink Href="@menu.Route" 
-                                               Match="NavLinkMatch.All" 
-                                               Icon="@(menu.Icon.ToFluentIcon())" 
-                                               IconColor="Color.Accent" 
-                                               Tooltip="@menu.Title">
-                                    @menu.Title
-                                </FluentNavLink>
-                            }
-                        </FluentNavGroup>
-                    }
-                }
-            </FluentNavMenu>
-        </FluentBodyContent>
-
-        @if (_footerLink != null)
-        {
-            <FluentFooter Class="navmenu-footer">
-                <FluentNavMenu Expanded="_expanded">
-                    <FluentNavLink Href="@_footerLink.Route" 
-                                   Target="@(_footerLink.OpenNewWindow ? "_blank" : "_self")" 
-                                   Icon="@(_footerLink.Icon.ToFluentIcon())" 
-                                   IconColor="Color.Accent" 
-                                   Tooltip="@_footerLink.Title">
-                        @_footerLink.Title
-                    </FluentNavLink>
-                </FluentNavMenu>
-            </FluentFooter>
-        }
+      @if (_footerLink != null)
+      {
+        <FluentFooter Class="navmenu-footer">
+          <FluentNavMenu Expanded="_expanded">
+            <FluentNavLink Href="@_footerLink.Route"
+                           Target="@(_footerLink.OpenNewWindow ? "_blank" : "_self")"
+                           Icon="@(_footerLink.Icon.ToFluentIcon())"
+                           IconColor="Color.Accent"
+                           Tooltip="@_footerLink.Title">
+              @_footerLink.Title
+            </FluentNavLink>
+          </FluentNavMenu>
+        </FluentFooter>
+      }
     </FluentLayout>
+  }
 </div>

@@ -7,6 +7,7 @@ namespace BlazorEngine.Components.Menu
     public partial class NavMenu
     {
         private bool _expanded = true;
+        private bool _loading = false;
 
         // Cached icon
         private static readonly Icon HomeIcon = new Home();
@@ -24,53 +25,74 @@ namespace BlazorEngine.Components.Menu
             public bool IsSingleItem => Items.Count == 1;
         }
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            await BuildMenuStructureAsync();
-            await base.OnInitializedAsync();
+            _loading = true;
+            _ = BuildMenuStructureAsync();
         }
 
         private async Task BuildMenuStructureAsync()
         {
+          try
+          {
             var allMenu = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>();
-            
-            var authorizedMenus = new List<(AddToMenuAttribute Attr, string Group)>();
-            
-            foreach (var item in allMenu)
+
+            // Optional: parallelize permission checks (with a cap)
+            var throttler = new SemaphoreSlim(8);
+            var tasks = allMenu.Select(async item =>
             {
-                if ((await Security.GetPermissionSet(item.Type)).Execute)
-                {
-                    authorizedMenus.Add((item.Attribute, item.Attribute.Group));
-                }
-            }
+              await throttler.WaitAsync();
+              try
+              {
+                var perm = await Security.GetPermissionSet(item.Type);
+                return (item, allowed: perm.Execute);
+              }
+              finally
+              {
+                throttler.Release();
+              }
+            });
+
+            var results = await Task.WhenAll(tasks);
+            var authorizedMenus = results
+              .Where(r => r.allowed)
+              .Select(r => (Attr: r.item.Attribute, Group: r.item.Attribute.Group))
+              .ToList();
 
             // Pre-compute default group menus (sorted)
             _defaultMenus = authorizedMenus
-                .Where(m => m.Group.Equals("default", StringComparison.OrdinalIgnoreCase))
-                .Select(m => m.Attr)
-                .Distinct()
-                .OrderBy(m => m.OrderSequence)
-                .ToList();
+              .Where(m => m.Group.Equals("default", StringComparison.OrdinalIgnoreCase))
+              .Select(m => m.Attr)
+              .Distinct()
+              .OrderBy(m => m.OrderSequence)
+              .ToList();
 
             // Pre-compute non-default groups with their items (sorted)
             _nonDefaultGroups = authorizedMenus
-                .Where(m => !m.Group.Equals("default", StringComparison.OrdinalIgnoreCase))
-                .GroupBy(m => m.Group)
-                .Select(g => new MenuGroupData
-                {
-                    GroupName = g.Key,
-                    Items = g.Select(x => x.Attr)
-                             .Distinct()
-                             .OrderBy(x => x.OrderSequence)
-                             .ToList()
-                })
-                .ToList();
+              .Where(m => !m.Group.Equals("default", StringComparison.OrdinalIgnoreCase))
+              .GroupBy(m => m.Group)
+              .Select(g => new MenuGroupData
+              {
+                GroupName = g.Key,
+                Items = g.Select(x => x.Attr)
+                  .Distinct()
+                  .OrderBy(x => x.OrderSequence)
+                  .ToList()
+              })
+              .ToList();
 
             // Footer link
             _footerLink = Utils.AttributesUtils
-                .GetModelsWithAttribute<FooterLinkAttribute>()
-                .FirstOrDefault()
-                .Attribute;
+              .GetModelsWithAttribute<FooterLinkAttribute>()
+              .FirstOrDefault()
+              .Attribute;
+          }
+          finally
+          {
+            _loading = false;
+            await InvokeAsync(StateHasChanged);
+            
+          }
         }
     }
 }

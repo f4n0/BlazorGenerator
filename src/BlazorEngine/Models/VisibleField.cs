@@ -61,13 +61,16 @@ namespace BlazorEngine.Models
     {
       var prop = typeof(T).GetProperty(propertyName) ?? throw new Exception("Cannot find property with name \"" + propertyName + "\"");
 
+      var getter = ReflectionUtilites.GetPropertyGetter<T>(prop);
+      var setter = ReflectionUtilites.GetPropertySetter<T>(prop);
+
       var field = new VisibleField<T>()
       {
         Name = propertyName,
         FieldType = prop.PropertyType,
         Caption = ReflectionUtilites.GetCaption(prop),
-        Get = (args) => prop.GetValue(args.Data),
-        Set = (args) => prop.SetValue(args.Data, args.Value)
+        Get = (args) => getter(args.Data),
+        Set = (args) => setter(args.Data, args.Value)
       };
 
       if (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))

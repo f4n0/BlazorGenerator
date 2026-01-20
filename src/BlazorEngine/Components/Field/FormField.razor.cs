@@ -36,15 +36,15 @@ namespace BlazorEngine.Components.Field
       styles += Field.CssStyle;
       className += $" {Field.CssClass}";
       
-      _commonAttributes = new()
-      {
-        { "Id", _id },
-        {"Appearance", Field.FieldType == typeof(Action) ? Appearance.Accent : FluentInputAppearance.Filled },
-        {"ReadOnly", Field.ReadOnly || (Field.OnLookup != null) },
-        {"style", styles },
-        {"class", className },
-        {"Immediate", Field.Immediate }
-      };
+      _commonAttributes.Clear();
+      _commonAttributes["Id"] = _id;
+      _commonAttributes["Appearance"] = (Field.FieldType == typeof(Action) || Field.FieldType.IsEnum)
+        ? Appearance.Accent
+        : FluentInputAppearance.Filled;
+      _commonAttributes["ReadOnly"] = Field.ReadOnly || (Field.OnLookup != null);
+      _commonAttributes["style"] = styles;
+      _commonAttributes["class"] = className;
+      _commonAttributes["Immediate"] = Field.Immediate;
 
       if (Field.FieldType == typeof(Action))
         ShowLabel = false;
