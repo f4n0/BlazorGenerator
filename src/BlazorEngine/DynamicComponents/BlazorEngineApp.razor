@@ -4,13 +4,19 @@
 
 <ErrorBoundary @ref="_errorBoundary">
   <ChildContent>
-    <Router AppAssembly="@AppAssembly" AdditionalAssemblies="@AdditionalAssemblies" @rendermode="BlazorGenRenderMode" NotFoundPage="typeof(NotFound)">
+    <Router AppAssembly="@AppAssembly" AdditionalAssemblies="@AdditionalAssemblies" @rendermode="BlazorGenRenderMode">
       <Found Context="routeData">
         <BlazorEngineSecurity RouteData="@routeData">
           <RouteView RouteData="@routeData" DefaultLayout="@MainLayout.GetType()"></RouteView>
         </BlazorEngineSecurity>
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
       </Found>
+      <NotFound>
+        <PageTitle>@Captions.Instance.NotFound</PageTitle>
+        <LayoutView Layout="@MainLayout.GetType()">
+          <p role="alert">@Captions.Instance.NotFoundMessage</p>
+        </LayoutView>
+      </NotFound>
     </Router>
   </ChildContent>
   <ErrorContent>
