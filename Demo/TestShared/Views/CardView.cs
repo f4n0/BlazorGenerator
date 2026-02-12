@@ -5,6 +5,7 @@ using BlazorEngine.Layouts;
 using BlazorEngine.Models;
 using BlazorEngine.Services;
 using BlazorEngine.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace TestShared.Views
 {
@@ -129,9 +130,25 @@ namespace TestShared.Views
     [PageAction(Caption = "Enqueue Action")]
     public async void Enqueue()
     {
-      BackgroundExecutor.QueueAction("Test", async () =>
+      BackgroundExecutor.QueueAction("Test", async (logger) =>
       {
-        await Task.Delay(5000);
+        logger.LogInformation("Starting long action");
+        await Task.Delay(1000);
+        logger.LogInformation("1: long action");
+        await Task.Delay(1000);
+        logger.LogInformation("2: long action");
+        await Task.Delay(1000);
+        logger.LogInformation("3: long action");
+        await Task.Delay(1000);
+        logger.LogInformation("4: long action");
+        await Task.Delay(1000);
+        logger.LogInformation("5: long action");
+        await Task.Delay(1000);
+        logger.LogInformation("6: long action");
+        await Task.Delay(1000);
+        logger.LogInformation("7: long action");
+        
+        logger.LogInformation("Finished long action");
       });
     }
 

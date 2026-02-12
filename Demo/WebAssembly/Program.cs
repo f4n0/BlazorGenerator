@@ -16,5 +16,5 @@ builder.Services.AddScoped<IHelpService, HelpService>();
 builder.Services.AddBlazorEngine();
 BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
 BlazorEngineSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
-
+BlazorEngineSettings.Instance.ShowBackgroundTasks = true;
 await builder.Build().RunAsync();

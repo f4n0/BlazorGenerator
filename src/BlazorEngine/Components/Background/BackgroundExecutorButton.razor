@@ -1,6 +1,7 @@
 ﻿
 @inject IMessageService MessageService
 @inject IDialogService DialogService
+@inject BackgroundExecutor executor
 
 <FluentCounterBadge Count="@MessageService.Count(BackgroundExecutor.SectionName)"
                     Max="9"
@@ -43,7 +44,8 @@
 
   private async Task OpenNotificationCenterAsync()
   {
-    await DialogService.ShowPanelAsync<NotificationCenterPanel>(new DialogParameters<GlobalState>()
+    
+    var reference = await DialogService.ShowPanelAsync<NotificationCenterPanel>(new DialogParameters<GlobalState>()
     {
       Alignment = HorizontalAlignment.Right,
       Title = $"Background Tasks",
@@ -51,6 +53,7 @@
       SecondaryAction = null,
       ShowDismiss = true
     });
+    executor.PanelExecutorRef = reference;
   }
 
 }

@@ -1,0 +1,73 @@
+@implements IDialogContentComponent<ActionLogger>
+@implements IDisposable
+
+<div style="overflow-y: auto; height: 80%; ">
+  @if (Content.Entries.Count == 0)
+  {
+    <FluentLabel Color="Color.Neutral">No log entries yet.</FluentLabel>
+  }
+  else
+  {
+    <Virtualize Items="@logEntries">
+      <ChildContent>
+        <div style="padding: 2px 0; font-family: var(--body-font); font-size: var(--type-ramp-minus-1-font-size);">
+          <FluentLabel Color="@GetColor(context.LogLevel)" Style="white-space: pre-wrap;">
+            <span style="color: var(--neutral-foreground-hint); margin-right: 0.5rem;">@context.Timestamp.ToString("HH:mm:ss.fff")</span>
+            <FluentBadge Appearance="Appearance.Accent" BackgroundColor="@GetBadgeColor(context.LogLevel)" Color="white" Style="margin-right: 0.5rem;">@context.LogLevel</FluentBadge>
+            @context.Message
+          </FluentLabel>
+        </div>
+      </ChildContent>
+    </Virtualize>
+  }
+</div>
+
+@code {
+  [Parameter]
+  public ActionLogger Content { get; set; } = default!;
+
+  private List<ActionLogEntry> logEntries = [];
+
+  protected override void OnInitialized()
+  {
+      Content.OnChange += Refresh;
+      RefreshEntries();
+  }
+
+  private void Refresh()
+  {
+    InvokeAsync(() =>
+    {
+      RefreshEntries();
+      StateHasChanged();
+    });
+  }
+
+  private void RefreshEntries()
+  {
+    logEntries = Content.Entries.ToList();
+  }
+
+  private static Color GetColor(LogLevel logLevel) => logLevel switch
+  {
+    LogLevel.Error or LogLevel.Critical => Color.Error,
+    LogLevel.Warning => Color.Warning,
+    LogLevel.Debug or LogLevel.Trace => Color.Neutral,
+    _ => Color.Neutral,
+  };
+
+  private static string GetBadgeColor(LogLevel logLevel) => logLevel switch
+  {
+    LogLevel.Error or LogLevel.Critical => "var(--error)",
+    LogLevel.Warning => "var(--warning)",
+    LogLevel.Information => "var(--accent-fill-rest)",
+    LogLevel.Debug or LogLevel.Trace => "var(--neutral-fill-rest)",
+    _ => "var(--neutral-fill-rest)",
+  };
+
+  public void Dispose()
+  {
+    if (Content != null)
+      Content.OnChange -= Refresh;
+  }
+}
