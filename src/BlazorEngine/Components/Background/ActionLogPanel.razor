@@ -10,28 +10,30 @@
   {
     <Virtualize Items="@logEntries">
       <ChildContent>
-        <div style="padding: 2px 0; font-family: var(--body-font); font-size: var(--type-ramp-minus-1-font-size);">
-          <FluentLabel Color="@GetColor(context.LogLevel)" Style="white-space: pre-wrap;">
-            <span style="color: var(--neutral-foreground-hint); margin-right: 0.5rem;">@context.Timestamp.ToString("HH:mm:ss.fff")</span>
-            <FluentBadge Appearance="Appearance.Accent" BackgroundColor="@GetBadgeColor(context.LogLevel)" Color="white" Style="margin-right: 0.5rem;">@context.LogLevel</FluentBadge>
-            @context.Message
-          </FluentLabel>
-        </div>
+        <FluentLabel Color="@GetColor(context.LogLevel)">
+          <span
+            style="color: var(--neutral-foreground-hint); margin-right: 0.5rem;">@context.Timestamp.ToString("HH:mm:ss.fff")</span>
+          @context.Message
+        </FluentLabel>
       </ChildContent>
     </Virtualize>
   }
 </div>
 
 @code {
-  [Parameter]
-  public ActionLogger Content { get; set; } = default!;
+  [Parameter] public ActionLogger Content { get; set; } = default!;
+
+  [CascadingParameter] public FluentDialog? Dialog { get; set; }
 
   private List<ActionLogEntry> logEntries = [];
+  bool ShowTimestaps = true;
 
   protected override void OnInitialized()
   {
-      Content.OnChange += Refresh;
-      RefreshEntries();
+    if (Dialog != null)
+      Dialog.Class = "actionlogdialog";
+    Content.OnChange += Refresh;
+    RefreshEntries();
   }
 
   private void Refresh()
@@ -70,4 +72,13 @@
     if (Content != null)
       Content.OnChange -= Refresh;
   }
+
 }
+
+<style>
+  .actionlogdialog {
+    --dialog-width: 60% !important;
+    --dialog-height: 60% !important;
+    padding: 2rem !important;
+  }
+</style>

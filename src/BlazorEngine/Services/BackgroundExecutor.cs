@@ -131,8 +131,9 @@ namespace BlazorEngine.Services
                 PrimaryAction = null,
                 SecondaryAction = null,
                 ShowDismiss = true,
-                Width = "50%",
+                Width = "60% ",
                 Height = "fit-content",
+                
               });
             }
           };
