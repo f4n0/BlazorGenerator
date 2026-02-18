@@ -1,0 +1,17 @@
+.card-page-root {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.card-page-header {
+    height: max-content;
+}
+
+.card-page-content {
+    padding: 10px;
+    padding-bottom: 5px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

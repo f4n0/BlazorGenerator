@@ -1,0 +1,15 @@
+.two-list-root {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.two-list-header {
+    height: max-content;
+}
+
+.two-list-content {
+    padding: 10px;
+    overflow: auto;
+    height: 100%;
+}

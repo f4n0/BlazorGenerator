@@ -8,7 +8,7 @@
       <FluentSpacer />
       @BlazorEngineSettings.Instance.ApplicationName
       <FluentSpacer />
-      <div style="padding-right: 6px; margin-left: 0; margin-right: -15px; display: flex; flex-direction: row; gap: 5px; flex-wrap: nowrap;">
+      <div class="layout-header-toolbar">
         <FluentButton Appearance="Appearance.Stealth" OnClick="SwitchDarkLightTheme" Title="@Captions.Instance.ToggleDarkTheme">
           <FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Neutral" Title="@Captions.Instance.ToggleDarkTheme" />
         </FluentButton>        
@@ -35,7 +35,7 @@
           <FluentBodyContent style="height: calc(100dvh); padding: 10px 10px 1px;">
             <ProgressBar></ProgressBar>
             <UILock></UILock>
-            <div class="content" style="display: flex; flex-direction: column; height: 100%; flex-flow: column;">
+            <div class="layout-content">
               @Body
             </div>
 

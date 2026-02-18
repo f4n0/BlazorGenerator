@@ -1,7 +1,7 @@
 ﻿<!--suppress CssUnresolvedCustomProperty, CssUnusedSymbol -->
 @* ReSharper disable  AssignmentInsteadOfDiscard *@
 <FluentStack HorizontalGap="5" VerticalAlignment="VerticalAlignment.Center" Class="actionblock">
-  <div style="margin-right:10px;">
+  <div class="actionbar-title">
     <FluentLabel Weight="FontWeight.Bold" Typo="Typography.H4" Style=" width: max-content; ">
       @((Context as BlazorEngineComponentBase)?.Title)
     </FluentLabel>
@@ -90,7 +90,7 @@
                 var casted = item.Data as IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)>;
                 @if (casted != null)
                 {
-                  <div style="border: 1px solid var(--neutral-fill-strong-focus) ">
+                  <div class="actionbar-group-box">
                     <FluentLabel Typo="Typography.Subject" Alignment="HorizontalAlignment.Center">@casted.First().Attribute.Group</FluentLabel>
                     <FluentStack Orientation="Orientation.Horizontal" Wrap="true" Style="margin-top:10px;">
                       @foreach (var action in casted)
@@ -114,10 +114,4 @@
     </OverflowTemplate>
   </FluentOverflow>
 </FluentStack>
-
-
-<style>
-  .fluent-popover-content {
-    padding: 5px !important;
-  }
-</style>
+<FluentDivider Orientation="Orientation.Horizontal"></FluentDivider>

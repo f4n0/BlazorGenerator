@@ -1,7 +1,7 @@
 @implements IDialogContentComponent<ActionLogger>
 @implements IDisposable
 
-<div style="overflow-y: auto; height: 80%; ">
+<div class="action-log-panel">
   @if (Content.Entries.Count == 0)
   {
     <FluentLabel Color="Color.Neutral">No log entries yet.</FluentLabel>
@@ -11,8 +11,7 @@
     <Virtualize Items="@logEntries">
       <ChildContent>
         <FluentLabel Color="@GetColor(context.LogLevel)">
-          <span
-            style="color: var(--neutral-foreground-hint); margin-right: 0.5rem;">@context.Timestamp.ToString("HH:mm:ss.fff")</span>
+          <span class="action-log-timestamp">@context.Timestamp.ToString("HH:mm:ss.fff")</span>
           @context.Message
         </FluentLabel>
       </ChildContent>
@@ -74,11 +73,3 @@
   }
 
 }
-
-<style>
-  .actionlogdialog {
-    --dialog-width: 60% !important;
-    --dialog-height: 60% !important;
-    padding: 2rem !important;
-  }
-</style>

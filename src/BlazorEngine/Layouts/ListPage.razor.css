@@ -1,0 +1,15 @@
+.list-page-root {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.list-page-header {
+    height: max-content;
+}
+
+.list-page-content {
+    padding: 10px;
+    height: auto !important;
+    overflow: auto;
+}

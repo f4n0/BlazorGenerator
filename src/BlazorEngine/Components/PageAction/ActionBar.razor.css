@@ -1,0 +1,18 @@
+.actionbar-title {
+    margin-right: 10px;
+}
+
+.actionbar-group-box {
+    border: 1px solid var(--neutral-fill-strong-focus);
+}
+
+.actionblock {
+    padding-left: 5px;
+    overflow: hidden;
+    flex: 0 0 auto;
+    margin-bottom: 5px;
+}
+
+::deep .fluent-popover-content {
+    padding: 5px !important;
+}

@@ -1,0 +1,15 @@
+.action-log-panel {
+    overflow-y: auto;
+    height: 80%;
+}
+
+.action-log-timestamp {
+    color: var(--neutral-foreground-hint);
+    margin-right: 0.5rem;
+}
+
+::deep .actionlogdialog {
+    --dialog-width: 60% !important;
+    --dialog-height: 60% !important;
+    padding: 2rem !important;
+}

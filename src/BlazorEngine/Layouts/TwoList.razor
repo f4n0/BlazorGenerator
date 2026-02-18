@@ -6,8 +6,8 @@
   var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
 }
 <PageTitle>@Title</PageTitle>
-<div style="display: flex; flex-flow: column; height: 100%;">
-  <div style="height: max-content;">
+<div class="two-list-root">
+  <div class="two-list-header">
 
     @if (ShowActions)
     {
@@ -15,7 +15,7 @@
     }
 
     </div>
-    <div style="padding:10px; overflow:auto; height:100%" class="contentblock">
+    <div class="two-list-content contentblock">
       <FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
         <Panel1>
           <ListDataGrid T="TFirstList"

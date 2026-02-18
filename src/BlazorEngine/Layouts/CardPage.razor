@@ -5,8 +5,8 @@
   var pageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
 }
 <PageTitle>@Title</PageTitle>
-<div style="display: flex; flex-flow: column; height: 100%;">
-  <div style="height: max-content;">
+<div class="card-page-root">
+  <div class="card-page-header">
 
     @if (ShowActions)
     {
@@ -17,7 +17,7 @@
       <h2>@Title</h2>
     }
   </div>
-  <div style="padding:10px; height: 100%; overflow-y:auto; overflow-x:hidden" class="contentblock">
+  <div class="card-page-content contentblock">
 
     <CardFields T="T"
                 @ref="Card"

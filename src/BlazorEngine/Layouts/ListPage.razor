@@ -6,8 +6,8 @@
 }
 
 <PageTitle>@Title</PageTitle>
-<div style="display: flex; flex-flow: column; height: 100%;">
-  <div style="height: max-content;">
+<div class="list-page-root">
+  <div class="list-page-header">
 
     @if (ShowActions)
     {
@@ -15,7 +15,7 @@
     }
 
   </div>
-    <div style="padding:10px; height: auto !important; overflow:auto;" class="contentblock">
+    <div class="list-page-content contentblock">
 
       <ListDataGrid T="T"
                     Context="this"

@@ -9,8 +9,8 @@
 }
 
 <PageTitle>@Title</PageTitle>
-<div style="display: flex; flex-flow: column; height: 100%;">
-  <div style="height: max-content;">
+<div class="worksheet-root">
+  <div class="worksheet-header">
 
     @if (ShowActions)
     {
@@ -18,7 +18,7 @@
     }
 
   </div>
-      <div style="padding:10px; height: auto !important" class="contentblock">
+      <div class="worksheet-card contentblock">
         <CardFields T="TData"
                     @ref="Card"
                     Data="Content"
@@ -30,7 +30,7 @@
                     OnSave="(data) => OnSave(data)" />
       </div>
 
-  <div class="contentblock" style="overflow:auto; margin-top:10px;">
+  <div class="worksheet-list contentblock">
     <ListDataGrid T="TList"
                   @ref="List"
                   Context="this"

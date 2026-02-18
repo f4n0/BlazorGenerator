@@ -1,0 +1,19 @@
+.worksheet-root {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.worksheet-header {
+    height: max-content;
+}
+
+.worksheet-card {
+    padding: 10px;
+    height: auto !important;
+}
+
+.worksheet-list {
+    overflow: auto;
+    margin-top: 10px;
+}

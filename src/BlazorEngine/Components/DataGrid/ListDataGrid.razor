@@ -3,130 +3,134 @@
 @* ReSharper disable  AssignmentInsteadOfDiscard *@
 <FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0"
                Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl, KeyCode.Shift]" StopPropagation="true" StopRepeat="true">
-  <div class="GridContainer">
-    <FluentStack Orientation="Orientation.Horizontal" Style="margin-bottom: 10px; ">
-      <div>
-        <FluentSearch @bind-Value=_searchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
-                      Style="float: left; width: 300px;"
-                      Immediate="true" ImmediateDelay="500"
-                      @bind-Value:after=HandleSearchInput @ref="SearchBarRef"/>
-        <FluentDivider Orientation="Orientation.Vertical"></FluentDivider>
 
-      </div>
-      <FluentSpacer></FluentSpacer>
-      @if (ShowExportToExcel)
-      {
-        <div style="margin-right:10px;">
-          <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
-            <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel"/>
-          </FluentButton>
-        </div>
-      }
-    </FluentStack>
-    @if (VisibleFields.Count > 0)
-    {
-      <FluentDataGrid Items="@FilteredData"
-                      TGridItem="T"
-                      ResizableColumns="true"
-                      Virtualize="UseVirtualization"
-                      GenerateHeader="GenerateHeaderOption.Sticky"
-                      ShowHover="@true"
-                      RowClass="SelectedRowClass"
-                      OnCellClick="@HandleCellClick"
-                      Style="overflow:auto; flex: 0 1 auto; min-height: 120px"
-                      ItemSize="44"
-                      RowSize="DataGridRowSize.Medium"
-                      ResizeColumnOnAllRows="false"
-                      Id="table">
+    <div class="GridContainer">
+        <FluentStack Orientation="Orientation.Horizontal" Style="margin-bottom: 10px; ">
+            <div>
+                <FluentSearch @bind-Value=_searchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
+                              Style="float: left; width: 300px;"
+                              Immediate="true" ImmediateDelay="500"
+                              @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
+                <FluentDivider Orientation="Orientation.Vertical"></FluentDivider>
 
-        <TemplateColumn Align="@Align.Center" Width="50px" MinWidth="50px" Style="text-overflow: clip !important;">
-          <ChildContent>
-            <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)" @onclick="(_) => HandleSingleRecSelection(context, true)"></FluentCheckbox>
-          </ChildContent>
-          <HeaderCellItemTemplate>
-            <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>
-          </HeaderCellItemTemplate>
-        </TemplateColumn>
-        @if (_gridActionsCount > 0)
-        {
-          <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" MinWidth="30px" Style="padding: 0 !important;">
-            <ChildContent>
-              <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((_) => { CurrRec = context; })">
-              </FluentIcon>
-              <div style="position:fixed; z-index:10;">
-                <FluentMenu Anchor="@context.GetHashCode().ToString()"
-                            Trigger="MouseButton.Left" Anchored="true"
-                            VerticalThreshold="@(GridActions.Count() * 40)" VerticalInset="false"
-                            @ref="@GridActionRef" UseMenuService="false">
-                  @foreach (var a in GridActions)
-                  {
-                    <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((_) => { if (GridActionRef != null) GridActionRef.Open = false; ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec!]); })">
-                      <span slot="start">
-                        <FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start"/>
-                      </span>
-                    </FluentMenuItem>
-                  }
-                </FluentMenu>
-              </div>
-            </ChildContent>
-          </TemplateColumn>
-        }
-
-        @foreach (var field in VisibleFields)
-        {
-          <TemplateColumn Context="data"
-                          Sortable="true"
-                          Title="@field.Caption"
-                          SortBy="GridSort<T>.ByAscending(p => field.InternalGet(p))"
-                          Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))"
-                          Width="auto">
-            <ChildContent>
-              <FormField IsTableCell="true" Data="data" Field="field" T="T" />
-            </ChildContent>
-            <ColumnOptions>
-              <div class="search-box">
-                @{
-                  GetFilterValue(field.Name);
-                  var name = field.Name;
-                }
-                <FluentSearch type="search" Autofocus=true
-                              @bind-Value:get="(FieldFilters[name])"
-                              @bind-Value:after="() => HandleClear(field)"
-                              @oninput="(e) => HandleFilter(e, field)"
-                              Placeholder="@field.Caption"/>
-              </div>
-            </ColumnOptions>
-          </TemplateColumn>
-        }
-
-        @if ((PermissionSet!.Modify) || (PermissionSet!.Delete) || (PermissionSet!.Insert))
-        {
-          <TemplateColumn Title="Actions" Align="@Align.Center" Width="110px">
-            <ChildContent>
-              @if (PermissionSet!.Modify)
-              {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" Appearance="Appearance.Outline"  OnClick="@(() => EditAsync(context))"/>
-              }
-              @if (PermissionSet!.Delete)
-              {
-                <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Outline" OnClick="@(() => HandleDelete(context))"/>
-              }
-            </ChildContent>
-            <HeaderCellItemTemplate>
-              @if (PermissionSet!.Insert)
-              {
-                <div style="width:90%; text-align:center">
-                  <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())"/>
+            </div>
+            <FluentSpacer></FluentSpacer>
+            @if (ShowExportToExcel)
+            {
+                <div class="datagrid-excel-btn">
+                    <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
+                        <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel" />
+                    </FluentButton>
                 </div>
-              }
-            </HeaderCellItemTemplate>
-          </TemplateColumn>
+            }
+        </FluentStack>
+        @if (VisibleFields.Count > 0)
+        {
+            <div class="datagrid-table-wrapper">
+                <FluentDataGrid Items="@FilteredData"
+                                TGridItem="T"
+                                ResizableColumns="true"
+                                Virtualize="UseVirtualization"
+                                GenerateHeader="GenerateHeaderOption.Sticky"
+                                DisplayMode="DataGridDisplayMode.Table"
+                                ShowHover="@true"
+                                RowClass="SelectedRowClass"
+                                OnCellClick="@HandleCellClick"
+                                Style="min-height: 120px"
+                                ItemSize="44"
+                                RowSize="DataGridRowSize.Medium"
+                                ResizeColumnOnAllRows="false"
+                                Id="table">
+
+                    <TemplateColumn Align="@Align.Center" Width="50px" MinWidth="50px" Style="text-overflow: clip !important;">
+                        <ChildContent>
+                            <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)" @onclick="(_) => HandleSingleRecSelection(context, true)"></FluentCheckbox>
+                        </ChildContent>
+                        <HeaderCellItemTemplate>
+                            <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>
+                        </HeaderCellItemTemplate>
+                    </TemplateColumn>
+                    @if (_gridActionsCount > 0)
+                    {
+                        <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" MinWidth="30px" Style="padding: 0 !important;">
+                            <ChildContent>
+                                <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((_) => { CurrRec = context; })">
+                                </FluentIcon>
+                                <div class="datagrid-context-menu">
+                                    <FluentMenu Anchor="@context.GetHashCode().ToString()"
+                                                Trigger="MouseButton.Left" Anchored="true"
+                                                VerticalThreshold="@(GridActions.Count() * 40)" VerticalInset="false"
+                                                @ref="@GridActionRef" UseMenuService="false">
+                                        @foreach (var a in GridActions)
+                                        {
+                                            <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@((_) => { if (GridActionRef != null) GridActionRef.Open = false; ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec!]); })">
+                                                <span slot="start">
+                                                    <FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())" Slot="start" />
+                                                </span>
+                                            </FluentMenuItem>
+                                        }
+                                    </FluentMenu>
+                                </div>
+                            </ChildContent>
+                        </TemplateColumn>
+                    }
+
+                    @foreach (var field in VisibleFields)
+                    {
+                        <TemplateColumn Context="data"
+                                        Sortable="true"
+                                        Title="@field.Caption"
+                                        SortBy="GridSort<T>.ByAscending(p => field.InternalGet(p))"
+                                        Filtered="@(!string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))"
+                                        Width="auto">
+                            <ChildContent>
+                                <FormField IsTableCell="true" Data="data" Field="field" T="T" />
+                            </ChildContent>
+                            <ColumnOptions>
+                                <div class="search-box">
+                                    @{
+                                        GetFilterValue(field.Name);
+                                        var name = field.Name;
+                                    }
+                                    <FluentSearch type="search" Autofocus=true
+                                                  @bind-Value:get="(FieldFilters[name])"
+                                                  @bind-Value:after="() => HandleClear(field)"
+                                                  @oninput="(e) => HandleFilter(e, field)"
+                                                  Placeholder="@field.Caption" />
+                                </div>
+                            </ColumnOptions>
+                        </TemplateColumn>
+                    }
+
+                    @if ((PermissionSet!.Modify) || (PermissionSet!.Delete) || (PermissionSet!.Insert))
+                    {
+                        <TemplateColumn Title="Actions" Align="@Align.Center" Width="110px">
+                            <ChildContent>
+                                @if (PermissionSet!.Modify)
+                                {
+                                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" Appearance="Appearance.Outline" OnClick="@(() => EditAsync(context))" />
+                                }
+                                @if (PermissionSet!.Delete)
+                                {
+                                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Outline" OnClick="@(() => HandleDelete(context))" />
+                                }
+                            </ChildContent>
+                            <HeaderCellItemTemplate>
+                                @if (PermissionSet!.Insert)
+                                {
+                                    <div class="datagrid-header-add-btn">
+                                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" />
+                                    </div>
+                                }
+                            </HeaderCellItemTemplate>
+                        </TemplateColumn>
+                    }
+                </FluentDataGrid>
+            </div>
         }
-      </FluentDataGrid>
-    }
-    else
-    {
-      <FluentProgressRing></FluentProgressRing>
-    }
-  </div>
+        else
+        {
+            <FluentProgressRing></FluentProgressRing>
+        }
+    </div>
 </FluentKeyCode>

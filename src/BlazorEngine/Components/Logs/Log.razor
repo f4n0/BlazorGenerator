@@ -14,7 +14,7 @@
       <FluentAnchor Href="#" OnClick="ClearLog" Appearance="Appearance.Hypertext">Clear Log</FluentAnchor>
     </FluentStack>
   </FluentDialogHeader>
-  <div style="overflow-y:auto; height:80%" @ref="DivRef">
+  <div class="log-scroll" @ref="DivRef">
     <Virtualize Items="UIServices.Logger.Logs.GetLogs()">
       <ChildContent>
         <FluentLabel Color="@(ConvertToColor(context.Item2))">
@@ -32,11 +32,3 @@
     element.scrollTop = element.scrollHeight;
   }
 </script>
-
-<style>
-  .log {
-    --dialog-width: 60% !important;
-    --dialog-height: 60% !important;
-    padding: 2rem !important;
-  }
-</style>

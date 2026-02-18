@@ -3,7 +3,7 @@
 <FluentGrid Id="FieldGroup" Spacing="3">
   @if (VisibleFields.Any(o => o.Additional))
   {
-  <FluentGridItem Justify="JustifyContent.FlexEnd" xs="12" Style="padding-top:3px; padding-bottom:0;">
+  <FluentGridItem Justify="JustifyContent.FlexEnd" xs="12" Style="padding-top:5px; padding-bottom:0;">
     <FluentAnchor Href="#" Appearance="Appearance.Hypertext" OnClick="ShowAdditionalFields">@(ShowAdditional ? "Show less" : "Show more")</FluentAnchor>
   </FluentGridItem>
   }

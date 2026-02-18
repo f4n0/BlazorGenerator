@@ -14,3 +14,22 @@ thead {
   -ms-user-select: none;
   user-select: none;
 }
+
+.datagrid-excel-btn {
+  margin-right: 10px;
+}
+
+.datagrid-table-wrapper {
+  overflow: auto;
+  flex: 0 1 auto;
+}
+
+.datagrid-header-add-btn {
+  width: 90%;
+  text-align: center;
+}
+
+.datagrid-context-menu {
+  position: fixed;
+  z-index: 10;
+}
