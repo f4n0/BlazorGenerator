@@ -15,9 +15,16 @@ namespace BlazorEngine.Utils
       private static (Type Type, TAttribute Attribute)[] BuildModels()
       {
         var results = new List<(Type, TAttribute)>();
+        var skipPrefixes = new[] { "System.", "Microsoft.", "netstandard", "mscorlib", "WindowsBase", "Presentation", "Newtonsoft." };
 
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
+          var name = assembly.GetName().Name;
+          if (name == null)
+            continue;
+          if (skipPrefixes.Any(prefix => name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)))
+            continue;
+          
           foreach (var type in GetLoadableTypes(assembly))
           {
             var attr = type.GetCustomAttribute<TAttribute>(inherit: true);

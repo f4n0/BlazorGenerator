@@ -68,7 +68,7 @@ namespace TestShared.Views
     }
 
     [PageAction(Caption = "ShowProgress")]
-    public async void ShowProgress()
+    public async Task ShowProgress()
     {
       UIServices!.ProgressService.StartProgress();
       await Task.Delay(100000);
@@ -76,14 +76,14 @@ namespace TestShared.Views
     }
 
     [PageAction(Caption = "Open Modal")]
-    public async void OpenModal()
+    public async Task OpenModal()
     {
       var mock = Mock.GetSingleMock();
       _ = await UIServices!.OpenModal(typeof(ModalView), mock);
     }
 
     [PageAction(Caption = "Ask User")]
-    public async void AskUser()
+    public async Task AskUser()
     {
       _ = await UIServices!.UserInput(new UserInputData()
       {
@@ -105,7 +105,7 @@ namespace TestShared.Views
     }
 
     [PageAction(Caption = "Show Upload")]
-    public async void UploadFiles()
+    public async Task UploadFiles()
     {
       try
       {
@@ -128,7 +128,7 @@ namespace TestShared.Views
     
     [Inject] public BackgroundExecutor BackgroundExecutor { get; set; }
     [PageAction(Caption = "Enqueue Action")]
-    public async void Enqueue()
+    public async Task Enqueue()
     {
       BackgroundExecutor.QueueAction("Test", async (logger) =>
       {
@@ -187,7 +187,7 @@ namespace TestShared.Views
       throw new NotImplementedException();
     }
     [PageAction(Caption = "Lock UI")]
-    public async void Test4()
+    public async Task Test4()
     {
       UIServices.LockUI();
       await Task.Delay(2000);

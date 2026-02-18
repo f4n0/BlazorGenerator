@@ -18,7 +18,7 @@ namespace BlazorEngine.Components.Locker
     private void UpdateProgress(bool show)
     {
       _showLock = show;
-      StateHasChanged();
+      InvokeAsync(() => StateHasChanged());
     }
 
     public void Dispose()

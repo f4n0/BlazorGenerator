@@ -59,14 +59,14 @@ namespace TestShared.Views
       Content = tmp;
     }
     [PageAction(Caption = "Refresh")]
-    public async void Refresh()
+    public async Task Refresh()
     {
       await LoadData();
       StateHasChanged();
     }
     
     [PageAction(Caption = "Add Rows")]
-    public async void PageAction()
+    public async Task PageAction()
     {
       var test = Content?.ToList() ?? new List<Mock>();
      test.AddRange(Mock.GetMultipleMock(10));
@@ -75,7 +75,7 @@ namespace TestShared.Views
     }
     
     [PageAction(Caption = "Remove Rows")]
-    public async void RemoveRows()
+    public async Task RemoveRows()
     {
       Content = null;
       StateHasChanged();
@@ -91,7 +91,7 @@ namespace TestShared.Views
 
     [PageAction(Caption = "ShowProgress")]
     [GridAction(Caption = "ShowProgress")]
-    public async void ShowProgress()
+    public async Task ShowProgress()
     {
       UIServices!.ProgressService.StartProgress();
       await Task.Delay(10000);
@@ -99,7 +99,7 @@ namespace TestShared.Views
     }
 
     [PageAction(Caption = "Open Modal")]
-    public async void OpenModal()
+    public async Task OpenModal()
     {
       var mock = Mock.GetSingleMock();
       _ = await UIServices!.OpenModal(typeof(ModalView), mock);
@@ -112,7 +112,7 @@ namespace TestShared.Views
     }
 
     [PageAction(Caption = "Test1", Group = "grouped")]
-    public async void Test1()
+    public async Task Test1()
     {
       var mock = Mock.GetSingleMock();
       _ = await UIServices!.OpenModal(typeof(ModalView), mock);

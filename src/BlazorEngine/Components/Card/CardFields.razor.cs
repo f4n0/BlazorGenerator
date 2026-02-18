@@ -32,7 +32,7 @@ namespace BlazorEngine.Components.Card
 
     internal void Refresh()
     {
-      StateHasChanged();
+     InvokeAsync(() => StateHasChanged());
     }
   }
 }

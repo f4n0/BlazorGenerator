@@ -67,7 +67,7 @@ namespace BlazorEngine.Components.Base
     {
       await LoadData();
 
-      StateHasChanged();
+      await InvokeAsync(() => StateHasChanged());
 
       return true;
     }

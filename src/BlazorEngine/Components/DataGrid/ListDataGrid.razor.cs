@@ -42,26 +42,26 @@ namespace BlazorEngine.Components.DataGrid
     {
       OnSave?.Invoke(data);
       //RefreshData?.Invoke();
-      StateHasChanged();
+      InvokeAsync(() => StateHasChanged());
     }
 
     protected void HandleDelete(T data)
     {
       OnDiscard?.Invoke(data);
       //RefreshData?.Invoke();
-      StateHasChanged();
+      InvokeAsync(() => StateHasChanged());
     }
 
-    protected async void NewItem()
+    protected async Task NewItem()
     {
       var item = OnNewItem?.Invoke();
       item ??= Activator.CreateInstance<T>();
       await EditAsync(item);
-
-      StateHasChanged();
+      
+      await InvokeAsync(() => StateHasChanged());
     }
 
-    private async void ExportToExcel()
+    private async Task ExportToExcel()
     {
       try
       {
@@ -131,7 +131,7 @@ namespace BlazorEngine.Components.DataGrid
 
     internal void Refresh()
     {
-      StateHasChanged();
+      InvokeAsync(() => StateHasChanged());
     }
   }
 }

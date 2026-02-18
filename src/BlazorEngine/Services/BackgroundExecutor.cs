@@ -13,7 +13,7 @@ namespace BlazorEngine.Services
   public class BackgroundExecutor : IDisposable
   {
     public const string SectionName = "BLAZORENGINE_BACKGROUND_EXECUTOR";
-    
+
     public IDialogReference? PanelExecutorRef { get; set; }
 
     private class EnqueueItem(string taskTitle, Message? message, Func<ILogger, Task> action)
@@ -67,14 +67,17 @@ namespace BlazorEngine.Services
             var logger = new ActionLogger();
             try
             {
-              item.Message = ShowNotification(item.BuildTitle("Executing action"), MessageIntent.Custom, item.Message, logger);
+              item.Message = ShowNotification(item.BuildTitle("Executing action"), MessageIntent.Custom, item.Message,
+                logger);
               await item.Action(logger);
-              item.Message = ShowNotification(item.BuildTitle("Action executed successfully"), MessageIntent.Success, item.Message, logger);
+              item.Message = ShowNotification(item.BuildTitle("Action executed successfully"), MessageIntent.Success,
+                item.Message, logger);
             }
             catch (Exception ex)
             {
               logger.LogError(ex, "Action execution failed");
-              item.Message = ShowNotification(item.BuildTitle("Action execution failed"), MessageIntent.Error, item.Message, logger);
+              item.Message = ShowNotification(item.BuildTitle("Action execution failed"), MessageIntent.Error,
+                item.Message, logger);
             }
           }
         }
@@ -93,7 +96,8 @@ namespace BlazorEngine.Services
       }
     }
 
-    private Message ShowNotification(string message, MessageIntent intent = MessageIntent.Info, Message? replace = null, ActionLogger? logger = null)
+    private Message ShowNotification(string message, MessageIntent intent = MessageIntent.Info, Message? replace = null,
+      ActionLogger? logger = null)
     {
       if (replace != null)
       {
@@ -122,8 +126,8 @@ namespace BlazorEngine.Services
             Text = "View Logs",
             OnClick = async (_) =>
             {
-              if(PanelExecutorRef != null)
-                 await PanelExecutorRef.CloseAsync();
+              if (PanelExecutorRef != null)
+                await PanelExecutorRef.CloseAsync();
               await _dialogService.ShowDialogAsync(typeof(ActionLogPanel), logger, new DialogParameters()
               {
                 Alignment = HorizontalAlignment.Right,
@@ -133,26 +137,31 @@ namespace BlazorEngine.Services
                 ShowDismiss = true,
                 Width = "60% ",
                 Height = "fit-content",
-                
               });
             }
           };
         }
       });
-
     }
 
     public void Dispose()
     {
-      if (_isProcessing)
-      {
-        _cancellationTokenSource.Cancel();
-        _processingTask?.Wait(TimeSpan.FromSeconds(1));
-      }
-
+      ShutdownAsync(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
       _cancellationTokenSource.Dispose();
       _semaphore.Dispose();
+    }
 
+    public async Task ShutdownAsync(TimeSpan timeout)
+    {
+      // Stop accepting new actions
+      _isProcessing = false;
+      await _cancellationTokenSource.CancelAsync();
+      _semaphore.Release(); // Unblock if waiting
+
+      if (_processingTask != null)
+      {
+        var completed = await Task.WhenAny(_processingTask, Task.Delay(timeout));
+      }
     }
   }
 }

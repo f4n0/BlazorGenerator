@@ -15,7 +15,7 @@
     </FluentStack>
   </FluentDialogHeader>
   <div style="overflow-y:auto; height:80%" @ref="DivRef">
-    <Virtualize Items="UIServices.Logger.Logs">
+    <Virtualize Items="UIServices.Logger.Logs.GetLogs()">
       <ChildContent>
         <FluentLabel Color="@(ConvertToColor(context.Item2))">
           @context.Item1

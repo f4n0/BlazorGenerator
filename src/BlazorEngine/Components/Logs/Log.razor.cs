@@ -1,5 +1,6 @@
 ﻿using BlazorEngine.Components.Base;
 using BlazorEngine.Enum;
+using BlazorEngine.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -87,8 +88,8 @@ namespace BlazorEngine.Components.Logs
 
     private void ClearLog()
     {
-      UIServices.Logger.Logs.Clear();
-      StateHasChanged();
+      UIServices.Logger.Logs = new(BlazorEngineLogger.MaxLogEntries);
+      InvokeAsync(() => StateHasChanged());
     }
   }
 }

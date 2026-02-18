@@ -1,4 +1,5 @@
-﻿using BlazorEngine.Models;
+﻿using System.Collections.Concurrent;
+using BlazorEngine.Models;
 
 namespace BlazorEngine.Security
 {
@@ -6,7 +7,7 @@ namespace BlazorEngine.Security
   {
     public ISecurity Security { get; set; } = (ISecurity)services.GetService(typeof(ISecurity))!;
 
-    private Dictionary<string, List<PermissionSet>> PermissionCache { get; } = [];
+    private ConcurrentDictionary<string, ConcurrentBag<PermissionSet>> PermissionCache { get; } = new();
 
     public async Task<PermissionSet> GetPermissionSet(Type? @object = null)
     {
@@ -31,21 +32,26 @@ namespace BlazorEngine.Security
       if (permissionSet == null)
       {
         permissionSet = await Security.GetPermissionSet(@object).ConfigureAwait(true);
-        if (PermissionCache.TryGetValue(sessionId, out var current))
+        var bag = PermissionCache.GetOrAdd(sessionId, _ => new ConcurrentBag<PermissionSet>());
+        if (!bag.Contains(permissionSet))
         {
-          if (!current.Contains(permissionSet))
-          {
-            current.Add(permissionSet);
-          }
-          PermissionCache[sessionId] = current;
-        }
-        else
-        {
-          PermissionCache.Add(sessionId, [permissionSet]);
+          bag.Add(permissionSet);
         }
       }
 
       return permissionSet;
+    }
+    
+    public async Task<Dictionary<Type, PermissionSet>> GetPermissionSets(IEnumerable<Type> types)
+    {
+      var result = new Dictionary<Type, PermissionSet>();
+      foreach (var type in types.Distinct())
+      {
+        // Assume GetPermissionSet is your existing method
+        var permission = await GetPermissionSet(type);
+        result[type] = permission;
+      }
+      return result;
     }
 
     public async Task<string> GetSessionIdentifier() => await Security.GetCurrentSessionIdentifier().ConfigureAwait(true);

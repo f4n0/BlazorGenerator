@@ -31,7 +31,7 @@ public partial class ListDataGrid<T>
 
   [Parameter] public EventCallback<ObservableCollection<T>> SelectedChanged { get; set; }
 
-  [Parameter] public Action? RefreshData { get; set; }
+  [Parameter] public Func<Task>? RefreshData { get; set; }
 
   [Parameter] public virtual Type? EditFormType { get; set; }
 

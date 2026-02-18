@@ -10,7 +10,7 @@ namespace BlazorEngine.Components.Navigation
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0039:Use local function", Justification = "<Pending>")]
     protected override void OnParametersSet()
     {
-      EventHandler<LocationChangedEventArgs> onLocationChange = (_, _) => StateHasChanged();
+      EventHandler<LocationChangedEventArgs> onLocationChange = (_, _) => InvokeAsync(() => StateHasChanged());
 
       NavManager.LocationChanged += onLocationChange;
 

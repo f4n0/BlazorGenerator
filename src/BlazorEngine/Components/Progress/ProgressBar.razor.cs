@@ -18,7 +18,7 @@ namespace BlazorEngine.Components.Progress
     private void UpdateProgress(bool show)
     {
       _showProgress = show;
-      StateHasChanged();
+      InvokeAsync(() => StateHasChanged());
     }
 
     public void Dispose()

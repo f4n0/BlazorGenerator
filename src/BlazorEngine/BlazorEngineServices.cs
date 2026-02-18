@@ -14,7 +14,7 @@ namespace BlazorEngine
       services.AddTransient<IMainLayout, DynamicMainLayout>();
       services.AddFluentUIComponents();
 
-      services.AddSingleton<BlazorEngineLogger>();
+      services.AddScoped<BlazorEngineLogger>();
       services.AddScoped<ProgressService>();
       services.AddScoped<LockUIService>();
       

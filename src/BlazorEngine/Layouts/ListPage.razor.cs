@@ -35,7 +35,7 @@ namespace BlazorEngine.Layouts
     }
 
     
-    async void RefreshData() => await LoadData();
+    async Task RefreshData() => await LoadData();
     
     
     public override void InternalDispose()
