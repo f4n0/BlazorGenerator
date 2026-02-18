@@ -17,7 +17,7 @@ namespace BlazorEngine.Components.Field
     private bool LookupOpen = false;
     private Dictionary<string, object> _commonAttributes = [];
     private readonly string _id = Identifier.NewId();
-    
+
     void GenericOnClick()
     {
       if (Field.OnLookup != null)
@@ -25,7 +25,7 @@ namespace BlazorEngine.Components.Field
         LookupOpen = true;
       }
     }
-    
+
     protected override Task OnParametersSetAsync()
     {
       var className = (Field.FieldType == typeof(bool) || Field.FieldType == typeof(Action)) ? "" : "FullSpanWidth";
@@ -35,7 +35,7 @@ namespace BlazorEngine.Components.Field
         styles += "color: " + color.ToAttributeValue() + ";";
       styles += Field.CssStyle;
       className += $" {Field.CssClass}";
-      
+
       _commonAttributes.Clear();
       _commonAttributes["Id"] = _id;
       _commonAttributes["Appearance"] = (Field.FieldType == typeof(Action))
@@ -45,6 +45,7 @@ namespace BlazorEngine.Components.Field
       {
         _commonAttributes["Appearance"] = Appearance.Filled;
       }
+
       _commonAttributes["ReadOnly"] = Field.ReadOnly || (Field.OnLookup != null);
       _commonAttributes["style"] = styles;
       _commonAttributes["class"] = className;
@@ -55,7 +56,7 @@ namespace BlazorEngine.Components.Field
 
       return base.OnParametersSetAsync();
     }
-    
+
     private Dictionary<Type, RenderFragment>? _typeSwitch;
 
     private Dictionary<Type, RenderFragment> TypeSwitch => _typeSwitch ??= new()
@@ -75,7 +76,21 @@ namespace BlazorEngine.Components.Field
       { typeof(Type), IconField },
       { typeof(Action), ActionField }
     };
+
+    protected override bool ShouldRender()
+    {
+      // Only re-render if Data or Field reference changes
+      // (You can add more sophisticated checks if needed)
+      return _lastData?.GetHashCode() != Data?.GetHashCode() || _lastField != Field;
+    }
+
+    private T? _lastData;
+    private VisibleField<T>? _lastField;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+      _lastData = Data;
+      _lastField = Field;
+    }
   }
-  
-  
 }

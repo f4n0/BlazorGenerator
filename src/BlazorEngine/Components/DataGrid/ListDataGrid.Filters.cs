@@ -9,6 +9,7 @@ public partial class ListDataGrid<T>
   private IQueryable<T>? _cachedFilteredData;
     private string _lastSearchValue = string.Empty;
     private int _lastFieldFiltersHash;
+    private object? _lastDataRef;
     private int _lastDataHash;
 
     private IQueryable<T>? FilteredData
@@ -21,7 +22,7 @@ public partial class ListDataGrid<T>
             if (_cachedFilteredData != null &&
                 _lastSearchValue == _searchValue &&
                 _lastFieldFiltersHash == currentFiltersHash &&
-                _lastDataHash == currentDataHash)
+                ReferenceEquals(_lastDataRef, Data))
             {
                 return _cachedFilteredData;
             }
@@ -29,7 +30,7 @@ public partial class ListDataGrid<T>
             _cachedFilteredData = FilterDataInternal();
             _lastSearchValue = _searchValue;
             _lastFieldFiltersHash = currentFiltersHash;
-            _lastDataHash = currentDataHash;
+            _lastDataRef = Data;    
             return _cachedFilteredData;
         }
     }

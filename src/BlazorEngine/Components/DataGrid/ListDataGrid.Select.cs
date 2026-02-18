@@ -18,11 +18,12 @@ public partial class ListDataGrid<T>
     if (rec == null || Data == null)
       return;
 
+    var dataList = Data.ToList();
+
     if (!_multipleSelectEnabled && !_shiftModifierEnabled && !fromFirstColumn)
       Selected.Clear();
 
-
-    int recIndex = Data.ToList().IndexOf(rec);
+    int recIndex = dataList.IndexOf(rec);
     if (recIndex == -1)
       return;
 
@@ -30,17 +31,13 @@ public partial class ListDataGrid<T>
     {
       int startIndex = _lastSelectedIndex;
       Selected.Clear();
-      // Exit early if LastSelectedIndex is invalid.
       if (startIndex == -1)
         return;
 
-
-      // Ensure StartIndex is less than or equal to EndIndex.
       if (startIndex > recIndex)
         (startIndex, recIndex) = (recIndex, startIndex);
 
-      // Add range directly without using GetRange to avoid new list allocation.
-      Selected.AddRange(Data.ToList().GetRange(startIndex, (recIndex-startIndex+1))); //(DataAsList.Skip(StartIndex).Take(recIndex - StartIndex + 1));
+      Selected.AddRange(dataList.Skip(startIndex).Take(recIndex - startIndex + 1));
     }
     else
     {
@@ -54,8 +51,8 @@ public partial class ListDataGrid<T>
         _lastSelectedIndex = recIndex;
       }
     }
-
   }
+
 
   private bool? AllRecSelected
   {
