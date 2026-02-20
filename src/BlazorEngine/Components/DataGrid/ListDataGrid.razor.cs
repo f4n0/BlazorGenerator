@@ -78,7 +78,20 @@ namespace BlazorEngine.Components.DataGrid
 
     private void OnKeyDownAsync(FluentKeyCodeEventArgs args)
     {
-      // Only handle search focus shortcuts now; selection is handled by SelectColumn
+      if (_ctrlPressed ) return;
+      if (args.Key == KeyCode.Ctrl)
+      {
+        _ctrlPressed = true;
+      }
+
+    }
+
+    private void OnKeyUpAsync(FluentKeyCodeEventArgs args)
+    {
+      if (args.Key == KeyCode.Ctrl)
+      {
+        _ctrlPressed = false;
+      }
     }
 
     private async Task OnSearchBarFocus(FluentKeyCodeEventArgs args)

@@ -1,7 +1,7 @@
 ﻿@typeparam T
 <!--suppress CssUnresolvedCustomProperty, CssUnusedSymbol -->
 @* ReSharper disable  AssignmentInsteadOfDiscard *@
-<FluentKeyCode OnKeyDown="@OnKeyDownAsync" IgnoreModifier="false" tabindex="0"
+<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="@OnKeyUpAsync" IgnoreModifier="false" tabindex="0"
                Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl]" StopPropagation="true" StopRepeat="true">
 
     <div class="GridContainer">
@@ -35,7 +35,9 @@
                                 DisplayMode="DataGridDisplayMode.Table"
                                 ShowHover="@true"
                                 HeaderCellAsButtonWithMenu="true"
+                                OnCellClick="@HandleCellClick"
                                 OnRowDoubleClick="@HandleRowDoubleClick"
+
                                 Style="min-height: 120px"
                                 ItemSize="44"
                                 RowSize="DataGridRowSize.Medium"
@@ -46,7 +48,8 @@
                     <SelectColumn TGridItem="T"
                                   SelectMode="DataGridSelectMode.Multiple"
                                   SelectFromEntireRow="false"
-                                  Property="@(item => Selected.Contains(item))"
+                                  SelectedItems="@_selectedSnapshot"
+                                  SelectAll="@_selectAll"
                                   OnSelect="@HandleSelectionChange"
                                   SelectAllChanged="@HandleSelectAllChanged"
                                   Width="50px"

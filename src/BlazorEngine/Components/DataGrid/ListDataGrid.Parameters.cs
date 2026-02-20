@@ -18,7 +18,6 @@ public partial class ListDataGrid<T>
   [Parameter] 
   public IQueryable<T>? Data { get => _data; set { 
       _data = value;
-      Selected.Clear();
     } }
 
   [Parameter] public bool ShowButtons { get; set; }
