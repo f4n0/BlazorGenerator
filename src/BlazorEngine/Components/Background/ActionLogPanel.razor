@@ -30,7 +30,7 @@
   protected override void OnInitialized()
   {
     if (Dialog != null)
-      Dialog.Class = "actionlogdialog";
+      Dialog.Style = "--dialog-width: 60%; --dialog-height: 60%; padding: 2rem;";
     Content.OnChange += Refresh;
     RefreshEntries();
   }

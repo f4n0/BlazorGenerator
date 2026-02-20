@@ -1,27 +1,31 @@
-.rowselected {
-  background: var(--neutral-fill-secondary-rest)
-}
-
 .GridContainer {
   overflow-x: auto;
   height: 100%;
   display: flex;
   flex-flow: column;
+  gap: 4px;
 }
 
-thead {
+.GridContainer ::deep thead {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-.datagrid-excel-btn {
-  margin-right: 10px;
+.GridContainer ::deep .datagrid-toolbar {
+  padding: 4px 8px;
+  flex: 0 0 auto;
+  margin-bottom: 4px;
+  background: transparent;
+}
+
+.GridContainer ::deep fluent-toolbar {
+  background: transparent;
 }
 
 .datagrid-table-wrapper {
   overflow: auto;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
 }
 
 .datagrid-header-add-btn {
@@ -32,4 +36,11 @@ thead {
 .datagrid-context-menu {
   position: fixed;
   z-index: 10;
+}
+
+.datagrid-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
 }

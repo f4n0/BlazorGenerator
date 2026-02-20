@@ -2,16 +2,17 @@
     display: flex;
     flex-flow: column;
     height: 100%;
+    gap: 4px;
 }
 
 .card-page-header {
-    height: max-content;
+    flex: 0 0 auto;
 }
 
 .card-page-content {
-    padding: 10px;
-    padding-bottom: 5px;
-    height: 100%;
+    padding: 12px;
+    padding-bottom: 8px;
+    flex: 1 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
 }

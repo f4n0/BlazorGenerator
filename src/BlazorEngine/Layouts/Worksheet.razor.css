@@ -2,18 +2,19 @@
     display: flex;
     flex-flow: column;
     height: 100%;
+    gap: 4px;
 }
 
 .worksheet-header {
-    height: max-content;
+    flex: 0 0 auto;
 }
 
 .worksheet-card {
-    padding: 10px;
-    height: auto !important;
+    padding: 12px;
+    flex: 0 0 auto;
 }
 
 .worksheet-list {
     overflow: auto;
-    margin-top: 10px;
+    flex: 1 1 auto;
 }

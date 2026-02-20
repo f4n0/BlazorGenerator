@@ -1,76 +1,82 @@
 ﻿@typeparam T
 
-<FluentGrid Id="FieldGroup" Spacing="3">
-  @if (VisibleFields.Any(o => o.Additional))
-  {
-  <FluentGridItem Justify="JustifyContent.FlexEnd" xs="12" Style="padding-top:5px; padding-bottom:0;">
-    <FluentAnchor Href="#" Appearance="Appearance.Hypertext" OnClick="ShowAdditionalFields">@(ShowAdditional ? "Show less" : "Show more")</FluentAnchor>
-  </FluentGridItem>
-  }
+<div class="card-fields-container">
+  <FluentCard AreaRestricted="false" MinimalStyle="true" Class="card-fields-main">
+    <FluentGrid Id="FieldGroup" Spacing="3">
+      @if (VisibleFields.Any(o => o.Additional))
+      {
+        <FluentGridItem Justify="JustifyContent.FlexEnd" xs="12" Style="padding-top:4px; padding-bottom:0;">
+          <FluentButton Appearance="Appearance.Stealth"
+                        IconEnd="@(ShowAdditional ? new Icons.Regular.Size16.ChevronUp() : (Icon)new Icons.Regular.Size16.ChevronDown())"
+                        OnClick="ShowAdditionalFields">
+            @(ShowAdditional ? "Show less" : "Show more")
+          </FluentButton>
+        </FluentGridItem>
+      }
 
-  @foreach (var context in _groupedFields[string.Empty])
-  {
-    var attrs = new Dictionary<string, object>();
-    if (context.Additional)
-    {
-      attrs.Add("Style", $"display: {(ShowAdditional ? "inherit" : "none")}");
-    }
-    <FluentGridItem md="GridSize" AdditionalAttributes="attrs">
-      <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="">
-        <FormField Data="Data" Field="context" T="T" />
-      </FluentStack>
-    </FluentGridItem>
-  }
-</FluentGrid>
-@{
-  
-  if (_groups.Any())
-  {
-    <hr />
-    <FluentAccordion Class="contentblock">
+      @foreach (var context in _groupedFields[string.Empty])
+      {
+        var attrs = new Dictionary<string, object>();
+        if (context.Additional)
+        {
+          attrs.Add("Style", $"display: {(ShowAdditional ? "inherit" : "none")}");
+        }
+        <FluentGridItem md="GridSize" AdditionalAttributes="attrs">
+          <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FormField Data="Data" Field="context" T="T" />
+          </FluentStack>
+        </FluentGridItem>
+      }
+    </FluentGrid>
+  </FluentCard>
 
+  @if (_groups.Any())
+  {
+    <FluentAccordion Class="card-fields-groups">
       @foreach (var group in _groups)
       {
         <FluentAccordionItem Expanded="true">
           <HeadingTemplate>
-            <FluentLabel Typo="Typography.H6">@group</FluentLabel>
+            <FluentLabel Typo="Typography.H6" Weight="FontWeight.Bold">@group</FluentLabel>
           </HeadingTemplate>
           <ChildContent>
-
-            <FluentGrid Spacing="3">
-              @foreach (var context in _groupedFields[group])
-              {
-                <FluentGridItem md="GridSize">
-                  <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
-                    <FormField Data="Data" Field="context" T="T" />
-                  </FluentStack>
-                </FluentGridItem>
-              }
-            </FluentGrid>
+            <FluentCard AreaRestricted="false" MinimalStyle="true" Class="card-fields-group-card">
+              <FluentGrid Spacing="3">
+                @foreach (var context in _groupedFields[group])
+                {
+                  <FluentGridItem md="GridSize">
+                    <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
+                      <FormField Data="Data" Field="context" T="T" />
+                    </FluentStack>
+                  </FluentGridItem>
+                }
+              </FluentGrid>
+            </FluentCard>
           </ChildContent>
         </FluentAccordionItem>
       }
     </FluentAccordion>
   }
-}
-<br />
-@if (ShowButtons)
-{
-  <FluentGrid>
 
-
-    <FluentGridItem md="GridSize">
-      <FluentStack VerticalAlignment="VerticalAlignment.Center">
-        @if ((PermissionSet?.Modify ?? false) || (PermissionSet?.Insert ?? false))
-        {
-          <FluentButton OnClick="@(() => HandleSave(Data!))" Appearance="Appearance.Accent">@Captions.Instance.Save</FluentButton>
-        }
-        @if (PermissionSet?.Delete ?? false)
-        {
-          <FluentButton OnClick="@(() => HandleDiscard(Data!))">@Captions.Instance.Cancel</FluentButton>
-        }
-      </FluentStack>
-    </FluentGridItem>
-  </FluentGrid>
-
-}
+  @if (ShowButtons)
+  {
+    <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="8" Class="card-fields-actions">
+      @if ((PermissionSet?.Modify ?? false) || (PermissionSet?.Insert ?? false))
+      {
+        <FluentButton OnClick="@(() => HandleSave(Data!))"
+                      Appearance="Appearance.Accent"
+                      IconStart="@(new Icons.Regular.Size16.Save())">
+          @Captions.Instance.Save
+        </FluentButton>
+      }
+      @if (PermissionSet?.Delete ?? false)
+      {
+        <FluentButton OnClick="@(() => HandleDiscard(Data!))"
+                      Appearance="Appearance.Outline"
+                      IconStart="@(new Icons.Regular.Size16.Dismiss())">
+          @Captions.Instance.Cancel
+        </FluentButton>
+      }
+    </FluentStack>
+  }
+</div>

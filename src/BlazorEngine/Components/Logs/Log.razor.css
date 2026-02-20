@@ -3,7 +3,7 @@
     height: 80%;
 }
 
-::deep .log {
+.log-wrapper ::deep .log {
     --dialog-width: 60% !important;
     --dialog-height: 60% !important;
     padding: 2rem !important;

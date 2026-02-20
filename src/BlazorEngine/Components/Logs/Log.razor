@@ -1,5 +1,6 @@
 ﻿@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
 
+<div class="log-wrapper">
 <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Log" @onclick="OnOpen">
   <FluentIcon Value="@(new Icons.Regular.Size20.CodeText())" Color="Color.Neutral" Title="Log" />
 </FluentButton>
@@ -27,6 +28,7 @@
     </Virtualize>
   </div>
 </FluentDialog>
+</div>
 <script>
   function scrollToEnd(element) {
     element.scrollTop = element.scrollHeight;

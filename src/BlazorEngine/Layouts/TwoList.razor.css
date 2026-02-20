@@ -2,14 +2,15 @@
     display: flex;
     flex-flow: column;
     height: 100%;
+    gap: 4px;
 }
 
 .two-list-header {
-    height: max-content;
+    flex: 0 0 auto;
 }
 
 .two-list-content {
-    padding: 10px;
+    padding: 8px 12px;
     overflow: auto;
-    height: 100%;
+    flex: 1 1 auto;
 }

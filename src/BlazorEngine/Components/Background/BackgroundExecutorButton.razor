@@ -3,6 +3,7 @@
 @inject IDialogService DialogService
 @inject BackgroundExecutor executor
 
+<div class="bg-executor-wrapper">
 <FluentCounterBadge Count="@MessageService.Count(BackgroundExecutor.SectionName)"
                     Max="9"
                     ShowWhen="@((i)=> MessageService.Count(BackgroundExecutor.SectionName) > 0)"
@@ -19,6 +20,7 @@
     </FluentButton>
   </ChildContent>
 </FluentCounterBadge>
+</div>
 
 @code{
 

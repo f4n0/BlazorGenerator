@@ -41,14 +41,12 @@ namespace BlazorEngine.Components.DataGrid
     protected void HandleSave(T? data)
     {
       OnSave?.Invoke(data);
-      //RefreshData?.Invoke();
       InvokeAsync(() => StateHasChanged());
     }
 
     protected void HandleDelete(T data)
     {
       OnDiscard?.Invoke(data);
-      //RefreshData?.Invoke();
       InvokeAsync(() => StateHasChanged());
     }
 
@@ -80,28 +78,7 @@ namespace BlazorEngine.Components.DataGrid
 
     private void OnKeyDownAsync(FluentKeyCodeEventArgs args)
     {
-      if (_multipleSelectEnabled | _shiftModifierEnabled) return;
-      if (args.Key == KeyCode.Ctrl)
-      {
-        _multipleSelectEnabled = true;
-      }
-      else if (args.Key == KeyCode.Shift)
-      {
-        _shiftModifierEnabled = true;
-      }
-
-    }
-
-    private void OnKeyUp(FluentKeyCodeEventArgs args)
-    {
-      if (args.Key == KeyCode.Ctrl)
-      {
-        _multipleSelectEnabled = false;
-      }
-      else if (args.Key == KeyCode.Shift)
-      {
-        _shiftModifierEnabled = false;
-      }
+      // Only handle search focus shortcuts now; selection is handled by SelectColumn
     }
 
     private async Task OnSearchBarFocus(FluentKeyCodeEventArgs args)
@@ -119,13 +96,11 @@ namespace BlazorEngine.Components.DataGrid
       }
     }
 
-    private async Task HandleCellClick(FluentDataGridCell<T> cell)
+    private async Task HandleRowDoubleClick(FluentDataGridRow<T> row)
     {
-      if (cell.GridColumn > 1)
+      if (row.Item != null && PermissionSet?.Modify == true)
       {
-        HandleSingleRecSelection(cell.Item);
-        cell.ParentReference?.Current.FocusAsync();
-        await Task.CompletedTask;
+        await EditAsync(row.Item);
       }
     }
 

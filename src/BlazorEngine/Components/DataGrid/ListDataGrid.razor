@@ -1,29 +1,29 @@
 ﻿@typeparam T
 <!--suppress CssUnresolvedCustomProperty, CssUnusedSymbol -->
 @* ReSharper disable  AssignmentInsteadOfDiscard *@
-<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="OnKeyUp" IgnoreModifier="false" tabindex="0"
-               Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl, KeyCode.Shift]" StopPropagation="true" StopRepeat="true">
+<FluentKeyCode OnKeyDown="@OnKeyDownAsync" IgnoreModifier="false" tabindex="0"
+               Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl]" StopPropagation="true" StopRepeat="true">
 
     <div class="GridContainer">
-        <FluentStack Orientation="Orientation.Horizontal" Style="margin-bottom: 10px; ">
-            <div>
-                <FluentSearch @bind-Value=_searchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
-                              Style="float: left; width: 300px;"
-                              Immediate="true" ImmediateDelay="500"
-                              @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
-                <FluentDivider Orientation="Orientation.Vertical"></FluentDivider>
-
-            </div>
-            <FluentSpacer></FluentSpacer>
+        <FluentToolbar Class="datagrid-toolbar">
+            <FluentSearch @bind-Value=_searchValue AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
+                          Style="width: 300px;"
+                          Immediate="true" ImmediateDelay="500"
+                          @bind-Value:after=HandleSearchInput @ref="SearchBarRef" />
+            <FluentSpacer />
+            @if (Selected.Count > 0)
+            {
+                <FluentLabel Typo="Typography.Body" Style="color: var(--neutral-foreground-hint); margin-right: 8px;">
+                    @Selected.Count selected
+                </FluentLabel>
+            }
             @if (ShowExportToExcel)
             {
-                <div class="datagrid-excel-btn">
-                    <FluentButton Appearance="Appearance.Outline" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel">
-                        <FluentIcon Value="@(new Icons.Regular.Size20.DocumentTableArrowRight())" Color="Color.Neutral" Title="@Captions.Instance.ExportExcel" />
-                    </FluentButton>
-                </div>
+                <FluentButton slot="end" Appearance="Appearance.Stealth" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel"
+                              IconStart="@(new Icons.Regular.Size20.DocumentTableArrowRight())">
+                </FluentButton>
             }
-        </FluentStack>
+        </FluentToolbar>
         @if (VisibleFields.Count > 0)
         {
             <div class="datagrid-table-wrapper">
@@ -34,22 +34,24 @@
                                 GenerateHeader="GenerateHeaderOption.Sticky"
                                 DisplayMode="DataGridDisplayMode.Table"
                                 ShowHover="@true"
-                                RowClass="SelectedRowClass"
-                                OnCellClick="@HandleCellClick"
+                                HeaderCellAsButtonWithMenu="true"
+                                OnRowDoubleClick="@HandleRowDoubleClick"
                                 Style="min-height: 120px"
                                 ItemSize="44"
                                 RowSize="DataGridRowSize.Medium"
+                                ResizeType="DataGridResizeType.Discrete"
                                 ResizeColumnOnAllRows="false"
                                 Id="table">
 
-                    <TemplateColumn Align="@Align.Center" Width="50px" MinWidth="50px" Style="text-overflow: clip !important;">
-                        <ChildContent>
-                            <FluentCheckbox Value="@(Selected.IndexOf(context) != -1)" @onclick="(_) => HandleSingleRecSelection(context, true)"></FluentCheckbox>
-                        </ChildContent>
-                        <HeaderCellItemTemplate>
-                            <FluentCheckbox ThreeState="true" ShowIndeterminate="false" @bind-CheckState="AllRecSelected" Style="margin:0 auto;"></FluentCheckbox>
-                        </HeaderCellItemTemplate>
-                    </TemplateColumn>
+                    <SelectColumn TGridItem="T"
+                                  SelectMode="DataGridSelectMode.Multiple"
+                                  SelectFromEntireRow="false"
+                                  Property="@(item => Selected.Contains(item))"
+                                  OnSelect="@HandleSelectionChange"
+                                  SelectAllChanged="@HandleSelectAllChanged"
+                                  Width="50px"
+                                  MinWidth="50px" />
+
                     @if (_gridActionsCount > 0)
                     {
                         <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" MinWidth="30px" Style="padding: 0 !important;">
@@ -106,20 +108,22 @@
                     {
                         <TemplateColumn Title="Actions" Align="@Align.Center" Width="110px">
                             <ChildContent>
-                                @if (PermissionSet!.Modify)
-                                {
-                                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" Appearance="Appearance.Outline" OnClick="@(() => EditAsync(context))" />
-                                }
-                                @if (PermissionSet!.Delete)
-                                {
-                                    <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Outline" OnClick="@(() => HandleDelete(context))" />
-                                }
+                                <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="4">
+                                    @if (PermissionSet!.Modify)
+                                    {
+                                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" Appearance="Appearance.Stealth" OnClick="@(() => EditAsync(context))" Title="Edit" />
+                                    }
+                                    @if (PermissionSet!.Delete)
+                                    {
+                                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Stealth" OnClick="@(() => HandleDelete(context))" Title="Delete" />
+                                    }
+                                </FluentStack>
                             </ChildContent>
                             <HeaderCellItemTemplate>
                                 @if (PermissionSet!.Insert)
                                 {
                                     <div class="datagrid-header-add-btn">
-                                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" />
+                                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" Title="Add new" />
                                     </div>
                                 }
                             </HeaderCellItemTemplate>
@@ -130,7 +134,9 @@
         }
         else
         {
-            <FluentProgressRing></FluentProgressRing>
+            <div class="datagrid-loading">
+                <FluentProgressRing />
+            </div>
         }
     </div>
 </FluentKeyCode>
