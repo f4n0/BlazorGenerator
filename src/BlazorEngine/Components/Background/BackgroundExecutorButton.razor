@@ -1,4 +1,4 @@
-﻿
+﻿@implements IDisposable
 @inject IMessageService MessageService
 @inject IDialogService DialogService
 @inject BackgroundExecutor executor
@@ -23,6 +23,7 @@
 </div>
 
 @code{
+  private static readonly Icon RunningIcon = new Icons.Regular.Size20.PersonRunning();
 
   protected override void OnInitialized()
   {
@@ -35,7 +36,7 @@
   }
 
   private RenderFragment NotificationIcon() =>
-    @<FluentIcon Value="@(new Icons.Regular.Size20.PersonRunning())" Color="Color.Neutral" Title="Background Tasks"/>;
+    @<FluentIcon Value="@RunningIcon" Color="Color.Neutral" Title="Background Tasks"/>;
 
   private async Task OpenNotificationCenterAsync()
   {
@@ -52,4 +53,8 @@
     executor.PanelExecutorRef = reference;
   }
 
+  public void Dispose()
+  {
+    MessageService.OnMessageItemsUpdated -= UpdateCount;
+  }
 }

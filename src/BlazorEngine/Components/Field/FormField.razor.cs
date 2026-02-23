@@ -7,6 +7,9 @@ namespace BlazorEngine.Components.Field
 {
   public partial class FormField<T>
   {
+    private static readonly Icon DrillDownIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.MoreHorizontal();
+    private static readonly Icon LookupIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.ChevronDown();
+
     [Parameter] public required VisibleField<T> Field { get; set; }
     [Parameter] public required T Data { get; set; }
 
@@ -79,9 +82,7 @@ namespace BlazorEngine.Components.Field
 
     protected override bool ShouldRender()
     {
-      // Only re-render if Data or Field reference changes
-      // (You can add more sophisticated checks if needed)
-      return _lastData?.GetHashCode() != Data?.GetHashCode() || _lastField != Field;
+      return !ReferenceEquals(_lastData, Data) || !ReferenceEquals(_lastField, Field);
     }
 
     private T? _lastData;

@@ -258,12 +258,12 @@ else
   {
     @if (Field.OnDrillDown != null)
     {
-      <FluentIcon Value="@(new Icons.Regular.Size16.MoreHorizontal())" Color="@Color.Neutral" Slot="end"
+      <FluentIcon Value="@DrillDownIcon" Color="@Color.Neutral" Slot="end"
                   OnClick="@(() => { Field.InternalDrillDown(Data); })"/>
     }
     else if (Field.OnLookup != null)
     {
-      <FluentIcon Value="@(new Icons.Regular.Size16.ChevronDown())" Color="@Color.Neutral" Slot="end"
+      <FluentIcon Value="@LookupIcon" Color="@Color.Neutral" Slot="end"
                   OnClick="@(() => { LookupOpen = !LookupOpen; })"/>
 
       var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();

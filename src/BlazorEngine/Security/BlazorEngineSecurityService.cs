@@ -7,39 +7,25 @@ namespace BlazorEngine.Security
   {
     public ISecurity Security { get; set; } = (ISecurity)services.GetService(typeof(ISecurity))!;
 
-    private ConcurrentDictionary<string, ConcurrentBag<PermissionSet>> PermissionCache { get; } = new();
+    private readonly ConcurrentDictionary<(string SessionId, Type? ObjectType), PermissionSet> _permissionCache = new();
 
     public async Task<PermissionSet> GetPermissionSet(Type? @object = null)
     {
-      PermissionSet? permissionSet = null;
       var sessionId = await Security.GetCurrentSessionIdentifier().ConfigureAwait(true);
       if (string.IsNullOrEmpty(sessionId))
       {
         return await Security.GetPermissionSet(@object).ConfigureAwait(true);
       }
-      if (PermissionCache.TryGetValue(sessionId, out var cached))
-      {
-        if (cached.Any(o => o.Object == @object))
-        {
-          permissionSet = cached.First(o => o.Object == @object);
-        }
-        else if (cached.Any(o => o.Object == null))
-        {
-          permissionSet = cached.First(o => o.Object == null);
-        }
-      }
 
-      if (permissionSet == null)
-      {
-        permissionSet = await Security.GetPermissionSet(@object).ConfigureAwait(true);
-        var bag = PermissionCache.GetOrAdd(sessionId, _ => new ConcurrentBag<PermissionSet>());
-        if (!bag.Contains(permissionSet))
-        {
-          bag.Add(permissionSet);
-        }
-      }
+      if (_permissionCache.TryGetValue((sessionId, @object), out var permissionSet))
+        return permissionSet;
 
-      return permissionSet;
+      if (@object != null && _permissionCache.TryGetValue((sessionId, null), out permissionSet))
+        return permissionSet;
+
+      var result = await Security.GetPermissionSet(@object).ConfigureAwait(true);
+      _permissionCache.TryAdd((sessionId, @object), result);
+      return result;
     }
     
     public async Task<Dictionary<Type, PermissionSet>> GetPermissionSets(IEnumerable<Type> types)

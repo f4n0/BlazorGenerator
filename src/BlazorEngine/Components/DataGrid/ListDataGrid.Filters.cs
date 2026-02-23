@@ -78,23 +78,24 @@ public partial class ListDataGrid<T>
     {
         if (Data is null) return null;
 
-        var list = Data.ToList(); // Materialize once
+        IEnumerable<T> result = Data;
 
         // Global search
         if (!string.IsNullOrWhiteSpace(_searchValue))
         {
-            list = list.Where(r =>
+            var search = _searchValue;
+            result = result.Where(r =>
             {
                 foreach (var field in VisibleFields)
                 {
                     var cellValue = field.InternalGet(r);
-                    if (cellValue?.ToString()?.Contains(_searchValue, StringComparison.OrdinalIgnoreCase) == true)
+                    if (cellValue?.ToString()?.Contains(search, StringComparison.OrdinalIgnoreCase) == true)
                     {
                         return true;
                     }
                 }
                 return false;
-            }).ToList();
+            });
         }
 
         // Field-specific filters
@@ -103,15 +104,17 @@ public partial class ListDataGrid<T>
             if (FieldFilters.TryGetValue(field.Name, out var filterValue) && 
                 !string.IsNullOrWhiteSpace(filterValue))
             {
-                list = list.Where(item =>
+                var capturedField = field;
+                var capturedFilter = filterValue;
+                result = result.Where(item =>
                 {
-                    var cellValue = field.InternalGet(item);
-                    return cellValue?.ToString()?.Contains(filterValue, StringComparison.OrdinalIgnoreCase) == true;
-                }).ToList();
+                    var cellValue = capturedField.InternalGet(item);
+                    return cellValue?.ToString()?.Contains(capturedFilter, StringComparison.OrdinalIgnoreCase) == true;
+                });
             }
         }
 
-        return list.AsQueryable();
+        return result.ToList().AsQueryable();
     }
 
     private string HandleClear(VisibleField<T> field)

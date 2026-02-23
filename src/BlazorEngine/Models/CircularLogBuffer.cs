@@ -16,7 +16,7 @@ public class CircularLogBuffer
 
   public void Add(string message, LogType type)
   {
-    var now = DateTime.Now;
+    var now = DateTime.UtcNow;
     _logs.Enqueue((now, message, type));
     Cleanup(now);
   }

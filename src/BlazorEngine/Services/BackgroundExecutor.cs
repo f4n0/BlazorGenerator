@@ -10,48 +10,46 @@ using Microsoft.FluentUI.AspNetCore.Components.Icons.Filled;
 
 namespace BlazorEngine.Services
 {
-  public class BackgroundExecutor : IDisposable
+  public class BackgroundExecutor : IAsyncDisposable
   {
     public const string SectionName = "BLAZORENGINE_BACKGROUND_EXECUTOR";
+    private const int DefaultShutdownTimeoutSeconds = 10;
+    private const int SuccessNotificationTimeout = 10000;
+    private const string DialogWidth = "60%";
 
     public IDialogReference? PanelExecutorRef { get; set; }
 
     private class EnqueueItem(string taskTitle, Message? message, Func<ILogger, Task> action)
     {
-      public string TaskTitle { get; set; } = taskTitle;
+      public string TaskTitle { get; } = taskTitle;
       public Message? Message { get; set; } = message;
-      public Func<ILogger, Task> Action { get; set; } = action;
+      public Func<ILogger, Task> Action { get; } = action;
 
       public string BuildTitle(string message) => $"{TaskTitle} - {message}";
     }
 
     private readonly ConcurrentQueue<EnqueueItem> _actionQueue = new();
-    private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(0);
+    private readonly SemaphoreSlim _semaphore = new(0);
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private readonly IMessageService _messageService;
-    private bool _isProcessing = false;
-    private Task? _processingTask;
+    private readonly Task _processingTask;
     private readonly IToastService _toastService;
     private readonly IDialogService _dialogService;
+    private bool _disposed;
 
     public BackgroundExecutor(IMessageService messageService, IToastService toastService, IDialogService dialogService)
     {
       _toastService = toastService;
       _messageService = messageService;
       _dialogService = dialogService;
-      StartProcessingQueue();
+      _processingTask = Task.Run(ProcessQueueAsync);
     }
 
     public void QueueAction(string taskTitle, Func<ILogger, Task> action)
     {
+      ObjectDisposedException.ThrowIf(_disposed, this);
       _actionQueue.Enqueue(new EnqueueItem(taskTitle, ShowNotification(taskTitle + " - Enqueued"), action));
       _semaphore.Release();
-    }
-
-    private void StartProcessingQueue()
-    {
-      _isProcessing = true;
-      _processingTask = Task.Run(ProcessQueueAsync, _cancellationTokenSource.Token);
     }
 
     private async Task ProcessQueueAsync()
@@ -90,10 +88,6 @@ namespace BlazorEngine.Services
       {
         ShowNotification($"Queue processing error: {ex.Message}", MessageIntent.Error);
       }
-      finally
-      {
-        _isProcessing = false;
-      }
     }
 
     private Message ShowNotification(string message, MessageIntent intent = MessageIntent.Info, Message? replace = null,
@@ -112,11 +106,11 @@ namespace BlazorEngine.Services
       return _messageService.ShowMessageBar(options =>
       {
         options.Icon = intent == MessageIntent.Custom ? new Size20.PersonRunning() : null;
-        options.Timeout = intent == MessageIntent.Success ? 10000 : null;
+        options.Timeout = intent == MessageIntent.Success ? SuccessNotificationTimeout : null;
         options.Intent = intent;
         options.Title = "Background Executor";
         options.Body = message;
-        options.Timestamp = DateTime.Now;
+        options.Timestamp = DateTime.UtcNow;
         options.Section = SectionName;
 
         if (logger != null)
@@ -135,7 +129,7 @@ namespace BlazorEngine.Services
                 PrimaryAction = null,
                 SecondaryAction = null,
                 ShowDismiss = true,
-                Width = "60% ",
+                Width = DialogWidth,
                 Height = "fit-content",
               });
             }
@@ -144,24 +138,23 @@ namespace BlazorEngine.Services
       });
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-      ShutdownAsync(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
+      if (_disposed)
+        return;
+
+      _disposed = true;
+      await ShutdownAsync(TimeSpan.FromSeconds(DefaultShutdownTimeoutSeconds));
       _cancellationTokenSource.Dispose();
       _semaphore.Dispose();
     }
 
-    public async Task ShutdownAsync(TimeSpan timeout)
+    private async Task ShutdownAsync(TimeSpan timeout)
     {
-      // Stop accepting new actions
-      _isProcessing = false;
       await _cancellationTokenSource.CancelAsync();
       _semaphore.Release(); // Unblock if waiting
 
-      if (_processingTask != null)
-      {
-        var completed = await Task.WhenAny(_processingTask, Task.Delay(timeout));
-      }
+      await Task.WhenAny(_processingTask, Task.Delay(timeout));
     }
   }
 }

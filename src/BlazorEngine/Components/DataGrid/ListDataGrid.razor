@@ -20,7 +20,7 @@
             @if (ShowExportToExcel)
             {
                 <FluentButton slot="end" Appearance="Appearance.Stealth" OnClick="ExportToExcel" Title="@Captions.Instance.ExportExcel"
-                              IconStart="@(new Icons.Regular.Size20.DocumentTableArrowRight())">
+                              IconStart="@ExportIcon">
                 </FluentButton>
             }
         </FluentToolbar>
@@ -59,12 +59,12 @@
                     {
                         <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" MinWidth="30px" Style="padding: 0 !important;">
                             <ChildContent>
-                                <FluentIcon Value="@(new Icons.Regular.Size16.MoreVertical())" Id="@(context.GetHashCode().ToString())" OnClick="@((_) => { CurrRec = context; })">
+                                <FluentIcon Value="@MoreVerticalIcon" Id="@GetRowId(context)" OnClick="@((_) => { CurrRec = context; })">
                                 </FluentIcon>
                                 <div class="datagrid-context-menu">
-                                    <FluentMenu Anchor="@context.GetHashCode().ToString()"
+                                    <FluentMenu Anchor="@GetRowId(context)"
                                                 Trigger="MouseButton.Left" Anchored="true"
-                                                VerticalThreshold="@(GridActions.Count() * 40)" VerticalInset="false"
+                                                VerticalThreshold="@(_gridActionsCount * 40)" VerticalInset="false"
                                                 @ref="@GridActionRef" UseMenuService="false">
                                         @foreach (var a in GridActions)
                                         {
@@ -114,11 +114,11 @@
                                 <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="4">
                                     @if (PermissionSet!.Modify)
                                     {
-                                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Edit())" Appearance="Appearance.Stealth" OnClick="@(() => EditAsync(context))" Title="Edit" />
+                                        <FluentButton IconEnd="@EditIcon" Appearance="Appearance.Stealth" OnClick="@(() => EditAsync(context))" Title="Edit" />
                                     }
                                     @if (PermissionSet!.Delete)
                                     {
-                                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Delete())" Appearance="Appearance.Stealth" OnClick="@(() => HandleDelete(context))" Title="Delete" />
+                                        <FluentButton IconEnd="@DeleteIcon" Appearance="Appearance.Stealth" OnClick="@(() => HandleDelete(context))" Title="Delete" />
                                     }
                                 </FluentStack>
                             </ChildContent>
@@ -126,7 +126,7 @@
                                 @if (PermissionSet!.Insert)
                                 {
                                     <div class="datagrid-header-add-btn">
-                                        <FluentButton IconEnd="@(new Icons.Regular.Size16.Add())" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" Title="Add new" />
+                                        <FluentButton IconEnd="@AddIcon" Appearance="Appearance.Accent" OnClick="@(() => NewItem())" Title="Add new" />
                                     </div>
                                 }
                             </HeaderCellItemTemplate>

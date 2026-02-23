@@ -4,11 +4,23 @@ using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Runtime.CompilerServices;
 
 namespace BlazorEngine.Components.DataGrid
 {
   public partial class ListDataGrid<T> where T : class
   {
+    private static readonly Icon MoreVerticalIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.MoreVertical();
+    private static readonly Icon EditIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.Edit();
+    private static readonly Icon DeleteIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.Delete();
+    private static readonly Icon AddIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size16.Add();
+    private static readonly Icon ExportIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.DocumentTableArrowRight();
+
+    private readonly ConditionalWeakTable<T, string> _rowIds = new();
+
+    private string GetRowId(T item) =>
+      _rowIds.GetValue(item, _ => Identifier.NewId());
+
     internal T? CurrRec { get; set; }
     FluentMenu? GridActionRef { get; set; }
 

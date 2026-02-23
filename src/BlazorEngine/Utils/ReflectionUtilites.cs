@@ -34,7 +34,7 @@ namespace BlazorEngine.Utils
         }
 
         //Get the underlying type property instead of the nullable generic
-        tProp = new NullableConverter(oProp.PropertyType).UnderlyingType;
+        tProp = Nullable.GetUnderlyingType(oProp.PropertyType)!;
       }
 
       //use the converter to get the correct value

@@ -25,8 +25,8 @@ namespace BlazorEngine.Utils
       foreach (T item in data)
       {
         DataRow row = table.NewRow();
-        foreach (var field in visibleFields)
-          row[visibleFields.IndexOf(field)] = field.InternalGet(item) ?? DBNull.Value;
+        for (int i = 0; i < visibleFields.Count; i++)
+          row[i] = visibleFields[i].InternalGet(item) ?? DBNull.Value;
         table.Rows.Add(row);
       }
       return table;

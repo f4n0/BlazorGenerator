@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorEngine.Components.Progress
 {
-  public partial class ProgressBar
+  public partial class ProgressBar : IDisposable
   {
     [Inject]
     ProgressService? ProgressService { get; set; }

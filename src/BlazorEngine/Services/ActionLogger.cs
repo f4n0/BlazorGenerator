@@ -6,9 +6,9 @@ namespace BlazorEngine.Services
 {
   public class ActionLogEntry
   {
-    public DateTime Timestamp { get; set; }
-    public LogLevel LogLevel { get; set; }
-    public string Message { get; set; } = string.Empty;
+    public DateTime Timestamp { get; init; }
+    public LogLevel LogLevel { get; init; }
+    public string Message { get; init; } = string.Empty;
   }
 
   public class ActionLogger : ILogger
@@ -44,7 +44,7 @@ namespace BlazorEngine.Services
 
       var entry = new ActionLogEntry
       {
-        Timestamp = DateTime.Now,
+        Timestamp = DateTime.UtcNow,
         LogLevel = logLevel,
         Message = message
       };

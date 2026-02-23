@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorEngine.Components.Locker
 {
-  public partial class UILock
+  public partial class UILock : IDisposable
   {
     [Inject]
     LockUIService? LockUIService { get; set; }
