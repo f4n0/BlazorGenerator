@@ -34,7 +34,6 @@ jobs:
         run: |
           dotnet build src/BlazorEngine/BlazorEngine.csproj -c Release --no-restore
           dotnet build Demo/TestShared/TestShared.csproj -c Release --no-restore
-          dotnet build Demo/WebAssembly/WebAssembly.csproj -c Release --no-restore
 
       # Publish the site
       - name: Publish
