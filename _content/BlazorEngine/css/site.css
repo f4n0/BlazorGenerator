@@ -1,0 +1,39 @@
+/*@import './_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css';*/
+
+body {
+    --body-font: "Segoe UI Variable", "Segoe UI", sans-serif;
+    font-family: var(--body-font);
+    font-size: var(--type-ramp-base-font-size);
+    line-height: var(--type-ramp-base-line-height);
+    margin: 0;
+}
+
+.main {
+    height: calc(100dvh - 45px);
+    color: var(--neutral-foreground-rest);
+}
+
+
+
+@media (max-width: 600px) {
+    .main {
+        flex-direction: column !important;
+        row-gap: 0 !important;
+    }
+
+    .navmenu {
+    width: 100%;
+    height: fit-content !important;
+  }
+}
+
+
+fluent-text-field::part(control), fluent-text-field::part(root) {
+  cursor: default;
+}
+fluent-number-field::part(control), fluent-text-field::part(root) {
+  cursor: default;
+}
+fluent-checkbox::part(control), fluent-checkbox::part(root) {
+  cursor: default;
+}
