@@ -1,0 +1,22 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Demo/">
+    <Project Path="Demo/BlazorWpf/BlazorWpf.csproj" />
+    <Project Path="Demo/MauiApp1/MauiApp1.csproj" />
+    <Project Path="Demo/Server/Server.csproj" />
+    <Project Path="Demo/TestShared/TestShared.csproj" />
+    <Project Path="Demo/WebAssembly/WebAssembly.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".github/workflows/Build.yml" />
+    <File Path=".github/workflows/main.yml" />
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="src/BlazorEngine.BuildTasks/BlazorEngine.BuildTasks.csproj" />
+  <Project Path="src/BlazorEngine/BlazorEngine.csproj" />
+</Solution>

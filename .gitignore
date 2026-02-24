@@ -4,3 +4,5 @@ packages
 .vs
 .idea
 BlazorEngine.sln.DotSettings.user
+/src/BlazorEngine.BuildTasks/tasks
+BlazorEngineModuleInit.g.cs

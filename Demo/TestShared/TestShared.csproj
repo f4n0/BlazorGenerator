@@ -14,5 +14,8 @@
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
+
+  <!-- Local dev: import BlazorEngine build tasks (auto-imported via NuGet in published packages) -->
+  <Import Project="..\..\src\BlazorEngine.BuildTasks\build\BlazorEngine.targets" Condition="Exists('..\..\src\BlazorEngine.BuildTasks\build\BlazorEngine.targets')" />
   
 </Project>

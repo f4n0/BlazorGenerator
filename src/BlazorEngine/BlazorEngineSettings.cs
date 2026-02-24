@@ -16,5 +16,17 @@ namespace BlazorEngine
     public bool ShowHelpButton { get; set; } = false;
     public bool ShowLogButton { get; set; } = true;
     public bool ShowBackgroundTasks { get; set; } = false;
+
+    /// <summary>
+    /// When true, enables diagnostic logging of metadata discovery.
+    /// Shows which assemblies were loaded via build-time metadata vs reflection fallback.
+    /// </summary>
+    public bool EnableDiagnostics { get; set; } = false;
+
+    /// <summary>
+    /// When true, forces all discovery through reflection (ignores build-time metadata).
+    /// Useful for troubleshooting. Default: false.
+    /// </summary>
+    public bool UseLegacyReflection { get; set; } = false;
   }
 }

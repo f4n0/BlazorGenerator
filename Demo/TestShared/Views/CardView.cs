@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace TestShared.Views
 {
   [Route("card")]
-  [AddToMenu(Title = "Card Page", Route = "card")]
+  [AddToMenu(Title = "Card Page", Route = "card", OrderSequence = 1)]
   public class CardView : CardPage<Mock>
   {
     public override string Title => "br-labsdev2 Integration - Apps";
