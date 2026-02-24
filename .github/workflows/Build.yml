@@ -20,9 +20,13 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}  
     - name: Restore dependencies
-      run: dotnet restore src/BlazorEngine/BlazorEngine.csproj
-    - name: Build
-      run: dotnet build --no-restore src/BlazorEngine/BlazorEngine.csproj
+      run: |
+        dotnet restore src/BlazorEngine/BlazorEngine.csproj
+        dotnet restore src/BlazorEngine.BuildTasks/BlazorEngine.BuildTasks.csproj
+    - name: Build all projects
+      run: |
+        dotnet build src/BlazorEngine.BuildTasks/BlazorEngine.BuildTasks.csproj -c Release
+        dotnet build src/BlazorEngine/BlazorEngine.csproj -c Release --no-restore
     - name: Pack    
       if: github.event_name != 'pull_request'
       run: dotnet pack "src/BlazorEngine/BlazorEngine.csproj" -c Release -o out -p:PackageVersion=1.0.${{ github.run_number }}

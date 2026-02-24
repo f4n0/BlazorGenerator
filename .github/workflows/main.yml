@@ -18,6 +18,23 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
+      # Restore dependencies for BlazorEngine and BuildTasks
+      - name: Restore dependencies
+        run: |
+          dotnet restore src/BlazorEngine/BlazorEngine.csproj
+          dotnet restore src/BlazorEngine.BuildTasks/BlazorEngine.BuildTasks.csproj
+
+      # Build BlazorEngine.BuildTasks first
+      - name: Build BlazorEngine.BuildTasks
+        run: dotnet build src/BlazorEngine.BuildTasks/BlazorEngine.BuildTasks.csproj -c Release
+
+      # Build all projects
+      - name: Build all projects
+        run: |
+          dotnet build src/BlazorEngine/BlazorEngine.csproj -c Release --no-restore
+          dotnet build Demo/TestShared/TestShared.csproj -c Release --no-restore
+          dotnet build Demo/WebAssembly/WebAssembly.csproj -c Release --no-restore
+
       # Publish the site
       - name: Publish
         run: dotnet publish "Demo/WebAssembly/WebAssembly.csproj" -c:Release -o:public 
