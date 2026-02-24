@@ -9,6 +9,6 @@ namespace BlazorEngine.Attributes
     public required string Route { get; set; }
     public Type Icon { get; set; } = typeof(Balloon);
     public string Group { get; set; } = "Default";
-    public int OrderSequence { get; set; }
+    public int OrderSequence { get; set; } = 999;
   }
 }

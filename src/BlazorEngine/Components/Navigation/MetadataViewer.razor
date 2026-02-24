@@ -1,0 +1,39 @@
+@using BlazorEngine.Services
+
+<div class="metadata-viewer">
+  <h3>BlazorEngine Metadata Registry</h3>
+
+  <FluentCard>
+    <div class="metadata-summary">
+      <FluentBadge Appearance="Appearance.Accent">
+        @_registrations.Count assemblies registered
+      </FluentBadge>
+      <FluentBadge Appearance="Appearance.Accent" Color="Color.Success">
+        @_registrations.Count(r => r.Source == MetadataRegistry.RegistrationSource.BuildTime) build-time
+      </FluentBadge>
+      <FluentBadge Appearance="Appearance.Accent" Color="Color.Warning">
+        @_registrations.Count(r => r.Source == MetadataRegistry.RegistrationSource.ReflectionFallback) reflection fallback
+      </FluentBadge>
+    </div>
+  </FluentCard>
+
+  <FluentDataGrid Items="@_registrations.AsQueryable()" TGridItem="MetadataRegistry.AssemblyRegistrationInfo"
+                  Style="margin-top: 16px;">
+    <PropertyColumn Property="@(r => r.AssemblyName)" Title="Assembly" />
+    <TemplateColumn Title="Source">
+      @if (context.Source == MetadataRegistry.RegistrationSource.BuildTime)
+      {
+        <FluentBadge Color="Color.Success">Build-time</FluentBadge>
+      }
+      else
+      {
+        <FluentBadge Color="Color.Warning">Reflection</FluentBadge>
+      }
+    </TemplateColumn>
+    <PropertyColumn Property="@(r => r.MenuItemCount)" Title="Menus" />
+    <PropertyColumn Property="@(r => r.FooterLinkCount)" Title="Footer Links" />
+    <PropertyColumn Property="@(r => r.PageActionTypeCount)" Title="Page Action Types" />
+    <PropertyColumn Property="@(r => r.GridActionTypeCount)" Title="Grid Action Types" />
+    <PropertyColumn Property="@(r => r.ContextMenuTypeCount)" Title="Context Menu Types" />
+  </FluentDataGrid>
+</div>

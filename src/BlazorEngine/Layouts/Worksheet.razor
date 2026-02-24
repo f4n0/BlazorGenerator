@@ -4,8 +4,8 @@
 
 
 @{
-  var pageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
-  var gridActions = AttributesUtils.GetMethodsWithAttribute<GridActionAttribute>(this);
+  var pageActions = Services.MetadataRegistry.GetPageActions(this);
+  var gridActions = Services.MetadataRegistry.GetGridActions(this);
 }
 
 <PageTitle>@Title</PageTitle>

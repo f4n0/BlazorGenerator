@@ -1,0 +1,9 @@
+.metadata-viewer {
+    padding: 16px;
+}
+
+.metadata-summary {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+}

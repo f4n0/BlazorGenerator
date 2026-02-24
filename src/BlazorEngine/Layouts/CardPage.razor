@@ -2,7 +2,7 @@
 @inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
 
 @{
-  var pageActions = AttributesUtils.GetMethodsWithAttribute<PageActionAttribute>(this);
+  var pageActions = Services.MetadataRegistry.GetPageActions(this);
 }
 <PageTitle>@Title</PageTitle>
 <div class="card-page-root">

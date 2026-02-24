@@ -35,7 +35,7 @@ namespace BlazorEngine.Components.Menu
     {
       try
       {
-        var allMenu = Utils.AttributesUtils.GetModelsWithAttribute<AddToMenuAttribute>().ToList();
+        var allMenu = Services.MetadataRegistry.GetMenuItems().ToList();
         if (allMenu.Count == 0)
         {
           return;
@@ -74,10 +74,8 @@ namespace BlazorEngine.Components.Menu
           .ToList();
 
         // Footer link
-        _footerLink = Utils.AttributesUtils
-          .GetModelsWithAttribute<FooterLinkAttribute>()
-          .FirstOrDefault()
-          .Attribute;
+        var firstFooter = Services.MetadataRegistry.GetFooterLinks().FirstOrDefault();
+        _footerLink = firstFooter.Attribute;
       }
       finally
       {

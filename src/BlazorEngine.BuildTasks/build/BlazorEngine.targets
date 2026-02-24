@@ -1,0 +1,120 @@
+<!--
+  BlazorEngine.targets
+  
+  Automatically imported by consuming projects via NuGet (or manual Import for local dev).
+  Orchestrates build-time metadata extraction and module initializer generation.
+  
+  Flow:
+  Build 1 (clean): Compile → Extract .dat → Generate init (for next build)
+                    Runtime uses reflection fallback (same perf as before refactor)
+  Build 2+:        .dat from prev build embedded + init compiled in → Zero reflection at runtime
+  
+  The consuming developer does nothing — this is fully automatic.
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <!-- Allow consumers to opt out -->
+    <BlazorEngineExtractMetadata Condition="'$(BlazorEngineExtractMetadata)' == ''">true</BlazorEngineExtractMetadata>
+
+    <!--
+      Task DLL resolution order:
+      1. bin/Debug/   (local dev - avoids file locking from tasks/ copy)
+      2. bin/Release/ (local dev release build)
+      3. tasks/       (NuGet package layout)
+    -->
+    <_BlazorEngineTasksDir Condition="Exists('$(MSBuildThisFileDirectory)..\bin\Debug\netstandard2.0\BlazorEngine.BuildTasks.dll')">$(MSBuildThisFileDirectory)..\bin\Debug\netstandard2.0\</_BlazorEngineTasksDir>
+    <_BlazorEngineTasksDir Condition="'$(_BlazorEngineTasksDir)' == '' And Exists('$(MSBuildThisFileDirectory)..\bin\Release\netstandard2.0\BlazorEngine.BuildTasks.dll')">$(MSBuildThisFileDirectory)..\bin\Release\netstandard2.0\</_BlazorEngineTasksDir>
+    <_BlazorEngineTasksDir Condition="'$(_BlazorEngineTasksDir)' == ''">$(MSBuildThisFileDirectory)..\tasks\</_BlazorEngineTasksDir>
+  </PropertyGroup>
+
+  <!--
+    Static items: evaluated at import time.
+    Include the .dat and init files from a previous build so that CoreCompile's
+    up-to-date check sees them as inputs and triggers recompilation when they change.
+    Uses $(BaseIntermediateOutputPath) which is available early (defaults to obj\).
+  -->
+  <ItemGroup Condition="'$(BlazorEngineExtractMetadata)' == 'true'">
+    <CustomAdditionalCompileInputs
+      Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat"
+      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat')" />
+    <EmbeddedResource
+      Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat"
+      LogicalName="$(AssemblyName).blazorengine.dat"
+      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat')" />
+    <Compile
+      Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\BlazorEngineModuleInit.g.cs"
+      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\BlazorEngineModuleInit.g.cs')" />
+  </ItemGroup>
+
+  <!-- Register custom MSBuild tasks -->
+  <UsingTask TaskName="BlazorEngine.BuildTasks.ExtractBlazorMetadataTask"
+             AssemblyFile="$(_BlazorEngineTasksDir)BlazorEngine.BuildTasks.dll" />
+  <UsingTask TaskName="BlazorEngine.BuildTasks.GenerateModuleInitializerTask"
+             AssemblyFile="$(_BlazorEngineTasksDir)BlazorEngine.BuildTasks.dll" />
+
+  <!--
+    Phase 1: Before compilation, generate module initializer source file.
+    If a .dat file exists from a previous build, the generated init will
+    load embedded metadata (build-time path). Otherwise, it registers for
+    reflection fallback.
+  -->
+  <Target Name="_BlazorEngineGenerateInit"
+          BeforeTargets="CoreCompile"
+          Condition="'$(BlazorEngineExtractMetadata)' == 'true'">
+
+    <PropertyGroup>
+      <_BlazorEngineMetadataFile>$(IntermediateOutputPath)$(AssemblyName).blazorengine.dat</_BlazorEngineMetadataFile>
+      <_BlazorEngineInitFile>$(IntermediateOutputPath)BlazorEngineModuleInit.g.cs</_BlazorEngineInitFile>
+    </PropertyGroup>
+
+    <GenerateModuleInitializerTask
+      OutputPath="$(_BlazorEngineInitFile)"
+      AssemblyName="$(AssemblyName)"
+      MetadataFilePath="$(_BlazorEngineMetadataFile)" />
+
+    <!--
+      If the init file was just created (first build, not yet in static Compile ItemGroup),
+      add it dynamically. The Condition prevents duplicate inclusion on build 2+.
+    -->
+    <ItemGroup>
+      <Compile Include="$(_BlazorEngineInitFile)"
+               Condition="Exists('$(_BlazorEngineInitFile)') And !@(Compile->AnyHaveMetadataValue('Identity', '$(_BlazorEngineInitFile)'))" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+    Phase 2: After compilation, extract metadata from the just-compiled assembly.
+    This creates/updates the .dat file so the NEXT build will use build-time metadata.
+  -->
+  <Target Name="_BlazorEngineExtractMetadata"
+          AfterTargets="CoreCompile"
+          Condition="'$(BlazorEngineExtractMetadata)' == 'true'">
+
+    <PropertyGroup>
+      <_BlazorEngineMetadataFile>$(IntermediateOutputPath)$(AssemblyName).blazorengine.dat</_BlazorEngineMetadataFile>
+      <_BlazorEngineInitFile>$(IntermediateOutputPath)BlazorEngineModuleInit.g.cs</_BlazorEngineInitFile>
+    </PropertyGroup>
+
+    <ExtractBlazorMetadataTask
+      AssemblyPath="@(IntermediateAssembly)"
+      OutputPath="$(_BlazorEngineMetadataFile)">
+      <Output TaskParameter="MenuItemCount" PropertyName="_BEMenuCount" />
+      <Output TaskParameter="FooterLinkCount" PropertyName="_BEFooterCount" />
+      <Output TaskParameter="PageActionCount" PropertyName="_BEPageActionCount" />
+      <Output TaskParameter="GridActionCount" PropertyName="_BEGridActionCount" />
+      <Output TaskParameter="ContextMenuCount" PropertyName="_BEContextMenuCount" />
+    </ExtractBlazorMetadataTask>
+
+    <Message Importance="normal"
+             Text="BlazorEngine: Extracted metadata — menu: $(_BEMenuCount), footer: $(_BEFooterCount), page actions: $(_BEPageActionCount), grid actions: $(_BEGridActionCount), context menus: $(_BEContextMenuCount)"
+             Condition="Exists('$(_BlazorEngineMetadataFile)')" />
+
+    <!-- Update the module initializer so next build compiles the build-time version. -->
+    <GenerateModuleInitializerTask
+      OutputPath="$(_BlazorEngineInitFile)"
+      AssemblyName="$(AssemblyName)"
+      MetadataFilePath="$(_BlazorEngineMetadataFile)" />
+  </Target>
+
+</Project>

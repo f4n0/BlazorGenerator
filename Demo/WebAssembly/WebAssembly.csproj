@@ -23,8 +23,5 @@
     <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
     <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons.Filled" />
   </ItemGroup>
-  <ItemGroup>
-    
-  </ItemGroup>
-
+ 
 </Project>
