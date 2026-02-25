@@ -17,7 +17,7 @@ namespace BlazorEngine
       services.AddScoped<BlazorEngineLogger>();
       services.AddScoped<ProgressService>();
       services.AddScoped<LockUIService>();
-      
+
       services.AddScoped<ISecurity, NullSecurity>();
       services.AddScoped<BlazorEngineSecurityService>();
       services.AddScoped<IHelpService, EmptyHelpService>();

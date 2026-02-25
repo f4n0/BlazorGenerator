@@ -51,8 +51,8 @@ namespace BlazorEngine.Models
     public Func<T, string>? Href { get; set; }
     public Func<T, Dictionary<object, string>?>? OnLookup { get; set; }
     public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
-    
-    public Func<T, VisibleField<T>,RenderFragment>? CustomContent { get; set; }
+
+    public Func<T, VisibleField<T>, RenderFragment>? CustomContent { get; set; }
     public string CssStyle { get; set; }
     public string CssClass { get; set; }
 
@@ -62,7 +62,7 @@ namespace BlazorEngine.Models
       var prop = typeof(T).GetProperty(propertyName) ?? throw new Exception("Cannot find property with name \"" + propertyName + "\"");
 
       var getter = ReflectionUtilites.GetPropertyGetter<T>(prop);
-      Action<T, object?>? setter = prop.SetMethod is null  ? null  : ReflectionUtilites.GetPropertySetter<T>(prop);
+      Action<T, object?>? setter = prop.SetMethod is null ? null : ReflectionUtilites.GetPropertySetter<T>(prop);
 
       var field = new VisibleField<T>()
       {
@@ -93,11 +93,11 @@ namespace BlazorEngine.Models
 
     internal void InternalChange(T data, string? value) =>
     OnChange?.Invoke(new VisibleFieldSetterArgs<T>()
-      {
-        Field = this,
-        Data = data,
-        Value = value
-      });
+    {
+      Field = this,
+      Data = data,
+      Value = value
+    });
 
     internal void InternalSet(T data, object? value) =>
       Set?.Invoke(new VisibleFieldSetterArgs<T>()

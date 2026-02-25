@@ -2,6 +2,7 @@ using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorEngine.Security;
+
 public partial class BlazorEngineSecurity : ComponentBase
 {
   [Parameter]
@@ -38,6 +39,6 @@ public partial class BlazorEngineSecurity : ComponentBase
     {
       NavigationManager?.NavigateTo(BlazorEngineSettings.Instance.LoginRoute);
     }
-        
+
   }
 }

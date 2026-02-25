@@ -57,25 +57,25 @@ namespace BlazorEngine.Services
         MaximumFileSize = maxFileSize
       };
 
-        var dialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
-        {
-          Width = "50%",
-          Height = "300px",
-          PrimaryAction = "",
-          SecondaryAction = "",
-        });
+      var dialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters()
+      {
+        Width = "50%",
+        Height = "300px",
+        PrimaryAction = "",
+        SecondaryAction = "",
+      });
 
-        var result = await dialogResult.Result;
-        if ((result.Data is not null) && !result.Cancelled)
+      var result = await dialogResult.Result;
+      if ((result.Data is not null) && !result.Cancelled)
+      {
+        var ret = result.Data as UploadFileData;
+        var err = ret?.Files.FirstOrDefault(o => o.ErrorMessage != "")?.ErrorMessage;
+        if (err is not null)
         {
-          var ret = result.Data as UploadFileData;
-          var err = ret?.Files.FirstOrDefault(o => o.ErrorMessage != "")?.ErrorMessage;
-          if (err is not null)
-          {
-            throw new Exception(err);
-          }
-          return ret;
+          throw new Exception(err);
         }
+        return ret;
+      }
       return null;
     }
 

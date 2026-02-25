@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using BlazorEngine.Attributes;
+﻿using BlazorEngine.Attributes;
 using Microsoft.AspNetCore.Components;
+using System.Reflection;
 
 namespace BlazorEngine.Components.PageAction
 {

@@ -1,8 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using BlazorEngine.Models;
-using DocumentFormat.OpenXml.Wordprocessing;
+﻿using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BlazorEngine.Utils
 {
@@ -15,7 +14,7 @@ namespace BlazorEngine.Utils
       additionalProperties?.Invoke(ref field);
       visibleFields.Add(field);
     }
-    
+
     public static VisibleField<T> AddCustomField<T>(this List<VisibleField<T>> visibleFields, string name,
        Func<T, VisibleField<T>, RenderFragment> customContent) where T : class
     {
@@ -71,7 +70,7 @@ namespace BlazorEngine.Utils
         }
       }
     }
-    
+
     public static VisibleField<T> Configure<T>(this VisibleField<T> field, Action<FieldBuilder<T>> config)
     {
       var builder = new FieldBuilder<T>(field);

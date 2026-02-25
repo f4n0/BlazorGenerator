@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using System.Text;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Reflection;
+using System.Text;
 
 #pragma warning disable CA2012
 
@@ -19,12 +19,12 @@ namespace BlazorEngine.DynamicComponents
 
     [Parameter]
     public required Assembly AppAssembly { get; set; }
-    
+
     [Parameter]
     public IComponentRenderMode BlazorGenRenderMode { get; set; } = RenderMode.InteractiveAuto;
-    
+
     [Parameter]
-    public IEnumerable<Assembly>? AdditionalAssemblies { get; set; } 
+    public IEnumerable<Assembly>? AdditionalAssemblies { get; set; }
 
     private ErrorBoundary? _errorBoundary;
 
@@ -46,7 +46,7 @@ namespace BlazorEngine.DynamicComponents
         sb.AppendLine(ex.InnerException.StackTrace);
       }
 
-      _ = JSRuntime!.InvokeVoidAsync("navigator.clipboard.writeText",ComponentDetached, sb.ToString());
+      _ = JSRuntime!.InvokeVoidAsync("navigator.clipboard.writeText", ComponentDetached, sb.ToString());
     }
 
     public void Dispose()

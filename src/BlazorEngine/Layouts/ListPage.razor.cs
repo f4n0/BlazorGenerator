@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using BlazorEngine.Components.Base;
+﻿using BlazorEngine.Components.Base;
 using BlazorEngine.Models;
+using System.Collections.ObjectModel;
 
 namespace BlazorEngine.Layouts
 {
@@ -10,7 +10,7 @@ namespace BlazorEngine.Layouts
     public required List<VisibleField<T>> VisibleFields { get; set; } = new();
     public virtual Type? EditFormType { get; set; }
     public virtual bool ShowExportToExcel { get; set; } = true;
-    
+
     public virtual bool UseVirtualization { get; set; } = false;
 
     public ObservableCollection<T> Selected { get; set; } = [];
@@ -25,7 +25,7 @@ namespace BlazorEngine.Layouts
     public virtual void OnDelete(T entity)
     {
     }
-    
+
     private PermissionSet permissionSet;
 
     protected override async Task OnInitializedAsync()
@@ -34,10 +34,10 @@ namespace BlazorEngine.Layouts
       await base.OnInitializedAsync();
     }
 
-    
+
     async Task RefreshData() => await LoadData();
-    
-    
+
+
     public override void InternalDispose()
     {
       GC.SuppressFinalize(this);

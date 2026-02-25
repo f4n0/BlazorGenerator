@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -78,7 +77,7 @@ namespace BlazorEngine.Utils
         parameters = new object[mthParams];
         Array.Fill(parameters, Type.Missing);
       }
-      
+
       if (knownParams != null && parameters.Length >= knownParams.Length)
       {
         for (var i = 0; i < knownParams.Length; i++)
@@ -91,7 +90,7 @@ namespace BlazorEngine.Utils
       {
         var ret = GetMethodInvoker(method)(target, parameters);
         if (ret is Task task)
-          await task.ConfigureAwait(true);
+          await task.ConfigureAwait(false);
       }
       catch (TaskCanceledException)
       {
@@ -236,7 +235,7 @@ namespace BlazorEngine.Utils
         return Expression.Lambda<Action<T, object?>>(assign, instanceParam, valueParam).Compile();
       });
     }
-    
+
     private static readonly ConcurrentDictionary<Type, string[]> _enumNamesCache = new();
     private static readonly ConcurrentDictionary<Type, IReadOnlyDictionary<string, string>> _enumCaptionsCache = new();
 

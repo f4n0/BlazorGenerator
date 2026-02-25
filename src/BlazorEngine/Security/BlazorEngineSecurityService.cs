@@ -1,5 +1,5 @@
-﻿using System.Collections.Concurrent;
-using BlazorEngine.Models;
+﻿using BlazorEngine.Models;
+using System.Collections.Concurrent;
 
 namespace BlazorEngine.Security
 {
@@ -27,7 +27,7 @@ namespace BlazorEngine.Security
       _permissionCache.TryAdd((sessionId, @object), result);
       return result;
     }
-    
+
     public async Task<Dictionary<Type, PermissionSet>> GetPermissionSets(IEnumerable<Type> types)
     {
       var result = new Dictionary<Type, PermissionSet>();

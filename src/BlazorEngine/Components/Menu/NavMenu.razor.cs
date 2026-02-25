@@ -42,7 +42,7 @@ namespace BlazorEngine.Components.Menu
         }
         // Optional: parallelize permission checks (with a cap)
         // 2. Batch permission check
-        var permissions = await Security.GetPermissionSets( allMenu.Select(m => m.Type).ToList()); // returns Dictionary<Type, PermissionSet>
+        var permissions = await Security.GetPermissionSets(allMenu.Select(m => m.Type).ToList()); // returns Dictionary<Type, PermissionSet>
 
         // 3. Build results using the batch permissions
         var authorizedMenus = allMenu

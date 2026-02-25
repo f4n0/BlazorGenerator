@@ -1,5 +1,4 @@
 ﻿using BlazorEngine.Components.Base;
-using BlazorEngine.Models;
 using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -67,7 +66,7 @@ namespace BlazorEngine.Components.DataGrid
       var item = OnNewItem?.Invoke();
       item ??= Activator.CreateInstance<T>();
       await EditAsync(item);
-      
+
       await InvokeAsync(() => StateHasChanged());
     }
 
@@ -82,15 +81,15 @@ namespace BlazorEngine.Components.DataGrid
         await JSRuntime!.InvokeVoidAsync("downloadFileFromStream", (Context as BlazorEngineComponentBase)!.ComponentDetached, (Context as BlazorEngineComponentBase)?.Title + ".xlsx", streamRef);
 
       }
-      catch (Exception )
+      catch (Exception)
       {
         UIServices.ShowError("Something went wrong while exporting to Excel. Please try again.");
       }
-   }
+    }
 
     private void OnKeyDownAsync(FluentKeyCodeEventArgs args)
     {
-      if (_ctrlPressed ) return;
+      if (_ctrlPressed) return;
       if (args.Key == KeyCode.Ctrl)
       {
         _ctrlPressed = true;

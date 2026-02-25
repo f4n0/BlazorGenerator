@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using BlazorEngine.Components.Base;
+﻿using BlazorEngine.Components.Base;
 using BlazorEngine.Components.Card;
 using BlazorEngine.Components.DataGrid;
 using BlazorEngine.Models;
+using System.Collections.ObjectModel;
 
 namespace BlazorEngine.Layouts
 {
@@ -21,7 +21,7 @@ namespace BlazorEngine.Layouts
     private ListDataGrid<TList>? List { get; set; }
 
     public virtual bool UseVirtualization { get; set; } = false;
-    
+
     public virtual void OnSave(TList entity)
     {
     }
@@ -46,7 +46,7 @@ namespace BlazorEngine.Layouts
       await base.OnInitializedAsync();
     }
 
-    
+
     public override void InternalDispose()
     {
       GC.SuppressFinalize(this);
@@ -58,8 +58,8 @@ namespace BlazorEngine.Layouts
       GC.SuppressFinalize(this);
       return base.InternalDisposeAsync();
     }
-    
-    
+
+
     public void RefreshCard()
     {
       if (Card != null)

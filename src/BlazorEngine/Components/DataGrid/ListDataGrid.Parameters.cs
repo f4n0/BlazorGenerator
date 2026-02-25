@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Reflection;
-using BlazorEngine.Attributes;
+﻿using BlazorEngine.Attributes;
 using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
+using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace BlazorEngine.Components.DataGrid;
 
@@ -15,10 +15,14 @@ public partial class ListDataGrid<T>
 
   private IQueryable<T>? _data;
 
-  [Parameter] 
-  public IQueryable<T>? Data { get => _data; set { 
+  [Parameter]
+  public IQueryable<T>? Data
+  {
+    get => _data; set
+    {
       _data = value;
-    } }
+    }
+  }
 
   [Parameter] public bool ShowButtons { get; set; }
 
@@ -41,6 +45,6 @@ public partial class ListDataGrid<T>
   [Parameter] public Func<T>? OnNewItem { get; set; }
 
   [Parameter] public bool ShowExportToExcel { get; set; } = true;
-  
+
   [Parameter] public bool UseVirtualization { get; set; } = false;
 }

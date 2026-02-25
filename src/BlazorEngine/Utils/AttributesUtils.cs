@@ -24,7 +24,7 @@ namespace BlazorEngine.Utils
             continue;
           if (skipPrefixes.Any(prefix => name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)))
             continue;
-          
+
           foreach (var type in GetLoadableTypes(assembly))
           {
             var attr = type.GetCustomAttribute<TAttribute>(inherit: true);

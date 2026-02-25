@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using BlazorEngine.Components.Base;
+﻿using BlazorEngine.Components.Base;
 using BlazorEngine.Models;
+using System.Collections.ObjectModel;
 
 namespace BlazorEngine.Layouts
 {
@@ -19,8 +19,8 @@ namespace BlazorEngine.Layouts
     public virtual Type? SecondListEditFormType { get; set; }
     public ObservableCollection<TSecondList> SecondListSelected { get; set; } = [];
     public virtual bool ShowExportToExcelSecondList { get; set; } = true;
-    
-    
+
+
 
     public virtual void OnSave(TFirstList entity)
     {
@@ -37,8 +37,8 @@ namespace BlazorEngine.Layouts
     public virtual void OnDelete(TSecondList entity)
     {
     }
-    
-    
+
+
     private PermissionSet permissionSet;
 
     protected override async Task OnInitializedAsync()

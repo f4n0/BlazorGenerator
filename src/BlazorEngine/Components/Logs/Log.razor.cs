@@ -14,7 +14,7 @@ namespace BlazorEngine.Components.Logs
 
     [Inject]
     private IKeyCodeService? KeyCodeService { get; set; }
-    
+
     ElementReference DivRef;
 
     private void OnDismiss(DialogEventArgs args)
@@ -56,7 +56,7 @@ namespace BlazorEngine.Components.Logs
     {
       if (firstRender)
         _myFluentDialog!.Hide();
-      JSRuntime.InvokeVoidAsync("scrollToEnd", new object[] {DivRef});
+      JSRuntime.InvokeVoidAsync("scrollToEnd", new object[] { DivRef });
     }
 
     private void UpdateLog()

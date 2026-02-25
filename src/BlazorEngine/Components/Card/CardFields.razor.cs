@@ -13,7 +13,7 @@ namespace BlazorEngine.Components.Card
       _groups = _groupedFields.Where(g => g.Key != string.Empty).Select(g => g.Key).ToArray();
       base.OnParametersSet();
     }
-    
+
     bool ShowAdditional { get; set; } = false;
     protected void HandleSave(T data)
     {
@@ -32,7 +32,7 @@ namespace BlazorEngine.Components.Card
 
     internal void Refresh()
     {
-     InvokeAsync(() => StateHasChanged());
+      InvokeAsync(() => StateHasChanged());
     }
   }
 }

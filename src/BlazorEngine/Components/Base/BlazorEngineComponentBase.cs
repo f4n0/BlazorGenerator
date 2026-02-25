@@ -40,7 +40,7 @@ namespace BlazorEngine.Components.Base
     }
 
     private bool? _useBlazorEngineLayoutsCached;
-    
+
     private bool UseBlazorEngineLayouts()
     {
       if (_useBlazorEngineLayoutsCached.HasValue)
@@ -76,7 +76,7 @@ namespace BlazorEngine.Components.Base
     {
       if (args.Key == KeyCode.Function5)
       {
-        await OnRefreshAsync();        
+        await OnRefreshAsync();
       }
     }
 
