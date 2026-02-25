@@ -163,7 +163,7 @@ else
   {
     var values = ReflectionUtilites.GetEnumNames(Field.FieldType);
     var current = Field.InternalGet(Data);
-    
+
     <FluentSelect Items=@values
                   OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType, val) ?? val)"
                   OptionValue="@(val => val)"

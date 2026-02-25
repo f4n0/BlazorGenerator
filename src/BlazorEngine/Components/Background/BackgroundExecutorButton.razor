@@ -1,29 +1,30 @@
-﻿@implements IDisposable
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+@implements IDisposable
 @inject IMessageService MessageService
 @inject IDialogService DialogService
 @inject BackgroundExecutor executor
 
 <div class="bg-executor-wrapper">
-<FluentCounterBadge Count="@MessageService.Count(BackgroundExecutor.SectionName)"
-                    Max="9"
-                    ShowWhen="@((i)=> MessageService.Count(BackgroundExecutor.SectionName) > 0)"
-                    ShowOverflow="true"
-                    BackgroundColor="@Color.Error"
-                    VerticalPosition="48"
-                    Class="badge"
-                    Color="Color.Fill"
-                    Appearance="Appearance.Accent">
-  <ChildContent>
-    <FluentButton OnClick="OpenNotificationCenterAsync" BackgroundColor="var(--neutral-fill-stealth-rest)"
-                  Title="Notification center">
-      @NotificationIcon()
-    </FluentButton>
-  </ChildContent>
-</FluentCounterBadge>
+  <FluentCounterBadge Count="@MessageService.Count(BackgroundExecutor.SectionName)"
+                      Max="9"
+                      ShowWhen="@((i) => MessageService.Count(BackgroundExecutor.SectionName) > 0)"
+                      ShowOverflow="true"
+                      BackgroundColor="@Color.Error"
+                      VerticalPosition="48"
+                      Class="badge"
+                      Color="Color.Fill"
+                      Appearance="Appearance.Accent">
+    <ChildContent>
+      <FluentButton OnClick="OpenNotificationCenterAsync" BackgroundColor="var(--neutral-fill-stealth-rest)"
+                    Title="Notification center">
+        @NotificationIcon()
+      </FluentButton>
+    </ChildContent>
+  </FluentCounterBadge>
 </div>
 
 @code{
-  private static readonly Icon RunningIcon = new Icons.Regular.Size20.PersonRunning();
+  private static readonly Icon RunningIcon = new Size20.PersonRunning();
 
   protected override void OnInitialized()
   {
@@ -40,7 +41,6 @@
 
   private async Task OpenNotificationCenterAsync()
   {
-    
     var reference = await DialogService.ShowPanelAsync<NotificationCenterPanel>(new DialogParameters<GlobalState>()
     {
       Alignment = HorizontalAlignment.Right,
@@ -57,4 +57,5 @@
   {
     MessageService.OnMessageItemsUpdated -= UpdateCount;
   }
+
 }

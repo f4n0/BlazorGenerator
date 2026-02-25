@@ -3,8 +3,8 @@
 # All files
 [*]
 indent_style = space
-tab_width=2
-indent_size=2
+tab_width = 2
+indent_size = 2
 
 # Xml files
 [*.xml]

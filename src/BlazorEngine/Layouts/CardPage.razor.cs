@@ -4,54 +4,52 @@ using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
-namespace BlazorEngine.Layouts
+namespace BlazorEngine.Layouts;
+
+public partial class CardPage<T> : BlazorEngineComponentBase, IDialogContentComponent<T>
 {
-  public partial class CardPage<T> : BlazorEngineComponentBase, IDialogContentComponent<T>
+  private PermissionSet permissionSet;
+  public virtual int GridSize => 6;
+
+  public List<VisibleField<T>> VisibleFields { get; set; } = [];
+
+  private CardFields<T>? Card { get; set; }
+
+  [Parameter] public required T Content { get; set; }
+
+  public virtual void OnSave(T entity)
   {
-    public virtual int GridSize => 6;
+  }
 
-    [Parameter]
-    public required T Content { get; set; }
+  public virtual void OnDelete(T entity)
+  {
+  }
 
-    public List<VisibleField<T>> VisibleFields { get; set; } = [];
+  protected override async Task OnInitializedAsync()
+  {
+    permissionSet = await Security.GetPermissionSet(GetType());
+    await base.OnInitializedAsync();
+  }
 
-    private CardFields<T>? Card { get; set; }
+  public override void InternalDispose()
+  {
+    GC.SuppressFinalize(this);
+    base.InternalDispose();
+  }
 
-    public virtual void OnSave(T entity)
+  public override ValueTask InternalDisposeAsync()
+  {
+    GC.SuppressFinalize(this);
+    return base.InternalDisposeAsync();
+  }
+
+  public void Refresh()
+  {
+    if (Card != null)
     {
-    }
-
-    public virtual void OnDelete(T entity)
-    {
-    }
-
-    private PermissionSet permissionSet;
-
-    protected override async Task OnInitializedAsync()
-    {
-      permissionSet = await Security.GetPermissionSet(this.GetType());
-      await base.OnInitializedAsync();
-    }
-
-    public override void InternalDispose()
-    {
-      GC.SuppressFinalize(this);
-      base.InternalDispose();
-    }
-
-    public override ValueTask InternalDisposeAsync()
-    {
-      GC.SuppressFinalize(this);
-      return base.InternalDisposeAsync();
-    }
-    public void Refresh()
-    {
-      if (Card != null)
-      {
-        Card.Data = Content;
-        Card.VisibleFields = VisibleFields;
-        Card.Refresh();
-      }
+      Card.Data = Content;
+      Card.VisibleFields = VisibleFields;
+      Card.Refresh();
     }
   }
 }

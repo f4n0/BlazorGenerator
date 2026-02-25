@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj" />
-    <ProjectReference Include="..\TestShared\TestShared.csproj" />
+    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj"/>
+    <ProjectReference Include="..\TestShared\TestShared.csproj"/>
   </ItemGroup>
 
 </Project>

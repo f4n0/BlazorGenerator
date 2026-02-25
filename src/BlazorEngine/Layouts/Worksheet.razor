@@ -1,11 +1,11 @@
 ﻿@typeparam TData
 @typeparam TList
-@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
+@inherits BlazorEngineComponentBase
 
 
 @{
-  var pageActions = Services.MetadataRegistry.GetPageActions(this);
-  var gridActions = Services.MetadataRegistry.GetGridActions(this);
+  var pageActions = MetadataRegistry.GetPageActions(this);
+  var gridActions = MetadataRegistry.GetGridActions(this);
 }
 
 <PageTitle>@Title</PageTitle>
@@ -14,21 +14,21 @@
 
     @if (ShowActions)
     {
-      <ActionBar Context="this" PageActions="pageActions" />
+      <ActionBar Context="this" PageActions="pageActions"/>
     }
 
   </div>
-      <div class="worksheet-card contentblock">
-        <CardFields T="TData"
-                    @ref="Card"
-                    Data="Content"
-                    PermissionSet="permissionSet"
-                    GridSize="GridSize"
-                    ShowButtons="ShowButtons"
-                    VisibleFields="VisibleFields"
-                    OnDiscard="(data) => OnDelete(data)"
-                    OnSave="(data) => OnSave(data)" />
-      </div>
+  <div class="worksheet-card contentblock">
+    <CardFields T="TData"
+                @ref="Card"
+                Data="Content"
+                PermissionSet="permissionSet"
+                GridSize="GridSize"
+                ShowButtons="ShowButtons"
+                VisibleFields="VisibleFields"
+                OnDiscard="data => OnDelete(data)"
+                OnSave="data => OnSave(data)"/>
+  </div>
 
   <div class="worksheet-list contentblock">
     <ListDataGrid T="TList"
@@ -36,15 +36,15 @@
                   Context="this"
                   Data="ListContent?.AsQueryable()"
                   VisibleFields="ListVisibleFields"
-                  OnDiscard="(data) => OnDelete(data)"
-                  OnSave="(data) => OnSave(data)"
+                  OnDiscard="data => OnDelete(data)"
+                  OnSave="data => OnSave(data)"
                   PermissionSet="permissionSet"
                   @bind-Selected="ListSelected"
                   ShowButtons="ShowButtons"
                   UseVirtualization="UseVirtualization"
                   GridActions="gridActions"
                   ShowExportToExcel="ShowExportToExcel"
-                  EditFormType="ListEditFormType" />
+                  EditFormType="ListEditFormType"/>
 
   </div>
 </div>

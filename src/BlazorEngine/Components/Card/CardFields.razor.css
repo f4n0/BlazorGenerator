@@ -1,23 +1,23 @@
 .card-fields-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
 }
 
 .card-fields-container ::deep .card-fields-main {
-    padding: 12px;
+  padding: 12px;
 }
 
 .card-fields-container ::deep .card-fields-groups {
-    margin-top: 4px;
+  margin-top: 4px;
 }
 
 .card-fields-container ::deep .card-fields-group-card {
-    padding: 8px 12px;
+  padding: 8px 12px;
 }
 
 .card-fields-container ::deep .card-fields-actions {
-    padding: 8px 0;
-    flex-shrink: 0;
+  padding: 8px 0;
+  flex-shrink: 0;
 }

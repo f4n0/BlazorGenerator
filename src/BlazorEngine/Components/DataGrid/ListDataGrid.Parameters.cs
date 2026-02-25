@@ -1,28 +1,18 @@
-﻿using BlazorEngine.Attributes;
+﻿using System.Collections.ObjectModel;
+using System.Reflection;
+using BlazorEngine.Attributes;
 using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
-using System.Collections.ObjectModel;
-using System.Reflection;
 
 namespace BlazorEngine.Components.DataGrid;
 
 public partial class ListDataGrid<T>
 {
-
   [Parameter] public required object Context { get; set; }
 
   [Parameter] public required List<VisibleField<T>> VisibleFields { get; set; }
 
-  private IQueryable<T>? _data;
-
-  [Parameter]
-  public IQueryable<T>? Data
-  {
-    get => _data; set
-    {
-      _data = value;
-    }
-  }
+  [Parameter] public IQueryable<T>? Data { get; set; }
 
   [Parameter] public bool ShowButtons { get; set; }
 
@@ -46,5 +36,5 @@ public partial class ListDataGrid<T>
 
   [Parameter] public bool ShowExportToExcel { get; set; } = true;
 
-  [Parameter] public bool UseVirtualization { get; set; } = false;
+  [Parameter] public bool UseVirtualization { get; set; }
 }

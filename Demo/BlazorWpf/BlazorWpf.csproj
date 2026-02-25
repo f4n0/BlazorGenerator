@@ -10,16 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\index.html" />
+    <None Include="wwwroot\index.html"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.41" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="10.0.41"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj" />
-    <ProjectReference Include="..\TestShared\TestShared.csproj" />
+    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj"/>
+    <ProjectReference Include="..\TestShared\TestShared.csproj"/>
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 .log-scroll {
-    overflow-y: auto;
-    height: 80%;
+  overflow-y: auto;
+  height: 80%;
 }
 
 .log-wrapper ::deep .log {
-    --dialog-width: 60% !important;
-    --dialog-height: 60% !important;
-    padding: 2rem !important;
+  --dialog-width: 60% !important;
+  --dialog-height: 60% !important;
+  padding: 2rem !important;
 }

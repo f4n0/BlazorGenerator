@@ -6,13 +6,13 @@
     <FluentTextField @bind-Value="Content.Result" TextFieldType="@TextFieldType.Text" Style="width:100%"/>
     break;
   case UserInputType.Secret:
-    <FluentTextField @bind-Value="Content.Result" TextFieldType="@TextFieldType.Password" Style="width:100%" />
+    <FluentTextField @bind-Value="Content.Result" TextFieldType="@TextFieldType.Password" Style="width:100%"/>
     break;
   case UserInputType.Choice:
     <FluentRadioGroup @bind-Value=Content.Result Orientation="Orientation.Vertical">
       @foreach (var item in Content.Choices)
       {
-      <FluentRadio Value=@item>@item</FluentRadio>
+        <FluentRadio Value=@item>@item</FluentRadio>
       }
     </FluentRadioGroup>
     break;

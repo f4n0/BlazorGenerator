@@ -1,4 +1,5 @@
-﻿<FluentInputFile Id="my-file-uploader"
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+<FluentInputFile Id="my-file-uploader"
                  Mode="InputFileMode.Stream"
                  Multiple="@Content.Multiple"
                  MaximumFileSize="@Content.MaximumFileSize"
@@ -9,11 +10,11 @@
                  Style="height: 200px; border: 1px dashed var(--accent-fill-rest);">
   <ChildContent>
     <label for="my-file-uploader">
-      <FluentIcon Value="@(new @Icons.Regular.Size24.ArrowUpload())" />
+      <FluentIcon Value="@(new Size24.ArrowUpload())"/>
     </label>
 
     <div>
-     @Captions.Instance.FileInputMessage <label for="my-file-uploader">@Captions.Instance.Browse</label>.
+      @Captions.Instance.FileInputMessage <label for="my-file-uploader">@Captions.Instance.Browse</label>.
     </div>
 
   </ChildContent>

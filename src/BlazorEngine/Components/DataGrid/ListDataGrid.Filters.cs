@@ -7,10 +7,12 @@ namespace BlazorEngine.Components.DataGrid;
 public partial class ListDataGrid<T>
 {
   private IQueryable<T>? _cachedFilteredData;
-  private string _lastSearchValue = string.Empty;
-  private int _lastFieldFiltersHash;
-  private object? _lastDataRef;
   private int _lastDataHash;
+  private object? _lastDataRef;
+  private int _lastFieldFiltersHash;
+  private string _lastSearchValue = string.Empty;
+
+  private string _searchValue = string.Empty;
 
   private IQueryable<T>? FilteredData
   {
@@ -23,9 +25,7 @@ public partial class ListDataGrid<T>
           _lastSearchValue == _searchValue &&
           _lastFieldFiltersHash == currentFiltersHash &&
           ReferenceEquals(_lastDataRef, Data))
-      {
         return _cachedFilteredData;
-      }
 
       _cachedFilteredData = FilterDataInternal();
       _lastSearchValue = _searchValue;
@@ -35,6 +35,9 @@ public partial class ListDataGrid<T>
     }
   }
 
+  private FluentSearch? SearchBarRef { get; set; }
+  private Dictionary<string, string> FieldFilters { get; } = [];
+
   private int ComputeFiltersHash()
   {
     var hash = new HashCode();
@@ -43,19 +46,13 @@ public partial class ListDataGrid<T>
       hash.Add(kvp.Key);
       hash.Add(kvp.Value);
     }
+
     return hash.ToHashCode();
   }
 
-  private string _searchValue = string.Empty;
-  private FluentSearch? SearchBarRef { get; set; }
-  private Dictionary<string, string> FieldFilters { get; set; } = [];
-
   private string GetFilterValue(string fieldName)
   {
-    if (FieldFilters.TryGetValue(fieldName, out var res))
-    {
-      return res;
-    }
+    if (FieldFilters.TryGetValue(fieldName, out var res)) return res;
     FieldFilters[fieldName] = string.Empty;
     return string.Empty;
   }
@@ -89,18 +86,15 @@ public partial class ListDataGrid<T>
         foreach (var field in VisibleFields)
         {
           var cellValue = field.InternalGet(r);
-          if (cellValue?.ToString()?.Contains(search, StringComparison.OrdinalIgnoreCase) == true)
-          {
-            return true;
-          }
+          if (cellValue?.ToString()?.Contains(search, StringComparison.OrdinalIgnoreCase) == true) return true;
         }
+
         return false;
       });
     }
 
     // Field-specific filters
     foreach (var field in VisibleFields)
-    {
       if (FieldFilters.TryGetValue(field.Name, out var filterValue) &&
           !string.IsNullOrWhiteSpace(filterValue))
       {
@@ -112,27 +106,20 @@ public partial class ListDataGrid<T>
           return cellValue?.ToString()?.Contains(capturedFilter, StringComparison.OrdinalIgnoreCase) == true;
         });
       }
-    }
 
     return result.ToList().AsQueryable();
   }
 
   private string HandleClear(VisibleField<T> field)
   {
-    if (string.IsNullOrWhiteSpace(GetFilterValue(field.Name)))
-    {
-      FieldFilters[field.Name] = string.Empty;
-    }
+    if (string.IsNullOrWhiteSpace(GetFilterValue(field.Name))) FieldFilters[field.Name] = string.Empty;
     InvalidateFilterCache();
     return FieldFilters[field.Name];
   }
 
   private void HandleSearchInput()
   {
-    if (string.IsNullOrWhiteSpace(_searchValue))
-    {
-      _searchValue = string.Empty;
-    }
+    if (string.IsNullOrWhiteSpace(_searchValue)) _searchValue = string.Empty;
     InvalidateFilterCache();
   }
 }

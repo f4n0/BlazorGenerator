@@ -1,26 +1,25 @@
-﻿using TestShared.Data;
-using BlazorEngine.Layouts;
+﻿using BlazorEngine.Layouts;
 using BlazorEngine.Utils;
+using TestShared.Data;
 
-namespace TestShared.Views
+namespace TestShared.Views;
+
+public class ModalView : CardPage<Mock>
 {
-  public class ModalView : CardPage<Mock>
+  public override string Title => "List View";
+
+  protected override Task LoadVisibleFields()
   {
-    public override string Title => "List View";
+    VisibleFields = [];
+    VisibleFields.AddField(nameof(Mock.Id));
+    VisibleFields.AddField(nameof(Mock.Name));
+    VisibleFields.AddField(nameof(Mock.Price));
+    VisibleFields.AddField(nameof(Mock.Description));
+    VisibleFields.AddField(nameof(Mock.OrderDate));
+    VisibleFields.AddField(nameof(Mock.Type));
 
-    protected override Task LoadVisibleFields()
-    {
-      VisibleFields = [];
-      VisibleFields.AddField(nameof(Mock.Id));
-      VisibleFields.AddField(nameof(Mock.Name));
-      VisibleFields.AddField(nameof(Mock.Price));
-      VisibleFields.AddField(nameof(Mock.Description));
-      VisibleFields.AddField(nameof(Mock.OrderDate));
-      VisibleFields.AddField(nameof(Mock.Type));
-
-      ShowActions = false;
-      ShowButtons = false;
-      return Task.CompletedTask;
-    }
+    ShowActions = false;
+    ShowButtons = false;
+    return Task.CompletedTask;
   }
 }

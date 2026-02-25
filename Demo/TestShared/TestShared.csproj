@@ -8,14 +8,14 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj" />
+    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+    <SupportedPlatform Include="browser"/>
   </ItemGroup>
 
   <!-- Local dev: import BlazorEngine build tasks (auto-imported via NuGet in published packages) -->
-  <Import Project="..\..\src\BlazorEngine.BuildTasks\build\BlazorEngine.targets" Condition="Exists('..\..\src\BlazorEngine.BuildTasks\build\BlazorEngine.targets')" />
-  
+  <Import Project="..\..\src\BlazorEngine.BuildTasks\build\BlazorEngine.targets" Condition="Exists('..\..\src\BlazorEngine.BuildTasks\build\BlazorEngine.targets')"/>
+
 </Project>

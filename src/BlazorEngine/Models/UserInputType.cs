@@ -1,9 +1,8 @@
-﻿namespace BlazorEngine.Models
+﻿namespace BlazorEngine.Models;
+
+public enum UserInputType
 {
-  public enum UserInputType
-  {
-    PlainText,
-    Secret,
-    Choice
-  }
+  PlainText,
+  Secret,
+  Choice
 }

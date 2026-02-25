@@ -1,4 +1,5 @@
-﻿@typeparam T
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+@typeparam T
 
 <div class="card-fields-container">
   <FluentCard AreaRestricted="false" MinimalStyle="true" Class="card-fields-main">
@@ -7,7 +8,7 @@
       {
         <FluentGridItem Justify="JustifyContent.FlexEnd" xs="12" Style="padding-top:4px; padding-bottom:0;">
           <FluentButton Appearance="Appearance.Stealth"
-                        IconEnd="@(ShowAdditional ? new Icons.Regular.Size16.ChevronUp() : (Icon)new Icons.Regular.Size16.ChevronDown())"
+                        IconEnd="@(ShowAdditional ? new Size16.ChevronUp() : new Size16.ChevronDown())"
                         OnClick="ShowAdditionalFields">
             @(ShowAdditional ? "Show less" : "Show more")
           </FluentButton>
@@ -21,9 +22,10 @@
         {
           attrs.Add("Style", $"display: {(ShowAdditional ? "inherit" : "none")}");
         }
+
         <FluentGridItem md="GridSize" AdditionalAttributes="attrs">
           <FluentStack VerticalAlignment="VerticalAlignment.Center">
-            <FormField Data="Data" Field="context" T="T" />
+            <FormField Data="Data" Field="context" T="T"/>
           </FluentStack>
         </FluentGridItem>
       }
@@ -46,7 +48,7 @@
                 {
                   <FluentGridItem md="GridSize">
                     <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
-                      <FormField Data="Data" Field="context" T="T" />
+                      <FormField Data="Data" Field="context" T="T"/>
                     </FluentStack>
                   </FluentGridItem>
                 }
@@ -65,7 +67,7 @@
       {
         <FluentButton OnClick="@(() => HandleSave(Data!))"
                       Appearance="Appearance.Accent"
-                      IconStart="@(new Icons.Regular.Size16.Save())">
+                      IconStart="@(new Size16.Save())">
           @Captions.Instance.Save
         </FluentButton>
       }
@@ -73,7 +75,7 @@
       {
         <FluentButton OnClick="@(() => HandleDiscard(Data!))"
                       Appearance="Appearance.Outline"
-                      IconStart="@(new Icons.Regular.Size16.Dismiss())">
+                      IconStart="@(new Size16.Dismiss())">
           @Captions.Instance.Cancel
         </FluentButton>
       }

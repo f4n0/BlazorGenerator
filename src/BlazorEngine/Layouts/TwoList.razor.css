@@ -1,16 +1,16 @@
 .two-list-root {
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-    gap: 4px;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  gap: 4px;
 }
 
 .two-list-header {
-    flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 
 .two-list-content {
-    padding: 8px 12px;
-    overflow: auto;
-    flex: 1 1 auto;
+  padding: 8px 12px;
+  overflow: auto;
+  flex: 1 1 auto;
 }

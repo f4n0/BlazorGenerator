@@ -1,20 +1,20 @@
 .worksheet-root {
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-    gap: 4px;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  gap: 4px;
 }
 
 .worksheet-header {
-    flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 
 .worksheet-card {
-    padding: 12px;
-    flex: 0 0 auto;
+  padding: 12px;
+  flex: 0 0 auto;
 }
 
 .worksheet-list {
-    overflow: auto;
-    flex: 1 1 auto;
+  overflow: auto;
+  flex: 1 1 auto;
 }

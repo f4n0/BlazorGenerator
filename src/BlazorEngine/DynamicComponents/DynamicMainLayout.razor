@@ -1,35 +1,39 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
 @implements IMainLayout
 
 <FluentDesignTheme OfficeColor="@(BlazorEngineSettings.Instance.BaseColor)" @ref="Theme" StorageName="UITheme">
   <FluentLayout>
     <FluentHeader Height="45">
       <Back></Back>
-      <FluentSpacer />
+      <FluentSpacer/>
       @BlazorEngineSettings.Instance.ApplicationName
-      <FluentSpacer />
+      <FluentSpacer/>
       <div class="layout-header-toolbar">
-        <FluentButton Appearance="Appearance.Stealth" OnClick="SwitchDarkLightTheme" Title="@Captions.Instance.ToggleDarkTheme">
-          <FluentIcon Value="@(new Icons.Regular.Size20.DarkTheme())" Color="Color.Neutral" Title="@Captions.Instance.ToggleDarkTheme" />
-        </FluentButton>        
+        <FluentButton Appearance="Appearance.Stealth" OnClick="SwitchDarkLightTheme"
+                      Title="@Captions.Instance.ToggleDarkTheme">
+          <FluentIcon Value="@(new Size20.DarkTheme())" Color="Color.Neutral"
+                      Title="@Captions.Instance.ToggleDarkTheme"/>
+        </FluentButton>
         @if (BlazorEngineSettings.Instance.ShowLogButton)
         {
-          <Log />
+          <Log/>
         }
         @if (BlazorEngineSettings.Instance.ShowBackgroundTasks)
         {
-          <BackgroundExecutorButton />
+          <BackgroundExecutorButton/>
         }
         @if (BlazorEngineSettings.Instance.ShowHelpButton)
         {
-          <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help" OnClick="@(()=> HelpService?.GetHelp((Body?.Target as RouteView)!.RouteData.PageType))">
-            <FluentIcon Value="@(new Icons.Regular.Size20.Question())" Color="Color.Neutral" Title="Help" />
+          <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help"
+                        OnClick="@(() => HelpService?.GetHelp((Body?.Target as RouteView)!.RouteData.PageType))">
+            <FluentIcon Value="@(new Size20.Question())" Color="Color.Neutral" Title="Help"/>
           </FluentButton>
         }
       </div>
     </FluentHeader>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%" VerticalGap="0" HorizontalGap="0">
-      <NavMenu />
+      <NavMenu/>
       <FluentBodyContent>
         <FluentLayout>
           <FluentBodyContent style="height: calc(100dvh); padding: 10px 10px 1px;">
@@ -39,11 +43,11 @@
               @Body
             </div>
 
-            <FluentMenuProvider />
-            <FluentDialogProvider />
-            <FluentKeyCodeProvider  />
-            <FluentToastProvider MaxToastCount="10" />
-            
+            <FluentMenuProvider/>
+            <FluentDialogProvider/>
+            <FluentKeyCodeProvider/>
+            <FluentToastProvider MaxToastCount="10"/>
+
           </FluentBodyContent>
 
         </FluentLayout>

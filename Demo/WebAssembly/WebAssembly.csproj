@@ -8,20 +8,20 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.3" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.DotNet.HotReload.WebAssembly.Browser" Version="10.0.103" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.3"/>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.3" PrivateAssets="all"/>
+    <PackageReference Include="Microsoft.DotNet.HotReload.WebAssembly.Browser" Version="10.0.103"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj" />
-    <ProjectReference Include="..\TestShared\TestShared.csproj" />
+    <ProjectReference Include="..\..\src\BlazorEngine\BlazorEngine.csproj"/>
+    <ProjectReference Include="..\TestShared\TestShared.csproj"/>
   </ItemGroup>
-  
+
   <ItemGroup>
-    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components" />
-    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
-    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons.Filled" />
+    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components"/>
+    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons"/>
+    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons.Filled"/>
   </ItemGroup>
- 
+
 </Project>

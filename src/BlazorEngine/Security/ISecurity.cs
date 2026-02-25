@@ -1,10 +1,9 @@
 ﻿using BlazorEngine.Models;
 
-namespace BlazorEngine.Security
+namespace BlazorEngine.Security;
+
+public interface ISecurity
 {
-  public interface ISecurity
-  {
-    public Task<PermissionSet> GetPermissionSet(Type? type = null);
-    public Task<string> GetCurrentSessionIdentifier();
-  }
+  public Task<PermissionSet> GetPermissionSet(Type? type = null);
+  public Task<string> GetCurrentSessionIdentifier();
 }

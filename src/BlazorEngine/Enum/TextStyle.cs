@@ -1,11 +1,10 @@
-﻿namespace BlazorEngine.Enum
+﻿namespace BlazorEngine.Enum;
+
+public enum TextStyle
 {
-  public enum TextStyle
-  {
-    Normal,
-    Bold,
-    Italic,
-    Underline,
-    Strikethrough
-  }
+  Normal,
+  Bold,
+  Italic,
+  Underline,
+  Strikethrough
 }

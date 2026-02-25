@@ -1,9 +1,9 @@
 ﻿@typeparam TFirstList
 @typeparam TSecondList
-@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
+@inherits BlazorEngineComponentBase
 @{
-  var pageActions = Services.MetadataRegistry.GetPageActions(this);
-  var gridActions = Services.MetadataRegistry.GetGridActions(this);
+  var pageActions = MetadataRegistry.GetPageActions(this);
+  var gridActions = MetadataRegistry.GetGridActions(this);
 }
 <PageTitle>@Title</PageTitle>
 <div class="two-list-root">
@@ -11,41 +11,41 @@
 
     @if (ShowActions)
     {
-      <ActionBar Context="this" PageActions="pageActions" />
+      <ActionBar Context="this" PageActions="pageActions"/>
     }
 
-    </div>
-    <div class="two-list-content contentblock">
-      <FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
-        <Panel1>
-          <ListDataGrid T="TFirstList"
-                        Context="this"
-                        Data="FirstListContent?.AsQueryable()"
-                        VisibleFields="FirstListVisibleFields"
-                        OnDiscard="(data) => OnDelete(data)"
-                        OnSave="(data) => OnSave(data)"
-                        PermissionSet="permissionSet"
-                        @bind-Selected="FirstListSelected"
-                        ShowButtons="ShowButtons"
-                        GridActions="gridActions"
-                        ShowExportToExcel="ShowExportToExcelFirstList"
-                        EditFormType="FirstListEditFormType" />
-        </Panel1>
-        <Panel2>
-          <ListDataGrid T="TSecondList"
-                        Context="this"
-                        Data="SecondListContent?.AsQueryable()"
-                        VisibleFields="SecondListVisibleFields"
-                        OnDiscard="(data) => OnDelete(data)"
-                        OnSave="(data) => OnSave(data)"
-                        PermissionSet="permissionSet"
-                        @bind-Selected="SecondListSelected"
-                        ShowButtons="ShowButtons"
-                        GridActions="gridActions"
-                        ShowExportToExcel="ShowExportToExcelSecondList"
-                        EditFormType="SecondListEditFormType" />
-        </Panel2>
-      </FluentSplitter>
-    </div>
-
   </div>
+  <div class="two-list-content contentblock">
+    <FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
+      <Panel1>
+        <ListDataGrid T="TFirstList"
+                      Context="this"
+                      Data="FirstListContent?.AsQueryable()"
+                      VisibleFields="FirstListVisibleFields"
+                      OnDiscard="data => OnDelete(data)"
+                      OnSave="data => OnSave(data)"
+                      PermissionSet="permissionSet"
+                      @bind-Selected="FirstListSelected"
+                      ShowButtons="ShowButtons"
+                      GridActions="gridActions"
+                      ShowExportToExcel="ShowExportToExcelFirstList"
+                      EditFormType="FirstListEditFormType"/>
+      </Panel1>
+      <Panel2>
+        <ListDataGrid T="TSecondList"
+                      Context="this"
+                      Data="SecondListContent?.AsQueryable()"
+                      VisibleFields="SecondListVisibleFields"
+                      OnDiscard="data => OnDelete(data)"
+                      OnSave="data => OnSave(data)"
+                      PermissionSet="permissionSet"
+                      @bind-Selected="SecondListSelected"
+                      ShowButtons="ShowButtons"
+                      GridActions="gridActions"
+                      ShowExportToExcel="ShowExportToExcelSecondList"
+                      EditFormType="SecondListEditFormType"/>
+      </Panel2>
+    </FluentSplitter>
+  </div>
+
+</div>

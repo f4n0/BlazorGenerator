@@ -1,7 +1,6 @@
-﻿namespace BlazorEngine.Services
+﻿namespace BlazorEngine.Services;
+
+public interface IHelpService
 {
-  public interface IHelpService
-  {
-    void GetHelp(object sender);
-  }
+  void GetHelp(object sender);
 }

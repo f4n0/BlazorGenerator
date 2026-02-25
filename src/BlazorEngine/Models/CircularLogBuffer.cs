@@ -2,11 +2,10 @@ using BlazorEngine.Enum;
 
 namespace BlazorEngine.Models;
 
-
 public class CircularLogBuffer
 {
-  private readonly int _maxSize;
   private readonly Queue<(DateTime Timestamp, string Message, LogType Type)> _logs = new();
+  private readonly int _maxSize;
 
   public CircularLogBuffer(int maxSize)
   {

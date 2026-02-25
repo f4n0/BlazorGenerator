@@ -13,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Framework" Version="18.3.3" ExcludeAssets="runtime" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.3.3" ExcludeAssets="runtime" />
-    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="18.3.3" ExcludeAssets="runtime"/>
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.3.3" ExcludeAssets="runtime"/>
+    <PackageReference Include="Mono.Cecil" Version="0.11.6"/>
   </ItemGroup>
 
   <!--
@@ -24,15 +24,15 @@
     ContinueOnError because the DLL may be locked during solution-level builds.
   -->
   <Target Name="CopyTasksForDev" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug' ">
-    <MakeDir Directories="$(MSBuildProjectDirectory)\tasks" />
+    <MakeDir Directories="$(MSBuildProjectDirectory)\tasks"/>
     <ItemGroup>
-      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\BlazorEngine.BuildTasks.dll" />
-      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\Mono.Cecil.dll" />
-      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\Mono.Cecil.Mdb.dll" />
-      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\Mono.Cecil.Pdb.dll" />
-      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\Mono.Cecil.Rocks.dll" />
+      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\BlazorEngine.BuildTasks.dll"/>
+      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\Mono.Cecil.dll"/>
+      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\Mono.Cecil.Mdb.dll"/>
+      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\Mono.Cecil.Pdb.dll"/>
+      <TaskDlls Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\netstandard2.0\Mono.Cecil.Rocks.dll"/>
     </ItemGroup>
-    <Copy SourceFiles="@(TaskDlls)" DestinationFolder="$(MSBuildProjectDirectory)\tasks" SkipUnchangedFiles="true" ContinueOnError="WarnAndContinue" />
+    <Copy SourceFiles="@(TaskDlls)" DestinationFolder="$(MSBuildProjectDirectory)\tasks" SkipUnchangedFiles="true" ContinueOnError="WarnAndContinue"/>
   </Target>
 
 </Project>

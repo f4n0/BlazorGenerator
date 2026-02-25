@@ -1,11 +1,10 @@
 ﻿using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20;
 
-namespace BlazorEngine.Attributes
+namespace BlazorEngine.Attributes;
+
+[AttributeUsage(AttributeTargets.Method)]
+public class ContextMenuAttribute : Attribute
 {
-  [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-  public class ContextMenuAttribute : Attribute
-  {
-    public required string Caption { get; set; }
-    public object Icon { get; set; } = typeof(Balloon);
-  }
+  public required string Caption { get; set; }
+  public object Icon { get; set; } = typeof(Balloon);
 }

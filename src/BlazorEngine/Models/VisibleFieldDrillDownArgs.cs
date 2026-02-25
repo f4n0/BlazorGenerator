@@ -2,5 +2,4 @@
 
 public class VisibleFieldDrillDownArgs<T> : VisibleFieldBaseArgs<T>
 {
-
 }

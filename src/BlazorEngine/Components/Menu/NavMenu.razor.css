@@ -1,5 +1,5 @@
 .navmenu {
-    background: var(--neutral-fill-stealth-rest);
-    height: 100%;
-    box-shadow: 1px 0 5px var(--neutral-fill-stealth-rest);
+  background: var(--neutral-fill-stealth-rest);
+  height: 100%;
+  box-shadow: 1px 0 5px var(--neutral-fill-stealth-rest);
 }

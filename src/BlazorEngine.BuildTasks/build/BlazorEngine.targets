@@ -37,21 +37,21 @@
   <ItemGroup Condition="'$(BlazorEngineExtractMetadata)' == 'true'">
     <CustomAdditionalCompileInputs
       Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat"
-      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat')" />
+      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat')"/>
     <EmbeddedResource
       Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat"
       LogicalName="$(AssemblyName).blazorengine.dat"
-      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat')" />
+      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\$(AssemblyName).blazorengine.dat')"/>
     <Compile
       Include="$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\BlazorEngineModuleInit.g.cs"
-      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\BlazorEngineModuleInit.g.cs')" />
+      Condition="Exists('$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\BlazorEngineModuleInit.g.cs')"/>
   </ItemGroup>
 
   <!-- Register custom MSBuild tasks -->
   <UsingTask TaskName="BlazorEngine.BuildTasks.ExtractBlazorMetadataTask"
-             AssemblyFile="$(_BlazorEngineTasksDir)BlazorEngine.BuildTasks.dll" />
+             AssemblyFile="$(_BlazorEngineTasksDir)BlazorEngine.BuildTasks.dll"/>
   <UsingTask TaskName="BlazorEngine.BuildTasks.GenerateModuleInitializerTask"
-             AssemblyFile="$(_BlazorEngineTasksDir)BlazorEngine.BuildTasks.dll" />
+             AssemblyFile="$(_BlazorEngineTasksDir)BlazorEngine.BuildTasks.dll"/>
 
   <!--
     Phase 1: Before compilation, generate module initializer source file.
@@ -71,7 +71,7 @@
     <GenerateModuleInitializerTask
       OutputPath="$(_BlazorEngineInitFile)"
       AssemblyName="$(AssemblyName)"
-      MetadataFilePath="$(_BlazorEngineMetadataFile)" />
+      MetadataFilePath="$(_BlazorEngineMetadataFile)"/>
 
     <!--
       If the init file was just created (first build, not yet in static Compile ItemGroup),
@@ -79,7 +79,7 @@
     -->
     <ItemGroup>
       <Compile Include="$(_BlazorEngineInitFile)"
-               Condition="Exists('$(_BlazorEngineInitFile)') And !@(Compile->AnyHaveMetadataValue('Identity', '$(_BlazorEngineInitFile)'))" />
+               Condition="Exists('$(_BlazorEngineInitFile)') And !@(Compile->AnyHaveMetadataValue('Identity', '$(_BlazorEngineInitFile)'))"/>
     </ItemGroup>
   </Target>
 
@@ -99,22 +99,22 @@
     <ExtractBlazorMetadataTask
       AssemblyPath="@(IntermediateAssembly)"
       OutputPath="$(_BlazorEngineMetadataFile)">
-      <Output TaskParameter="MenuItemCount" PropertyName="_BEMenuCount" />
-      <Output TaskParameter="FooterLinkCount" PropertyName="_BEFooterCount" />
-      <Output TaskParameter="PageActionCount" PropertyName="_BEPageActionCount" />
-      <Output TaskParameter="GridActionCount" PropertyName="_BEGridActionCount" />
-      <Output TaskParameter="ContextMenuCount" PropertyName="_BEContextMenuCount" />
+      <Output TaskParameter="MenuItemCount" PropertyName="_BEMenuCount"/>
+      <Output TaskParameter="FooterLinkCount" PropertyName="_BEFooterCount"/>
+      <Output TaskParameter="PageActionCount" PropertyName="_BEPageActionCount"/>
+      <Output TaskParameter="GridActionCount" PropertyName="_BEGridActionCount"/>
+      <Output TaskParameter="ContextMenuCount" PropertyName="_BEContextMenuCount"/>
     </ExtractBlazorMetadataTask>
 
     <Message Importance="normal"
              Text="BlazorEngine: Extracted metadata — menu: $(_BEMenuCount), footer: $(_BEFooterCount), page actions: $(_BEPageActionCount), grid actions: $(_BEGridActionCount), context menus: $(_BEContextMenuCount)"
-             Condition="Exists('$(_BlazorEngineMetadataFile)')" />
+             Condition="Exists('$(_BlazorEngineMetadataFile)')"/>
 
     <!-- Update the module initializer so next build compiles the build-time version. -->
     <GenerateModuleInitializerTask
       OutputPath="$(_BlazorEngineInitFile)"
       AssemblyName="$(AssemblyName)"
-      MetadataFilePath="$(_BlazorEngineMetadataFile)" />
+      MetadataFilePath="$(_BlazorEngineMetadataFile)"/>
   </Target>
 
 </Project>

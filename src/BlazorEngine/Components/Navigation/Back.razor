@@ -1,9 +1,11 @@
-﻿@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+@inherits BlazorEngineComponentBase
 
 @if (NavManager.ToBaseRelativePath(NavManager.Uri) != "")
 {
-  <FluentButton IconStart="new Icons.Regular.Size20.ArrowCircleLeft()"
-                OnClick="@(async () => await JSRuntime.InvokeVoidAsync("history.back", ComponentDetached))" Title="Go Back (Alt + ←)" Style=" margin-left: -15px; width:100px;">
+  <FluentButton IconStart="new Size20.ArrowCircleLeft()"
+                OnClick="@(async () => await JSRuntime.InvokeVoidAsync("history.back", ComponentDetached))"
+                Title="Go Back (Alt + ←)" Style=" margin-left: -15px; width:100px;">
     @Captions.Instance.NavigationBack
   </FluentButton>
 }

@@ -1,22 +1,23 @@
-﻿
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
 <div>
-    <CascadingValue Value="this" IsFixed="true">
-      <FluentStack HorizontalGap="0" Style="min-width: 100px; max-width:300px;">
-        <FluentButton Appearance="@Appearance" OnClick="@OnClick"
-                      Style="border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;" IconStart="Icon">
-          @Title
-        </FluentButton>
-        <FluentButton Id="@_id"
-                      Style="border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important;"
-                      IconEnd="@(new Icons.Regular.Size16.ChevronDown())"
-                      Appearance="@Appearance"
-                      OnClick="@(() => _openMenu = !_openMenu)" />
+  <CascadingValue Value="this" IsFixed="true">
+    <FluentStack HorizontalGap="0" Style="min-width: 100px; max-width:300px;">
+      <FluentButton Appearance="@Appearance" OnClick="@OnClick"
+                    Style="border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;"
+                    IconStart="Icon">
+        @Title
+      </FluentButton>
+      <FluentButton Id="@_id"
+                    Style="border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important;"
+                    IconEnd="@(new Size16.ChevronDown())"
+                    Appearance="@Appearance"
+                    OnClick="@(() => _openMenu = !_openMenu)"/>
 
 
-
-        <FluentMenu Anchor="@_id" @bind-Open="_openMenu"  Style="min-width: 100px; max-width:300px;" HorizontalPosition="HorizontalPosition.Start" UseMenuService="false">
-          @ChildContent
-        </FluentMenu>
-      </FluentStack>
-    </CascadingValue>
+      <FluentMenu Anchor="@_id" @bind-Open="_openMenu" Style="min-width: 100px; max-width:300px;"
+                  HorizontalPosition="HorizontalPosition.Start" UseMenuService="false">
+        @ChildContent
+      </FluentMenu>
+    </FluentStack>
+  </CascadingValue>
 </div>

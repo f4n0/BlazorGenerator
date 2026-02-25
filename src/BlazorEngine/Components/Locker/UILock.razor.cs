@@ -1,29 +1,26 @@
 ﻿using BlazorEngine.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorEngine.Components.Locker
+namespace BlazorEngine.Components.Locker;
+
+public partial class UILock : IDisposable
 {
-  public partial class UILock : IDisposable
+  private bool _showLock;
+  [Inject] private LockUIService? LockUIService { get; set; }
+
+  public void Dispose()
   {
-    [Inject]
-    LockUIService? LockUIService { get; set; }
+    LockUIService!.OnChange -= UpdateProgress;
+  }
 
-    bool _showLock = false;
+  protected override void OnInitialized()
+  {
+    LockUIService!.OnChange += UpdateProgress;
+  }
 
-    protected override void OnInitialized()
-    {
-      LockUIService!.OnChange += UpdateProgress;
-    }
-
-    private void UpdateProgress(bool show)
-    {
-      _showLock = show;
-      InvokeAsync(() => StateHasChanged());
-    }
-
-    public void Dispose()
-    {
-      LockUIService!.OnChange -= UpdateProgress;
-    }
+  private void UpdateProgress(bool show)
+  {
+    _showLock = show;
+    InvokeAsync(() => StateHasChanged());
   }
 }

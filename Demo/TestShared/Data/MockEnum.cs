@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TestShared.Data
-{
-  public enum MockEnum
-  {
+namespace TestShared.Data;
 
-    [Display(Name = "null")]
-    None,
-    Item,
-    Account
-  }
+public enum MockEnum
+{
+  [Display(Name = "null")] None,
+  Item,
+  Account
 }

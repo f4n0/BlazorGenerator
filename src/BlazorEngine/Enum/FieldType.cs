@@ -1,13 +1,12 @@
-﻿namespace BlazorEngine.Enum
+﻿namespace BlazorEngine.Enum;
+
+public enum FieldType
 {
-  public enum FieldType
-  {
-    Text,
-    Numeric,
-    Boolean,
-    Select,
-    Custom,
-    Icon,
-    Button
-  }
+  Text,
+  Numeric,
+  Boolean,
+  Select,
+  Custom,
+  Icon,
+  Button
 }

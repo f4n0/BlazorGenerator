@@ -1,6 +1,5 @@
-﻿namespace BlazorEngine.DynamicComponents
+﻿namespace BlazorEngine.DynamicComponents;
+
+public interface IMainLayout
 {
-  public interface IMainLayout
-  {
-  }
 }

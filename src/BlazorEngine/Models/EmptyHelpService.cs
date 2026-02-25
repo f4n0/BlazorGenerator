@@ -1,11 +1,10 @@
 ﻿using BlazorEngine.Services;
 
-namespace BlazorEngine.Models
+namespace BlazorEngine.Models;
+
+internal class EmptyHelpService : IHelpService
 {
-  internal class EmptyHelpService : IHelpService
+  public void GetHelp(object sender)
   {
-    public void GetHelp(object sender)
-    {
-    }
   }
 }

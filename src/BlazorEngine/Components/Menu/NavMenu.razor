@@ -1,4 +1,5 @@
-﻿@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
+﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+@inherits BlazorEngineComponentBase
 
 <div class="navmenu">
   @if (_loading)
@@ -51,7 +52,7 @@
               <FluentNavGroup Id="@(group.GroupName.Replace(" ", ""))"
                               Title="@group.GroupName"
                               Tooltip="@group.GroupName"
-                              Icon="@(new Icons.Regular.Size16.ChevronRight())">
+                              Icon="@(new Size16.ChevronRight())">
                 @foreach (var menu in group.Items)
                 {
                   <FluentNavLink Href="@menu.Route"

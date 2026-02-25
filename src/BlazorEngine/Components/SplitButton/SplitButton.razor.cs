@@ -6,23 +6,18 @@ namespace BlazorEngine.Components.SplitButton;
 
 public partial class SplitButton
 {
-  bool _openMenu = false;
-  string _id = Identifier.NewId();
+  private readonly string _id = Identifier.NewId();
+  private bool _openMenu;
 
 
-  [Parameter]
-  public RenderFragment? ChildContent { get; set; }
+  [Parameter] public RenderFragment? ChildContent { get; set; }
 
-  [Parameter]
-  public string? Title { get; set; }
+  [Parameter] public string? Title { get; set; }
 
-  [Parameter]
-  public EventCallback<MouseEventArgs> OnClick { get; set; }
+  [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
 
-  [Parameter]
-  public Appearance Appearance { get; set; }
+  [Parameter] public Appearance Appearance { get; set; }
 
-  [Parameter]
-  public Icon? Icon { get; set; }
+  [Parameter] public Icon? Icon { get; set; }
 }

@@ -1,8 +1,8 @@
 ﻿@typeparam T
-@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
+@inherits BlazorEngineComponentBase
 
 @{
-  var pageActions = Services.MetadataRegistry.GetPageActions(this);
+  var pageActions = MetadataRegistry.GetPageActions(this);
 }
 <PageTitle>@Title</PageTitle>
 <div class="card-page-root">
@@ -10,7 +10,7 @@
 
     @if (ShowActions)
     {
-      <ActionBar Context="this" PageActions="pageActions" />
+      <ActionBar Context="this" PageActions="pageActions"/>
     }
     else
     {
@@ -26,8 +26,8 @@
                 GridSize="GridSize"
                 ShowButtons="ShowButtons"
                 VisibleFields="VisibleFields"
-                OnDiscard="(data) => OnDelete(data)"
-                OnSave="(data) => OnSave(data)" />
+                OnDiscard="data => OnDelete(data)"
+                OnSave="data => OnSave(data)"/>
 
   </div>
 </div>

@@ -1,35 +1,35 @@
 .actionbar-wrapper ::deep .actionbar {
-    padding: 4px 8px;
-    flex: 0 0 auto;
-    width: 100%;
-    margin-bottom: 4px;
-    align-items: center;
-    background: transparent;
-    border-bottom: 1px solid var(--neutral-stroke-divider-rest);
+  padding: 4px 8px;
+  flex: 0 0 auto;
+  width: 100%;
+  margin-bottom: 4px;
+  align-items: center;
+  background: transparent;
+  border-bottom: 1px solid var(--neutral-stroke-divider-rest);
 }
 
 .actionbar-wrapper ::deep fluent-toolbar {
-    background: transparent;
+  background: transparent;
 }
 
 .actionbar-wrapper ::deep .actionbar-title {
-    margin-right: 16px;
-    white-space: nowrap;
-    flex-shrink: 0;
+  margin-right: 16px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .actionbar-wrapper ::deep .actionbar-overflow {
-    flex: 1;
-    padding-right: 5px;
+  flex: 1;
+  padding-right: 5px;
 }
 
 .actionbar-wrapper ::deep .actionbar-overflow-group {
-    border-radius: calc(var(--layer-corner-radius) * 1px);
-    background: var(--neutral-fill-secondary-rest);
-    padding: 4px 0;
-    margin: 2px 0;
+  border-radius: calc(var(--layer-corner-radius) * 1px);
+  background: var(--neutral-fill-secondary-rest);
+  padding: 4px 0;
+  margin: 2px 0;
 }
 
 .actionbar-wrapper ::deep .fluent-popover-content {
-    padding: 4px !important;
+  padding: 4px !important;
 }

@@ -1,8 +1,7 @@
-﻿namespace BlazorEngine.Models
+﻿namespace BlazorEngine.Models;
+
+public class ModalData<T>
 {
-  public class ModalData<T>
-  {
-    public required T Data { get; set; }
-    public required List<VisibleField<T>> VisibleFields { get; set; }
-  }
+  public required T Data { get; set; }
+  public required List<VisibleField<T>> VisibleFields { get; set; }
 }

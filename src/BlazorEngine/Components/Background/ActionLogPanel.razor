@@ -49,22 +49,28 @@
     logEntries = Content.Entries.ToList();
   }
 
-  private static Color GetColor(LogLevel logLevel) => logLevel switch
+  private static Color GetColor(LogLevel logLevel)
   {
-    LogLevel.Error or LogLevel.Critical => Color.Error,
-    LogLevel.Warning => Color.Warning,
-    LogLevel.Debug or LogLevel.Trace => Color.Neutral,
-    _ => Color.Neutral,
-  };
+    return logLevel switch
+    {
+      LogLevel.Error or LogLevel.Critical => Color.Error,
+      LogLevel.Warning => Color.Warning,
+      LogLevel.Debug or LogLevel.Trace => Color.Neutral,
+      _ => Color.Neutral
+    };
+  }
 
-  private static string GetBadgeColor(LogLevel logLevel) => logLevel switch
+  private static string GetBadgeColor(LogLevel logLevel)
   {
-    LogLevel.Error or LogLevel.Critical => "var(--error)",
-    LogLevel.Warning => "var(--warning)",
-    LogLevel.Information => "var(--accent-fill-rest)",
-    LogLevel.Debug or LogLevel.Trace => "var(--neutral-fill-rest)",
-    _ => "var(--neutral-fill-rest)",
-  };
+    return logLevel switch
+    {
+      LogLevel.Error or LogLevel.Critical => "var(--error)",
+      LogLevel.Warning => "var(--warning)",
+      LogLevel.Information => "var(--accent-fill-rest)",
+      LogLevel.Debug or LogLevel.Trace => "var(--neutral-fill-rest)",
+      _ => "var(--neutral-fill-rest)"
+    };
+  }
 
   public void Dispose()
   {

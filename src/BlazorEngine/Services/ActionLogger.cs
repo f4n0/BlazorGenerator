@@ -1,67 +1,74 @@
 using Microsoft.Extensions.Logging;
 
-namespace BlazorEngine.Services
+namespace BlazorEngine.Services;
+
+public class ActionLogEntry
 {
-  public class ActionLogEntry
+  public DateTime Timestamp { get; init; }
+  public LogLevel LogLevel { get; init; }
+  public string Message { get; init; } = string.Empty;
+}
+
+public class ActionLogger : ILogger
+{
+  private readonly List<ActionLogEntry> _entries = [];
+  private readonly object _lock = new();
+
+  public IReadOnlyList<ActionLogEntry> Entries
   {
-    public DateTime Timestamp { get; init; }
-    public LogLevel LogLevel { get; init; }
-    public string Message { get; init; } = string.Empty;
+    get
+    {
+      lock (_lock)
+      {
+        return _entries.ToArray();
+      }
+    }
   }
 
-  public class ActionLogger : ILogger
+  public IDisposable? BeginScope<TState>(TState state) where TState : notnull
   {
-    private readonly object _lock = new();
-    private readonly List<ActionLogEntry> _entries = [];
+    return null;
+  }
 
-    public event Action? OnChange;
+  public bool IsEnabled(LogLevel logLevel)
+  {
+    return true;
+  }
 
-    public IReadOnlyList<ActionLogEntry> Entries
+  public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
+    Func<TState, Exception?, string> formatter)
+  {
+    if (!IsEnabled(logLevel))
+      return;
+
+    var message = formatter(state, exception);
+    if (exception != null)
+      message += Environment.NewLine + exception;
+
+    var entry = new ActionLogEntry
     {
-      get
-      {
-        lock (_lock)
-        {
-          return _entries.ToArray();
-        }
-      }
+      Timestamp = DateTime.UtcNow,
+      LogLevel = logLevel,
+      Message = message
+    };
+
+    lock (_lock)
+    {
+      _entries.Add(entry);
     }
 
-    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+    OnChange?.Invoke();
+  }
 
-    public bool IsEnabled(LogLevel logLevel) => true;
+  public event Action? OnChange;
 
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+  public void Clear()
+  {
+    lock (_lock)
     {
-      if (!IsEnabled(logLevel))
-        return;
-
-      var message = formatter(state, exception);
-      if (exception != null)
-        message += Environment.NewLine + exception;
-
-      var entry = new ActionLogEntry
-      {
-        Timestamp = DateTime.UtcNow,
-        LogLevel = logLevel,
-        Message = message
-      };
-
-      lock (_lock)
-      {
-        _entries.Add(entry);
-      }
-
-      OnChange?.Invoke();
+      _entries.Clear();
     }
 
-    public void Clear()
-    {
-      lock (_lock)
-      {
-        _entries.Clear();
-      }
-      OnChange?.Invoke();
-    }
+    OnChange?.Invoke();
   }
 }

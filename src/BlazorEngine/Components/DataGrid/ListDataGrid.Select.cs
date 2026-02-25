@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Components.DataGrid;
@@ -8,20 +6,20 @@ namespace BlazorEngine.Components.DataGrid;
 public partial class ListDataGrid<T>
 {
   /// <summary>
-  /// Tracks whether Ctrl key is currently held down.
+  ///   Tracks whether Ctrl key is currently held down.
   /// </summary>
   private bool _ctrlPressed;
 
   /// <summary>
-  /// A snapshot list whose reference changes whenever selection changes,
-  /// forcing SelectColumn to re-evaluate.
-  /// </summary>
-  private List<T> _selectedSnapshot = [];
-
-  /// <summary>
-  /// Tracks the SelectAll checkbox state: true = all, false = none, null = indeterminate.
+  ///   Tracks the SelectAll checkbox state: true = all, false = none, null = indeterminate.
   /// </summary>
   private bool? _selectAll = false;
+
+  /// <summary>
+  ///   A snapshot list whose reference changes whenever selection changes,
+  ///   forcing SelectColumn to re-evaluate.
+  /// </summary>
+  private List<T> _selectedSnapshot = [];
 
   private void RefreshSelectionSnapshot()
   {
@@ -48,8 +46,8 @@ public partial class ListDataGrid<T>
   }
 
   /// <summary>
-  /// Handles individual row selection/deselection from the SelectColumn checkbox.
-  /// Always acts as multi-select toggle (add/remove without clearing others).
+  ///   Handles individual row selection/deselection from the SelectColumn checkbox.
+  ///   Always acts as multi-select toggle (add/remove without clearing others).
   /// </summary>
   private void HandleSelectionChange((T Item, bool Selected) args)
   {
@@ -62,31 +60,29 @@ public partial class ListDataGrid<T>
     {
       Selected.Remove(args.Item);
     }
+
     SelectedChanged.InvokeAsync(Selected);
     RefreshSelectionSnapshot();
   }
 
   /// <summary>
-  /// Handles the "Select All" checkbox in the SelectColumn header.
+  ///   Handles the "Select All" checkbox in the SelectColumn header.
   /// </summary>
   private void HandleSelectAllChanged(bool? selectAll)
   {
     Selected.Clear();
     if (selectAll == true && FilteredData != null)
-    {
       foreach (var item in FilteredData)
-      {
         Selected.Add(item);
-      }
-    }
+
     SelectedChanged.InvokeAsync(Selected);
     RefreshSelectionSnapshot();
   }
 
   /// <summary>
-  /// Handles cell click on the grid.
-  /// Ignores clicks on the SelectColumn (those are handled by OnSelect).
-  /// Normal click = single select. Ctrl+click = multi-select toggle.
+  ///   Handles cell click on the grid.
+  ///   Ignores clicks on the SelectColumn (those are handled by OnSelect).
+  ///   Normal click = single select. Ctrl+click = multi-select toggle.
   /// </summary>
   private void HandleCellClick(FluentDataGridCell<T> cell)
   {

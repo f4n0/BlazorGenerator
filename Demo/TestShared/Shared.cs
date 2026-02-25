@@ -1,6 +1,5 @@
-﻿namespace TestShared
+﻿namespace TestShared;
+
+public class Shared
 {
-  public class Shared
-  {
-  }
 }

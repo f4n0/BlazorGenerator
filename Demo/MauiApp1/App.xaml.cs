@@ -1,14 +1,14 @@
-﻿namespace MauiApp1
+﻿namespace MauiApp1;
+
+public partial class App
 {
-  public partial class App
+  public App()
   {
-    public App()
-    {
-      InitializeComponent();
-    }
-    protected override Window CreateWindow(IActivationState? activationState)
-    {
-      return new Window(new MainPage());
-    }
+    InitializeComponent();
+  }
+
+  protected override Window CreateWindow(IActivationState? activationState)
+  {
+    return new Window(new MainPage());
   }
 }

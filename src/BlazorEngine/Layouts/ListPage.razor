@@ -1,8 +1,8 @@
 ﻿@typeparam T
-@inherits BlazorEngine.Components.Base.BlazorEngineComponentBase
+@inherits BlazorEngineComponentBase
 @{
-  var pageActions = Services.MetadataRegistry.GetPageActions(this);
-  var gridActions = Services.MetadataRegistry.GetGridActions(this);
+  var pageActions = MetadataRegistry.GetPageActions(this);
+  var gridActions = MetadataRegistry.GetGridActions(this);
 }
 
 <PageTitle>@Title</PageTitle>
@@ -11,27 +11,27 @@
 
     @if (ShowActions)
     {
-      <ActionBar Context="this" PageActions="pageActions" />
+      <ActionBar Context="this" PageActions="pageActions"/>
     }
 
   </div>
-    <div class="list-page-content contentblock">
+  <div class="list-page-content contentblock">
 
-      <ListDataGrid T="T"
-                    Context="this"
-                    Data="Content?.AsQueryable()"
-                    VisibleFields="VisibleFields"
-                    OnDiscard="(data) => OnDelete(data)"
-                    OnSave="(data) => OnSave(data)"
-                    OnNewItem="()=> NewItem()"
-                    PermissionSet="permissionSet"
-                    @bind-Selected="Selected"
-                    ShowButtons="ShowButtons"
-                    GridActions="gridActions"
-                    UseVirtualization="UseVirtualization"
-                    EditFormType="EditFormType"
-                    ShowExportToExcel="ShowExportToExcel"
-                    RefreshData="@(RefreshData)" />
-    </div>
-
+    <ListDataGrid T="T"
+                  Context="this"
+                  Data="Content?.AsQueryable()"
+                  VisibleFields="VisibleFields"
+                  OnDiscard="data => OnDelete(data)"
+                  OnSave="data => OnSave(data)"
+                  OnNewItem="()=> NewItem()"
+                  PermissionSet="permissionSet"
+                  @bind-Selected="Selected"
+                  ShowButtons="ShowButtons"
+                  GridActions="gridActions"
+                  UseVirtualization="UseVirtualization"
+                  EditFormType="EditFormType"
+                  ShowExportToExcel="ShowExportToExcel"
+                  RefreshData="@(RefreshData)"/>
   </div>
+
+</div>

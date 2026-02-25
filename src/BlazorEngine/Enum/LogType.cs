@@ -1,9 +1,8 @@
-﻿namespace BlazorEngine.Enum
+﻿namespace BlazorEngine.Enum;
+
+public enum LogType
 {
-  public enum LogType
-  {
-    Info,
-    Warning,
-    Error
-  }
+  Info,
+  Warning,
+  Error
 }

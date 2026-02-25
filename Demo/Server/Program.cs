@@ -1,6 +1,7 @@
-using TestShared.Services;
 using BlazorEngine;
 using BlazorEngine.Services;
+using Microsoft.FluentUI.AspNetCore.Components;
+using TestShared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazorEngine(); //.UseBlazorGeneratorAuthentication();
 
 BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
-BlazorEngineSettings.Instance.BaseColor = Microsoft.FluentUI.AspNetCore.Components.OfficeColor.Access;
+BlazorEngineSettings.Instance.BaseColor = OfficeColor.Access;
 BlazorEngineSettings.Instance.ShowHelpButton = true;
 BlazorEngineSettings.Instance.ShowBackgroundTasks = true;
 
