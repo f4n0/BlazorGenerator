@@ -168,7 +168,7 @@ public static class MetadataFormat
     public string Route { get; set; } = "";
     public string IconTypeName { get; set; } = "";
     public string Group { get; set; } = "Default";
-    public int OrderSequence { get; set; }
+    public int OrderSequence { get; set; } = 999;
   }
 
   public sealed class FooterLinkEntry

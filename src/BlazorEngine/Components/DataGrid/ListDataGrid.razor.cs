@@ -87,7 +87,7 @@ public partial class ListDataGrid<T> where T : class
     }
     catch (Exception)
     {
-      UIServices.ShowError("Something went wrong while exporting to Excel. Please try again.");
+      await UIServices.ShowErrorAsync("Something went wrong while exporting to Excel. Please try again.");
     }
   }
 
