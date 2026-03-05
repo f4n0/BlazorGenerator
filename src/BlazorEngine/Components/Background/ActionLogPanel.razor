@@ -1,81 +1,98 @@
 @implements IDialogContentComponent<ActionLogger>
 @implements IDisposable
+@inject IJSRuntime JSRuntime
 
-<div class="action-log-panel">
-  @if (Content.Entries.Count == 0)
-  {
-    <FluentLabel Color="Color.Neutral">No log entries yet.</FluentLabel>
-  }
-  else
-  {
-    <Virtualize Items="@logEntries">
-      <ChildContent>
-        <FluentLabel Color="@GetColor(context.LogLevel)">
-          <span class="action-log-timestamp">@context.Timestamp.ToString("HH:mm:ss.fff")</span>
-          @context.Message
-        </FluentLabel>
-      </ChildContent>
-    </Virtualize>
-  }
+<FluentSwitch @bind-Value="ShowVerbose"
+              @bind-Value:after="Refresh"
+              Style="margin-bottom:5px;"
+              Label="Verbose Logs: ">
+    <span slot="checked-message">Show</span>
+    <span slot="unchecked-message">Hide</span>
+</FluentSwitch>
+
+<div class="action-log-panel" @ref="DivRef">
+    @if (Content.Entries.Count == 0)
+    {
+        <FluentLabel Color="Color.Neutral">No log entries yet.</FluentLabel>
+    }
+    else
+    {
+        <Virtualize Items="@logEntries">
+            <ChildContent>
+                <FluentLabel Color="@GetColor(context.LogLevel)">
+                    <span class="action-log-timestamp">@context.Timestamp.ToString("HH:mm:ss.fff")</span>
+                    @context.Message
+                </FluentLabel>
+            </ChildContent>
+        </Virtualize>
+    }
 </div>
 
 @code {
-  [Parameter] public ActionLogger Content { get; set; } = default!;
+    [Parameter] public ActionLogger Content { get; set; } = default!;
 
-  [CascadingParameter] public FluentDialog? Dialog { get; set; }
+    [CascadingParameter] public FluentDialog? Dialog { get; set; }
 
-  private List<ActionLogEntry> logEntries = [];
-  bool ShowTimestaps = true;
+    private List<ActionLogEntry> logEntries = [];
+    private ElementReference DivRef;
+    bool ShowVerbose = false;
 
-  protected override void OnInitialized()
-  {
-    if (Dialog != null)
-      Dialog.Style = "--dialog-width: 60%; --dialog-height: 60%; padding: 2rem;";
-    Content.OnChange += Refresh;
-    RefreshEntries();
-  }
-
-  private void Refresh()
-  {
-    InvokeAsync(() =>
+    protected override void OnInitialized()
     {
-      RefreshEntries();
-      StateHasChanged();
-    });
-  }
+        if (Dialog != null)
+            Dialog.Style = "--dialog-width: 60%; --dialog-height: 60%; padding: 2rem;";
+        Content.OnChange += Refresh;
+        RefreshEntries();
+    }
 
-  private void RefreshEntries()
-  {
-    logEntries = Content.Entries.ToList();
-  }
-
-  private static Color GetColor(LogLevel logLevel)
-  {
-    return logLevel switch
+    protected override void OnAfterRender(bool firstRender)
     {
-      LogLevel.Error or LogLevel.Critical => Color.Error,
-      LogLevel.Warning => Color.Warning,
-      LogLevel.Debug or LogLevel.Trace => Color.Neutral,
-      _ => Color.Neutral
-    };
-  }
+        JSRuntime.InvokeVoidAsync("scrollToEnd", DivRef);
+        base.OnAfterRender(firstRender);
+    }
 
-  private static string GetBadgeColor(LogLevel logLevel)
-  {
-    return logLevel switch
+    private void Refresh()
     {
-      LogLevel.Error or LogLevel.Critical => "var(--error)",
-      LogLevel.Warning => "var(--warning)",
-      LogLevel.Information => "var(--accent-fill-rest)",
-      LogLevel.Debug or LogLevel.Trace => "var(--neutral-fill-rest)",
-      _ => "var(--neutral-fill-rest)"
-    };
-  }
+        InvokeAsync(() =>
+        {
+            RefreshEntries();
+            StateHasChanged();
+        });
+    }
 
-  public void Dispose()
-  {
-    if (Content != null)
-      Content.OnChange -= Refresh;
-  }
+    private void RefreshEntries()
+    {
+        if (ShowVerbose)
+        {
+            logEntries = Content.Entries.ToList();
+        }
+        else
+        {
+            logEntries = Content.Entries.Where(e => e.LogLevel != LogLevel.Debug && e.LogLevel != LogLevel.Trace).ToList();
+        }
+    }
+
+    private static Color GetColor(LogLevel logLevel)
+    {
+        return logLevel switch
+        {
+            LogLevel.Error or LogLevel.Critical => Color.Error,
+            LogLevel.Warning => Color.Warning,
+            LogLevel.Debug or LogLevel.Trace => Color.Lightweight,
+            _ => Color.Neutral
+        };
+    }
+
+
+    public void Dispose()
+    {
+        if (Content != null)
+            Content.OnChange -= Refresh;
+    }
 
 }
+<script>
+    function scrollToEnd(element) {
+      element.scrollTop = element.scrollHeight;
+    }
+</script>

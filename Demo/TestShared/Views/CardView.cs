@@ -125,7 +125,7 @@ public class CardView : CardPage<Mock>
     }
     catch (Exception e)
     {
-      UIServices.ShowError(e.Message);
+     await UIServices.ShowErrorAsync(e.Message);
     }
   }
 
