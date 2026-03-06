@@ -15,6 +15,7 @@ public partial class FormField<T>
 
   private T? _lastData;
   private VisibleField<T>? _lastField;
+  private bool _lastLookupOpen;
 
   private Dictionary<Type, RenderFragment>? _typeSwitch;
 
@@ -80,12 +81,13 @@ public partial class FormField<T>
 
   protected override bool ShouldRender()
   {
-    return !ReferenceEquals(_lastData, Data) || !ReferenceEquals(_lastField, Field);
+    return !ReferenceEquals(_lastData, Data) || !ReferenceEquals(_lastField, Field) || _lastLookupOpen != LookupOpen;
   }
 
   protected override void OnAfterRender(bool firstRender)
   {
     _lastData = Data;
     _lastField = Field;
+    _lastLookupOpen = LookupOpen;
   }
 }

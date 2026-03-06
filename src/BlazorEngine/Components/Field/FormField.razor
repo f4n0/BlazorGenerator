@@ -3,301 +3,302 @@
 
 @if (IsTableCell)
 {
-  @TableCell
+    @TableCell
 }
 else
 {
-  @if (ShowLabel)
-  {
-    <FluentInputLabel ForId="@_id" Label="@Field.Caption"
-                      AriaLabel="@Field.Caption" Required="@Field.Required"
-                      id="@(_id + "-Label")"
-                      Title="@(Field.Tooltip ?? Field.Caption)"/>
+    @if (ShowLabel)
+    {
+        <FluentInputLabel ForId="@_id" Label="@Field.Caption"
+                          AriaLabel="@Field.Caption" Required="@Field.Required"
+                          id="@(_id + "-Label")"
+                          Title="@(Field.Tooltip ?? Field.Caption)" />
 
-    <!--suppress CssUnresolvedCustomProperty -->
-    <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
-  }
+        <!--suppress CssUnresolvedCustomProperty -->
+        <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
+    }
 
-  @if (Field.CustomContent != null)
-  {
-    @Field.CustomContent.Invoke(Data, Field)
-  }
-  else
-  {
-    @RenderField
-  }
+    @if (Field.CustomContent != null)
+    {
+        @Field.CustomContent.Invoke(Data, Field)
+    }
+    else
+    {
+        @RenderField
+    }
 }
 
 
 
-@code{
+@code {
 
-  RenderFragment RenderField => __builder =>
-  {
-    if (TypeSwitch.TryGetValue(Field.FieldType, out var fragment))
+    RenderFragment RenderField => __builder =>
     {
-      @fragment
-    }
-    else if (Field.FieldType.IsEnum)
-    {
-      @EnumField
-    }
-    else
-    {
-      <p>Unsupported field type: @Field.FieldType</p>
-    }
-  };
-
-  RenderFragment BoolField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <div class="AfterFullSpanWidth">
-      <FluentCheckbox Value="@(Convert.ToBoolean(current))"
-                      ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup()"
-                      @onclick="GenericOnClick"
-                      @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-    </div>
-  };
-
-  RenderFragment ShortField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="short" Value="@(Convert.ToInt16(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment UShortField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment IntField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="int" Value="@(Convert.ToInt32(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment UIntField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment LongField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="long" Value="@(Convert.ToInt64(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment UlongField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment FloatField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="float" Value="@(Convert.ToSingle(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment DoubleField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="double" Value="@(Convert.ToDouble(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment DecimalField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(current))"
-                       ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
-                       @onclick="GenericOnClick"
-                       @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment DateTimeField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentDatePicker @attributes="@_commonAttributes" Value="@(Convert.ToDateTime(current))"
-                      ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder"/>
-  };
-
-  RenderFragment IconField => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    <FluentIcon Value="@((current as Type)?.ToFluentIcon())"></FluentIcon>
-  };
-
-  RenderFragment ActionField => __builder =>
-  {
-    <FluentButton OnClick="() => Field.InternalSet(Data, null)"
-                  @attributes="@_commonAttributes">@Field.Caption</FluentButton>
-  };
-
-  RenderFragment EnumField => __builder =>
-  {
-    var values = ReflectionUtilites.GetEnumNames(Field.FieldType);
-    var current = Field.InternalGet(Data);
-
-    <FluentSelect Items=@values
-                  OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType, val) ?? val)"
-                  OptionValue="@(val => val)"
-                  Value="@(current is null ? null : Enum.GetName(Field.FieldType, current))"
-                  ValueChanged="@((val) =>
-                                {
-                                  if (val != null) Field.InternalSet(Data, Enum.Parse(Field.FieldType, val.ToString()));
-                                })"
-                  Placeholder="@Field.PlaceHolder"
-                  @attributes="@_commonAttributes"/>
-  };
-
-  RenderFragment TextField => __builder =>
-  {
-    var current = Field.InternalGet(Data)?.ToString();
-    if (Field.Multiline)
-    {
-      <FluentTextArea Rows="4" Value="@current"
-                      ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup()"
-                      @onclick="GenericOnClick"
-                      @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"></FluentTextArea>
-    }
-    else
-    {
-      <FluentTextField Value="@current" ValueChanged="(val) => Field.InternalSet(Data, val)"
-                       ChildContent="@DrillDownOrLookup()" @onclick="GenericOnClick"
-                       TextFieldType="@Field.TextFieldType" @attributes="@_commonAttributes"
-                       Placeholder="@Field.PlaceHolder"/>
-    }
-  };
-
-  RenderFragment TableCell => __builder =>
-  {
-    var current = Field.InternalGet(Data);
-    var link = Field.Href?.Invoke(Data) ?? "";
-    var style = "";
-    var fldStyle = Field.TextStyle?.Invoke(Data) ?? TextStyle.Normal;
-    switch (fldStyle)
-    {
-      case TextStyle.Normal:
-        style = "";
-        break;
-      case TextStyle.Bold:
-        style = "font-weight: bold;";
-        break;
-      case TextStyle.Italic:
-        style = "font-style: italic;";
-        break;
-      case TextStyle.Underline:
-        style = "text-decoration: underline;";
-        break;
-      case TextStyle.Strikethrough:
-        style = "text-decoration: line-through;";
-        break;
-    }
-
-    var color = Field.Color?.Invoke(Data);
-    if (color != null)
-      style += "color: " + color.ToAttributeValue() + ";";
-    @if (string.IsNullOrEmpty(link))
-    {
-      if (Field.FieldType == typeof(Type))
-      {
-        <!--suppress CssUnresolvedCustomProperty -->
-        <FluentIcon Value="@((current as Type)?.ToFluentIcon())"></FluentIcon>
-      }
-      else if (Field.FieldType == typeof(bool))
-      {
-        <FluentCheckbox Value="@(Convert.ToBoolean(current))" ReadOnly="true"/>
-      }
-      else
-      {
-        <span title="@current" style="@style">@current</span>
-      }
-    }
-    else
-    {
-      <a href="@link" title="@current" style="@style">
-        @if (Field.FieldType == typeof(Type))
+        if (TypeSwitch.TryGetValue(Field.FieldType, out var fragment))
         {
-          <FluentIcon Value="@((current as Type)?.ToFluentIcon())"></FluentIcon>
+            @fragment
+        }
+        else if (Field.FieldType.IsEnum)
+        {
+            @EnumField
         }
         else
         {
-          @current
+            <p>Unsupported field type: @Field.FieldType</p>
         }
-      </a>
-    }
-  };
+    };
 
-  RenderFragment DrillDownOrLookup() => __builder =>
-  {
-    @if (Field.OnDrillDown != null)
+    RenderFragment BoolField => __builder =>
     {
-      <FluentIcon Value="@DrillDownIcon" Color="@Color.Neutral" Slot="end"
-                  OnClick="@(() => { Field.InternalDrillDown(Data); })"/>
-    }
-    else if (Field.OnLookup != null)
-    {
-      <FluentIcon Value="@LookupIcon" Color="@Color.Neutral" Slot="end"
-                  OnClick="@(() => { LookupOpen = !LookupOpen; })"/>
+        var current = Field.InternalGet(Data);
+        <div class="AfterFullSpanWidth">
+            <FluentCheckbox Value="@(Convert.ToBoolean(current))"
+                            ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup()"
+                            @onclick="GenericOnClick"
+                            @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+        </div>
+    };
 
-      var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();
-      <FluentMenu Anchor="@_id" @bind-Open="LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px"
-                  Anchored="true" Style="animation: alternate">
-        @foreach (var item in values)
+    RenderFragment ShortField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="short" Value="@(Convert.ToInt16(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment UShortField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment IntField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="int" Value="@(Convert.ToInt32(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment UIntField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment LongField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="long" Value="@(Convert.ToInt64(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment UlongField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment FloatField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="float" Value="@(Convert.ToSingle(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment DoubleField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="double" Value="@(Convert.ToDouble(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment DecimalField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(current))"
+                           ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
+                           @onclick="GenericOnClick"
+                           @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment DateTimeField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentDatePicker @attributes="@_commonAttributes" Value="@(Convert.ToDateTime(current))"
+                          ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder" />
+    };
+
+    RenderFragment IconField => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        <FluentIcon Value="@((current as Type)?.ToFluentIcon())"></FluentIcon>
+    };
+
+    RenderFragment ActionField => __builder =>
+    {
+        <FluentButton OnClick="() => Field.InternalSet(Data, null)"
+                      @attributes="@_commonAttributes">@Field.Caption</FluentButton>
+    };
+
+    RenderFragment EnumField => __builder =>
+    {
+        var values = ReflectionUtilites.GetEnumNames(Field.FieldType);
+        var current = Field.InternalGet(Data);
+
+        <FluentSelect Items=@values
+                      OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType, val) ?? val)"
+                      OptionValue="@(val => val)"
+                      Value="@(current is null ? null : Enum.GetName(Field.FieldType, current))"
+                      ValueChanged="@((val) =>
+                                                    {
+                                                    if (val != null) Field.InternalSet(Data, Enum.Parse(Field.FieldType, val.ToString()));
+                                                })"
+              Placeholder="@Field.PlaceHolder"
+              @attributes="@_commonAttributes" />
+    };
+
+    RenderFragment TextField => __builder =>
+    {
+        var current = Field.InternalGet(Data)?.ToString();
+        if (Field.Multiline)
         {
-          <FluentMenuItem OnClick="@(() => Field.InternalSet(Data, item.Key))">
-            @((MarkupString)item.Value)
-          </FluentMenuItem>
+            <FluentTextArea Rows="4" Value="@current"
+                            ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup()"
+                            @onclick="GenericOnClick"
+                            @attributes="@_commonAttributes" Placeholder="@Field.PlaceHolder"></FluentTextArea>
         }
-      </FluentMenu>
-    }
-  };
+        else
+        {
+            <FluentTextField Value="@current" ValueChanged="(val) => Field.InternalSet(Data, val)"
+                             ChildContent="@DrillDownOrLookup()" @onclick="GenericOnClick"
+                             TextFieldType="@Field.TextFieldType" @attributes="@_commonAttributes"
+                             Placeholder="@Field.PlaceHolder" />
+        }
+    };
+
+    RenderFragment TableCell => __builder =>
+    {
+        var current = Field.InternalGet(Data);
+        var link = Field.Href?.Invoke(Data) ?? "";
+        var style = "";
+        var fldStyle = Field.TextStyle?.Invoke(Data) ?? TextStyle.Normal;
+        switch (fldStyle)
+        {
+            case TextStyle.Normal:
+                style = "";
+                break;
+            case TextStyle.Bold:
+                style = "font-weight: bold;";
+                break;
+            case TextStyle.Italic:
+                style = "font-style: italic;";
+                break;
+            case TextStyle.Underline:
+                style = "text-decoration: underline;";
+                break;
+            case TextStyle.Strikethrough:
+                style = "text-decoration: line-through;";
+                break;
+        }
+
+        var color = Field.Color?.Invoke(Data);
+        if (color != null)
+            style += "color: " + color.ToAttributeValue() + ";";
+        @if (string.IsNullOrEmpty(link))
+        {
+            if (Field.FieldType == typeof(Type))
+            {
+                <!--suppress CssUnresolvedCustomProperty -->
+                <FluentIcon Value="@((current as Type)?.ToFluentIcon())"></FluentIcon>
+            }
+            else if (Field.FieldType == typeof(bool))
+            {
+                <FluentCheckbox Value="@(Convert.ToBoolean(current))" ReadOnly="true" />
+            }
+            else
+            {
+                <span title="@current" style="@style">@current</span>
+            }
+        }
+        else
+        {
+            <a href="@link" title="@current" style="@style">
+                @if (Field.FieldType == typeof(Type))
+                {
+                    <FluentIcon Value="@((current as Type)?.ToFluentIcon())"></FluentIcon>
+                }
+                else
+                {
+                    @current
+                }
+            </a>
+        }
+    };
+
+    RenderFragment DrillDownOrLookup() => __builder =>
+    {
+        @if (Field.OnDrillDown != null)
+        {
+            <FluentIcon Value="@DrillDownIcon" Color="@Color.Neutral" Slot="end"
+                        OnClick="@(() => { Field.InternalDrillDown(Data); })" />
+        }
+        else if (Field.OnLookup != null)
+        {
+            <FluentIcon Value="@LookupIcon" Color="@Color.Neutral" Slot="end"
+                        OnClick="@(() => { LookupOpen = !LookupOpen; })" />
+
+            var values = Field.OnLookup?.Invoke(Data) ?? new Dictionary<object, string>();
+
+            <FluentMenu Anchor="@_id" @bind-Open="@LookupOpen" HorizontalPosition="HorizontalPosition.End" Width="200px"
+                        Anchored="true" Style="animation: alternate">
+                @foreach (var item in values)
+                {
+                    <FluentMenuItem OnClick="@(() => Field.InternalSet(Data, item.Key))">
+                        @((MarkupString)item.Value)
+                    </FluentMenuItem>
+                }
+            </FluentMenu>
+        }
+    };
 
 }
 
 <style>
-  .FullSpanWidth {
-    min-width: 50%;
-    width: inherit;
-    max-width: 80%;
-  }
+    .FullSpanWidth {
+        min-width: 50%;
+        width: inherit;
+        max-width: 80%;
+    }
 
-  .AfterFullSpanWidth::after {
-    content: "";
-    min-width: 50%;
-    width: inherit;
-    max-width: 80%;
-  }
+    .AfterFullSpanWidth::after {
+        content: "";
+        min-width: 50%;
+        width: inherit;
+        max-width: 80%;
+    }
 
-  .AfterFullSpanWidth {
-    min-width: 50%;
-    width: inherit;
-    max-width: 80%;
-  }
+    .AfterFullSpanWidth {
+        min-width: 50%;
+        width: inherit;
+        max-width: 80%;
+    }
 </style>
