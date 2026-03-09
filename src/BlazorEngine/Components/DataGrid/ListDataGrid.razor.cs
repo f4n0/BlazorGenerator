@@ -93,13 +93,15 @@ public partial class ListDataGrid<T> where T : class
 
   private void OnKeyDownAsync(FluentKeyCodeEventArgs args)
   {
-    if (_ctrlPressed) return;
+    if (_ctrlPressed || _shiftPressed) return;
     if (args.Key == KeyCode.Ctrl) _ctrlPressed = true;
+    if (args.Key == KeyCode.Shift) _shiftPressed = true;
   }
 
   private void OnKeyUpAsync(FluentKeyCodeEventArgs args)
   {
     if (args.Key == KeyCode.Ctrl) _ctrlPressed = false;
+    if (args.Key == KeyCode.Shift) _shiftPressed = false;
   }
 
   private async Task OnSearchBarFocus(FluentKeyCodeEventArgs args)

@@ -1,8 +1,8 @@
 ﻿@typeparam T
 <!--suppress CssUnresolvedCustomProperty, CssUnusedSymbol -->
 @* ReSharper disable  AssignmentInsteadOfDiscard *@
-<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="@OnKeyUpAsync" IgnoreModifier="false" tabindex="0"
-               Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl]" StopPropagation="true" StopRepeat="true">
+<FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="@OnKeyUpAsync" IgnoreModifier="false" tabindex="0" 
+               Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl, KeyCode.Shift]" StopPropagation="true" StopRepeat="true" PreventDefault="true">
 
   <div class="GridContainer">
     <FluentToolbar Class="datagrid-toolbar">

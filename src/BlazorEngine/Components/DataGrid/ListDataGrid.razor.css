@@ -6,12 +6,6 @@
   gap: 4px;
 }
 
-.GridContainer ::deep thead {
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .GridContainer ::deep .datagrid-toolbar {
   padding: 4px 8px;
   flex: 0 0 auto;
@@ -26,6 +20,9 @@
 .datagrid-table-wrapper {
   overflow: auto;
   flex: 1 1 auto;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .datagrid-header-add-btn {

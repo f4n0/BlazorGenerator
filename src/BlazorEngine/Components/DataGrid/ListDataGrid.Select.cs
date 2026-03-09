@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.Web;
+﻿using DocumentFormat.OpenXml.Drawing;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Components.DataGrid;
@@ -10,10 +11,17 @@ public partial class ListDataGrid<T>
   /// </summary>
   private bool _ctrlPressed;
 
+  private bool _shiftPressed = false;
+
   /// <summary>
   ///   Tracks the SelectAll checkbox state: true = all, false = none, null = indeterminate.
   /// </summary>
   private bool? _selectAll = false;
+
+  /// <summary>
+  ///   Tracks the last individually clicked item, used as the anchor for Shift+click range selection.
+  /// </summary>
+  private T? _anchorItem;
 
   /// <summary>
   ///   A snapshot list whose reference changes whenever selection changes,
@@ -38,11 +46,6 @@ public partial class ListDataGrid<T>
       _selectAll = true;
     else
       _selectAll = null; // indeterminate
-  }
-
-  private void TrackModifiers(MouseEventArgs e)
-  {
-    _ctrlPressed = e.CtrlKey;
   }
 
   /// <summary>
@@ -100,12 +103,42 @@ public partial class ListDataGrid<T>
         Selected.Remove(cell.Item);
       else
         Selected.Add(cell.Item);
+
+      _anchorItem = cell.Item;
+    }
+    else if (_shiftPressed)
+    {
+      // Shift+click: range select from anchor to clicked item
+      if (_anchorItem != null && FilteredData != null)
+      {
+        var items = FilteredData.ToList();
+        var anchorIndex = items.IndexOf(_anchorItem);
+        var clickedIndex = items.IndexOf(cell.Item);
+
+        if (anchorIndex >= 0 && clickedIndex >= 0)
+        {
+          var start = Math.Min(anchorIndex, clickedIndex);
+          var end = Math.Max(anchorIndex, clickedIndex);
+
+          Selected.Clear();
+          for (var i = start; i <= end; i++)
+            Selected.Add(items[i]);
+        }
+      }
+      else
+      {
+        // No anchor yet, treat as single select
+        Selected.Clear();
+        Selected.Add(cell.Item);
+        _anchorItem = cell.Item;
+      }
     }
     else
     {
       // Normal click: single select
       Selected.Clear();
       Selected.Add(cell.Item);
+      _anchorItem = cell.Item;
     }
 
     SelectedChanged.InvokeAsync(Selected);
