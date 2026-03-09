@@ -6,6 +6,7 @@
   flex-direction: row;
   gap: 5px;
   flex-wrap: nowrap;
+  align-items: center;
 }
 
 .layout-content {

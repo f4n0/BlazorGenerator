@@ -5,7 +5,6 @@
   margin-bottom: 4px;
   align-items: center;
   background: transparent;
-  border-bottom: 1px solid var(--neutral-stroke-divider-rest);
 }
 
 .actionbar-wrapper ::deep fluent-toolbar {
