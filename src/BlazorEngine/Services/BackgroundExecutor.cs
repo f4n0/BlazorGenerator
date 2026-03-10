@@ -117,7 +117,7 @@ public class BackgroundExecutor : IAsyncDisposable
       options.Body = message;
       options.Timestamp = DateTime.UtcNow;
       options.Section = SectionName;
-      options.AllowDismiss = false;
+      options.AllowDismiss = intent != MessageIntent.Custom;
 
       if (logger != null)
         options.PrimaryAction = new ActionButton<Message>
