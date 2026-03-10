@@ -71,6 +71,13 @@ public class BackgroundExecutor : IAsyncDisposable
           }
           catch (TaskCanceledException ex)
           {
+
+            logger.LogError("The task was cancelled by the user");
+            item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageIntent.Error,
+               logger);
+          }
+          catch (OperationCanceledException ex)
+          {
             logger.LogError("The task was cancelled by the user");
             item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageIntent.Error,
                logger);
