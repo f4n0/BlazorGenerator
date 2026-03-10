@@ -132,22 +132,23 @@ public class CardView : CardPage<Mock>
   [PageAction(Caption = "Enqueue Action")]
   public async Task Enqueue()
   {
-    BackgroundExecutor.QueueAction("Test", async logger =>
+    BackgroundExecutor.QueueAction("Test", async (logger, ct) =>
     {
+      
       logger.LogInformation("Starting long action");
-      await Task.Delay(1000);
+      await Task.Delay(1000, ct);
       logger.LogInformation("1: long action");
-      await Task.Delay(1000);
+      await Task.Delay(1000, ct);
       logger.LogInformation("2: long action");
-      await Task.Delay(1000);
+      await Task.Delay(1000, ct);
       logger.LogInformation("3: long action");
-      await Task.Delay(1000);
+      await Task.Delay(1000, ct);
       logger.LogInformation("4: long action");
-      await Task.Delay(1000);
+      await Task.Delay(1000, ct);
       logger.LogInformation("5: long action");
-      await Task.Delay(1000);
+      await Task.Delay(1000, ct);
       logger.LogInformation("6: long action");
-      await Task.Delay(1000);
+      await Task.Delay(1000, ct);
       logger.LogInformation("7: long action");
       logger.LogTrace("This is a trace log");
       logger.LogCritical("This is a critical log");

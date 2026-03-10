@@ -43,10 +43,10 @@ public class BackgroundExecutor : IAsyncDisposable
     _semaphore.Dispose();
   }
 
-  public void QueueAction(string taskTitle, Func<ILogger, Task> action)
+  public void QueueAction(string taskTitle, Func<ILogger, CancellationToken, Task> action)
   {
     ObjectDisposedException.ThrowIf(_disposed, this);
-    _actionQueue.Enqueue(new EnqueueItem(taskTitle, ShowNotification(taskTitle + " - Enqueued"), action));
+    _actionQueue.Enqueue(new EnqueueItem(taskTitle, ShowNotification(taskTitle + " - Enqueued", null), action));
     _semaphore.Release();
   }
 
@@ -63,17 +63,23 @@ public class BackgroundExecutor : IAsyncDisposable
           var logger = new ActionLogger();
           try
           {
-            item.Message = ShowNotification(item.BuildTitle("Executing action"), MessageIntent.Custom, item.Message,
+            item.Message = ShowNotification(item.BuildTitle("Executing action"), item, MessageIntent.Custom,
               logger);
-            await item.Action(logger);
-            item.Message = ShowNotification(item.BuildTitle("Action executed successfully"), MessageIntent.Success,
-              item.Message, logger);
+            await item.Action(logger, item.CancellationToken.Token);
+            item.Message = ShowNotification(item.BuildTitle("Action executed successfully"), item, MessageIntent.Success,
+               logger);
+          }
+          catch (TaskCanceledException ex)
+          {
+            logger.LogError("The task was cancelled by the user");
+            item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageIntent.Error,
+               logger);
           }
           catch (Exception ex)
           {
             logger.LogError(ex, "Action execution failed");
-            item.Message = ShowNotification(item.BuildTitle("Action execution failed"), MessageIntent.Error,
-              item.Message, logger);
+            item.Message = ShowNotification(item.BuildTitle("Action execution failed"), item, MessageIntent.Error,
+               logger);
           }
         }
       }
@@ -84,14 +90,14 @@ public class BackgroundExecutor : IAsyncDisposable
     }
     catch (Exception ex)
     {
-      ShowNotification($"Queue processing error: {ex.Message}", MessageIntent.Error);
+      ShowNotification($"Queue processing error: {ex.Message}",null, MessageIntent.Error);
     }
   }
 
-  private Message ShowNotification(string message, MessageIntent intent = MessageIntent.Info, Message? replace = null,
+  private Message ShowNotification(string message, EnqueueItem? item, MessageIntent intent = MessageIntent.Info,
     ActionLogger? logger = null)
   {
-    if (replace != null) _messageService.Remove(replace);
+    if (item?.Message != null) _messageService.Remove(item.Message);
 
     if (intent == MessageIntent.Success) _toastService.ShowSuccess(message);
 
@@ -104,6 +110,7 @@ public class BackgroundExecutor : IAsyncDisposable
       options.Body = message;
       options.Timestamp = DateTime.UtcNow;
       options.Section = SectionName;
+      options.AllowDismiss = false;
 
       if (logger != null)
         options.PrimaryAction = new ActionButton<Message>
@@ -125,6 +132,18 @@ public class BackgroundExecutor : IAsyncDisposable
             });
           }
         };
+
+      if (intent == MessageIntent.Custom)
+        options.SecondaryAction = new ActionButton<Message>
+        {
+          Text = "Stop",
+          OnClick = async _ =>
+          {
+            await item!.CancellationToken.CancelAsync();
+          }
+
+        };
+
     });
   }
 
@@ -136,11 +155,13 @@ public class BackgroundExecutor : IAsyncDisposable
     await Task.WhenAny(_processingTask, Task.Delay(timeout));
   }
 
-  private class EnqueueItem(string taskTitle, Message? message, Func<ILogger, Task> action)
+  private class EnqueueItem(string taskTitle, Message? message, Func<ILogger, CancellationToken, Task> action)
   {
     public string TaskTitle { get; } = taskTitle;
     public Message? Message { get; set; } = message;
-    public Func<ILogger, Task> Action { get; } = action;
+    public Func<ILogger, CancellationToken, Task> Action { get; } = action;
+
+    public CancellationTokenSource CancellationToken = new();
 
     public string BuildTitle(string message)
     {
