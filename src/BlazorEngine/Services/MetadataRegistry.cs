@@ -327,6 +327,10 @@ public static class MetadataRegistry
     if (string.IsNullOrEmpty(typeFullName))
       return null;
 
+    // Mono.Cecil uses '/' as nested type separator, but the runtime expects '+'.
+    // Normalize before any resolution attempts.
+    typeFullName = typeFullName.Replace('/', '+');
+
     // Try direct Type.GetType (handles assembly-qualified names)
     var type = Type.GetType(typeFullName);
     if (type != null) return type;

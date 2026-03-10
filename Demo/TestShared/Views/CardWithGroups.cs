@@ -6,11 +6,12 @@ using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using TestShared.Data;
+using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size16;
 
 namespace TestShared.Views;
 
 [Route("CardWithGroups")]
-[AddToMenu(Title = "Card Page Groups", Route = "CardWithGroups")]
+[AddToMenu(Title = "Card Page Groups", Icon=typeof(ApprovalsApp), Route = "CardWithGroups")]
 public class CardWithGroups : CardPage<Mock>
 {
   public override string Title => "Card Page Groups";
