@@ -1,4 +1,4 @@
-﻿using BlazorEngine.Layouts;
+using BlazorEngine.Layouts;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Components.Base;
@@ -6,6 +6,8 @@ namespace BlazorEngine.Components.Base;
 public partial class BlazorEngineComponentBase : IAsyncDisposable, IDisposable
 {
   private CancellationTokenSource? _cancellationTokenSource;
+  private Func<FluentKeyCodeEventArgs, Task>? _keyDownHandler;
+  private bool _keyDownRegistered;
 
   private bool? _useBlazorEngineLayoutsCached;
   public virtual string Title => GetType().Name;
@@ -42,7 +44,12 @@ public partial class BlazorEngineComponentBase : IAsyncDisposable, IDisposable
     if (UseBlazorEngineLayouts())
     {
       await LoadVisibleFields();
-      UIServices.KeyCodeService.RegisterListener(OnKeyDownAsync);
+      if (!_keyDownRegistered)
+      {
+        _keyDownHandler ??= OnKeyDownAsync;
+        UIServices.KeyCodeService.RegisterListener(_keyDownHandler);
+        _keyDownRegistered = true;
+      }
     }
 
     await base.OnParametersSetAsync();
@@ -100,7 +107,13 @@ public partial class BlazorEngineComponentBase : IAsyncDisposable, IDisposable
       _cancellationTokenSource = null;
     }
 
-    UIServices.KeyCodeService.UnregisterListener(OnKeyDownAsync);
+    if (_keyDownHandler != null && _keyDownRegistered)
+    {
+      UIServices.KeyCodeService.UnregisterListener(_keyDownHandler);
+      _keyDownHandler = null;
+      _keyDownRegistered = false;
+    }
+
     GC.SuppressFinalize(this);
     return ValueTask.CompletedTask;
   }
@@ -114,7 +127,13 @@ public partial class BlazorEngineComponentBase : IAsyncDisposable, IDisposable
       _cancellationTokenSource = null;
     }
 
-    UIServices.KeyCodeService.UnregisterListener(OnKeyDownAsync);
+    if (_keyDownHandler != null && _keyDownRegistered)
+    {
+      UIServices.KeyCodeService.UnregisterListener(_keyDownHandler);
+      _keyDownHandler = null;
+      _keyDownRegistered = false;
+    }
+
     GC.SuppressFinalize(this);
   }
 }
