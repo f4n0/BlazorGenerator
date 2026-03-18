@@ -6,6 +6,7 @@ public class CircularLogBuffer
 {
   private readonly Queue<(DateTime Timestamp, string Message, LogType Type)> _logs = new();
   private readonly int _maxSize;
+  private readonly object _syncLock = new();
 
   public CircularLogBuffer(int maxSize)
   {
@@ -15,13 +16,19 @@ public class CircularLogBuffer
   public void Add(string message, LogType type)
   {
     var now = DateTime.UtcNow;
-    _logs.Enqueue((now, message, type));
-    Cleanup(now);
+    lock (_syncLock)
+    {
+      _logs.Enqueue((now, message, type));
+      Cleanup(now);
+    }
   }
 
   public List<(string, LogType)> GetLogs()
   {
-    return _logs.Select(l => (l.Message, l.Type)).ToList();
+    lock (_syncLock)
+    {
+      return _logs.Select(l => (l.Message, l.Type)).ToList();
+    }
   }
 
   private void Cleanup(DateTime now)

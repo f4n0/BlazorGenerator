@@ -202,9 +202,14 @@ public class CardView : CardPage<Mock>
   }
 
   [PageAction(Caption = "Write Log")]
-  public void Test5()
+  public async Task Test5Async()
   {
-    for (var i = 0; i < 30; i++) UIServices.Logger.SendLogMessage($"Test{i}");
+    await Task.Delay(1000);
+    for (var i = 0; i < 30; i++)
+    {
+      await Task.Delay(50);
+      UIServices.Logger.SendLogMessage($"Test{i}");
+    }
   }
 
   [PageAction(Caption = "Test6")]
