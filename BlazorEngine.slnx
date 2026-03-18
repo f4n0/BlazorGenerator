@@ -5,6 +5,7 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/Demo/">
+    <Project Path="Demo/BlazorEngine.Tests/BlazorEngine.Tests.csproj" />
     <Project Path="Demo/BlazorWpf/BlazorWpf.csproj" />
     <Project Path="Demo/MauiApp1/MauiApp1.csproj" />
     <Project Path="Demo/Server/Server.csproj" />
@@ -17,8 +18,7 @@
     <File Path=".gitignore" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="BlazorEngine.TestHelper/BlazorEngine.TestHelper.csproj" Id="cde34472-9d81-4815-a592-b564d9b992e5" />
-  <Project Path="BlazorEngine.Tests/BlazorEngine.Tests.csproj" Id="8fb3634e-ab47-41c4-bb96-97da860cd334" />
+  <Project Path="src/BlazorEngine.TestHelper/BlazorEngine.TestHelper.csproj" />
   <Project Path="src/BlazorEngine.BuildTasks/BlazorEngine.BuildTasks.csproj" />
   <Project Path="src/BlazorEngine/BlazorEngine.csproj" />
 </Solution>

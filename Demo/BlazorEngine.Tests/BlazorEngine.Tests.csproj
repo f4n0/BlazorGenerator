@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorEngine.TestHelper\BlazorEngine.TestHelper.csproj" />
-    <ProjectReference Include="..\Demo\TestShared\TestShared.csproj" />
+    <ProjectReference Include="..\..\src\BlazorEngine.TestHelper\BlazorEngine.TestHelper.csproj" />
+    <ProjectReference Include="..\TestShared\TestShared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

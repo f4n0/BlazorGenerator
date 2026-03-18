@@ -1,5 +1,6 @@
 ﻿using BlazorEngine.Services;
 using BlazorEngine.TestHelper;
+using Microsoft.AspNetCore.Components;
 using TestShared.Views;
 
 namespace BlazorEngine.Tests
@@ -14,7 +15,7 @@ namespace BlazorEngine.Tests
       Assert.NotEmpty(card.VisibleFields);
       Assert.NotNull(card.Content);
 
-      await card.ShowProgress();
+      card.GoTo();
     }
   }
 }
