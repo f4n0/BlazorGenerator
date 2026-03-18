@@ -1,6 +1,5 @@
 using System.Reflection;
 using BlazorEngine.Components.Base;
-using BlazorEngine.Models;
 using BlazorEngine.Security;
 using BlazorEngine.Services;
 using Microsoft.AspNetCore.Components;
@@ -18,13 +17,16 @@ namespace BlazorEngine.TestHelper;
 public sealed class TestServices
 {
   private readonly Dictionary<Type, object> _services = new();
+  private readonly TestRenderer _renderer = new();
 
   public TestServices()
   {
     Register<NavigationManager>(new StubNavigationManager());
     Register<IJSRuntime>(NullProxy.Create<IJSRuntime>());
     Register<ISecurity>(new StubSecurity());
-    Register<IDialogService>(NullProxy.Create<IDialogService>());
+    var dialogStub = StubDialogService.Create();
+    Register<IDialogService>((IDialogService)(object)dialogStub);
+    Register(dialogStub);
     Register<IKeyCodeService>(NullProxy.Create<IKeyCodeService>());
     Register(new BlazorEngineLogger());
     Register(new ProgressService());
@@ -49,9 +51,16 @@ public sealed class TestServices
   /// <summary>
   /// Registers a no-op stub for an interface using <see cref="NullProxy"/>.
   /// Useful for custom injected interfaces that don't need real behaviour in tests.
+  /// Only works with interfaces; for concrete classes use <see cref="Register{TService}(TService)"/> instead.
   /// </summary>
   public TestServices RegisterStub<TService>() where TService : class
-    => Register(NullProxy.Create<TService>());
+  {
+    if (!typeof(TService).IsInterface)
+      throw new InvalidOperationException(
+        $"RegisterStub<{typeof(TService).Name}>() only supports interfaces. " +
+        $"'{typeof(TService).Name}' is a concrete class — use Register<{typeof(TService).Name}>(new ...) instead.");
+    return Register(NullProxy.Create<TService>());
+  }
 
   /// <summary>Retrieves a previously registered service.</summary>
   public TService Get<TService>() where TService : class
@@ -75,6 +84,7 @@ public sealed class TestServices
 
     InjectSecurity(component);
     InjectCustomProperties(component);
+    SuppressRendering(component);
   }
 
   private void InjectSecurity(BlazorEngineComponentBase component)
@@ -89,6 +99,19 @@ public sealed class TestServices
     typeof(BlazorEngineComponentBase)
       .GetProperty("Security", BindingFlags.NonPublic | BindingFlags.Instance)!
       .SetValue(component, securityService);
+  }
+
+  // Attaches the component to a no-op renderer so that StateHasChanged() and
+  // InvokeAsync() never throw "The render handle is not yet assigned".
+  // The _renderFragment is replaced with a no-op to prevent BuildRenderTree
+  // from being called during tests.
+  private static readonly FieldInfo RenderFragmentField =
+    typeof(ComponentBase).GetField("_renderFragment", BindingFlags.NonPublic | BindingFlags.Instance)!;
+
+  private void SuppressRendering(BlazorEngineComponentBase component)
+  {
+    _renderer.Attach(component);
+    RenderFragmentField.SetValue(component, (RenderFragment)(_ => { }));
   }
 
   private void InjectCustomProperties(BlazorEngineComponentBase component)
@@ -112,104 +135,4 @@ public sealed class TestServices
       current = current.BaseType;
     }
   }
-}
-
-// ---------------------------------------------------------------------------
-// Stub implementations
-// ---------------------------------------------------------------------------
-
-/// <summary>Minimal <see cref="NavigationManager"/> stub that records the last navigation.</summary>
-public sealed class StubNavigationManager : NavigationManager
-{
-  /// <summary>The last URI passed to <see cref="NavigationManager.NavigateTo(string, bool)"/>.</summary>
-  public string? LastNavigatedUri { get; private set; }
-
-  public StubNavigationManager(string baseUri = "https://localhost/")
-  {
-    Initialize(baseUri, baseUri);
-  }
-
-  protected override void NavigateToCore(string uri, NavigationOptions options)
-  {
-    LastNavigatedUri = uri;
-  }
-}
-
-/// <summary><see cref="ISecurity"/> stub that grants full permissions.</summary>
-public sealed class StubSecurity : ISecurity
-{
-  public Task<PermissionSet> GetPermissionSet(Type? type = null)
-    => Task.FromResult(new PermissionSet
-    {
-      Object = type,
-      Insert = true,
-      Delete = true,
-      Modify = true,
-      Execute = true
-    });
-
-  public Task<string> GetCurrentSessionIdentifier()
-    => Task.FromResult("test-session");
-}
-
-/// <summary>
-/// Minimal <see cref="IServiceProvider"/> that resolves only an <see cref="ISecurity"/> instance.
-/// Used internally to construct the <c>BlazorEngineSecurityService</c>.
-/// </summary>
-internal sealed class StubServiceProvider(ISecurity security) : IServiceProvider
-{
-  public object? GetService(Type serviceType)
-    => serviceType == typeof(ISecurity) ? security : null;
-}
-
-/// <summary>
-/// <see cref="DispatchProxy"/>-based stub that intercepts every method call on an interface
-/// and returns a safe default (<c>Task.CompletedTask</c>, <c>default(T)</c>, etc.).
-/// <para>
-/// Use <see cref="Create{T}"/> to produce a stub for any interface without writing a manual implementation.
-/// </para>
-/// </summary>
-public class NullProxy : DispatchProxy
-{
-  private static readonly MethodInfo TaskFromResultMethod =
-    typeof(Task).GetMethod(nameof(Task.FromResult))!;
-
-  /// <summary>Creates a no-op proxy that implements <typeparamref name="T"/>.</summary>
-  public static T Create<T>() where T : class
-    => DispatchProxy.Create<T, NullProxy>();
-
-  /// <inheritdoc />
-  protected override object? Invoke(MethodInfo? targetMethod, object?[]? args)
-  {
-    if (targetMethod is null) return null;
-    var rt = targetMethod.ReturnType;
-
-    if (rt == typeof(void)) return null;
-    if (rt == typeof(Task)) return Task.CompletedTask;
-    if (rt == typeof(ValueTask)) return ValueTask.CompletedTask;
-
-    if (rt.IsGenericType)
-    {
-      var gtd = rt.GetGenericTypeDefinition();
-      var inner = rt.GetGenericArguments()[0];
-
-      if (gtd == typeof(Task<>))
-        return TaskFromResultMethod
-          .MakeGenericMethod(inner)
-          .Invoke(null, [DefaultOf(inner)]);
-
-      if (gtd == typeof(ValueTask<>))
-      {
-        var task = TaskFromResultMethod
-          .MakeGenericMethod(inner)
-          .Invoke(null, [DefaultOf(inner)]);
-        return Activator.CreateInstance(rt, [task]);
-      }
-    }
-
-    return DefaultOf(rt);
-  }
-
-  private static object? DefaultOf(Type type)
-    => type.IsValueType ? Activator.CreateInstance(type) : null;
 }

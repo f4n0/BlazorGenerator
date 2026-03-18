@@ -80,15 +80,16 @@ public class CardView : CardPage<Mock>
   public async Task ShowProgress()
   {
     UIServices!.ProgressService.StartProgress();
-    await Task.Delay(100000);
+    await Task.Delay(1000);
     UIServices!.ProgressService.StopProgress();
+    StateHasChanged();
   }
 
   [PageAction(Caption = "Open Modal")]
   public async Task OpenModal()
   {
     var mock = Mock.GetSingleMock();
-    _ = await UIServices!.OpenModal(typeof(ModalView), mock);
+    var res = await UIServices!.OpenModal(typeof(ModalView), mock);
   }
 
   [PageAction(Caption = "Ask User")]

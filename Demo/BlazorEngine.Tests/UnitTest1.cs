@@ -1,6 +1,8 @@
 ﻿using BlazorEngine.Services;
 using BlazorEngine.TestHelper;
 using Microsoft.AspNetCore.Components;
+using Microsoft.FluentUI.AspNetCore.Components;
+using TestShared.Data;
 using TestShared.Views;
 
 namespace BlazorEngine.Tests
@@ -14,8 +16,9 @@ namespace BlazorEngine.Tests
       CardView card = await Instantiator<CardView>.CreateAndLoadAsync(services);
       Assert.NotEmpty(card.VisibleFields);
       Assert.NotNull(card.Content);
+      services.Get<StubDialogService>().NextResult = DialogResult.Ok(new Mock { Id = 42 });
 
-      card.GoTo();
+      await card.OpenModal();
     }
   }
 }
