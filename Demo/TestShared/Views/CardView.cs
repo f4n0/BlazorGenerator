@@ -17,7 +17,7 @@ public class CardView : CardPage<Mock>
 {
   public override string Title => "br-labsdev2 Integration - Apps";
 
-  [Inject] public BackgroundExecutor BackgroundExecutor { get; set; }
+  [Inject] public required BackgroundExecutor BackgroundExecutor { get; set; }
 
   protected override Task LoadVisibleFields()
   {
