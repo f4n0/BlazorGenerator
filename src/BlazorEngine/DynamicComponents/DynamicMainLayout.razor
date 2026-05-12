@@ -4,44 +4,48 @@
 
 <FluentDesignTheme OfficeColor="@(BlazorEngineSettings.Instance.BaseColor)" @ref="Theme" StorageName="UITheme">
   <FluentLayout>
-    <FluentHeader Height="45">
-      <Back></Back>
-      <FluentSpacer/>
-      @BlazorEngineSettings.Instance.ApplicationName
-      <FluentSpacer/>
-      <div class="layout-header-toolbar">
-        <FluentButton Appearance="Appearance.Stealth" OnClick="SwitchDarkLightTheme"
-                      Title="@Captions.Instance.ToggleDarkTheme">
-          <FluentIcon Value="@(new Size20.DarkTheme())" Color="Color.Neutral"
-                      Title="@Captions.Instance.ToggleDarkTheme"/>
-        </FluentButton>
-        @if (BlazorEngineSettings.Instance.ShowLogButton)
-        {
-          <Log/>
-        }
-        @if (BlazorEngineSettings.Instance.ShowBackgroundTasks)
-        {
-          <BackgroundExecutorButton/>
-        }
-        @if (BlazorEngineSettings.Instance.ShowHelpButton)
-        {
-          <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Help"
-                        OnClick="@(() => HelpService?.GetHelp((Body?.Target as RouteView)!.RouteData.PageType))">
-            <FluentIcon Value="@(new Size20.Question())" Color="Color.Neutral" Title="Help"/>
+    <header>
+      <FluentHeader Height="45">
+        <Back></Back>
+        <FluentSpacer/>
+        @BlazorEngineSettings.Instance.ApplicationName
+        <FluentSpacer/>
+        <div class="layout-header-toolbar">
+          <FluentButton Appearance="Appearance.Stealth" OnClick="SwitchDarkLightTheme"
+                        Title="@Captions.Instance.ToggleDarkTheme">
+            <FluentIcon Value="@(new Size20.DarkTheme())" Color="Color.Neutral"
+                        Title="@Captions.Instance.ToggleDarkTheme"/>
           </FluentButton>
-        }
-      </div>
-    </FluentHeader>
+          @if (BlazorEngineSettings.Instance.ShowLogButton)
+          {
+            <Log/>
+          }
+          @if (BlazorEngineSettings.Instance.ShowBackgroundTasks)
+          {
+            <BackgroundExecutorButton/>
+          }
+          @if (BlazorEngineSettings.Instance.ShowHelpButton)
+          {
+            <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="@Captions.Instance.Help"
+                          OnClick="@(() => HelpService?.GetHelp((Body?.Target as RouteView)!.RouteData.PageType))">
+              <FluentIcon Value="@(new Size20.Question())" Color="Color.Neutral" Title="@Captions.Instance.Help"/>
+            </FluentButton>
+          }
+        </div>
+      </FluentHeader>
+    </header>
     <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%" VerticalGap="0" HorizontalGap="0">
-      <NavMenu/>
+      <nav aria-label="@Captions.Instance.Navigation" style="height:100%">
+        <NavMenu/>
+      </nav>
       <FluentBodyContent>
         <FluentLayout>
           <FluentBodyContent style="height: calc(100dvh); padding: 10px 10px 1px;">
             <ProgressBar></ProgressBar>
             <UILock></UILock>
-            <div class="layout-content">
+            <main id="blazorengine-main" class="layout-content" tabindex="-1">
               @Body
-            </div>
+            </main>
 
             <FluentMenuProvider/>
             <FluentDialogProvider/>

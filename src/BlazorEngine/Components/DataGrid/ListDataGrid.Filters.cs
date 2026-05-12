@@ -6,31 +6,28 @@ namespace BlazorEngine.Components.DataGrid;
 
 public partial class ListDataGrid<T>
 {
+  private List<T>? _cachedFilteredItems;
   private IQueryable<T>? _cachedFilteredData;
-  private int _lastDataHash;
-  private object? _lastDataRef;
+  private IEnumerable<T>? _lastDataRef;
   private int _lastFieldFiltersHash;
   private string _lastSearchValue = string.Empty;
 
   private string _searchValue = string.Empty;
 
+  private List<T> FilteredItems
+  {
+    get
+    {
+      EnsureFilteredData();
+      return _cachedFilteredItems ?? [];
+    }
+  }
+
   private IQueryable<T>? FilteredData
   {
     get
     {
-      var currentDataHash = Data?.GetHashCode() ?? 0;
-      var currentFiltersHash = ComputeFiltersHash();
-
-      if (_cachedFilteredData != null &&
-          _lastSearchValue == _searchValue &&
-          _lastFieldFiltersHash == currentFiltersHash &&
-          ReferenceEquals(_lastDataRef, Data))
-        return _cachedFilteredData;
-
-      _cachedFilteredData = FilterDataInternal();
-      _lastSearchValue = _searchValue;
-      _lastFieldFiltersHash = currentFiltersHash;
-      _lastDataRef = Data;
+      EnsureFilteredData();
       return _cachedFilteredData;
     }
   }
@@ -68,12 +65,30 @@ public partial class ListDataGrid<T>
 
   private void InvalidateFilterCache()
   {
+    _cachedFilteredItems = null;
     _cachedFilteredData = null;
   }
 
-  private IQueryable<T>? FilterDataInternal()
+  private void EnsureFilteredData()
   {
-    if (Data is null) return null;
+    var currentFiltersHash = ComputeFiltersHash();
+
+    if (_cachedFilteredItems != null &&
+        _lastSearchValue == _searchValue &&
+        _lastFieldFiltersHash == currentFiltersHash &&
+        ReferenceEquals(_lastDataRef, Data))
+      return;
+
+    _cachedFilteredItems = FilterDataInternal();
+    _cachedFilteredData = _cachedFilteredItems.AsQueryable();
+    _lastSearchValue = _searchValue;
+    _lastFieldFiltersHash = currentFiltersHash;
+    _lastDataRef = Data;
+  }
+
+  private List<T> FilterDataInternal()
+  {
+    if (Data is null) return [];
 
     IEnumerable<T> result = Data;
 
@@ -107,7 +122,7 @@ public partial class ListDataGrid<T>
         });
       }
 
-    return result.ToList().AsQueryable();
+    return result as List<T> ?? result.ToList();
   }
 
   private string HandleClear(VisibleField<T> field)

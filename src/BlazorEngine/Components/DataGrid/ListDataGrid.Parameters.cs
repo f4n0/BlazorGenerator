@@ -12,7 +12,7 @@ public partial class ListDataGrid<T>
 
   [Parameter] public required List<VisibleField<T>> VisibleFields { get; set; }
 
-  [Parameter] public IQueryable<T>? Data { get; set; }
+  [Parameter] public IEnumerable<T>? Data { get; set; }
 
   [Parameter] public bool ShowButtons { get; set; }
 

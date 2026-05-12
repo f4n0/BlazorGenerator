@@ -2,12 +2,13 @@
 <!--suppress CssUnresolvedCustomProperty, CssUnusedSymbol -->
 @* ReSharper disable  AssignmentInsteadOfDiscard *@
 <FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="@OnKeyUpAsync" IgnoreModifier="false" tabindex="0" 
-               Only="[KeyCode.Function3, KeyCode.KeyF, KeyCode.Ctrl, KeyCode.Shift]" StopPropagation="true" StopRepeat="true" PreventDefault="false">
+               Only="@SearchKeyCodes" StopPropagation="true" StopRepeat="true" PreventDefault="true">
 
   <div class="GridContainer">
     <FluentToolbar Class="datagrid-toolbar">
       <FluentSearch @bind-Value="_searchValue" AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
-                    Style="width: 300px;"
+                    Style="width: min(100%, 20rem);"
+                    Autofocus="true"
                     Immediate="true" ImmediateDelay="500"
                     @bind-Value:after="HandleSearchInput" @ref="SearchBarRef"/>
       <FluentSpacer/>
@@ -61,9 +62,12 @@
             <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" MinWidth="30px"
                             Style="padding: 0 !important;">
               <ChildContent>
-                <FluentIcon Value="@MoreVerticalIcon" Id="@GetRowId(context)"
-                            OnClick="@(_ => { CurrRec = context; })">
-                </FluentIcon>
+                 <FluentButton Id="@GetRowId(context)"
+                              Appearance="Appearance.Outline"
+                              AriaLabel="@Captions.Instance.MoreActions"
+                              Title="@Captions.Instance.MoreActions"
+                              IconEnd="@MoreVerticalIcon" />
+
                 <div class="datagrid-context-menu">
                   <FluentMenu Anchor="@GetRowId(context)"
                               Trigger="MouseButton.Left" Anchored="true"
@@ -71,11 +75,7 @@
                               @ref="@GridActionRef" UseMenuService="false">
                     @foreach (var a in GridActions)
                     {
-                      <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@(_ =>
-                                                                            {
-                                                                              if (GridActionRef != null) GridActionRef.Open = false;
-                                                                              ReflectionUtilites.InvokeAction(a.Method, Context, [CurrRec!]);
-                                                                            })">
+                      <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@(_ => InvokeGridAction(a.Method, context))">
                                                 <span slot="start">
                                                     <FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())"
                                                                 Slot="start"/>

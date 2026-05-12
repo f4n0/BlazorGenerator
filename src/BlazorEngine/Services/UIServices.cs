@@ -45,7 +45,7 @@ public partial class UIServices(
 
     var dialogResult = await DialogService.ShowDialogAsync(pageType, data, new DialogParameters
     {
-      Width = "50%",
+      Width = UISizeTokens.DialogWidth,
       Height = "fit-content"
     }).ConfigureAwait(true);
     var result = await dialogResult.Result.ConfigureAwait(true);
@@ -66,8 +66,8 @@ public partial class UIServices(
 
     var dialogResult = await DialogService.ShowDialogAsync(typeof(FileInput), data, new DialogParameters
     {
-      Width = "50%",
-      Height = "300px",
+      Width = UISizeTokens.DialogWidth,
+      Height = UISizeTokens.UploadDialogHeight,
       PrimaryAction = "",
       SecondaryAction = ""
     });
@@ -88,7 +88,7 @@ public partial class UIServices(
   {
     var dialogResult = await DialogService.ShowDialogAsync(typeof(UserInput), userInputData, new DialogParameters
     {
-      Width = "50%",
+      Width = UISizeTokens.DialogWidth,
       Height = "fit-content"
     }).ConfigureAwait(true);
     var result = await dialogResult.Result.ConfigureAwait(true);
@@ -105,7 +105,7 @@ public partial class UIServices(
     {
       DialogType = DialogType.Panel,
       Alignment = HorizontalAlignment.Right,
-      Width = "40%"
+      Width = UISizeTokens.PanelWidth
     }).ConfigureAwait(true);
     var result = await dialogResult.Result.ConfigureAwait(true);
     if (result.Cancelled) return null;
@@ -119,7 +119,7 @@ public partial class UIServices(
     {
       DialogType = DialogType.Panel,
       Alignment = HorizontalAlignment.Right,
-      Width = "40%"
+      Width = UISizeTokens.PanelWidth
     }).ConfigureAwait(true);
     var result = await dialogResult.Result.ConfigureAwait(true);
     if (result.Data is not null && !result.Cancelled) return (result.Data as ModalData<T>)?.Data;

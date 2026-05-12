@@ -20,7 +20,7 @@
       <Panel1>
         <ListDataGrid T="TFirstList"
                       Context="this"
-                      Data="FirstListContent?.AsQueryable()"
+                      Data="FirstListContent"
                       VisibleFields="FirstListVisibleFields"
                       OnDiscard="data => OnDelete(data)"
                       OnSave="data => OnSave(data)"
@@ -34,7 +34,7 @@
       <Panel2>
         <ListDataGrid T="TSecondList"
                       Context="this"
-                      Data="SecondListContent?.AsQueryable()"
+                      Data="SecondListContent"
                       VisibleFields="SecondListVisibleFields"
                       OnDiscard="data => OnDelete(data)"
                       OnSave="data => OnSave(data)"

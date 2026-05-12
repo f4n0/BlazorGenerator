@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using BlazorEngine.Components.Base;
 using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
@@ -8,8 +9,16 @@ using Microsoft.JSInterop;
 
 namespace BlazorEngine.Components.DataGrid;
 
-public partial class ListDataGrid<T> where T : class
+public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : class
 {
+  private static readonly KeyCode[] SearchKeyCodes =
+  {
+    KeyCode.Function3,
+    KeyCode.KeyF,
+    KeyCode.Ctrl,
+    KeyCode.Shift
+  };
+
   private static readonly Icon MoreVerticalIcon = new Size16.MoreVertical();
   private static readonly Icon EditIcon = new Size16.Edit();
   private static readonly Icon DeleteIcon = new Size16.Delete();
@@ -18,8 +27,8 @@ public partial class ListDataGrid<T> where T : class
 
   private readonly ConditionalWeakTable<T, string> _rowIds = new();
   private int _gridActionsCount;
+  private bool _searchShortcutRegistered;
 
-  internal T? CurrRec { get; set; }
   private FluentMenu? GridActionRef { get; set; }
 
   [Inject] private IKeyCodeService? KeyCodeService { get; set; }
@@ -38,7 +47,12 @@ public partial class ListDataGrid<T> where T : class
   protected override async Task OnInitializedAsync()
   {
     //for global F3, otherwise it won't work as soon the page load
-    KeyCodeService?.RegisterListener(OnSearchBarFocus);
+    if (!_searchShortcutRegistered)
+    {
+      KeyCodeService?.RegisterListener(OnSearchBarFocus);
+      _searchShortcutRegistered = true;
+    }
+
     await base.OnInitializedAsync();
   }
 
@@ -55,13 +69,23 @@ public partial class ListDataGrid<T> where T : class
   protected void HandleSave(T? data)
   {
     OnSave?.Invoke(data);
-    InvokeAsync(() => StateHasChanged());
+    InvalidateFilterCache();
+    InvokeAsync(() =>
+    {
+      RefreshSelectionSnapshot();
+      StateHasChanged();
+    });
   }
 
   protected void HandleDelete(T data)
   {
     OnDiscard?.Invoke(data);
-    InvokeAsync(() => StateHasChanged());
+    InvalidateFilterCache();
+    InvokeAsync(() =>
+    {
+      RefreshSelectionSnapshot();
+      StateHasChanged();
+    });
   }
 
   protected async Task NewItem()
@@ -70,7 +94,12 @@ public partial class ListDataGrid<T> where T : class
     item ??= Activator.CreateInstance<T>();
     await EditAsync(item);
 
-    await InvokeAsync(() => StateHasChanged());
+    InvalidateFilterCache();
+    await InvokeAsync(() =>
+    {
+      RefreshSelectionSnapshot();
+      StateHasChanged();
+    });
   }
 
   private async Task ExportToExcel()
@@ -91,11 +120,22 @@ public partial class ListDataGrid<T> where T : class
     }
   }
 
-  private void OnKeyDownAsync(FluentKeyCodeEventArgs args)
+  private async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
   {
-    if (_ctrlPressed || _shiftPressed) return;
-    if (args.Key == KeyCode.Ctrl) _ctrlPressed = true;
-    if (args.Key == KeyCode.Shift) _shiftPressed = true;
+    if (args.Key == KeyCode.Ctrl)
+    {
+      _ctrlPressed = true;
+      return;
+    }
+
+    if (args.Key == KeyCode.Shift)
+    {
+      _shiftPressed = true;
+      return;
+    }
+
+    if (args.Key == KeyCode.Function3 || (args.Key == KeyCode.KeyF && (args.CtrlKey || _ctrlPressed)))
+      await FocusSearchAsync();
   }
 
   private void OnKeyUpAsync(FluentKeyCodeEventArgs args)
@@ -107,14 +147,22 @@ public partial class ListDataGrid<T> where T : class
   private async Task OnSearchBarFocus(FluentKeyCodeEventArgs args)
   {
     if (args.Key == KeyCode.Function3 || (args.Key == KeyCode.KeyF && args.CtrlKey))
-      try
-      {
-        await SearchBarRef!.Element.FocusAsync();
-      }
-      catch
-      {
-        // ignored
-      }
+      await FocusSearchAsync();
+  }
+
+  private async Task FocusSearchAsync()
+  {
+    if (SearchBarRef == null)
+      return;
+
+    try
+    {
+      await SearchBarRef.Element.FocusAsync();
+    }
+    catch
+    {
+      // ignored
+    }
   }
 
   private async Task HandleRowDoubleClick(FluentDataGridRow<T> row)
@@ -122,8 +170,43 @@ public partial class ListDataGrid<T> where T : class
     if (row.Item != null && PermissionSet?.Modify == true) await EditAsync(row.Item);
   }
 
+  private Task InvokeGridAction(MethodInfo method, T rowData)
+  {
+    if (GridActionRef != null)
+      GridActionRef.Open = false;
+
+    return ReflectionUtilites.InvokeAction(method, Context, new object[] { rowData });
+  }
+
   internal void Refresh()
   {
-    InvokeAsync(() => StateHasChanged());
+    InvalidateFilterCache();
+    InvokeAsync(() =>
+    {
+      RefreshSelectionSnapshot();
+      StateHasChanged();
+    });
+  }
+
+  public void Dispose()
+  {
+    DisposeSearchShortcut();
+    GC.SuppressFinalize(this);
+  }
+
+  public ValueTask DisposeAsync()
+  {
+    DisposeSearchShortcut();
+    GC.SuppressFinalize(this);
+    return ValueTask.CompletedTask;
+  }
+
+  private void DisposeSearchShortcut()
+  {
+    if (!_searchShortcutRegistered)
+      return;
+
+    KeyCodeService?.UnregisterListener(OnSearchBarFocus);
+    _searchShortcutRegistered = false;
   }
 }

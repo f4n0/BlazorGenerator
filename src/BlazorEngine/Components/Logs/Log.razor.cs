@@ -8,32 +8,22 @@ using Microsoft.JSInterop;
 
 namespace BlazorEngine.Components.Logs;
 
-public partial class Log : BlazorEngineComponentBase, IDisposable, IAsyncDisposable
+public partial class Log : BlazorEngineComponentBase
 {
-  private FluentDialog? _myFluentDialog;
+  private FluentButton? _clearLogButton;
+  private FluentButton? _logButton;
 
   private ElementReference DivRef;
   private bool Hidden { get; set; } = true;
+  private bool _focusClearAction;
+  private bool _restoreLauncherFocus;
 
   [Inject] private IKeyCodeService? KeyCodeService { get; set; }
 
-  public new ValueTask DisposeAsync()
-  {
-    KeyCodeService!.UnregisterListener(OnKeyDownAsync);
-    GC.SuppressFinalize(this);
-    return base.DisposeAsync();
-  }
-
-  public new void Dispose()
-  {
-    UIServices.Logger.OnChange -= UpdateLog;
-    GC.SuppressFinalize(this);
-    base.Dispose();
-  }
-
   private void OnDismiss(DialogEventArgs args)
   {
-    if (args.Reason is not null && args.Reason == "dismiss") _myFluentDialog!.Hide();
+    if (args.Reason is not null)
+      CloseLog();
   }
 
   private static Color ConvertToColor(LogType logType)
@@ -55,16 +45,30 @@ public partial class Log : BlazorEngineComponentBase, IDisposable, IAsyncDisposa
 
   public async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
   {
-    if (args.AltKey && args.Key == KeyCode.KeyL) OnOpen();
+    if (args.AltKey && args.Key == KeyCode.KeyL)
+      OpenLog();
 
     await Task.CompletedTask;
   }
 
-  protected override void OnAfterRender(bool firstRender)
+  protected override async Task OnAfterRenderAsync(bool firstRender)
   {
-    if (firstRender)
-      _myFluentDialog!.Hide();
-    JSRuntime.InvokeVoidAsync("scrollToEnd", DivRef);
+    if (_focusClearAction && !Hidden && _clearLogButton != null)
+    {
+      _focusClearAction = false;
+      await _clearLogButton.Element.FocusAsync();
+    }
+
+    if (_restoreLauncherFocus && Hidden && _logButton != null)
+    {
+      _restoreLauncherFocus = false;
+      await _logButton.Element.FocusAsync();
+    }
+
+    if (!Hidden)
+      await JSRuntime.InvokeVoidAsync("scrollToEnd", DivRef);
+
+    await base.OnAfterRenderAsync(firstRender);
   }
 
   private void UpdateLog()
@@ -72,14 +76,35 @@ public partial class Log : BlazorEngineComponentBase, IDisposable, IAsyncDisposa
     _ = InvokeAsync(() => { StateHasChanged(); });
   }
 
-  private void OnOpen()
+  private void OpenLog()
   {
-    _myFluentDialog!.Show();
+    _focusClearAction = true;
+    Hidden = false;
+  }
+
+  private void CloseLog()
+  {
+    Hidden = true;
+    _restoreLauncherFocus = true;
   }
 
   private void ClearLog()
   {
     UIServices.Logger.Logs = new CircularLogBuffer(BlazorEngineLogger.MaxLogEntries);
     InvokeAsync(() => StateHasChanged());
+  }
+
+  public override void InternalDispose()
+  {
+    UIServices.Logger.OnChange -= UpdateLog;
+    KeyCodeService?.UnregisterListener(OnKeyDownAsync);
+    base.InternalDispose();
+  }
+
+  public override ValueTask InternalDisposeAsync()
+  {
+    UIServices.Logger.OnChange -= UpdateLog;
+    KeyCodeService?.UnregisterListener(OnKeyDownAsync);
+    return base.InternalDisposeAsync();
   }
 }

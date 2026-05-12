@@ -40,7 +40,7 @@
     protected override void OnInitialized()
     {
         if (Dialog != null)
-            Dialog.Style = "--dialog-width: 60%; --dialog-height: 60%; padding: 2rem;";
+            Dialog.Style = $"--dialog-width: {UISizeTokens.ActionLogDialogWidth}; --dialog-height: {UISizeTokens.ActionLogDialogHeight}; padding: 2rem;";
         Content.OnChange += Refresh;
         RefreshEntries();
     }

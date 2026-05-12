@@ -34,7 +34,7 @@
     <ListDataGrid T="TList"
                   @ref="List"
                   Context="this"
-                  Data="ListContent?.AsQueryable()"
+                  Data="ListContent"
                   VisibleFields="ListVisibleFields"
                   OnDiscard="data => OnDelete(data)"
                   OnSave="data => OnSave(data)"

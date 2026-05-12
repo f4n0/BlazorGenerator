@@ -2,18 +2,37 @@
 @inherits BlazorEngineComponentBase
 
 <div class="log-wrapper">
-  <FluentButton BackgroundColor="var(--neutral-fill-stealth-rest)" Title="Log" @onclick="OnOpen">
-    <FluentIcon Value="@(new Size20.CodeText())" Color="Color.Neutral" Title="Log"/>
+  <FluentButton @ref="_logButton"
+                BackgroundColor="var(--neutral-fill-stealth-rest)"
+                Title="@Captions.Instance.Log"
+                AriaLabel="@Captions.Instance.Log"
+                OnClick="OpenLog">
+    <FluentIcon Value="@(new Size20.CodeText())" Color="Color.Neutral" Title="@Captions.Instance.Log"/>
   </FluentButton>
 
-  <FluentDialog Class="log" @ref="_myFluentDialog"
+  <FluentDialog Class="log"
                 @bind-Hidden="@Hidden" Modal="true"
                 TrapFocus="true" PreventScroll="false" @ondialogdismiss="OnDismiss">
-    <FluentDialogHeader ShowDismiss="true">
+    <FluentDialogHeader ShowDismiss="false">
       <FluentStack HorizontalAlignment="HorizontalAlignment.SpaceBetween" VerticalAlignment="VerticalAlignment.Center">
-        <FluentLabel Typo="Typography.PaneHeader">Log</FluentLabel>
-
-        <FluentAnchor Href="#" OnClick="ClearLog" Appearance="Appearance.Hypertext">Clear Log</FluentAnchor>
+        <FluentLabel Typo="Typography.PaneHeader">@Captions.Instance.Log</FluentLabel>
+        <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="4">
+          <FluentButton @ref="_clearLogButton"
+                        Appearance="Appearance.Stealth"
+                        Title="@Captions.Instance.ClearLog"
+                        AriaLabel="@Captions.Instance.ClearLog"
+                        OnClick="ClearLog">
+            @Captions.Instance.ClearLog
+          </FluentButton>
+          <FluentSpacer />
+          <FluentButton Appearance="Appearance.Stealth"
+                        Title="@Captions.Instance.Close"
+                        AriaLabel="@Captions.Instance.Close"
+                        IconStart="@(new Size16.Dismiss())"
+                        OnClick="CloseLog">
+            @Captions.Instance.Close
+          </FluentButton>
+        </FluentStack>
       </FluentStack>
     </FluentDialogHeader>
     <div class="log-scroll" @ref="DivRef">

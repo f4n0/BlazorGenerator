@@ -13,10 +13,6 @@ public partial class FormField<T>
   private readonly Dictionary<string, object> _commonAttributes = [];
   private readonly string _id = Identifier.NewId();
 
-  private T? _lastData;
-  private VisibleField<T>? _lastField;
-  private bool _lastLookupOpen;
-
   private Dictionary<Type, RenderFragment>? _typeSwitch;
 
   private bool LookupOpen;
@@ -27,6 +23,8 @@ public partial class FormField<T>
   [Parameter] public bool ShowLabel { get; set; } = true;
 
   [Parameter] public bool IsTableCell { get; set; }
+
+  private bool EffectiveShowLabel => ShowLabel && Field.FieldType != typeof(Action);
 
   private Dictionary<Type, RenderFragment> TypeSwitch => _typeSwitch ??= new Dictionary<Type, RenderFragment>
   {
@@ -73,21 +71,6 @@ public partial class FormField<T>
     _commonAttributes["class"] = className;
     _commonAttributes["Immediate"] = Field.Immediate;
 
-    if (Field.FieldType == typeof(Action))
-      ShowLabel = false;
-
     return base.OnParametersSetAsync();
-  }
-
-  protected override bool ShouldRender()
-  {
-    return !ReferenceEquals(_lastData, Data) || !ReferenceEquals(_lastField, Field) || _lastLookupOpen != LookupOpen;
-  }
-
-  protected override void OnAfterRender(bool firstRender)
-  {
-    _lastData = Data;
-    _lastField = Field;
-    _lastLookupOpen = LookupOpen;
   }
 }

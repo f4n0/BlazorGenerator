@@ -15,6 +15,12 @@ public class Captions
   public string FileInputMessage { get; set; } = "Drag files here you wish to upload, or";
   public string Browse { get; set; } = "Browse";
   public string NavigationBack { get; set; } = "Back";
+  public string Navigation { get; set; } = "Navigation";
+  public string Help { get; set; } = "Help";
+  public string Log { get; set; } = "Log";
+  public string ClearLog { get; set; } = "Clear Log";
+  public string Close { get; set; } = "Close";
+  public string MoreActions { get; set; } = "More actions";
 
   public string NotFound { get; set; } = "Not Found";
   public string NotFoundMessage { get; set; } = "Sorry, there's nothing at this address.";

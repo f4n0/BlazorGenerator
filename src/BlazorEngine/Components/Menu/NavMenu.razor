@@ -11,7 +11,7 @@
     <FluentLayout>
       <FluentBodyContent>
         <FluentNavMenu @bind-Expanded="@_expanded" Width="250" Collapsible="true"
-                       CollapsedChildNavigation="true" Title="Navigation">
+                       CollapsedChildNavigation="true" Title="@Captions.Instance.Navigation">
 
           <FluentNavLink Href="@NavManager.BaseUri"
                          Match="NavLinkMatch.All"

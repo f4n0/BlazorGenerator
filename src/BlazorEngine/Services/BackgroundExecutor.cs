@@ -11,7 +11,6 @@ public class BackgroundExecutor : IAsyncDisposable
   public const string SectionName = "BLAZORENGINE_BACKGROUND_EXECUTOR";
   private const int DefaultShutdownTimeoutSeconds = 10;
   private const int SuccessNotificationTimeout = 10000;
-  private const string DialogWidth = "60%";
 
   private readonly ConcurrentQueue<EnqueueItem> _actionQueue = new();
   private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -20,6 +19,7 @@ public class BackgroundExecutor : IAsyncDisposable
   private readonly Task _processingTask;
   private readonly SemaphoreSlim _semaphore = new(0);
   private readonly IToastService _toastService;
+  private EnqueueItem? _currentItem;
   private bool _disposed;
 
   public BackgroundExecutor(IMessageService messageService, IToastService toastService, IDialogService dialogService)
@@ -60,6 +60,7 @@ public class BackgroundExecutor : IAsyncDisposable
 
         if (_actionQueue.TryDequeue(out var item))
         {
+          _currentItem = item;
           var logger = new ActionLogger();
           try
           {
@@ -69,14 +70,14 @@ public class BackgroundExecutor : IAsyncDisposable
             item.Message = ShowNotification(item.BuildTitle("Action executed successfully"), item, MessageIntent.Success,
                logger);
           }
-          catch (TaskCanceledException ex)
+          catch (TaskCanceledException)
           {
 
             logger.LogError("The task was cancelled by the user");
             item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageIntent.Error,
                logger);
           }
-          catch (OperationCanceledException ex)
+          catch (OperationCanceledException)
           {
             logger.LogError("The task was cancelled by the user");
             item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageIntent.Error,
@@ -87,6 +88,11 @@ public class BackgroundExecutor : IAsyncDisposable
             logger.LogError(ex, "Action execution failed");
             item.Message = ShowNotification(item.BuildTitle("Action execution failed"), item, MessageIntent.Error,
                logger);
+          }
+          finally
+          {
+            _currentItem = null;
+            item.Dispose();
           }
         }
       }
@@ -134,7 +140,7 @@ public class BackgroundExecutor : IAsyncDisposable
               PrimaryAction = null,
               SecondaryAction = null,
               ShowDismiss = true,
-              Width = DialogWidth,
+              Width = UISizeTokens.ActionLogDialogWidth,
               Height = "fit-content"
             });
           }
@@ -157,12 +163,22 @@ public class BackgroundExecutor : IAsyncDisposable
   private async Task ShutdownAsync(TimeSpan timeout)
   {
     await _cancellationTokenSource.CancelAsync();
+
+    if (_currentItem != null)
+      _currentItem.CancellationToken.Cancel();
+
+    while (_actionQueue.TryDequeue(out var item))
+    {
+      item.CancellationToken.Cancel();
+      item.Dispose();
+    }
+
     _semaphore.Release(); // Unblock if waiting
 
     await Task.WhenAny(_processingTask, Task.Delay(timeout));
   }
 
-  private class EnqueueItem(string taskTitle, Message? message, Func<ILogger, CancellationToken, Task> action)
+  private sealed class EnqueueItem(string taskTitle, Message? message, Func<ILogger, CancellationToken, Task> action) : IDisposable
   {
     public string TaskTitle { get; } = taskTitle;
     public Message? Message { get; set; } = message;
@@ -173,6 +189,11 @@ public class BackgroundExecutor : IAsyncDisposable
     public string BuildTitle(string message)
     {
       return $"{TaskTitle} - {message}";
+    }
+
+    public void Dispose()
+    {
+      CancellationToken.Dispose();
     }
   }
 }

@@ -37,7 +37,7 @@ public partial class ListDataGrid<T>
 
   private void UpdateSelectAllState()
   {
-    var totalCount = FilteredData?.Count() ?? 0;
+    var totalCount = FilteredItems.Count;
     var selectedCount = Selected.Count;
 
     if (selectedCount == 0)
@@ -74,8 +74,8 @@ public partial class ListDataGrid<T>
   private void HandleSelectAllChanged(bool? selectAll)
   {
     Selected.Clear();
-    if (selectAll == true && FilteredData != null)
-      foreach (var item in FilteredData)
+    if (selectAll == true)
+      foreach (var item in FilteredItems)
         Selected.Add(item);
 
     SelectedChanged.InvokeAsync(Selected);
@@ -92,6 +92,7 @@ public partial class ListDataGrid<T>
     // Skip clicks on the SelectColumn — already handled by HandleSelectionChange
     if (cell.Column is SelectColumn<T>)
       return;
+    
 
     if (cell.Item == null)
       return;
@@ -109,9 +110,9 @@ public partial class ListDataGrid<T>
     else if (_shiftPressed)
     {
       // Shift+click: range select from anchor to clicked item
-      if (_anchorItem != null && FilteredData != null)
+      if (_anchorItem != null && FilteredItems.Count > 0)
       {
-        var items = FilteredData.ToList();
+        var items = FilteredItems;
         var anchorIndex = items.IndexOf(_anchorItem);
         var clickedIndex = items.IndexOf(cell.Item);
 

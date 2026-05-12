@@ -73,7 +73,7 @@ public partial class Worksheet<TData, TList> : BlazorEngineComponentBase where T
   {
     if (List != null)
     {
-      List.Data = ListContent?.AsQueryable();
+      List.Data = ListContent;
       List.VisibleFields = ListVisibleFields;
       List.Refresh();
     }
