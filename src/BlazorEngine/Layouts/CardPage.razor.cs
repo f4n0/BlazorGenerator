@@ -8,7 +8,7 @@ namespace BlazorEngine.Layouts;
 
 public partial class CardPage<T> : BlazorEngineComponentBase, IDialogContentComponent<T>
 {
-  private PermissionSet permissionSet;
+  private PermissionSet permissionSet = new();
   public virtual int GridSize => 6;
 
   public List<VisibleField<T>> VisibleFields { get; set; } = [];

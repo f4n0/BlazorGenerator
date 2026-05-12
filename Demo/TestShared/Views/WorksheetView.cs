@@ -33,9 +33,10 @@ public class WorksheetView : Worksheet<Mock, Mock>
 
   private void SelectedChanged(object? sender, NotifyCollectionChangedEventArgs e)
   {
-    if (e.NewItems != null)
+    var selected = e.NewItems?.OfType<Mock>().FirstOrDefault();
+    if (selected != null)
     {
-      Content = (Mock)e.NewItems[0];
+      Content = selected;
       RefreshCard();
     }
   }

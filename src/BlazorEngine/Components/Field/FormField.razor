@@ -34,11 +34,13 @@ else
 
     RenderFragment RenderField => __builder =>
     {
-        if (TypeSwitch.TryGetValue(Field.FieldType, out var fragment))
+        var fieldType = Field.FieldType;
+
+        if (fieldType is not null && TypeSwitch.TryGetValue(fieldType, out var fragment))
         {
             @fragment
         }
-        else if (Field.FieldType.IsEnum)
+        else if (fieldType?.IsEnum == true)
         {
             @EnumField
         }
@@ -161,16 +163,22 @@ else
 
     RenderFragment EnumField => __builder =>
     {
-        var values = ReflectionUtilites.GetEnumNames(Field.FieldType);
+        if (Field.FieldType is not Type enumType)
+        {
+            <p>Unsupported enum field type.</p>
+            return;
+        }
+
+        var values = ReflectionUtilites.GetEnumNames(enumType);
         var current = Field.InternalGet(Data);
 
         <FluentSelect Items=@values
-                      OptionText="@(val => ReflectionUtilites.GetEnumCaption(Field.FieldType, val) ?? val)"
+                      OptionText="@(val => ReflectionUtilites.GetEnumCaption(enumType, val) ?? val)"
                       OptionValue="@(val => val)"
-                      Value="@(current is null ? null : Enum.GetName(Field.FieldType, current))"
+                      Value="@(current is null ? null : Enum.GetName(enumType, current))"
                       ValueChanged="@((val) =>
                                                     {
-                                                    if (val != null) Field.InternalSet(Data, Enum.Parse(Field.FieldType, val.ToString()));
+                                                    if (val != null) Field.InternalSet(Data, Enum.Parse(enumType, val.ToString()));
                                                 })"
               Placeholder="@Field.PlaceHolder"
               @attributes="@_commonAttributes" />

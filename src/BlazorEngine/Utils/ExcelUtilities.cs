@@ -20,7 +20,11 @@ internal static class ExcelUtilities
   {
     DataTable table = new();
     foreach (var field in visibleFields)
-      table.Columns.Add(field.Caption, field.FieldType);
+    {
+      var columnType = field.FieldType ?? typeof(object);
+      columnType = Nullable.GetUnderlyingType(columnType) ?? columnType;
+      table.Columns.Add(field.Caption, columnType);
+    }
 
     foreach (var item in data)
     {

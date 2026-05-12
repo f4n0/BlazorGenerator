@@ -4,8 +4,8 @@ namespace BlazorEngine.Components.Card;
 
 public partial class CardFields<T>
 {
-  private ILookup<string, VisibleField<T>>? _groupedFields;
-  private string[]? _groups;
+  private ILookup<string, VisibleField<T>> _groupedFields = Enumerable.Empty<VisibleField<T>>().ToLookup(f => string.Empty);
+  private string[] _groups = [];
 
   private bool ShowAdditional { get; set; }
 

@@ -8,7 +8,7 @@ public partial class TwoList<TFirstList, TSecondList> : BlazorEngineComponentBas
   where TFirstList : class
   where TSecondList : class
 {
-  private PermissionSet permissionSet;
+  private PermissionSet permissionSet = new();
   public IEnumerable<TFirstList>? FirstListContent { get; set; }
   public required List<VisibleField<TFirstList>> FirstListVisibleFields { get; set; }
   public virtual Type? FirstListEditFormType { get; set; }

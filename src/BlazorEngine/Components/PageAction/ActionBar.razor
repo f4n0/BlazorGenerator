@@ -21,7 +21,7 @@
               {
                 <FluentOverflowItem Data="action">
                   <FluentButton Appearance="Appearance.Stealth"
-                                OnClick="@(() => ReflectionUtilites.InvokeAction(action.Method, Context))"
+                                OnClick="@(() => InvokeActionAsync(action.Method))"
                                 IconStart="@(action.Attribute.Icon.ToFluentIcon())">
                     @(action.Attribute.Caption)
                   </FluentButton>
@@ -37,11 +37,11 @@
                 <SplitButton Title="@(firstOne.Attribute.Caption)"
                              Icon="@firstOne.Attribute.Icon.ToFluentIcon()"
                              Appearance="Appearance.Stealth"
-                             OnClick="@(() => { ReflectionUtilites.InvokeAction(firstOne.Method, Context); })">
+                             OnClick="@(() => InvokeActionAsync(firstOne.Method))">
 
                   @foreach (var action in filtered)
                   {
-                    <SplitButtonItem OnClick="@(() => { ReflectionUtilites.InvokeAction(action.Method, Context); })">
+                    <SplitButtonItem OnClick="@(() => InvokeActionAsync(action.Method))">
                       @action.Attribute.Caption
                       <span slot="start">
                                             <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start"
@@ -76,7 +76,7 @@
 
                 <FluentButton Appearance="Appearance.Stealth"
                               Style="width: 100%; justify-content: flex-start;"
-                              OnClick="@(() => ReflectionUtilites.InvokeAction(casted.Method, Context))"
+                              OnClick="@(() => InvokeOverflowActionAsync(casted.Method))"
                               IconStart="@(casted.Attribute.Icon.ToFluentIcon())">
                   @casted.Attribute.Caption
                 </FluentButton>
@@ -96,7 +96,7 @@
                     {
                       <FluentButton Appearance="Appearance.Stealth"
                                     Style="width: 100%; justify-content: flex-start;"
-                                    OnClick="@(() => { ReflectionUtilites.InvokeAction(action.Method, Context); })"
+                                    OnClick="@(() => InvokeOverflowActionAsync(action.Method))"
                                     IconStart="@(action.Attribute.Icon.ToFluentIcon())">
                         @action.Attribute.Caption
                       </FluentButton>

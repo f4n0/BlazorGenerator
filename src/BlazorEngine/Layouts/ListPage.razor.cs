@@ -6,7 +6,7 @@ namespace BlazorEngine.Layouts;
 
 public partial class ListPage<T> : BlazorEngineComponentBase where T : class
 {
-  private PermissionSet permissionSet;
+  private PermissionSet permissionSet = new();
   public IEnumerable<T>? Content { get; set; }
   public required List<VisibleField<T>> VisibleFields { get; set; } = new();
   public virtual Type? EditFormType { get; set; }

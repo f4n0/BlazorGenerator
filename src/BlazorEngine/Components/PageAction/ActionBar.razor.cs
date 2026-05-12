@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using BlazorEngine.Attributes;
+using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorEngine.Components.PageAction;
@@ -15,6 +16,17 @@ public partial class ActionBar
   public Dictionary<string, bool> PopOverBind { get; set; } = [];
 
   public bool OpenMore { get; set; }
+
+  private Task InvokeActionAsync(MethodInfo method)
+  {
+    return ReflectionUtilites.InvokeAction(method, Context);
+  }
+
+  private Task InvokeOverflowActionAsync(MethodInfo method)
+  {
+    OpenMore = false;
+    return InvokeActionAsync(method);
+  }
 
   private void PopulateDictionary()
   {

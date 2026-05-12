@@ -116,7 +116,7 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
     }
     catch (Exception)
     {
-      await UIServices.ShowErrorAsync("Something went wrong while exporting to Excel. Please try again.");
+      await UIServices!.ShowErrorAsync("Something went wrong while exporting to Excel. Please try again.");
     }
   }
 
@@ -152,12 +152,12 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
 
   private async Task FocusSearchAsync()
   {
-    if (SearchBarRef == null)
+    if (SearchBarRef?.Element is not { } searchElement)
       return;
 
     try
     {
-      await SearchBarRef.Element.FocusAsync();
+      await searchElement.FocusAsync();
     }
     catch
     {

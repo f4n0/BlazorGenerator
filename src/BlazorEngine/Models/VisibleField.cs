@@ -15,7 +15,7 @@ public class VisibleField<T>
   /// <summary>
   ///   The unique name of the field
   /// </summary>
-  public string Name { get; set; }
+  public string Name { get; set; } = string.Empty;
 
   /// <summary>
   ///   The caption, this will be the name visible to the users
@@ -54,8 +54,8 @@ public class VisibleField<T>
   public Action<VisibleFieldDrillDownArgs<T>>? OnDrillDown { get; set; }
 
   public Func<T, VisibleField<T>, RenderFragment>? CustomContent { get; set; }
-  public string CssStyle { get; set; }
-  public string CssClass { get; set; }
+  public string CssStyle { get; set; } = string.Empty;
+  public string CssClass { get; set; } = string.Empty;
 
 
   internal static VisibleField<T> NewField(string propertyName)

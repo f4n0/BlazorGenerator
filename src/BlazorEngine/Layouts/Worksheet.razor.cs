@@ -8,7 +8,7 @@ namespace BlazorEngine.Layouts;
 
 public partial class Worksheet<TData, TList> : BlazorEngineComponentBase where TList : class
 {
-  private PermissionSet permissionSet;
+  private PermissionSet permissionSet = new();
   public virtual int GridSize => 6;
   public TData? Content { get; set; }
   public List<VisibleField<TData>> VisibleFields { get; set; } = [];
