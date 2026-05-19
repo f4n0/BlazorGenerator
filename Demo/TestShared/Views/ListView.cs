@@ -24,7 +24,16 @@ public class ListView : ListPage<Mock>
     {
       pro.Get = args => { return args.Data.Name; };
     });
-    VisibleFields.AddField(nameof(Mock.Price));
+    VisibleFields.AddField(nameof(Mock.Price)).AddFieldProperty(pro =>
+    {
+      pro.Get = args => DelayedNameAsync(args.Data);
+
+      async Task<object?> DelayedNameAsync(Mock data)
+      {
+        await Task.Delay(TimeSpan.FromSeconds(2));
+        return data.Name;
+      }
+    });
     VisibleFields.AddField(nameof(Mock.Description));
     VisibleFields.AddField(nameof(Mock.OrderDate));
     VisibleFields.AddField(nameof(Mock.Icon));

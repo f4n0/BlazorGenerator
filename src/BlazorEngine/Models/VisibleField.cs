@@ -88,11 +88,42 @@ public class VisibleField<T>
 
   internal object? InternalGet(T data)
   {
-    return Get?.Invoke(new VisibleFieldGetterArgs<T>
+    if (Get == null)
+      return null;
+
+    var value = Get(new VisibleFieldGetterArgs<T>
     {
       Field = this,
       Data = data
     });
+
+    return value switch
+    {
+      ValueTask<object?> vt when vt.IsCompletedSuccessfully => vt.Result,
+      Task<object?> task when task.IsCompletedSuccessfully => task.Result,
+      ValueTask<object?> => null,
+      Task<object?> => null,
+      _ => value
+    };
+  }
+
+  internal ValueTask<object?> InternalGetAsync(T data)
+  {
+    if (Get == null)
+      return new ValueTask<object?>((object?)null);
+
+    var value = Get(new VisibleFieldGetterArgs<T>
+    {
+      Field = this,
+      Data = data
+    });
+
+    return value switch
+    {
+      ValueTask<object?> vt => vt,
+      Task<object?> task => new ValueTask<object?>(task),
+      _ => new ValueTask<object?>(value)
+    };
   }
 
   internal void InternalChange(T data, string? value)

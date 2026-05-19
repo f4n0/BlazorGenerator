@@ -1,4 +1,4 @@
-﻿using BlazorEngine.Models;
+using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Extensions;
@@ -14,6 +14,9 @@ public partial class FormField<T>
   private readonly string _id = Identifier.NewId();
 
   private Dictionary<Type, RenderFragment>? _typeSwitch;
+  private object? _currentValue;
+  private bool _isValueLoading;
+  private int _currentValueVersion;
 
   private bool LookupOpen;
 
@@ -44,6 +47,8 @@ public partial class FormField<T>
     { typeof(Action), ActionField }
   };
 
+  private object? CurrentValue => Field.Get == null ? Field.InternalGet(Data) : _currentValue;
+
   private void GenericOnClick()
   {
     if (Field.OnLookup != null) LookupOpen = true;
@@ -71,6 +76,79 @@ public partial class FormField<T>
     _commonAttributes["class"] = className;
     _commonAttributes["Immediate"] = Field.Immediate;
 
+    if (Field.Get != null)
+    {
+      _currentValue = null;
+      var value = Field.Get(new VisibleFieldGetterArgs<T>
+      {
+        Field = Field,
+        Data = Data
+      });
+
+      switch (value)
+      {
+        case ValueTask<object?> vt:
+          if (vt.IsCompletedSuccessfully)
+          {
+            _currentValue = vt.Result;
+            _isValueLoading = false;
+          }
+          else
+          {
+            _isValueLoading = true;
+            _currentValueVersion++;
+            _ = LoadCurrentValueAsync(_currentValueVersion, vt);
+          }
+          break;
+        case Task<object?> task:
+          if (task.IsCompletedSuccessfully)
+          {
+            _currentValue = task.Result;
+            _isValueLoading = false;
+          }
+          else
+          {
+            _isValueLoading = true;
+            _currentValueVersion++;
+            _ = LoadCurrentValueAsync(_currentValueVersion, new ValueTask<object?>(task));
+          }
+          break;
+        default:
+          _currentValue = value;
+          _isValueLoading = false;
+          break;
+      }
+    }
+    else
+    {
+      _isValueLoading = false;
+    }
+
     return base.OnParametersSetAsync();
   }
+
+  private async Task LoadCurrentValueAsync(int version, ValueTask<object?> valueTask)
+  {
+    try
+    {
+      _currentValue = await valueTask;
+    }
+    catch
+    {
+      if (version != _currentValueVersion)
+        return;
+
+      _currentValue = null;
+    }
+    finally
+    {
+      if (version == _currentValueVersion)
+      {
+        _isValueLoading = false;
+        await InvokeAsync(StateHasChanged);
+      }
+    }
+  }
 }
+
+

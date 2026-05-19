@@ -67,6 +67,18 @@ public class FieldBuilder<T>(VisibleField<T> field)
     return this;
   }
 
+  public FieldBuilder<T> GetAsync(Func<VisibleFieldGetterArgs<T>, ValueTask<object?>>? getFunc)
+  {
+    field.Get = getFunc is null ? null : args => getFunc(args);
+    return this;
+  }
+
+  public FieldBuilder<T> GetAsync(Func<VisibleFieldGetterArgs<T>, Task<object?>>? getFunc)
+  {
+    field.Get = getFunc is null ? null : args => getFunc(args);
+    return this;
+  }
+
   public FieldBuilder<T> Immediate(bool immediate = true)
   {
     field.Immediate = immediate;

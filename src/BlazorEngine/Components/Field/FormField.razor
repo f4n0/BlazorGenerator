@@ -1,4 +1,4 @@
-﻿@using BlazorEngine.Enum
+@using BlazorEngine.Enum
 @typeparam T
 
 @if (IsTableCell)
@@ -18,7 +18,11 @@ else
         <div style="flex-grow: 1; margin-bottom: calc(var(--design-unit)* 1px);"></div>
     }
 
-    @if (Field.CustomContent != null)
+    @if (Field.Get != null && _isValueLoading)
+    {
+        <FluentProgressRing Size="Size16" />
+    }
+    else if (Field.CustomContent != null)
     {
         @Field.CustomContent.Invoke(Data, Field)
     }
@@ -52,7 +56,7 @@ else
 
     RenderFragment BoolField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <div class="AfterFullSpanWidth">
             <FluentCheckbox Value="@(Convert.ToBoolean(current))"
                             ValueChanged="(val) => Field.InternalSet(Data, val)" ChildContent="@DrillDownOrLookup()"
@@ -63,7 +67,7 @@ else
 
     RenderFragment ShortField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="short" Value="@(Convert.ToInt16(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -72,7 +76,7 @@ else
 
     RenderFragment UShortField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="ushort" Value="@(Convert.ToUInt16(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -81,7 +85,7 @@ else
 
     RenderFragment IntField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="int" Value="@(Convert.ToInt32(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -90,7 +94,7 @@ else
 
     RenderFragment UIntField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="uint" Value="@(Convert.ToUInt32(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -99,7 +103,7 @@ else
 
     RenderFragment LongField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="long" Value="@(Convert.ToInt64(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -108,7 +112,7 @@ else
 
     RenderFragment UlongField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="ulong" Value="@(Convert.ToUInt64(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -117,7 +121,7 @@ else
 
     RenderFragment FloatField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="float" Value="@(Convert.ToSingle(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -126,7 +130,7 @@ else
 
     RenderFragment DoubleField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="double" Value="@(Convert.ToDouble(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -135,7 +139,7 @@ else
 
     RenderFragment DecimalField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentNumberField TValue="decimal" Value="@(Convert.ToDecimal(current))"
                            ValueChanged="@((val) => Field.InternalSet(Data, val))" ChildContent="@DrillDownOrLookup()"
                            @onclick="GenericOnClick"
@@ -144,14 +148,14 @@ else
 
     RenderFragment DateTimeField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentDatePicker @attributes="@_commonAttributes" Value="@(Convert.ToDateTime(current))"
                           ValueChanged="@((val) => Field.InternalSet(Data, val!))" Placeholder="@Field.PlaceHolder" />
     };
 
     RenderFragment IconField => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
         <FluentIcon Value="@((current as Type)?.ToFluentIcon())"></FluentIcon>
     };
 
@@ -170,7 +174,7 @@ else
         }
 
         var values = ReflectionUtilites.GetEnumNames(enumType);
-        var current = Field.InternalGet(Data);
+        var current = CurrentValue;
 
         <FluentSelect Items=@values
                       OptionText="@(val => ReflectionUtilites.GetEnumCaption(enumType, val) ?? val)"
@@ -186,7 +190,7 @@ else
 
     RenderFragment TextField => __builder =>
     {
-        var current = Field.InternalGet(Data)?.ToString();
+        var current = CurrentValue?.ToString();
         if (Field.Multiline)
         {
             <FluentTextArea Rows="4" Value="@current"
@@ -205,7 +209,19 @@ else
 
     RenderFragment TableCell => __builder =>
     {
-        var current = Field.InternalGet(Data);
+        if (Field.Get != null && _isValueLoading)
+        {
+            <FluentProgressRing Size="Size16" />
+            return;
+        }
+
+        if (Field.CustomContent != null)
+        {
+            @Field.CustomContent.Invoke(Data, Field)
+            return;
+        }
+
+        var current = CurrentValue;
         var link = Field.Href?.Invoke(Data) ?? "";
         var style = "";
         var fldStyle = Field.TextStyle?.Invoke(Data) ?? TextStyle.Normal;

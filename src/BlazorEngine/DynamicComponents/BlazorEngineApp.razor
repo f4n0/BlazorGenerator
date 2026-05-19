@@ -19,7 +19,7 @@
     </Router>
   </ChildContent>
   <ErrorContent>
-    <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal="@false" TrapFocus="@true">
+    <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal="@true" TrapFocus="@true" Style="z-index: 100000;">
       <FluentDialogHeader Visible="false"/>
       <div class="app-error-center">
         <h2>@Captions.Instance.ErrorTitle</h2>
