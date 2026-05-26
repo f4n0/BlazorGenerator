@@ -83,8 +83,9 @@ internal static class ReflectionUtilites
       if (ret is Task task)
         await task.ConfigureAwait(false);
     }
-    catch (TaskCanceledException)
+    catch (Exception)
     {
+      // The user must trap exception before this point
     }
   }
 
