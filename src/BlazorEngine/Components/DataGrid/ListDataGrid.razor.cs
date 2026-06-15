@@ -46,13 +46,6 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
 
   protected override async Task OnInitializedAsync()
   {
-    //for global F3, otherwise it won't work as soon the page load
-    if (!_searchShortcutRegistered)
-    {
-      KeyCodeService?.RegisterListener(OnSearchBarFocus);
-      _searchShortcutRegistered = true;
-    }
-
     await base.OnInitializedAsync();
   }
 
@@ -144,11 +137,6 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
     if (args.Key == KeyCode.Shift) _shiftPressed = false;
   }
 
-  private async Task OnSearchBarFocus(FluentKeyCodeEventArgs args)
-  {
-    if (args.Key == KeyCode.Function3 || (args.Key == KeyCode.KeyF && args.CtrlKey))
-      await FocusSearchAsync();
-  }
 
   private async Task FocusSearchAsync()
   {
@@ -190,23 +178,13 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
 
   public void Dispose()
   {
-    DisposeSearchShortcut();
     GC.SuppressFinalize(this);
   }
 
   public ValueTask DisposeAsync()
   {
-    DisposeSearchShortcut();
     GC.SuppressFinalize(this);
     return ValueTask.CompletedTask;
   }
 
-  private void DisposeSearchShortcut()
-  {
-    if (!_searchShortcutRegistered)
-      return;
-
-    KeyCodeService?.UnregisterListener(OnSearchBarFocus);
-    _searchShortcutRegistered = false;
-  }
 }
