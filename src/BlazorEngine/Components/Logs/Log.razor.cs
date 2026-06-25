@@ -46,9 +46,8 @@ public partial class Log : BlazorEngineComponentBase
   public async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
   {
     if (args.AltKey && args.Key == KeyCode.KeyL)
-      OpenLog();
+      await OpenLog();
 
-    await Task.CompletedTask;
   }
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -76,10 +75,12 @@ public partial class Log : BlazorEngineComponentBase
     _ = InvokeAsync(() => { StateHasChanged(); });
   }
 
-  private void OpenLog()
+  private async Task OpenLog()
+
   {
     _focusClearAction = true;
     Hidden = false;
+    await InvokeAsync(StateHasChanged);
   }
 
   private void CloseLog()

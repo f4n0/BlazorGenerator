@@ -1,6 +1,7 @@
 ﻿using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
+using System.Text.RegularExpressions;
 
 namespace BlazorEngine.Components.DataGrid;
 
@@ -100,10 +101,31 @@ public partial class ListDataGrid<T>
       {
         foreach (var field in VisibleFields)
         {
-          var cellValue = field.InternalGet(r);
-          if (cellValue?.ToString()?.Contains(search, StringComparison.OrdinalIgnoreCase) == true) return true;
-        }
+          var cellValue = field.InternalGet(r)?.ToString() ?? string.Empty;
+          if (search.StartsWith("/") && search.EndsWith("/"))
+          {
+            //this is a regex
+            var pattern = search[1..^1]; // remove leading and trailing '/'
 
+            try
+            {
+              if (Regex.IsMatch(
+                  cellValue,
+                  pattern,
+                  RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+              )) return true;
+            }
+            catch (ArgumentException)
+            {
+              return false; // invalid regex
+            }
+          }
+          else
+          {
+            if (cellValue.Contains(search, StringComparison.OrdinalIgnoreCase) == true) return true;
+          }
+        }
+        
         return false;
       });
     }
