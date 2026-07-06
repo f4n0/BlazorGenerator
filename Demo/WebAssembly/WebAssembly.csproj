@@ -17,5 +17,10 @@
     <ProjectReference Include="..\TestShared\TestShared.csproj" />
   </ItemGroup>
 
-
+  <ItemGroup>
+    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components" />
+    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons" />
+    <TrimmerRootAssembly Include="Microsoft.FluentUI.AspNetCore.Components.Icons.Filled" />
+  </ItemGroup>
+  
 </Project>
