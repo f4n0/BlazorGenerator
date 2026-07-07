@@ -102,7 +102,7 @@ public partial class ListDataGrid<T>
         foreach (var field in VisibleFields)
         {
           var cellValue = field.InternalGet(r)?.ToString() ?? string.Empty;
-          if (search.StartsWith("/") && search.EndsWith("/"))
+          if (search.Length >= 2 && search.StartsWith("/") && search.EndsWith("/"))
           {
             //this is a regex
             var pattern = search[1..^1]; // remove leading and trailing '/'

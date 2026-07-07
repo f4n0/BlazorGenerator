@@ -3,7 +3,7 @@
 @* ReSharper disable  AssignmentInsteadOfDiscard *@
 
 <div class="GridContainer">
-    <FluentToolbar Class="datagrid-toolbar">
+    <div class="datagrid-toolbar" style="display: flex; align-items: center; gap: 8px;">
         <FluentSearch @bind-Value="_searchValue" AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
                       Style="width: min(100%, 20rem);"
                       Autofocus="true"
@@ -18,12 +18,12 @@
         }
         @if (ShowExportToExcel)
         {
-            <FluentButton slot="end" Appearance="Appearance.Stealth" OnClick="ExportToExcel"
+            <FluentButton Appearance="Appearance.Stealth" OnClick="ExportToExcel"
                           Title="@Captions.Instance.ExportExcel"
                           IconStart="@ExportIcon">
             </FluentButton>
         }
-    </FluentToolbar>
+    </div>
     <FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="@OnKeyUpAsync" IgnoreModifier="false" tabindex="0"
                    Only="@SearchKeyCodes" StopPropagation="true" StopRepeat="true" PreventDefaultOnly="@SearchKeyCodes">
         @if (VisibleFields.Count > 0)
