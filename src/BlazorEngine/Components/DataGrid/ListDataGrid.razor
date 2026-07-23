@@ -3,29 +3,29 @@
 @* ReSharper disable  AssignmentInsteadOfDiscard *@
 
 <div class="GridContainer">
-    <div class="datagrid-toolbar" style="display: flex; align-items: center; gap: 8px;">
-        <FluentSearch @bind-Value="_searchValue" AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
-                      Style="width: min(100%, 20rem);"
-                      Autofocus="true"
-                      Immediate="true" ImmediateDelay="500"
-                      @bind-Value:after="HandleSearchInput" @ref="SearchBarRef" />
-        <FluentSpacer />
-        @if (Selected.Count > 0)
-        {
-            <FluentLabel Typo="Typography.Body" Style="color: var(--neutral-foreground-hint); margin-right: 8px;">
-                @Selected.Count selected
-            </FluentLabel>
-        }
-        @if (ShowExportToExcel)
-        {
-            <FluentButton Appearance="Appearance.Stealth" OnClick="ExportToExcel"
-                          Title="@Captions.Instance.ExportExcel"
-                          IconStart="@ExportIcon">
-            </FluentButton>
-        }
-    </div>
     <FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="@OnKeyUpAsync" IgnoreModifier="false" tabindex="0"
-                   Only="@SearchKeyCodes" StopPropagation="true" StopRepeat="true" PreventDefaultOnly="@SearchKeyCodes">
+                   Only="@SearchKeyCodes" StopPropagation="true" StopRepeat="true" PreventDefaultOnly="@PreventDefaultKeyCodes">
+        <div class="datagrid-toolbar" style="display: flex; align-items: center; gap: 8px;">
+            <FluentSearch @bind-Value="_searchValue" AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
+                          Style="width: min(100%, 20rem);"
+                          Autofocus="true"
+                          Immediate="true" ImmediateDelay="500"
+                          @bind-Value:after="HandleSearchInput" @ref="SearchBarRef" />
+            <FluentSpacer />
+            @if (Selected.Count > 0)
+            {
+                <FluentLabel Typo="Typography.Body" Style="color: var(--neutral-foreground-hint); margin-right: 8px;">
+                    @Selected.Count selected
+                </FluentLabel>
+            }
+            @if (ShowExportToExcel)
+            {
+                <FluentButton Appearance="Appearance.Stealth" OnClick="ExportToExcel"
+                              Title="@Captions.Instance.ExportExcel"
+                              IconStart="@ExportIcon">
+                </FluentButton>
+            }
+        </div>
         @if (VisibleFields.Count > 0)
         {
             <div class="datagrid-table-wrapper">

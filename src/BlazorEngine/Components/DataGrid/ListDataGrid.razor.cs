@@ -19,6 +19,13 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
     KeyCode.Shift
   };
 
+  private static readonly KeyCode[] PreventDefaultKeyCodes =
+  {
+    KeyCode.Function3,
+    KeyCode.Ctrl,
+    KeyCode.Shift
+  };
+
   private static readonly Icon MoreVerticalIcon = new Size16.MoreVertical();
   private static readonly Icon EditIcon = new Size16.Edit();
   private static readonly Icon DeleteIcon = new Size16.Delete();
@@ -27,11 +34,8 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
 
   private readonly ConditionalWeakTable<T, string> _rowIds = new();
   private int _gridActionsCount;
-  private bool _searchShortcutRegistered;
 
   private FluentMenu? GridActionRef { get; set; }
-
-  [Inject] private IKeyCodeService? KeyCodeService { get; set; }
 
   private string GetRowId(T item)
   {

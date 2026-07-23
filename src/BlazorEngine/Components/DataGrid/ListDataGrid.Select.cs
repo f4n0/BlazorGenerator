@@ -1,4 +1,6 @@
-﻿using DocumentFormat.OpenXml.Drawing;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -29,16 +31,73 @@ public partial class ListDataGrid<T>
   /// </summary>
   private List<T> _selectedSnapshot = [];
 
+  private static readonly Func<T, object?>? ItemKeySelector = CreateItemKeySelector();
+
+  private static Func<T, object?>? CreateItemKeySelector()
+  {
+    var keyProperty = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+      .FirstOrDefault(static property => Attribute.IsDefined(property, typeof(KeyAttribute)))
+      ?? typeof(T).GetProperty("Id", BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
+
+    return keyProperty == null ? null : item => keyProperty.GetValue(item);
+  }
+
+  private static bool ItemsMatch(T left, T right)
+  {
+    if (ItemKeySelector != null)
+    {
+      var leftKey = ItemKeySelector(left);
+      var rightKey = ItemKeySelector(right);
+      if (leftKey != null && rightKey != null)
+        return Equals(leftKey, rightKey);
+    }
+
+    return EqualityComparer<T>.Default.Equals(left, right);
+  }
+
+  private bool SelectionContains(T item)
+  {
+    return Selected.Any(selectedItem => ItemsMatch(selectedItem, item));
+  }
+
+  private void AddToSelection(T item)
+  {
+    if (!SelectionContains(item))
+      Selected.Add(item);
+  }
+
+  private void RemoveFromSelection(T item)
+  {
+    var selectedItem = Selected.FirstOrDefault(existingItem => ItemsMatch(existingItem, item));
+    if (selectedItem != null)
+      Selected.Remove(selectedItem);
+  }
+
+  private bool IsVisibleItem(T item)
+  {
+    return FilteredItems.Any(visibleItem => ItemsMatch(visibleItem, item));
+  }
+
   private void RefreshSelectionSnapshot()
   {
-    _selectedSnapshot = [.. Selected];
-    UpdateSelectAllState();
+    RefreshSelectionSnapshot(FilteredItems);
+  }
+
+  private void RefreshSelectionSnapshot(IReadOnlyCollection<T> visibleItems)
+  {
+    _selectedSnapshot = [.. visibleItems.Where(SelectionContains)];
+    UpdateSelectAllState(visibleItems);
   }
 
   private void UpdateSelectAllState()
   {
-    var totalCount = FilteredItems.Count;
-    var selectedCount = Selected.Count;
+    UpdateSelectAllState(FilteredItems);
+  }
+
+  private void UpdateSelectAllState(IReadOnlyCollection<T> visibleItems)
+  {
+    var totalCount = visibleItems.Count;
+    var selectedCount = visibleItems.Count(SelectionContains);
 
     if (selectedCount == 0)
       _selectAll = false;
@@ -54,14 +113,19 @@ public partial class ListDataGrid<T>
   /// </summary>
   private void HandleSelectionChange((T Item, bool Selected) args)
   {
+    if (!args.Selected && !IsVisibleItem(args.Item))
+    {
+      RefreshSelectionSnapshot();
+      return;
+    }
+
     if (args.Selected)
     {
-      if (!Selected.Contains(args.Item))
-        Selected.Add(args.Item);
+      AddToSelection(args.Item);
     }
     else
     {
-      Selected.Remove(args.Item);
+      RemoveFromSelection(args.Item);
     }
 
     SelectedChanged.InvokeAsync(Selected);
@@ -73,10 +137,16 @@ public partial class ListDataGrid<T>
   /// </summary>
   private void HandleSelectAllChanged(bool? selectAll)
   {
-    Selected.Clear();
     if (selectAll == true)
-      foreach (var item in FilteredItems)
-        Selected.Add(item);
+    {
+      foreach (var visibleItem in FilteredItems)
+        AddToSelection(visibleItem);
+    }
+    else
+    {
+      foreach (var visibleItem in FilteredItems.Where(SelectionContains).ToList())
+        RemoveFromSelection(visibleItem);
+    }
 
     SelectedChanged.InvokeAsync(Selected);
     RefreshSelectionSnapshot();
@@ -100,10 +170,10 @@ public partial class ListDataGrid<T>
     if (_ctrlPressed)
     {
       // Ctrl+click: multi-select toggle
-      if (Selected.Contains(cell.Item))
-        Selected.Remove(cell.Item);
+      if (SelectionContains(cell.Item))
+        RemoveFromSelection(cell.Item);
       else
-        Selected.Add(cell.Item);
+        AddToSelection(cell.Item);
 
       _anchorItem = cell.Item;
     }
@@ -113,8 +183,8 @@ public partial class ListDataGrid<T>
       if (_anchorItem != null && FilteredItems.Count > 0)
       {
         var items = FilteredItems;
-        var anchorIndex = items.IndexOf(_anchorItem);
-        var clickedIndex = items.IndexOf(cell.Item);
+        var anchorIndex = items.FindIndex(item => ItemsMatch(item, _anchorItem));
+        var clickedIndex = items.FindIndex(item => ItemsMatch(item, cell.Item));
 
         if (anchorIndex >= 0 && clickedIndex >= 0)
         {

@@ -85,6 +85,7 @@ public partial class ListDataGrid<T>
     _lastSearchValue = _searchValue;
     _lastFieldFiltersHash = currentFiltersHash;
     _lastDataRef = Data;
+    RefreshSelectionSnapshot(_cachedFilteredItems);
   }
 
   private List<T> FilterDataInternal()

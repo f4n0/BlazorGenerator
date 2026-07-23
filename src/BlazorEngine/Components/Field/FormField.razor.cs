@@ -17,6 +17,8 @@ public partial class FormField<T>
   private object? _currentValue;
   private bool _isValueLoading;
   private int _currentValueVersion;
+  private VisibleField<T>? _currentValueField;
+  private T? _currentValueData;
 
   private bool LookupOpen;
 
@@ -78,6 +80,12 @@ public partial class FormField<T>
 
     if (Field.Get != null)
     {
+      if (EqualityComparer<VisibleField<T>>.Default.Equals(_currentValueField, Field) &&
+          EqualityComparer<T>.Default.Equals(_currentValueData, Data))
+        return base.OnParametersSetAsync();
+
+      _currentValueField = Field;
+      _currentValueData = Data;
       _currentValue = null;
       var value = Field.Get(new VisibleFieldGetterArgs<T>
       {
@@ -121,6 +129,8 @@ public partial class FormField<T>
     }
     else
     {
+      _currentValueField = Field;
+      _currentValueData = Data;
       _isValueLoading = false;
     }
 
