@@ -51,6 +51,14 @@ public partial class FormField<T>
 
   private object? CurrentValue => Field.Get == null ? Field.InternalGet(Data) : _currentValue;
 
+  private void SetFieldValue(object? value)
+  {
+    Field.InternalSet(Data, value);
+
+    if (Field.Get != null)
+      _currentValue = value;
+  }
+
   private void GenericOnClick()
   {
     if (Field.OnLookup != null) LookupOpen = true;
