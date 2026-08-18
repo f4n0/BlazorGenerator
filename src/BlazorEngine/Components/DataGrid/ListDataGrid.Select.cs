@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using DocumentFormat.OpenXml.Drawing;
+﻿using DocumentFormat.OpenXml.Drawing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -31,29 +29,9 @@ public partial class ListDataGrid<T>
   /// </summary>
   private List<T> _selectedSnapshot = [];
 
-  private static readonly Func<T, object?>? ItemKeySelector = CreateItemKeySelector();
-
-  private static Func<T, object?>? CreateItemKeySelector()
-  {
-    var keyProperty = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-      .FirstOrDefault(static property => Attribute.IsDefined(property, typeof(KeyAttribute)))
-      ?? typeof(T).GetProperty("Id", BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase);
-
-    return keyProperty == null ? null : item => keyProperty.GetValue(item);
-  }
-
+  // EqualityComparer<T>.Default uses IEquatable<T> when the model implements it.
   private static bool ItemsMatch(T left, T right)
-  {
-    if (ItemKeySelector != null)
-    {
-      var leftKey = ItemKeySelector(left);
-      var rightKey = ItemKeySelector(right);
-      if (leftKey != null && rightKey != null)
-        return Equals(leftKey, rightKey);
-    }
-
-    return EqualityComparer<T>.Default.Equals(left, right);
-  }
+    => EqualityComparer<T>.Default.Equals(left, right);
 
   private bool SelectionContains(T item)
   {
