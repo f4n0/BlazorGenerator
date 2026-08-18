@@ -56,7 +56,21 @@ public partial class FormField<T>
     Field.InternalSet(Data, value);
 
     if (Field.Get != null)
-      _currentValue = value;
+    {
+      // A custom setter may transform a lookup key before storing it in the model.
+      var version = ++_currentValueVersion;
+      var currentValue = Field.InternalGetAsync(Data);
+      if (currentValue.IsCompletedSuccessfully)
+      {
+        _currentValue = currentValue.Result;
+        _isValueLoading = false;
+      }
+      else
+      {
+        _isValueLoading = true;
+        _ = LoadCurrentValueAsync(version, currentValue);
+      }
+    }
   }
 
   private void GenericOnClick()
