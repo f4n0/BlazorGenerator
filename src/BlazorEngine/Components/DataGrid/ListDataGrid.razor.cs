@@ -34,6 +34,8 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
 
   private readonly ConditionalWeakTable<T, string> _rowIds = new();
   private int _gridActionsCount;
+  private IEnumerable<T>? _lastDataParameter;
+  private bool _hasDataParameter;
 
   private FluentMenu? GridActionRef { get; set; }
 
@@ -44,6 +46,14 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
 
   protected override void OnParametersSet()
   {
+    if (_hasDataParameter && !ReferenceEquals(_lastDataParameter, Data))
+    {
+      ClearSelection();
+      InvalidateFilterCache();
+    }
+
+    _lastDataParameter = Data;
+    _hasDataParameter = true;
     _gridActionsCount = GridActions?.Count() ?? 0;
     base.OnParametersSet();
   }
@@ -172,6 +182,7 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
 
   internal void Refresh()
   {
+    ClearSelection();
     InvalidateFilterCache();
     InvokeAsync(() =>
     {

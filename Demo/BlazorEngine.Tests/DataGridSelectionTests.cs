@@ -30,6 +30,55 @@ public class DataGridSelectionTests
     Assert.Same(second, grid.Selected[0]);
   }
 
+  [Fact]
+  public void DataSourceChangeClearsPreviousSelection()
+  {
+    var first = new CompositeKeyItem(1, 1);
+    var second = new CompositeKeyItem(1, 2);
+    var grid = Activator.CreateInstance<ListDataGrid<CompositeKeyItem>>();
+    var data = new List<CompositeKeyItem> { first };
+
+    SetParameter(grid, "Data", data);
+    grid.Selected.Add(first);
+    InvokeOnParametersSet(grid);
+
+    SetParameter(grid, "Data", new List<CompositeKeyItem> { second });
+    InvokeOnParametersSet(grid);
+
+    Assert.Empty(grid.Selected);
+  }
+
+  [Fact]
+  public void SameDataSourceKeepsSelectionAcrossParameterUpdates()
+  {
+    var item = new CompositeKeyItem(1, 1);
+    var data = new List<CompositeKeyItem> { item };
+    var grid = Activator.CreateInstance<ListDataGrid<CompositeKeyItem>>();
+
+    SetParameter(grid, "Data", data);
+    grid.Selected.Add(item);
+    InvokeOnParametersSet(grid);
+
+    SetParameter(grid, "Data", data);
+    InvokeOnParametersSet(grid);
+
+    Assert.Single(grid.Selected);
+  }
+
+  private static void InvokeOnParametersSet(ListDataGrid<CompositeKeyItem> grid)
+  {
+    typeof(ListDataGrid<CompositeKeyItem>)
+      .GetMethod("OnParametersSet", BindingFlags.Instance | BindingFlags.NonPublic)!
+      .Invoke(grid, null);
+  }
+
+  private static void SetParameter(ListDataGrid<CompositeKeyItem> grid, string name, object value)
+  {
+    typeof(ListDataGrid<CompositeKeyItem>)
+      .GetProperty(name, BindingFlags.Instance | BindingFlags.Public)!
+      .SetValue(grid, value);
+  }
+
   private sealed class CompositeKeyItem(int tenantId, int itemId) : IEquatable<CompositeKeyItem>
   {
     [Key] public int TenantId { get; } = tenantId;

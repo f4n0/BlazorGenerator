@@ -51,6 +51,14 @@ public partial class ListDataGrid<T>
       Selected.Remove(selectedItem);
   }
 
+  private void ClearSelection()
+  {
+    Selected.Clear();
+    _selectedSnapshot = [];
+    _selectAll = false;
+    _anchorItem = null;
+  }
+
   private bool IsVisibleItem(T item)
   {
     return FilteredItems.Any(visibleItem => ItemsMatch(visibleItem, item));
