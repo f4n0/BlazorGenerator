@@ -94,7 +94,7 @@ public class ListView : ListPage<Mock>
   public void GridAction(Mock? rec = null)
   {
     _ = rec;
-    UIServices!.DialogService.ShowInfo("Grid Action");
+    UIServices!.DialogService.ShowInfoAsync("Grid Action");
   }
 
   [PageAction(Caption = "ShowProgress")]

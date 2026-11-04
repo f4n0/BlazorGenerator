@@ -11,7 +11,6 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazorEngine(); //.UseBlazorGeneratorAuthentication();
 
 BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
-BlazorEngineSettings.Instance.BaseColor = OfficeColor.Access;
 BlazorEngineSettings.Instance.ShowHelpButton = true;
 BlazorEngineSettings.Instance.ShowBackgroundTasks = true;
 

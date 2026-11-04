@@ -1,3 +1,4 @@
-.bg-executor-wrapper ::deep .fluentui-counterbadge-container {
-  margin-top: -2px;
+.bg-executor-wrapper ::deep fluent-badge-container {
+  display: flex;
+  align-items: center;
 }

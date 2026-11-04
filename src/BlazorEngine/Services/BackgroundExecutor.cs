@@ -3,6 +3,7 @@ using BlazorEngine.Components.Background;
 using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Filled;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace BlazorEngine.Services;
 
@@ -15,22 +16,28 @@ public class BackgroundExecutor : IAsyncDisposable
   private readonly ConcurrentQueue<EnqueueItem> _actionQueue = new();
   private readonly CancellationTokenSource _cancellationTokenSource = new();
   private readonly IDialogService _dialogService;
-  private readonly IMessageService _messageService;
+  private readonly INotificationService _notificationService;
+  private readonly ILogger<BackgroundExecutor> _logger;
+  private readonly ConcurrentDictionary<string, IMessageBarInstance> _notifications = new();
+  private readonly object _notificationLock = new();
+  private Task _notificationTask = Task.CompletedTask;
   private readonly Task _processingTask;
   private readonly SemaphoreSlim _semaphore = new(0);
-  private readonly IToastService _toastService;
   private EnqueueItem? _currentItem;
   private bool _disposed;
 
-  public BackgroundExecutor(IMessageService messageService, IToastService toastService, IDialogService dialogService)
+  public BackgroundExecutor(INotificationService notificationService, IDialogService dialogService,
+    ILogger<BackgroundExecutor> logger)
   {
-    _toastService = toastService;
-    _messageService = messageService;
+    _notificationService = notificationService;
+    _logger = logger;
     _dialogService = dialogService;
     _processingTask = Task.Run(ProcessQueueAsync);
   }
 
-  public IDialogReference? PanelExecutorRef { get; set; }
+  public IDialogInstance? PanelExecutorRef { get; set; }
+  public int NotificationCount => _notifications.Count;
+  public event Action? OnNotificationsChanged;
 
   public async ValueTask DisposeAsync()
   {
@@ -64,29 +71,29 @@ public class BackgroundExecutor : IAsyncDisposable
           var logger = new ActionLogger();
           try
           {
-            item.Message = ShowNotification(item.BuildTitle("Executing action"), item, MessageIntent.Custom,
+            item.Message = ShowNotification(item.BuildTitle("Executing action"), item, MessageBarIntent.Custom,
               logger);
             await item.Action(logger, item.CancellationToken.Token);
-            item.Message = ShowNotification(item.BuildTitle("Action executed successfully"), item, MessageIntent.Success,
+            item.Message = ShowNotification(item.BuildTitle("Action executed successfully"), item, MessageBarIntent.Success,
                logger);
           }
           catch (TaskCanceledException)
           {
 
             logger.LogError("The task was cancelled by the user");
-            item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageIntent.Error,
+            item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageBarIntent.Error,
                logger);
           }
           catch (OperationCanceledException)
           {
             logger.LogError("The task was cancelled by the user");
-            item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageIntent.Error,
+            item.Message = ShowNotification(item.BuildTitle("Action execution stopped"), item, MessageBarIntent.Error,
                logger);
           }
           catch (Exception ex)
           {
             logger.LogError(ex, "Action execution failed");
-            item.Message = ShowNotification(item.BuildTitle("Action execution failed"), item, MessageIntent.Error,
+            item.Message = ShowNotification(item.BuildTitle("Action execution failed"), item, MessageBarIntent.Error,
                logger);
           }
           finally
@@ -103,61 +110,91 @@ public class BackgroundExecutor : IAsyncDisposable
     }
     catch (Exception ex)
     {
-      ShowNotification($"Queue processing error: {ex.Message}",null, MessageIntent.Error);
+      ShowNotification($"Queue processing error: {ex.Message}",null, MessageBarIntent.Error);
     }
   }
 
-  private Message ShowNotification(string message, EnqueueItem? item, MessageIntent intent = MessageIntent.Info,
+  private string ShowNotification(string message, EnqueueItem? item, MessageBarIntent intent = MessageBarIntent.Info,
     ActionLogger? logger = null)
   {
-    if (item?.Message != null) _messageService.Remove(item.Message);
-
-    if (intent == MessageIntent.Success) _toastService.ShowSuccess(message);
-
-    return _messageService.ShowMessageBar(options =>
+    var id = Identifier.NewId();
+    var options = new MessageBarOptions
     {
-      options.Icon = intent == MessageIntent.Custom ? new Size20.PersonRunning() : null;
-      options.Timeout = intent == MessageIntent.Success ? SuccessNotificationTimeout : null;
-      options.Intent = intent;
-      options.Title = "Background Executor";
-      options.Body = message;
-      options.Timestamp = DateTime.UtcNow;
-      options.Section = SectionName;
-      options.AllowDismiss = intent != MessageIntent.Custom;
+      Id = id,
+      Icon = intent == MessageBarIntent.Custom ? new Size20.PersonRunning() : null,
+      Lifetime = intent == MessageBarIntent.Success ? TimeSpan.FromMilliseconds(SuccessNotificationTimeout) : null,
+      Intent = intent,
+      Title = "Background Executor",
+      Message = message,
+      TimeStamp = DateTime.UtcNow,
+      Section = SectionName,
+      AllowDismiss = intent != MessageBarIntent.Custom,
+      OnStatusChange = OnNotificationStatusChanged,
+      Parameters = new Dictionary<string, object?>
+      {
+        [nameof(BackgroundTaskMessage.Logger)] = logger,
+        [nameof(BackgroundTaskMessage.Stop)] = intent == MessageBarIntent.Custom && item != null
+          ? (Func<Task>)(() => StopActionAsync(item))
+          : null
+      }
+    };
+    lock (_notificationLock)
+    {
+      _notificationTask = PublishNotificationAsync(_notificationTask, options, item?.Message);
+    }
+    return id;
+  }
 
-      if (logger != null)
-        options.PrimaryAction = new ActionButton<Message>
-        {
-          Text = "View Logs",
-          OnClick = async _ =>
-          {
-            if (PanelExecutorRef != null)
-              await PanelExecutorRef.CloseAsync();
-            await _dialogService.ShowDialogAsync(typeof(ActionLogPanel), logger, new DialogParameters
-            {
-              Alignment = HorizontalAlignment.Right,
-              Title = "Action Logs",
-              PrimaryAction = null,
-              SecondaryAction = null,
-              ShowDismiss = true,
-              Width = UISizeTokens.ActionLogDialogWidth,
-              Height = "fit-content"
-            });
-          }
-        };
+  private async Task PublishNotificationAsync(Task previousNotification, MessageBarOptions options, string? previousId)
+  {
+    try
+    {
+      await previousNotification;
+      if (previousId != null) await _notificationService.CloseAsync(previousId);
+      await _notificationService.ShowMessageBarAsync<BackgroundTaskMessage>(options);
+      if (options.Intent == MessageBarIntent.Success)
+        await _notificationService.ShowSuccessToastAsync(options.Message ?? string.Empty);
+    }
+    catch (Exception exception)
+    {
+      _logger.LogError(exception, "Unable to publish background task notification.");
+    }
+  }
 
-      if (intent == MessageIntent.Custom)
-        options.SecondaryAction = new ActionButton<Message>
-        {
-          Text = "Stop",
-          OnClick = async _ =>
-          {
-            await item!.CancellationToken.CancelAsync();
-          }
+  private static async Task StopActionAsync(EnqueueItem item)
+  {
+    try
+    {
+      await item.CancellationToken.CancelAsync();
+    }
+    catch (ObjectDisposedException)
+    {
+      // The action completed while its running notification was being replaced.
+    }
+  }
 
-        };
+  private void OnNotificationStatusChanged(MessageBarEventArgs args)
+  {
+    if (args.Status == MessageBarLifecycleStatus.Visible && args.Instance != null)
+      _notifications[args.Id] = args.Instance;
+    else if (args.Status == MessageBarLifecycleStatus.Unmounted)
+      _notifications.TryRemove(args.Id, out _);
+    OnNotificationsChanged?.Invoke();
+  }
 
-    });
+  public async Task OpenActionLogsAsync(ActionLogger logger)
+  {
+    if (PanelExecutorRef != null) await PanelExecutorRef.CancelAsync();
+    var options = new DialogOptions
+    {
+      Width = UISizeTokens.ActionLogDialogWidth,
+      Height = UISizeTokens.ActionLogDialogHeight,
+      Parameters = new Dictionary<string, object?> { [nameof(ActionLogPanel.Content)] = logger }
+    };
+    options.Header.Title = "Action Logs";
+    options.Footer.PrimaryAction.Visible = false;
+    options.Footer.SecondaryAction.Visible = false;
+    await _dialogService.ShowDialogAsync<ActionLogPanel>(options);
   }
 
   private async Task ShutdownAsync(TimeSpan timeout)
@@ -178,10 +215,10 @@ public class BackgroundExecutor : IAsyncDisposable
     await Task.WhenAny(_processingTask, Task.Delay(timeout));
   }
 
-  private sealed class EnqueueItem(string taskTitle, Message? message, Func<ILogger, CancellationToken, Task> action) : IDisposable
+  private sealed class EnqueueItem(string taskTitle, string? message, Func<ILogger, CancellationToken, Task> action) : IDisposable
   {
     public string TaskTitle { get; } = taskTitle;
-    public Message? Message { get; set; } = message;
+    public string? Message { get; set; } = message;
     public Func<ILogger, CancellationToken, Task> Action { get; } = action;
 
     public CancellationTokenSource CancellationToken = new();

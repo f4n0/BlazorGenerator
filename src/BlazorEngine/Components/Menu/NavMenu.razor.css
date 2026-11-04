@@ -1,5 +1,12 @@
 .navmenu {
-  background: var(--neutral-fill-stealth-rest);
+  background: var(--colorNeutralBackground2);
   height: 100%;
-  box-shadow: 1px 0 5px var(--neutral-fill-stealth-rest);
+  box-shadow: var(--shadow4);
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.navmenu-footer {
+  margin-top: auto;
 }

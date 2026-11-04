@@ -1,8 +1,4 @@
 ﻿<FluentOverlay @bind-Visible="@_showLock"
-               Opacity="0.4"
-               Alignment="Align.Center"
-               Justification="JustifyContent.Center"
-               Dismissable="false"
-               PreventScroll="true">
-  <FluentLabel>@Captions.Instance.LockUIMessage</FluentLabel>
+               Opacity="40" FullScreen="true" CloseMode="OverlayCloseMode.Manual">
+  <FluentText>@Captions.Instance.LockUIMessage</FluentText>
 </FluentOverlay>

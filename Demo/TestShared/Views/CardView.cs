@@ -29,17 +29,17 @@ public class CardView : CardPage<Mock>
       .AddFieldProperty(t => t.OnLookup = _ => new Dictionary<object, string>
         { { "test", "test <i>view</i>" }, { "test1", "test view 1" } });
     VisibleFields.AddField(nameof(Mock.Price)).AddFieldProperty(prop =>
-      prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
+      prop.OnDrillDown = args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
     VisibleFields.AddField(nameof(Mock.Description), (ref o) =>
       {
-        o.TextFieldType = TextFieldType.Password;
+        o.TextInputType = TextInputType.Password;
         o.Additional = true;
       }
     );
 
     VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(p => p.Multiline = true);
     VisibleFields.AddField(nameof(Mock.OrderDate)).AddFieldProperty(prop =>
-      prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
+      prop.OnDrillDown = args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
     VisibleFields.AddField(nameof(Mock.Type));
     VisibleFields.AddField(nameof(Mock.NullTest)).AddFieldProperty(p => p.Additional = true);
     VisibleFields.AddField(nameof(Mock.Enabled)).AddFieldProperty(p => p.Additional = true);
@@ -184,7 +184,7 @@ public class CardView : CardPage<Mock>
   private async Task LongProcedure(CancellationToken cy = default)
   {
     await Task.Delay(5000, cy);
-    UIServices.DialogService.ShowInfo("Done");
+    await UIServices.DialogService.ShowInfoAsync("Done");
   }
 
   [PageAction(Caption = "Thorow Error")]

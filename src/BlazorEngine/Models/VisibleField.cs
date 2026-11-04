@@ -43,7 +43,7 @@ public class VisibleField<T>
   public Func<VisibleFieldGetterArgs<T>, object?>? Get { get; set; }
   public bool Immediate { get; set; } = false;
   public bool Additional { get; set; } = false;
-  public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
+  public TextInputType TextInputType { get; set; } = TextInputType.Text;
   public bool ReadOnly { get; set; }
   public Func<T, TextStyle>? TextStyle { get; set; }
   public Func<T, Color>? Color { get; set; }

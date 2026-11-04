@@ -1,4 +1,5 @@
 ﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+@inherits FluentDialogInstance
 <FluentInputFile Id="my-file-uploader"
                  Mode="InputFileMode.Stream"
                  Multiple="@Content.Multiple"
@@ -7,7 +8,7 @@
                  Accept="@Content.FileFilters"
                  @bind-ProgressPercent="@_progressPercent"
                  OnCompleted="@OnCompletedAsync"
-                 Style="height: 200px; border: 1px dashed var(--accent-fill-rest);">
+                 Style="height: 200px; border: 1px dashed var(--colorBrandStroke1);">
   <ChildContent>
     <label for="my-file-uploader">
       <FluentIcon Value="@(new Size24.ArrowUpload())"/>

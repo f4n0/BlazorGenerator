@@ -91,9 +91,9 @@ public class FieldBuilder<T>(VisibleField<T> field)
     return this;
   }
 
-  public FieldBuilder<T> TextFieldType(TextFieldType type)
+  public FieldBuilder<T> TextInputType(TextInputType type)
   {
-    field.TextFieldType = type;
+    field.TextInputType = type;
     return this;
   }
 

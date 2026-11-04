@@ -1,61 +1,44 @@
-﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
 @implements IDisposable
-@inject IMessageService MessageService
 @inject IDialogService DialogService
-@inject BackgroundExecutor executor
+@inject BackgroundExecutor Executor
 
 <div class="bg-executor-wrapper">
-  <FluentCounterBadge Count="@MessageService.Count(BackgroundExecutor.SectionName)"
-                      Max="9"
-                      ShowWhen="@((i) => MessageService.Count(BackgroundExecutor.SectionName) > 0)"
-                      ShowOverflow="true"
-                      BackgroundColor="@Color.Error"
-                      VerticalPosition="48"
-                      Class="badge"
-                      Color="Color.Fill"
-                      Appearance="Appearance.Accent">
-    <ChildContent>
-      <FluentButton OnClick="OpenNotificationCenterAsync" BackgroundColor="var(--neutral-fill-stealth-rest)"
-                    Title="Notification center">
-        @NotificationIcon()
-      </FluentButton>
-    </ChildContent>
-  </FluentCounterBadge>
+  <FluentBadge Content="@(Executor.NotificationCount > 0 ? (Executor.NotificationCount > 9 ? "9+" : Executor.NotificationCount.ToString()) : null)"
+               Color="BadgeColor.Danger" Positioning="Positioning.AboveEnd" Class="badge"
+               Style="@(Executor.NotificationCount == 0 ? "display: none;" : null)">
+    <AnchorContent>
+      <FluentButton OnClick="OpenNotificationCenterAsync" IconOnly="true"
+                    Title="Notification center" Tooltip="Notification center" IconStart="@(new Size20.PersonRunning())" />
+    </AnchorContent>
+  </FluentBadge>
 </div>
 
-@code{
-  private static readonly Icon RunningIcon = new Size20.PersonRunning();
+@code {
+  protected override void OnInitialized() => Executor.OnNotificationsChanged += UpdateCount;
 
-  protected override void OnInitialized()
-  {
-    MessageService.OnMessageItemsUpdated += UpdateCount;
-  }
-
-  private void UpdateCount()
-  {
-    InvokeAsync(StateHasChanged);
-  }
-
-  private RenderFragment NotificationIcon() =>
-    @<FluentIcon Value="@RunningIcon" Color="Color.Neutral" Title="Background Tasks"/>;
+  private void UpdateCount() => _ = InvokeAsync(StateHasChanged);
 
   private async Task OpenNotificationCenterAsync()
   {
-    var reference = await DialogService.ShowPanelAsync<NotificationCenterPanel>(new DialogParameters<GlobalState>()
+    if (Executor.PanelExecutorRef != null) return;
+    var options = new DialogOptions { Width = UISizeTokens.PanelWidth };
+    options.Header.Title = "Background Tasks";
+    options.Footer.PrimaryAction.Visible = false;
+    options.Footer.SecondaryAction.Visible = false;
+    options.OnStateChange = args =>
     {
-      Alignment = HorizontalAlignment.Right,
-      Title = $"Background Tasks",
-      PrimaryAction = null,
-      SecondaryAction = null,
-      Width = UISizeTokens.PanelWidth,
-      ShowDismiss = true
-    });
-    executor.PanelExecutorRef = reference;
+      if (args.State is DialogState.Opening or DialogState.Open) Executor.PanelExecutorRef = args.Instance;
+    };
+    try
+    {
+      await DialogService.ShowDrawerAsync<NotificationCenterPanel>(options);
+    }
+    finally
+    {
+      Executor.PanelExecutorRef = null;
+    }
   }
 
-  public void Dispose()
-  {
-    MessageService.OnMessageItemsUpdated -= UpdateCount;
-  }
-
+  public void Dispose() => Executor.OnNotificationsChanged -= UpdateCount;
 }

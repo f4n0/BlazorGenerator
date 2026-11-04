@@ -16,6 +16,8 @@ public partial class BlazorEngineApp : IDisposable
   private ErrorBoundary? _errorBoundary;
 
   private FluentDialog? _myFluentDialog;
+  private bool _showErrorDialog;
+  private bool _errorDialogShown;
   [Inject] private IJSRuntime? JSRuntime { get; set; }
 
   [Inject] private NavigationManager? NavManager { get; set; }
@@ -27,6 +29,24 @@ public partial class BlazorEngineApp : IDisposable
   [Parameter] public IEnumerable<Assembly>? AdditionalAssemblies { get; set; }
 
   public CancellationToken ComponentDetached => (_cancellationTokenSource ??= new CancellationTokenSource()).Token;
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (_showErrorDialog && !_errorDialogShown && _myFluentDialog != null)
+    {
+      _errorDialogShown = true;
+      await _myFluentDialog.ShowAsync();
+    }
+    await base.OnAfterRenderAsync(firstRender);
+  }
+
+  private async Task RecoverAsync()
+  {
+    if (_myFluentDialog != null) await _myFluentDialog.HideAsync();
+    _showErrorDialog = false;
+    _errorDialogShown = false;
+    _errorBoundary?.Recover();
+  }
 
   public void Dispose()
   {

@@ -1,0 +1,17 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+        "Microsoft Learn": {
+            "enabled": false,
+            "type": "remote",
+            "url": "https://learn.microsoft.com/api/mcp"
+        },
+        "fluent-ui-blazor": {
+            "enabled": false,
+            "type": "local",
+            "command": [
+                "fluentui-mcp"
+            ]
+        }
+    }
+}

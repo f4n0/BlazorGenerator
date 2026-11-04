@@ -16,8 +16,8 @@
 
   </div>
   <div class="two-list-content contentblock">
-    <FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
-      <Panel1>
+    <FluentMultiSplitter Orientation="Orientation.Horizontal">
+      <FluentMultiSplitterPane Size="50%">
         <ListDataGrid T="TFirstList"
                       Context="this"
                       Data="FirstListContent"
@@ -30,8 +30,8 @@
                       GridActions="gridActions"
                       ShowExportToExcel="ShowExportToExcelFirstList"
                       EditFormType="FirstListEditFormType"/>
-      </Panel1>
-      <Panel2>
+      </FluentMultiSplitterPane>
+      <FluentMultiSplitterPane>
         <ListDataGrid T="TSecondList"
                       Context="this"
                       Data="SecondListContent"
@@ -44,8 +44,8 @@
                       GridActions="gridActions"
                       ShowExportToExcel="ShowExportToExcelSecondList"
                       EditFormType="SecondListEditFormType"/>
-      </Panel2>
-    </FluentSplitter>
+      </FluentMultiSplitterPane>
+    </FluentMultiSplitter>
   </div>
 
 </div>

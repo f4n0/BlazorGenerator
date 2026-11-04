@@ -33,7 +33,7 @@ public partial class ListDataGrid<T>
     }
   }
 
-  private FluentSearch? SearchBarRef { get; set; }
+  private FluentTextInput? SearchBarRef { get; set; }
   private Dictionary<string, string> FieldFilters { get; } = [];
 
   private int ComputeFiltersHash()
@@ -55,13 +55,10 @@ public partial class ListDataGrid<T>
     return string.Empty;
   }
 
-  private void HandleFilter(ChangeEventArgs e, VisibleField<T> field)
+  private void HandleFilter(string? value, VisibleField<T> field)
   {
-    if (e.Value is string value)
-    {
-      FieldFilters[field.Name] = value;
-      InvalidateFilterCache();
-    }
+    FieldFilters[field.Name] = value ?? string.Empty;
+    InvalidateFilterCache();
   }
 
   private void InvalidateFilterCache()

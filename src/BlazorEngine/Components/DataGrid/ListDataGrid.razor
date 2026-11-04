@@ -6,21 +6,23 @@
     <FluentKeyCode OnKeyDown="@OnKeyDownAsync" OnKeyUp="@OnKeyUpAsync" IgnoreModifier="false" tabindex="0"
                    Only="@SearchKeyCodes" StopPropagation="true" StopRepeat="true" PreventDefaultOnly="@PreventDefaultKeyCodes">
         <div class="datagrid-toolbar" style="display: flex; align-items: center; gap: 8px;">
-            <FluentSearch @bind-Value="_searchValue" AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
+            <FluentTextInput @bind-Value="_searchValue" AriaLabel="Search" Placeholder="@(Captions.Instance.Search + "...")"
                           Style="width: min(100%, 20rem);"
                           Autofocus="true"
                           Immediate="true" ImmediateDelay="500"
-                          @bind-Value:after="HandleSearchInput" @ref="SearchBarRef" />
+                          @bind-Value:after="HandleSearchInput" @ref="SearchBarRef">
+                <StartTemplate><FluentIcon Value="@(new Icons.Regular.Size16.Search())" /></StartTemplate>
+            </FluentTextInput>
             <FluentSpacer />
             @if (Selected.Count > 0)
             {
-                <FluentLabel Typo="Typography.Body" Style="color: var(--neutral-foreground-hint); margin-right: 8px;">
+                <FluentText Style="color: var(--colorNeutralForeground3); margin-right: 8px;">
                     @Selected.Count selected
-                </FluentLabel>
+                </FluentText>
             }
             @if (ShowExportToExcel)
             {
-                <FluentButton Appearance="Appearance.Stealth" OnClick="ExportToExcel"
+                <FluentButton Appearance="ButtonAppearance.Subtle" OnClick="ExportToExcel"
                               Title="@Captions.Instance.ExportExcel"
                               IconStart="@ExportIcon">
                 </FluentButton>
@@ -33,7 +35,7 @@
                                 TGridItem="T"
                                 ResizableColumns="true"
                                 Virtualize="UseVirtualization"
-                                GenerateHeader="GenerateHeaderOption.Sticky"
+                                GenerateHeader="DataGridGeneratedHeaderType.Sticky"
                                 DisplayMode="DataGridDisplayMode.Table"
                                 ShowHover="@true"
                                 HeaderCellAsButtonWithMenu="true"
@@ -58,29 +60,24 @@
 
                     @if (_gridActionsCount > 0)
                     {
-                        <TemplateColumn Title="&nbsp;" Align="@Align.Center" Width="30px" MinWidth="30px"
+                        <TemplateColumn Title="&nbsp;" Align="@DataGridCellAlignment.Center" Width="30px" MinWidth="30px"
                                         Style="padding: 0 !important;">
                             <ChildContent>
                                 <FluentButton Id="@GetRowId(context!)"
-                                              Appearance="Appearance.Outline"
-                                              AriaLabel="@Captions.Instance.MoreActions"
+                                              Appearance="ButtonAppearance.Outline"
+                                              IconOnly="true"
                                               Title="@Captions.Instance.MoreActions"
                                               IconEnd="@MoreVerticalIcon" />
 
                                 <div class="datagrid-context-menu">
-                                    <FluentMenu Anchor="@GetRowId(context!)"
-                                                Trigger="MouseButton.Left" Anchored="true"
-                                                VerticalThreshold="@(_gridActionsCount * 40)" VerticalInset="false"
-                                                @ref="@GridActionRef" UseMenuService="false">
+                                    <FluentMenu Trigger="@GetRowId(context!)">
+                                      <FluentMenuList>
                                         @foreach (var a in GridActions ?? [])
                                         {
-                                            <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@(_ => InvokeGridAction(a.Method, context!))">
-                                                <span slot="start">
-                                                    <FluentIcon Value="@(a.Attribute.GridIcon.ToFluentIcon())"
-                                                                Slot="start" />
-                                                </span>
-                                            </FluentMenuItem>
+                                            <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@(_ => InvokeGridAction(a.Method, context!))"
+                                                            IconStart="@(a.Attribute.GridIcon.ToFluentIcon())" />
                                         }
+                                      </FluentMenuList>
                                     </FluentMenu>
                                 </div>
                             </ChildContent>
@@ -104,11 +101,12 @@
                                         GetFilterValue(field.Name);
                                         var name = field.Name;
                                     }
-                                    <FluentSearch type="search" Autofocus=true
-                                                  @bind-Value:get="FieldFilters[name]"
-                                                  @bind-Value:after="() => HandleClear(field)"
-                                                  @oninput="e => HandleFilter(e, field)"
-                                                  Placeholder="@field.Caption" />
+                                    <FluentTextInput Autofocus="true" Immediate="true"
+                                                     Value="@FieldFilters[name]"
+                                                     ValueChanged="@(value => HandleFilter(value, field))"
+                                                     Placeholder="@field.Caption">
+                                        <StartTemplate><FluentIcon Value="@(new Icons.Regular.Size16.Search())" /></StartTemplate>
+                                    </FluentTextInput>
                                 </div>
                             </ColumnOptions>
                         </TemplateColumn>
@@ -116,17 +114,17 @@
 
                     @if (PermissionSet!.Modify || PermissionSet!.Delete || PermissionSet!.Insert)
                     {
-                        <TemplateColumn Title="Actions" Align="@Align.Center" Width="110px">
+                        <TemplateColumn Title="Actions" Align="@DataGridCellAlignment.Center" Width="110px">
                             <ChildContent>
-                                <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="4">
+                                <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="4px">
                                     @if (PermissionSet!.Modify)
                                     {
-                                        <FluentButton IconEnd="@EditIcon" Appearance="Appearance.Stealth"
+                                        <FluentButton IconEnd="@EditIcon" Appearance="ButtonAppearance.Subtle"
                                                       OnClick="@(() => EditAsync(context))" Title="Edit" />
                                     }
                                     @if (PermissionSet!.Delete)
                                     {
-                                        <FluentButton IconEnd="@DeleteIcon" Appearance="Appearance.Stealth"
+                                        <FluentButton IconEnd="@DeleteIcon" Appearance="ButtonAppearance.Subtle"
                                                       OnClick="@(() => HandleDelete(context))" Title="Delete" />
                                     }
                                 </FluentStack>
@@ -135,7 +133,7 @@
                                 @if (PermissionSet!.Insert)
                                 {
                                     <div class="datagrid-header-add-btn">
-                                        <FluentButton IconEnd="@AddIcon" Appearance="Appearance.Accent" OnClick="@(() => NewItem())"
+                                        <FluentButton IconEnd="@AddIcon" Appearance="ButtonAppearance.Primary" OnClick="@(() => NewItem())"
                                                       Title="Add new" />
                                     </div>
                                 }
@@ -148,7 +146,7 @@
         else
         {
             <div class="datagrid-loading">
-                <FluentProgressRing />
+                <FluentSpinner />
             </div>
         }
     </FluentKeyCode>

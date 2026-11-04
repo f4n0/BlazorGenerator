@@ -6,7 +6,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Layouts;
 
-public partial class CardPage<T> : BlazorEngineComponentBase, IDialogContentComponent<T>
+public partial class CardPage<T> : BlazorEngineComponentBase
 {
   private PermissionSet permissionSet = new();
   public virtual int GridSize => 6;
@@ -16,6 +16,8 @@ public partial class CardPage<T> : BlazorEngineComponentBase, IDialogContentComp
   private CardFields<T>? Card { get; set; }
 
   [Parameter] public required T Content { get; set; }
+
+  [CascadingParameter] public IDialogInstance? DialogInstance { get; set; }
 
   public virtual void OnSave(T entity)
   {

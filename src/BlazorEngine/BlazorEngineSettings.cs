@@ -8,7 +8,7 @@ public class BlazorEngineSettings
   public static BlazorEngineSettings Instance => _instance ??= new BlazorEngineSettings();
 
   public string ApplicationName { get; set; } = "BlazorEngine App";
-  public OfficeColor BaseColor { get; set; } = OfficeColor.Default;
+  public ThemeSettings Theme { get; set; } = new(Mode: ThemeMode.System);
 
   public string UnauthorizedRoute { get; set; } = "/Unauthorized";
   public string LoginRoute { get; set; } = "/Login";

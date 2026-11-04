@@ -12,7 +12,6 @@ public partial class NavMenu
 
   // Pre-computed menu structure
   private List<AddToMenuAttribute> _defaultMenus = [];
-  private bool _expanded = true;
   private FooterLinkAttribute? _footerLink;
   private bool _loading;
   private List<MenuGroupData> _nonDefaultGroups = [];

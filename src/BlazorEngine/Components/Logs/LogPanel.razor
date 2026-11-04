@@ -1,0 +1,62 @@
+@using BlazorEngine.Enum
+@using BlazorEngine.Models
+@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+@inherits FluentDialogInstance
+@implements IDisposable
+@inject IJSRuntime JSRuntime
+
+<FluentStack Orientation="Orientation.Horizontal" HorizontalGap="4px" VerticalAlignment="VerticalAlignment.Center">
+  <FluentText Size="TextSize.Size500" Weight="TextWeight.Semibold">@Captions.Instance.Log</FluentText>
+  <FluentSpacer />
+  <FluentButton @ref="_clearButton" AutoFocus="true" Appearance="ButtonAppearance.Subtle" Title="@Captions.Instance.ClearLog"
+                Tooltip="@Captions.Instance.ClearLog" OnClick="ClearLog">@Captions.Instance.ClearLog</FluentButton>
+  <FluentButton Appearance="ButtonAppearance.Subtle" Title="@Captions.Instance.Close" Tooltip="@Captions.Instance.Close"
+                IconStart="@(new Size16.Dismiss())" OnClick="@(() => DialogInstance.CancelAsync())">@Captions.Instance.Close</FluentButton>
+</FluentStack>
+<div class="log-scroll" @ref="_scrollElement">
+  <Virtualize Items="Logger.Logs.GetLogs()">
+    <ChildContent>
+      <FluentText Color="@ConvertToColor(context.Item2)" Block="true">@context.Item1</FluentText>
+    </ChildContent>
+    <EmptyContent><FluentText>@Captions.Instance.NoLog</FluentText></EmptyContent>
+  </Virtualize>
+</div>
+
+@code {
+  [Parameter, EditorRequired] public required BlazorEngineLogger Logger { get; set; }
+
+  private FluentButton? _clearButton;
+  private ElementReference _scrollElement;
+
+  protected override void OnInitialized()
+  {
+    Logger.OnChange += UpdateLog;
+    base.OnInitialized();
+  }
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender && _clearButton != null) await _clearButton.Element.FocusAsync();
+    await JSRuntime.InvokeVoidAsync("scrollToEnd", _scrollElement);
+    await base.OnAfterRenderAsync(firstRender);
+  }
+
+  private void UpdateLog() => _ = InvokeAsync(StateHasChanged);
+
+  private void ClearLog()
+  {
+    Logger.Logs = new CircularLogBuffer(BlazorEngineLogger.MaxLogEntries);
+    StateHasChanged();
+  }
+
+  private static Color ConvertToColor(LogType type) => type switch
+  {
+    LogType.Error => Color.Error,
+    LogType.Warning => Color.Warning,
+    _ => Color.Default
+  };
+
+  protected override Task OnActionClickedAsync(bool primary) => DialogInstance.CancelAsync();
+
+  public void Dispose() => Logger.OnChange -= UpdateLog;
+}

@@ -13,10 +13,6 @@
   background: transparent;
 }
 
-.GridContainer ::deep fluent-toolbar {
-  background: transparent;
-}
-
 .datagrid-table-wrapper {
   overflow: auto;
   flex: 1 1 auto;
@@ -31,8 +27,7 @@
 }
 
 .datagrid-context-menu {
-  position: fixed;
-  z-index: 10;
+  display: contents;
 }
 
 .datagrid-loading {

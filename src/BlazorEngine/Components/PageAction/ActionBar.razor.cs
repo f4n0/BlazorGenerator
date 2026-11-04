@@ -17,6 +17,25 @@ public partial class ActionBar
 
   public bool OpenMore { get; set; }
 
+  private List<ActionGroup> _overflowGroups = [];
+
+  protected override void OnParametersSet()
+  {
+    PopulateDictionary();
+    _overflowGroups = [];
+    foreach (var group in PageActions.GroupBy(action => action.Attribute.Group))
+    {
+      var actions = group.ToList();
+      if (group.Key.Equals("default", StringComparison.OrdinalIgnoreCase))
+        _overflowGroups.AddRange(actions.Select(action => new ActionGroup(group.Key, [action])));
+      else
+        _overflowGroups.Add(new ActionGroup(group.Key, actions));
+    }
+    base.OnParametersSet();
+  }
+
+  private sealed record ActionGroup(string Name, List<(MethodInfo Method, PageActionAttribute Attribute)> Actions);
+
   private Task InvokeActionAsync(MethodInfo method)
   {
     return ReflectionUtilites.InvokeAction(method, Context);

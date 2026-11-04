@@ -3,16 +3,11 @@
 
   <FluentCard>
     <div class="metadata-summary">
-      <FluentBadge Appearance="Appearance.Accent">
-        @_registrations.Count assemblies registered
-      </FluentBadge>
-      <FluentBadge Appearance="Appearance.Accent" Color="Color.Success">
-        @_registrations.Count(r => r.Source == MetadataRegistry.RegistrationSource.BuildTime) build-time
-      </FluentBadge>
-      <FluentBadge Appearance="Appearance.Accent" Color="Color.Warning">
-        @_registrations.Count(r => r.Source == MetadataRegistry.RegistrationSource.ReflectionFallback) reflection
-        fallback
-      </FluentBadge>
+      <FluentBadge Appearance="BadgeAppearance.Filled" Content="@($"{_registrations.Count} assemblies registered")" />
+      <FluentBadge Appearance="BadgeAppearance.Filled" Color="BadgeColor.Success"
+                   Content="@($"{_registrations.Count(r => r.Source == MetadataRegistry.RegistrationSource.BuildTime)} build-time")" />
+      <FluentBadge Appearance="BadgeAppearance.Filled" Color="BadgeColor.Warning"
+                   Content="@($"{_registrations.Count(r => r.Source == MetadataRegistry.RegistrationSource.ReflectionFallback)} reflection fallback")" />
     </div>
   </FluentCard>
 
@@ -22,11 +17,11 @@
     <TemplateColumn Title="Source">
       @if (context.Source == MetadataRegistry.RegistrationSource.BuildTime)
       {
-        <FluentBadge Color="Color.Success">Build-time</FluentBadge>
+        <FluentBadge Color="BadgeColor.Success" Content="Build-time" />
       }
       else
       {
-        <FluentBadge Color="Color.Warning">Reflection</FluentBadge>
+        <FluentBadge Color="BadgeColor.Warning" Content="Reflection" />
       }
     </TemplateColumn>
     <PropertyColumn Property="@(r => r.MenuItemCount)" Title="Menus"/>

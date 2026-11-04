@@ -1,115 +1,63 @@
-﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
-<!--suppress CssUnresolvedCustomProperty, CssUnusedSymbol -->
-@* ReSharper disable  AssignmentInsteadOfDiscard *@
+@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+
 <div class="actionbar-wrapper">
-  <FluentToolbar Class="actionbar">
-    <FluentLabel Weight="FontWeight.Bold" Typo="Typography.H4" Class="actionbar-title">
+  <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="8px" Class="actionbar" role="toolbar">
+    <FluentText Weight="TextWeight.Bold" Size="TextSize.Size500" Class="actionbar-title">
       @((Context as BlazorEngineComponentBase)?.Title)
-    </FluentLabel>
-
-    <FluentOverflow Class="actionbar-overflow">
-      <ChildContent>
-        @{
-          PopulateDictionary();
-          foreach (var item in ActionGroups)
+    </FluentText>
+    <FluentOverflow TItem="ActionGroup" Items="@_overflowGroups" Class="actionbar-overflow">
+      <ItemTemplate Context="group">
+        <div class="actionbar-item">
+          @if (group.Actions.Count == 1)
           {
-            var filtered = PageActions.Where(o =>
-              o.Attribute.Group == item.Key).ToArray();
-            if (item.Key.ToLower() == "default" || item.Value == 1)
-            {
-              foreach (var action in filtered)
-              {
-                <FluentOverflowItem Data="action">
-                  <FluentButton Appearance="Appearance.Stealth"
-                                OnClick="@(() => InvokeActionAsync(action.Method))"
-                                IconStart="@(action.Attribute.Icon.ToFluentIcon())">
-                    @(action.Attribute.Caption)
-                  </FluentButton>
-                </FluentOverflowItem>
-              }
-            }
-            else
-            {
-              <FluentOverflowItem Data="filtered">
-                @{
-                  var firstOne = filtered.First();
-                }
-                <SplitButton Title="@(firstOne.Attribute.Caption)"
-                             Icon="@firstOne.Attribute.Icon.ToFluentIcon()"
-                             Appearance="Appearance.Stealth"
-                             OnClick="@(() => InvokeActionAsync(firstOne.Method))">
-
-                  @foreach (var action in filtered)
-                  {
-                    <SplitButtonItem OnClick="@(() => InvokeActionAsync(action.Method))">
-                      @action.Attribute.Caption
-                      <span slot="start">
-                                            <FluentIcon Value="@action.Attribute.Icon.ToFluentIcon()" Slot="start"
-                                                        Color="Color.Accent"/>
-                                        </span>
-                    </SplitButtonItem>
-                  }
-                </SplitButton>
-              </FluentOverflowItem>
-            }
+            var action = group.Actions[0];
+            <FluentButton Appearance="ButtonAppearance.Subtle"
+                          OnClick="@(() => InvokeActionAsync(action.Method))"
+                          IconStart="@(action.Attribute.Icon.ToFluentIcon())">
+              @action.Attribute.Caption
+            </FluentButton>
           }
-        }
-      </ChildContent>
-
-      <MoreButtonTemplate>
-        <FluentButton Appearance="Appearance.Stealth"
-                      OnClick="@(() => OpenMore = !OpenMore)"
-                      IconEnd="@(new Size16.MoreHorizontal())"
-                      Title="More actions"/>
-      </MoreButtonTemplate>
-
-      <OverflowTemplate>
-        <FluentPopover AnchorId="@context.IdMoreButton" @bind-Open="@OpenMore"
-                       HorizontalPosition="HorizontalPosition.Left" Style="width: 320px;">
-          <Body>
-          <FluentStack Orientation="Orientation.Vertical" VerticalGap="2" Style="padding: 6px;">
-            @foreach (var item in context.ItemsOverflow)
-            {
-              @if (item.Data is (MethodInfo, PageActionAttribute))
+          else
+          {
+            var first = group.Actions[0];
+            <SplitButton Title="@first.Attribute.Caption" Icon="@first.Attribute.Icon.ToFluentIcon()"
+                         Appearance="ButtonAppearance.Subtle" OnClick="@(() => InvokeActionAsync(first.Method))">
+              @foreach (var action in group.Actions)
               {
-                var casted = ((MethodInfo Method, PageActionAttribute Attribute))item.Data;
-
-                <FluentButton Appearance="Appearance.Stealth"
-                              Style="width: 100%; justify-content: flex-start;"
-                              OnClick="@(() => InvokeOverflowActionAsync(casted.Method))"
-                              IconStart="@(casted.Attribute.Icon.ToFluentIcon())">
-                  @casted.Attribute.Caption
-                </FluentButton>
+                <SplitButtonItem OnClick="@(() => InvokeActionAsync(action.Method))"
+                                 Label="@action.Attribute.Caption" IconStart="@action.Attribute.Icon.ToFluentIcon()" />
               }
-              else if (item.Data is IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)>)
+            </SplitButton>
+          }
+        </div>
+      </ItemTemplate>
+      <MoreTemplate>
+        <FluentButton Appearance="ButtonAppearance.Subtle" OnClick="@(() => OpenMore = !OpenMore)"
+                      IconEnd="@(new Size16.MoreHorizontal())" IconOnly="true" Title="@Captions.Instance.MoreActions" />
+      </MoreTemplate>
+      <OverflowTemplate>
+        <FluentPopover AnchorId="@context.IdMoreButton" @bind-Opened="OpenMore" Style="width: 320px;">
+          <FluentStack Orientation="Orientation.Vertical" VerticalGap="2px" Style="padding: 6px;">
+            @foreach (var group in context.Items)
+            {
+              @if (group.Actions.Count > 1)
               {
-                var casted = item.Data as IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)>;
-                @if (casted != null)
-                {
-                  <div class="actionbar-overflow-group">
-                    <FluentLabel Typo="Typography.Subject" Weight="FontWeight.Bold"
-                                 Style="padding: 6px 8px 2px; color: var(--neutral-foreground-hint);">
-                      @casted.First().Attribute.Group
-                    </FluentLabel>
-                    <FluentDivider Style="margin: 2px 0;"/>
-                    @foreach (var action in casted)
-                    {
-                      <FluentButton Appearance="Appearance.Stealth"
-                                    Style="width: 100%; justify-content: flex-start;"
-                                    OnClick="@(() => InvokeOverflowActionAsync(action.Method))"
-                                    IconStart="@(action.Attribute.Icon.ToFluentIcon())">
-                        @action.Attribute.Caption
-                      </FluentButton>
-                    }
-                  </div>
-                }
+                <FluentText Weight="TextWeight.Bold" Style="padding: 6px 8px 2px;">@group.Name</FluentText>
+                <FluentDivider />
+              }
+              @foreach (var action in group.Actions)
+              {
+                <FluentButton Appearance="ButtonAppearance.Subtle" Style="width: 100%; justify-content: flex-start;"
+                              OnClick="@(() => InvokeOverflowActionAsync(action.Method))"
+                              IconStart="@(action.Attribute.Icon.ToFluentIcon())">
+                  @action.Attribute.Caption
+                </FluentButton>
               }
             }
           </FluentStack>
-          </Body>
         </FluentPopover>
       </OverflowTemplate>
     </FluentOverflow>
-  </FluentToolbar>
-  <FluentDivider Role="DividerRole.Presentation"/>
+  </FluentStack>
+  <FluentDivider />
 </div>

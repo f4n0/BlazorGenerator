@@ -21,10 +21,10 @@ public class SubMenu : CardPage<Mock>
     VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(t =>
       t.OnLookup = _ => new Dictionary<object, string> { { "test", "test view" }, { "test1", "test view 1" } });
     VisibleFields.AddField(nameof(Mock.Price)).AddFieldProperty(prop =>
-      prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
-    VisibleFields.AddField(nameof(Mock.Description), (ref o) => o.TextFieldType = TextFieldType.Password);
+      prop.OnDrillDown = args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
+    VisibleFields.AddField(nameof(Mock.Description), (ref o) => o.TextInputType = TextInputType.Password);
     VisibleFields.AddField(nameof(Mock.OrderDate)).AddFieldProperty(prop =>
-      prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
+      prop.OnDrillDown = args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
     VisibleFields.AddField(nameof(Mock.Type));
     VisibleFields.AddField(nameof(Mock.NullTest));
 
@@ -104,7 +104,7 @@ public class SubMenu : CardPage<Mock>
   private async Task LongProcedure()
   {
     await Task.Delay(5000);
-    UIServices.DialogService.ShowInfo("Done");
+    UIServices.DialogService.ShowInfoAsync("Done");
   }
 
   [PageAction(Caption = "Thorow Error")]

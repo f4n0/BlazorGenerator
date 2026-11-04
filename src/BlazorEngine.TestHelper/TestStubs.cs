@@ -81,10 +81,10 @@ public class StubDialogService : DispatchProxy
 
     // All ShowDialogAsync / ShowPanelAsync / ShowSplashScreenAsync overloads
     // return Task<IDialogReference> — give them a real reference.
-    if (rt == typeof(Task<IDialogReference>))
+    if (rt == typeof(Task<IDialogInstance>))
     {
-      IDialogReference reference = new StubDialogReference(NextResult);
-      return Task.FromResult(reference);
+      //IDialogInstance reference = new StubDialogReference(NextResult);
+      //return Task.FromResult(reference);
     }
 
     // Fallback: NullProxy-like behaviour for everything else
@@ -117,35 +117,6 @@ public class StubDialogService : DispatchProxy
 /// Minimal <see cref="IDialogReference"/> stub whose <see cref="Result"/> is pre-configured
 /// at construction time. Returned by <see cref="StubDialogService"/>.
 /// </summary>
-public sealed class StubDialogReference : IDialogReference
-{
-  /// <summary>Creates a reference that will resolve with the given <paramref name="result"/>.</summary>
-  public StubDialogReference(DialogResult? result = null)
-  {
-    Result = Task.FromResult(result ?? DialogResult.Cancel());
-  }
-
-  /// <inheritdoc />
-  public string Id { get; } = Guid.NewGuid().ToString();
-
-  /// <inheritdoc />
-  public Task<DialogResult> Result { get; set; }
-
-  /// <inheritdoc />
-  public DialogInstance? Instance { get; set; }
-
-  /// <inheritdoc />
-  public Task CloseAsync() => Task.CompletedTask;
-
-  /// <inheritdoc />
-  public Task CloseAsync(DialogResult result) => Task.CompletedTask;
-
-  /// <inheritdoc />
-  public bool Dismiss(DialogResult result) => true;
-
-  /// <inheritdoc />
-  public Task<TResult?> GetReturnValueAsync<TResult>() => Task.FromResult(default(TResult));
-}
 
 /// <summary>
 /// <see cref="DispatchProxy"/>-based stub that intercepts every method call on an interface

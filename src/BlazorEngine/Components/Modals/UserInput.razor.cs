@@ -4,7 +4,10 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Components.Modals;
 
-public partial class UserInput : IDialogContentComponent<UserInputData>
+public partial class UserInput : FluentDialogInstance
 {
   [Parameter] public UserInputData Content { get; set; } = new();
+
+  protected override Task OnActionClickedAsync(bool primary) =>
+    primary ? DialogInstance.CloseAsync(Content) : DialogInstance.CancelAsync();
 }

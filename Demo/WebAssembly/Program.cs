@@ -16,6 +16,9 @@ builder.Services.AddScoped<IHelpService, HelpService>();
 
 builder.Services.AddBlazorEngine();
 BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
-BlazorEngineSettings.Instance.BaseColor = OfficeColor.Access;
+BlazorEngineSettings.Instance.Theme = new ThemeSettings()
+{
+  Color = "#C17676"
+};
 BlazorEngineSettings.Instance.ShowBackgroundTasks = true;
 await builder.Build().RunAsync();

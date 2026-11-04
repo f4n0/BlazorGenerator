@@ -28,11 +28,11 @@ public class CardWithGroups : CardPage<Mock>
         { { "test", "test <i>view</i>" }, { "test1", "test view 1" } });
     VisibleFields.AddField(nameof(Mock.Price))
       .AddFieldProperty(p => p.Group = "Other")
-      .AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
-    VisibleFields.AddField(nameof(Mock.Description), (ref o) => o.TextFieldType = TextFieldType.Password);
+      .AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
+    VisibleFields.AddField(nameof(Mock.Description), (ref o) => o.TextInputType = TextInputType.Password);
     VisibleFields.AddField(nameof(Mock.OrderDate))
       .AddFieldProperty(p => p.Group = "Other")
-      .AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
+      .AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
     VisibleFields.AddField(nameof(Mock.Type));
     VisibleFields.AddField(nameof(Mock.NullTest));
 
@@ -112,7 +112,7 @@ public class CardWithGroups : CardPage<Mock>
   private async Task LongProcedure()
   {
     await Task.Delay(5000);
-    UIServices.DialogService.ShowInfo("Done");
+    await UIServices.DialogService.ShowInfoAsync("Done");
   }
 
   [PageAction(Caption = "Thorow Error")]

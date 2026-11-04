@@ -1,16 +1,15 @@
-/*@import './_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css';*/
-
 body {
-  --body-font: "Segoe UI Variable", "Segoe UI", sans-serif;
-  font-family: var(--body-font);
-  font-size: var(--type-ramp-base-font-size);
-  line-height: var(--type-ramp-base-line-height);
+  font-family: var(--fontFamilyBase, "Segoe UI", sans-serif);
+  font-size: var(--fontSizeBase300, 14px);
+  line-height: var(--lineHeightBase300, 20px);
+  color: var(--colorNeutralForeground1);
+  background: var(--colorNeutralBackground1);
   margin: 0;
 }
 
 .main {
   height: calc(100dvh - 45px);
-  color: var(--neutral-foreground-rest);
+  color: var(--colorNeutralForeground1);
 }
 
 
@@ -27,14 +26,25 @@ body {
 }
 
 
-fluent-text-field::part(control), fluent-text-field::part(root) {
-  cursor: default;
-}
-
-fluent-number-field::part(control), fluent-text-field::part(root) {
+fluent-text-input::part(control), fluent-text-input::part(root) {
   cursor: default;
 }
 
 fluent-checkbox::part(control), fluent-checkbox::part(root) {
   cursor: default;
+}
+
+.form-field-input {
+  width: 100%;
+}
+
+.form-field-control {
+  box-sizing: border-box;
+}
+
+.form-field-custom > [slot="input"]:has(> fluent-checkbox),
+.form-field-control > [slot="input"]:has(> fluent-checkbox) {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
 }

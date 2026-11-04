@@ -1,0 +1,25 @@
+@inject BackgroundExecutor Executor
+
+<FluentMessageBar Intent="@Instance.Options.Intent" Title="@Instance.Options.Title"
+                  Icon="@Instance.Options.Icon" TimeStamp="@Instance.Options.TimeStamp"
+                  AllowDismiss="@Instance.Options.AllowDismiss">
+  <ChildContent>@Instance.Options.Message</ChildContent>
+  <ActionsTemplate>
+    @if (Logger != null)
+    {
+      <FluentButton Appearance="ButtonAppearance.Subtle" OnClick="@(() => Executor.OpenActionLogsAsync(Logger))">
+        View Logs
+      </FluentButton>
+    }
+    @if (Stop != null)
+    {
+      <FluentButton Appearance="ButtonAppearance.Subtle" OnClick="Stop">Stop</FluentButton>
+    }
+  </ActionsTemplate>
+</FluentMessageBar>
+
+@code {
+  [CascadingParameter] public IMessageBarInstance Instance { get; set; } = default!;
+  [Parameter] public ActionLogger? Logger { get; set; }
+  [Parameter] public Func<Task>? Stop { get; set; }
+}

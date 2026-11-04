@@ -5,11 +5,9 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Components.Modals;
 
-public partial class FileInput : IDialogContentComponent<UploadFileData>
+public partial class FileInput : FluentDialogInstance
 {
   private int _progressPercent;
-
-  [CascadingParameter] public FluentDialog? Dialog { get; set; }
 
   [Parameter] public UploadFileData Content { get; set; } = new();
 
@@ -32,6 +30,9 @@ public partial class FileInput : IDialogContentComponent<UploadFileData>
 
     await Task.Delay(500, Content.CancellationToken);
     _progressPercent = 0;
-    await Dialog!.CloseAsync(Content);
+    await DialogInstance.CloseAsync(Content);
   }
+
+  protected override Task OnActionClickedAsync(bool primary) =>
+    primary ? DialogInstance.CloseAsync(Content) : DialogInstance.CancelAsync();
 }
