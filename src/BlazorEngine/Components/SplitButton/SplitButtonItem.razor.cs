@@ -18,13 +18,7 @@ public partial class SplitButtonItem
   ///   Gets or sets a value indicating whether the element is disabled.
   /// </summary>
   [Parameter]
-  public bool Disabled { get; set; }
-
-  /// <summary>
-  ///   Gets or sets the expanded state of the element.
-  /// </summary>
-  [Parameter]
-  public bool Expanded { get; set; }
+  public bool? Disabled { get; set; }
 
   /// <summary>
   ///   Gets or sets the role of the element.
@@ -36,7 +30,10 @@ public partial class SplitButtonItem
   ///   Gets or sets a value indicating whether the element is checked.
   /// </summary>
   [Parameter]
-  public bool Checked { get; set; }
+  public bool? Checked { get; set; }
+
+  [Parameter] public Icon? IconStart { get; set; }
+  [Parameter] public Icon? IconEnd { get; set; }
 
   /// <summary>
   ///   Gets or sets the content to be rendered inside the component.
@@ -48,5 +45,5 @@ public partial class SplitButtonItem
   ///   Event raised when the user click on this item.
   /// </summary>
   [Parameter]
-  public EventCallback<MouseEventArgs> OnClick { get; set; }
+  public EventCallback<MenuItemEventArgs> OnClick { get; set; }
 }

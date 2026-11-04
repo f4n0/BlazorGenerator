@@ -1,0 +1,16 @@
+<FluentDialogBody Class="blazorengine-dialog-body">
+  <DynamicComponent Type="@PageType" Parameters="@_parameters" />
+</FluentDialogBody>
+
+@code {
+  [Parameter, EditorRequired] public required Type PageType { get; set; }
+  [Parameter] public object? Content { get; set; }
+
+  private IDictionary<string, object> _parameters = new Dictionary<string, object>();
+
+  protected override void OnParametersSet()
+  {
+    _parameters = new Dictionary<string, object> { ["Content"] = Content! };
+    base.OnParametersSet();
+  }
+}

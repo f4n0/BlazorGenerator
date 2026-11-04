@@ -6,12 +6,23 @@ namespace BlazorEngine.DynamicComponents;
 
 public partial class DynamicMainLayout
 {
-  private FluentDesignTheme? Theme { get; set; }
+  private bool _navigationExpanded = true;
+  private bool _isMobile;
+
+  [Inject] private IThemeService ThemeService { get; set; } = default!;
 
   [Inject] public IHelpService? HelpService { get; set; }
 
-  private void SwitchDarkLightTheme()
+  protected override async Task OnAfterRenderAsync(bool firstRender)
   {
-    Theme!.Mode = Theme.Mode == DesignThemeModes.Light ? DesignThemeModes.Dark : DesignThemeModes.Light;
+    if (firstRender)
+    {
+      var stored = await ThemeService.GetThemeSettingsAsync();
+      var configured = BlazorEngineSettings.Instance.Theme;
+      await ThemeService.SetThemeAsync(stored is null ? configured : configured with { Mode = stored.Mode });
+    }
+    await base.OnAfterRenderAsync(firstRender);
   }
+
+  private Task SwitchDarkLightTheme() => ThemeService.SwitchThemeAsync();
 }

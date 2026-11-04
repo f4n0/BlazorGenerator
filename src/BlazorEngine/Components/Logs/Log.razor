@@ -1,56 +1,8 @@
-﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
+@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
 @inherits BlazorEngineComponentBase
 
 <div class="log-wrapper">
-  <FluentButton @ref="_logButton"
-                BackgroundColor="var(--neutral-fill-stealth-rest)"
-                Title="@Captions.Instance.Log"
-                AriaLabel="@Captions.Instance.Log"
-                OnClick="OpenLog">
-    <FluentIcon Value="@(new Size20.CodeText())" Color="Color.Neutral" Title="@Captions.Instance.Log"/>
-  </FluentButton>
-
-  <FluentDialog Class="log"
-                @bind-Hidden="@Hidden" Modal="true"
-                TrapFocus="true" PreventScroll="false" @ondialogdismiss="OnDismiss">
-    <FluentDialogHeader ShowDismiss="false">
-      <FluentStack HorizontalAlignment="HorizontalAlignment.SpaceBetween" VerticalAlignment="VerticalAlignment.Center">
-        <FluentLabel Typo="Typography.PaneHeader">@Captions.Instance.Log</FluentLabel>
-        <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="4">
-          <FluentButton @ref="_clearLogButton"
-                        Appearance="Appearance.Stealth"
-                        Title="@Captions.Instance.ClearLog"
-                        AriaLabel="@Captions.Instance.ClearLog"
-                        OnClick="ClearLog">
-            @Captions.Instance.ClearLog
-          </FluentButton>
-          <FluentSpacer />
-          <FluentButton Appearance="Appearance.Stealth"
-                        Title="@Captions.Instance.Close"
-                        AriaLabel="@Captions.Instance.Close"
-                        IconStart="@(new Size16.Dismiss())"
-                        OnClick="CloseLog">
-            @Captions.Instance.Close
-          </FluentButton>
-        </FluentStack>
-      </FluentStack>
-    </FluentDialogHeader>
-    <div class="log-scroll" @ref="DivRef">
-      <Virtualize Items="UIServices.Logger.Logs.GetLogs()">
-        <ChildContent>
-          <FluentLabel Color="@(ConvertToColor(context.Item2))">
-            @context.Item1
-          </FluentLabel>
-        </ChildContent>
-        <EmptyContent>
-          <FluentLabel Color="Color.Neutral">@Captions.Instance.NoLog</FluentLabel>
-        </EmptyContent>
-      </Virtualize>
-    </div>
-  </FluentDialog>
+  <FluentButton @ref="_logButton" IconOnly="true"
+                Title="@Captions.Instance.Log" Tooltip="@Captions.Instance.Log"
+                IconStart="@(new Size20.CodeText())" OnClick="OpenLog" />
 </div>
-<script>
-  function scrollToEnd(element) {
-    element.scrollTop = element.scrollHeight;
-  }
-</script>

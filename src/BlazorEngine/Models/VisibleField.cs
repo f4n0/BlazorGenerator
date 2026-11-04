@@ -1,4 +1,5 @@
-﻿using BlazorEngine.Enum;
+﻿using System.Reflection;
+using BlazorEngine.Enum;
 using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -43,7 +44,7 @@ public class VisibleField<T>
   public Func<VisibleFieldGetterArgs<T>, object?>? Get { get; set; }
   public bool Immediate { get; set; } = false;
   public bool Additional { get; set; } = false;
-  public TextFieldType TextFieldType { get; set; } = TextFieldType.Text;
+  public TextInputType TextInputType { get; set; } = TextInputType.Text;
   public bool ReadOnly { get; set; }
   public Func<T, TextStyle>? TextStyle { get; set; }
   public Func<T, Color>? Color { get; set; }
@@ -63,12 +64,17 @@ public class VisibleField<T>
     var prop = typeof(T).GetProperty(propertyName) ??
                throw new Exception("Cannot find property with name \"" + propertyName + "\"");
 
+    return NewField(prop);
+  }
+
+  internal static VisibleField<T> NewField(PropertyInfo prop)
+  {
     var getter = ReflectionUtilites.GetPropertyGetter<T>(prop);
     var setter = prop.SetMethod is null ? null : ReflectionUtilites.GetPropertySetter<T>(prop);
 
     var field = new VisibleField<T>
     {
-      Name = propertyName,
+      Name = prop.Name,
       FieldType = prop.PropertyType,
       Caption = ReflectionUtilites.GetCaption(prop),
       Get = args => getter(args.Data),

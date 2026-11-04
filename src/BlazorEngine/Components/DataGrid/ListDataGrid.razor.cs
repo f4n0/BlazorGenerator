@@ -1,10 +1,11 @@
-﻿using System.Reflection;
+﻿using BlazorEngine.Actions;
 using System.Runtime.CompilerServices;
 using BlazorEngine.Components.Base;
 using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 using Microsoft.JSInterop;
 
 namespace BlazorEngine.Components.DataGrid;
@@ -37,7 +38,6 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
   private IEnumerable<T>? _lastDataParameter;
   private bool _hasDataParameter;
 
-  private FluentMenu? GridActionRef { get; set; }
 
   private string GetRowId(T item)
   {
@@ -172,12 +172,9 @@ public partial class ListDataGrid<T> : IDisposable, IAsyncDisposable where T : c
     if (row.Item != null && PermissionSet?.Modify == true) await EditAsync(row.Item);
   }
 
-  private Task InvokeGridAction(MethodInfo method, T rowData)
+  private static Task InvokeGridAction(GridActionDefinition<T> action, T rowData)
   {
-    if (GridActionRef != null)
-      GridActionRef.Open = false;
-
-    return ReflectionUtilites.InvokeAction(method, Context, new object[] { rowData });
+    return action.ExecuteAsync(rowData);
   }
 
   internal void Refresh()

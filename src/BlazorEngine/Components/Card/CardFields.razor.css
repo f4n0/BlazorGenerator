@@ -3,10 +3,23 @@
   flex-direction: column;
   gap: 12px;
   height: 100%;
+  min-height: 0;
+  min-width: 0;
 }
 
 .card-fields-container ::deep .card-fields-main {
   padding: 12px;
+  flex: 1 1 auto;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  border: 0;
+}
+
+.card-fields-container ::deep .card-fields-grid {
+  align-items: flex-start;
+  align-content: flex-start;
+  row-gap: 24px;
 }
 
 .card-fields-container ::deep .card-fields-groups {
@@ -15,6 +28,8 @@
 
 .card-fields-container ::deep .card-fields-group-card {
   padding: 8px 12px;
+  box-sizing: border-box;
+  border: 0;
 }
 
 .card-fields-container ::deep .card-fields-actions {

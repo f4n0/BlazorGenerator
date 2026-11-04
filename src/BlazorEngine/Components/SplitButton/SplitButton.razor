@@ -1,7 +1,7 @@
 ﻿@using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
 <div>
   <CascadingValue Value="this" IsFixed="true">
-    <FluentStack HorizontalGap="0" Style="min-width: 100px; max-width:300px;">
+    <FluentStack HorizontalGap="0px" Style="min-width: 100px; max-width:300px;">
       <FluentButton Appearance="@Appearance" OnClick="@OnClick"
                     Style="border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;"
                     IconStart="Icon">
@@ -11,12 +11,11 @@
                     Style="border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important;"
                     IconEnd="@(new Size16.ChevronDown())"
                     Appearance="@Appearance"
-                    OnClick="@(() => _openMenu = !_openMenu)"/>
+                    IconOnly="true" Title="@Title"/>
 
 
-      <FluentMenu Anchor="@_id" @bind-Open="_openMenu" Style="min-width: 100px; max-width:300px;"
-                  HorizontalPosition="HorizontalPosition.Start" UseMenuService="false">
-        @ChildContent
+      <FluentMenu Trigger="@_id" Style="display: contents;">
+        <FluentMenuList Style="min-width: 100px; max-width: 300px;">@ChildContent</FluentMenuList>
       </FluentMenu>
     </FluentStack>
   </CascadingValue>

@@ -19,47 +19,34 @@
     </Router>
   </ChildContent>
   <ErrorContent>
-    <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal="@true" TrapFocus="@true" Style="z-index: 100000;">
-      <FluentDialogHeader Visible="false"/>
+    <FluentDialog @ref="_myFluentDialog" Class="blazorengine-dialog" aria-label="Error!" Modal="true" PreventDismissOnEscape="true" Style="z-index: 100000;">
+      <FluentDialogBody Class="blazorengine-dialog-body">
       <div class="app-error-center">
         <h2>@Captions.Instance.ErrorTitle</h2>
         <b>@Captions.Instance.ErrorMessage</b><br/>
         <i>@Captions.Instance.ErrorMessagePersist</i><br/><br/>
-        <FluentAnchor Appearance="Appearance.Hypertext" Href="#" Id="det"
-                      OnClick="@(() => CreateExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentAnchor>
+        <FluentButton Appearance="ButtonAppearance.Transparent" Id="det"
+                      OnClick="@(() => CreateExceptionDetails(context))">@Captions.Instance.ErrorCopyDetails</FluentButton>
 
       </div>
       <br/>
 
       <FluentStack Orientation="Orientation.Horizontal">
-        <FluentButton Appearance="Appearance.Accent"
+        <FluentButton Appearance="ButtonAppearance.Primary"
                       OnClick="@(() => NavManager!.NavigateTo("/", true))">@Captions.Instance.ErrorHomePage</FluentButton>
         <FluentSpacer></FluentSpacer>
-        <FluentButton Appearance="Appearance.Accent" Autofocus="true"
-                      @onclick="() => _errorBoundary?.Recover()">@Captions.Instance.ErrorRefresh</FluentButton>
+        <FluentButton Appearance="ButtonAppearance.Primary" AutoFocus="true"
+                      OnClick="RecoverAsync">@Captions.Instance.ErrorRefresh</FluentButton>
       </FluentStack>
+      </FluentDialogBody>
     </FluentDialog>
     @{
-      _myFluentDialog?.Show();
+      _showErrorDialog = true;
     }
   </ErrorContent>
 </ErrorBoundary>
 
 
 <link href="_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css" rel="stylesheet"/>
+<link href="_content/Microsoft.FluentUI.AspNetCore.Components/Microsoft.FluentUI.AspNetCore.Components.bundle.scp.css" rel="stylesheet"/>
 <link href="_content/BlazorEngine/css/site.css" rel="stylesheet"/>
-
-<script>
-  window.downloadFileFromStream = async (fileName, contentStreamReference) => {
-    const arrayBuffer = await contentStreamReference.arrayBuffer();
-    const blob = new Blob([arrayBuffer]);
-    const url = URL.createObjectURL(blob);
-    const anchorElement = document.createElement('a');
-    anchorElement.href = url;
-    anchorElement.download = fileName ?? '';
-    anchorElement.click();
-    anchorElement.remove();
-    URL.revokeObjectURL(url);
-  }
-
-</script>

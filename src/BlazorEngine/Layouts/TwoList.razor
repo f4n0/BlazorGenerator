@@ -2,8 +2,9 @@
 @typeparam TSecondList
 @inherits BlazorEngineComponentBase
 @{
-  var pageActions = MetadataRegistry.GetPageActions(this);
-  var gridActions = MetadataRegistry.GetGridActions(this);
+  var pageActions = CreatePageActions();
+  var firstGridActions = CreateFirstListGridActions();
+  var secondGridActions = CreateSecondListGridActions();
 }
 <PageTitle>@Title</PageTitle>
 <div class="two-list-root">
@@ -16,8 +17,8 @@
 
   </div>
   <div class="two-list-content contentblock">
-    <FluentSplitter Orientation="Orientation.Horizontal" Panel1Size="50%">
-      <Panel1>
+    <FluentMultiSplitter Orientation="Orientation.Horizontal">
+      <FluentMultiSplitterPane Size="50%">
         <ListDataGrid T="TFirstList"
                       Context="this"
                       Data="FirstListContent"
@@ -27,11 +28,11 @@
                       PermissionSet="permissionSet"
                       @bind-Selected="FirstListSelected"
                       ShowButtons="ShowButtons"
-                      GridActions="gridActions"
+                      GridActions="firstGridActions"
                       ShowExportToExcel="ShowExportToExcelFirstList"
                       EditFormType="FirstListEditFormType"/>
-      </Panel1>
-      <Panel2>
+      </FluentMultiSplitterPane>
+      <FluentMultiSplitterPane>
         <ListDataGrid T="TSecondList"
                       Context="this"
                       Data="SecondListContent"
@@ -41,11 +42,11 @@
                       PermissionSet="permissionSet"
                       @bind-Selected="SecondListSelected"
                       ShowButtons="ShowButtons"
-                      GridActions="gridActions"
+                      GridActions="secondGridActions"
                       ShowExportToExcel="ShowExportToExcelSecondList"
                       EditFormType="SecondListEditFormType"/>
-      </Panel2>
-    </FluentSplitter>
+      </FluentMultiSplitterPane>
+    </FluentMultiSplitter>
   </div>
 
 </div>

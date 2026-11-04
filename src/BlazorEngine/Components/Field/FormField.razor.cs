@@ -1,8 +1,10 @@
 using BlazorEngine.Models;
+using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Extensions;
 using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular;
+using Microsoft.FluentUI.AspNetCore.Components.Utilities;
 
 namespace BlazorEngine.Components.Field;
 
@@ -20,7 +22,8 @@ public partial class FormField<T>
   private VisibleField<T>? _currentValueField;
   private T? _currentValueData;
 
-  private bool LookupOpen;
+  private FluentMenu? _lookupMenu;
+  private bool _lookupOpen;
 
   [Parameter] public required VisibleField<T> Field { get; set; }
   [Parameter] public required T Data { get; set; }
@@ -45,11 +48,15 @@ public partial class FormField<T>
     { typeof(decimal), DecimalField },
     { typeof(string), TextField },
     { typeof(DateTime), DateTimeField },
+    { typeof(Icon), IconField },
     { typeof(Type), IconField },
     { typeof(Action), ActionField }
   };
 
   private object? CurrentValue => Field.Get == null ? Field.InternalGet(Data) : _currentValue;
+
+  private static Icon? GetIcon(object? value) =>
+    value as Icon ?? (value is Type iconType ? iconType.ToFluentIcon() : null);
 
   private void SetFieldValue(object? value)
   {
@@ -73,15 +80,31 @@ public partial class FormField<T>
     }
   }
 
-  private void GenericOnClick()
+  private Task GenericOnClick()
   {
-    if (Field.OnLookup != null) LookupOpen = true;
+    return Field.OnLookup != null && _lookupMenu != null && !_lookupOpen
+      ? _lookupMenu.OpenMenuAsync(_id)
+      : Task.CompletedTask;
   }
+
+  private RenderFragment NumberField<TNumber>(Func<object?, TNumber> convert) => builder =>
+  {
+    builder.OpenComponent<FluentNumberInput<TNumber>>(0);
+    builder.AddMultipleAttributes(1, _commonAttributes);
+    builder.AddAttribute(2, nameof(FluentNumberInput<TNumber>.Value), convert(CurrentValue));
+    builder.AddAttribute(3, nameof(FluentNumberInput<TNumber>.ValueChanged),
+      EventCallback.Factory.Create<TNumber>(this, value => SetFieldValue(value)));
+    builder.AddAttribute(4, nameof(FluentNumberInput<TNumber>.Appearance), TextInputAppearance.FilledDarker);
+    builder.AddAttribute(5, nameof(FluentNumberInput<TNumber>.Placeholder), Field.PlaceHolder);
+    builder.AddAttribute(6, nameof(FluentNumberInput<TNumber>.Immediate), Field.Immediate);
+    builder.AddAttribute(7, nameof(FluentNumberInput<TNumber>.EndTemplate), DrillDownOrLookup());
+    builder.CloseComponent();
+  };
 
   protected override Task OnParametersSetAsync()
   {
-    var className = Field.FieldType == typeof(bool) || Field.FieldType == typeof(Action) ? "" : "FullSpanWidth";
-    var styles = "";
+    var className = "form-field-control";
+    var styles = "width: 100%; min-width: 0; max-width: 100%; margin: 0;";
     var color = Field.Color?.Invoke(Data);
     if (color != null)
       styles += "color: " + color.ToAttributeValue() + ";";
@@ -90,15 +113,15 @@ public partial class FormField<T>
 
     _commonAttributes.Clear();
     _commonAttributes["Id"] = _id;
-    _commonAttributes["Appearance"] = Field.FieldType == typeof(Action)
-      ? Appearance.Accent
-      : FluentInputAppearance.Filled;
-    if (Field.FieldType?.IsEnum ?? false) _commonAttributes["Appearance"] = Appearance.Filled;
-
+    _commonAttributes["Label"] = string.Empty;
+    if (LabelContent is { } labelContent) _commonAttributes["LabelTemplate"] = labelContent;
+    _commonAttributes["LabelPosition"] = LabelPosition.Before;
+    _commonAttributes["LabelWidth"] = "20%";
+    _commonAttributes["Required"] = Field.Required;
+    _commonAttributes["AriaLabel"] = Field.Caption;
     _commonAttributes["ReadOnly"] = Field.ReadOnly || Field.OnLookup != null;
     _commonAttributes["style"] = styles;
     _commonAttributes["class"] = className;
-    _commonAttributes["Immediate"] = Field.Immediate;
 
     if (Field.Get != null)
     {

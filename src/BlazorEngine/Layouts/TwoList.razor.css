@@ -3,6 +3,8 @@
   flex-flow: column;
   height: 100%;
   gap: 4px;
+  min-height: 0;
+  min-width: 0;
 }
 
 .two-list-header {
@@ -13,4 +15,6 @@
   padding: 8px 12px;
   overflow: auto;
   flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
 }

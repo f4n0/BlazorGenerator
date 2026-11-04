@@ -1,44 +1,38 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using BlazorEngine.Attributes;
+using BlazorEngine.Actions;
+using BlazorEngine.Fields;
 using BlazorEngine.Layouts;
-using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using TestShared.Data;
 using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size16;
 
 namespace TestShared.Views;
 
-[Route("list")]
-[AddToMenu(Title = "List Page", Route = "list", Icon = typeof(AddSquare))]
+[Route(Route)]
 public class ListView : ListPage<Mock>
 {
+  public const string Route = "list";
   public override string Title => "List View";
   public override Type? EditFormType => typeof(MockEditForm);
   public override bool UseVirtualization => true;
 
-  protected override Task LoadVisibleFields()
+  protected override Task ConfigureFields(FieldListBuilder<Mock> fields)
   {
-    VisibleFields = [];
-    VisibleFields.AddField(nameof(Mock.Id), (ref prop) => prop.Href = data => "/test/" + data.Id);
-    VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(pro =>
-    {
-      pro.Get = args => { return args.Data.Name; };
-    });
-    VisibleFields.AddField(nameof(Mock.Price)).AddFieldProperty(pro =>
-    {
-      pro.Get = args => DelayedNameAsync(args.Data);
+    fields.Add(x => x.Id).Href(data => "/test/" + data.Id);
+    fields.Add(x => x.Name).Get(args => args.Data.Name);
+    fields.Add(x => x.Price).GetAsync(args => DelayedNameAsync(args.Data));
 
-      async Task<object?> DelayedNameAsync(Mock data)
-      {
-        await Task.Delay(TimeSpan.FromSeconds(2));
-        return data.Name;
-      }
-    });
-    VisibleFields.AddField(nameof(Mock.Description));
-    VisibleFields.AddField(nameof(Mock.OrderDate));
-    VisibleFields.AddField(nameof(Mock.Icon));
-    VisibleFields.AddField(nameof(Mock.Type));
-    VisibleFields.AddField(nameof(Mock.Enabled));
+    async Task<object?> DelayedNameAsync(Mock data)
+    {
+      await Task.Delay(TimeSpan.FromSeconds(2));
+      return data.Name;
+    }
+
+    fields.Add(x => x.Description);
+    fields.Add(x => x.OrderDate);
+    fields.Add(x => x.Icon);
+    fields.Add(x => x.Type);
+    fields.Add(x => x.Enabled);
     return Task.CompletedTask;
   }
 
@@ -66,14 +60,31 @@ public class ListView : ListPage<Mock>
     Content = tmp;
   }
 
-  [PageAction(Caption = "Refresh")]
+  protected override IReadOnlyList<PageActionDefinition> CreatePageActions() =>
+  [
+    new("Refresh", Refresh),
+    new("Add Rows", PageAction),
+    new("Remove Rows", RemoveRows),
+    new("Install", () => GridAction()),
+    new("ShowProgress", ShowProgress),
+    new("Open Modal", OpenModal),
+    new("Go To", GoTo),
+    new("Test1", Test1, group: "grouped"),
+    new("Test2", Test2, group: "grouped")
+  ];
+
+  protected override IReadOnlyList<GridActionDefinition<Mock>> CreateGridActions() =>
+  [
+    new("Install", GridAction, new AirplaneTakeOff()),
+    new("ShowProgress", _ => ShowProgress())
+  ];
+
   public async Task Refresh()
   {
     await LoadData();
     StateHasChanged();
   }
 
-  [PageAction(Caption = "Add Rows")]
   public async Task PageAction()
   {
     var test = Content?.ToList() ?? new List<Mock>();
@@ -82,23 +93,18 @@ public class ListView : ListPage<Mock>
     StateHasChanged();
   }
 
-  [PageAction(Caption = "Remove Rows")]
   public async Task RemoveRows()
   {
     Content = null;
     StateHasChanged();
   }
 
-  [GridAction(Caption = "Install", GridIcon = typeof(AirplaneTakeOff))]
-  [PageAction(Caption = "Install")]
   public void GridAction(Mock? rec = null)
   {
     _ = rec;
-    UIServices!.DialogService.ShowInfo("Grid Action");
+    UIServices!.DialogService.ShowInfoAsync("Grid Action");
   }
 
-  [PageAction(Caption = "ShowProgress")]
-  [GridAction(Caption = "ShowProgress")]
   public async Task ShowProgress()
   {
     UIServices!.ProgressService.StartProgress();
@@ -106,27 +112,23 @@ public class ListView : ListPage<Mock>
     UIServices!.ProgressService.StopProgress();
   }
 
-  [PageAction(Caption = "Open Modal")]
   public async Task OpenModal()
   {
     var mock = Mock.GetSingleMock();
     _ = await UIServices!.OpenModal(typeof(ModalView), mock);
   }
 
-  [PageAction(Caption = "Go To")]
   public void GoTo()
   {
     NavManager.NavigateTo("WorksheetView", true);
   }
 
-  [PageAction(Caption = "Test1", Group = "grouped")]
   public async Task Test1()
   {
     var mock = Mock.GetSingleMock();
     _ = await UIServices!.OpenModal(typeof(ModalView), mock);
   }
 
-  [PageAction(Caption = "Test2", Group = "grouped")]
   [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
   public void Test2()
   {

@@ -1,31 +1,32 @@
-﻿using BlazorEngine.Attributes;
+﻿using BlazorEngine.Fields;
 using BlazorEngine.Layouts;
-using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using TestShared.Data;
 
 namespace TestShared.Views;
 
-[Route("twolist")]
-[AddToMenu(Title = "TwoList Page", Route = "twolist")]
+[Route(Route)]
 public class TwoListView : TwoList<Mock, Mock>
 {
+  public const string Route = "twolist";
   public override string Title => "List View";
   public override Type? SecondListEditFormType => typeof(MockEditForm);
   public override Type? FirstListEditFormType => typeof(MockEditForm);
 
-  protected override Task LoadVisibleFields()
+  protected override Task ConfigureFirstListFields(FieldListBuilder<Mock> fields)
   {
-    FirstListVisibleFields = [];
-    FirstListVisibleFields.AddField(nameof(Mock.Id));
-    FirstListVisibleFields.AddField(nameof(Mock.Name));
-    FirstListVisibleFields.AddField(nameof(Mock.Price));
-    FirstListVisibleFields.AddField(nameof(Mock.Description));
-    FirstListVisibleFields.AddField(nameof(Mock.OrderDate));
+    fields.Add(x => x.Id);
+    fields.Add(x => x.Name);
+    fields.Add(x => x.Price);
+    fields.Add(x => x.Description);
+    fields.Add(x => x.OrderDate);
+    return Task.CompletedTask;
+  }
 
-    SecondListVisibleFields = [];
-    SecondListVisibleFields.AddField(nameof(Mock.Id));
-    SecondListVisibleFields.AddField(nameof(Mock.Name));
+  protected override Task ConfigureSecondListFields(FieldListBuilder<Mock> fields)
+  {
+    fields.Add(x => x.Id);
+    fields.Add(x => x.Name);
     return Task.CompletedTask;
   }
 

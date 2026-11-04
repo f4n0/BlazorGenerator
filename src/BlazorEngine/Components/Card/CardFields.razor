@@ -2,12 +2,12 @@
 @typeparam T
 
 <div class="card-fields-container">
-  <FluentCard AreaRestricted="false" MinimalStyle="true" Class="card-fields-main">
-    <FluentGrid Id="FieldGroup" Spacing="3">
+  <FluentCard Class="card-fields-main" Appearance="CardAppearance.Filled" Shadow="CardShadow.None">
+    <FluentGrid Id="FieldGroup" Spacing="3" Class="card-fields-grid">
       @if (VisibleFields.Any(o => o.Additional))
       {
-        <FluentGridItem Justify="JustifyContent.FlexEnd" xs="12" Style="padding-top:4px; padding-bottom:0;">
-          <FluentButton Appearance="Appearance.Stealth"
+        <FluentGridItem Justify="JustifyContent.FlexEnd" Xs="12" Style="padding: 0;">
+          <FluentButton Appearance="ButtonAppearance.Subtle" Size="ButtonSize.Small"
                         IconEnd="@(ShowAdditional ? new Size16.ChevronUp() : new Size16.ChevronDown())"
                         OnClick="ShowAdditionalFields">
             @(ShowAdditional ? "Show less" : "Show more")
@@ -23,10 +23,8 @@
           attrs.Add("Style", $"display: {(ShowAdditional ? "inherit" : "none")}");
         }
 
-        <FluentGridItem md="GridSize" AdditionalAttributes="attrs">
-          <FluentStack VerticalAlignment="VerticalAlignment.Center">
-            <FormField Data="Data" Field="context" T="T"/>
-          </FluentStack>
+        <FluentGridItem Xs="12" Md="GridSize" AdditionalAttributes="attrs">
+          <FormField Data="Data" Field="context" T="T"/>
         </FluentGridItem>
       }
     </FluentGrid>
@@ -38,18 +36,16 @@
       @foreach (var group in _groups)
       {
         <FluentAccordionItem Expanded="true">
-          <HeadingTemplate>
-            <FluentLabel Typo="Typography.H6" Weight="FontWeight.Bold">@group</FluentLabel>
-          </HeadingTemplate>
+          <HeaderTemplate>
+            <FluentText Weight="TextWeight.Semibold">@group</FluentText>
+          </HeaderTemplate>
           <ChildContent>
-            <FluentCard AreaRestricted="false" MinimalStyle="true" Class="card-fields-group-card">
-              <FluentGrid Spacing="3">
+            <FluentCard Class="card-fields-group-card" Appearance="CardAppearance.Filled" Shadow="CardShadow.None">
+              <FluentGrid Spacing="3" Class="card-fields-grid">
                 @foreach (var context in _groupedFields[group])
                 {
-                  <FluentGridItem md="GridSize">
-                    <FluentStack VerticalAlignment="VerticalAlignment.Center" Style="align-items:stretch;">
-                      <FormField Data="Data" Field="context" T="T"/>
-                    </FluentStack>
+                  <FluentGridItem Xs="12" Md="GridSize">
+                    <FormField Data="Data" Field="context" T="T"/>
                   </FluentGridItem>
                 }
               </FluentGrid>
@@ -62,11 +58,11 @@
 
   @if (ShowButtons)
   {
-    <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="8" Class="card-fields-actions">
+    <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="8px" Class="card-fields-actions">
       @if ((PermissionSet?.Modify ?? false) || (PermissionSet?.Insert ?? false))
       {
         <FluentButton OnClick="@(() => HandleSave(Data!))"
-                      Appearance="Appearance.Accent"
+                      Appearance="ButtonAppearance.Primary"
                       IconStart="@(new Size16.Save())">
           @Captions.Instance.Save
         </FluentButton>
@@ -74,7 +70,7 @@
       @if (PermissionSet?.Delete ?? false)
       {
         <FluentButton OnClick="@(() => HandleDiscard(Data!))"
-                      Appearance="Appearance.Outline"
+                      Appearance="ButtonAppearance.Outline"
                       IconStart="@(new Size16.Dismiss())">
           @Captions.Instance.Cancel
         </FluentButton>

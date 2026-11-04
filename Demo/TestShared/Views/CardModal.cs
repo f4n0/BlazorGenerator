@@ -1,5 +1,5 @@
 ﻿using BlazorEngine.Layouts;
-using BlazorEngine.Utils;
+using BlazorEngine.Fields;
 using TestShared.Data;
 
 namespace TestShared.Views;
@@ -8,15 +8,14 @@ public class ModalView : CardPage<Mock>
 {
   public override string Title => "List View";
 
-  protected override Task LoadVisibleFields()
+  protected override Task ConfigureFields(FieldListBuilder<Mock> fields)
   {
-    VisibleFields = [];
-    VisibleFields.AddField(nameof(Mock.Id));
-    VisibleFields.AddField(nameof(Mock.Name));
-    VisibleFields.AddField(nameof(Mock.Price));
-    VisibleFields.AddField(nameof(Mock.Description));
-    VisibleFields.AddField(nameof(Mock.OrderDate));
-    VisibleFields.AddField(nameof(Mock.Type));
+    fields.Add(x => x.Id);
+    fields.Add(x => x.Name);
+    fields.Add(x => x.Price);
+    fields.Add(x => x.Description);
+    fields.Add(x => x.OrderDate);
+    fields.Add(x => x.Type);
 
     ShowActions = false;
     ShowButtons = false;

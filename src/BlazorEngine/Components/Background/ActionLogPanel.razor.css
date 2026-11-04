@@ -4,6 +4,6 @@
 }
 
 .action-log-timestamp {
-  color: var(--neutral-foreground-hint);
+  color: var(--colorNeutralForeground3);
   margin-right: 0.5rem;
 }

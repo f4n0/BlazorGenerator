@@ -1,4 +1,4 @@
-using BlazorEngine.Layouts;
+using BlazorEngine.Actions;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Components.Base;
@@ -9,8 +9,10 @@ public partial class BlazorEngineComponentBase : IAsyncDisposable, IDisposable
   private Func<FluentKeyCodeEventArgs, Task>? _keyDownHandler;
   private bool _keyDownRegistered;
 
-  private bool? _useBlazorEngineLayoutsCached;
+  protected virtual bool UsesPageLifecycle => false;
   public virtual string Title => GetType().Name;
+
+  protected virtual IReadOnlyList<PageActionDefinition> CreatePageActions() => [];
 
   public virtual bool ShowButtons { get; set; } = true;
   public virtual bool ShowActions { get; set; } = true;
@@ -41,7 +43,7 @@ public partial class BlazorEngineComponentBase : IAsyncDisposable, IDisposable
 
   protected override async Task OnParametersSetAsync()
   {
-    if (UseBlazorEngineLayouts())
+    if (UsesPageLifecycle)
     {
       await LoadVisibleFields();
       if (!_keyDownRegistered)
@@ -57,30 +59,8 @@ public partial class BlazorEngineComponentBase : IAsyncDisposable, IDisposable
 
   protected override async Task OnInitializedAsync()
   {
-    if (UseBlazorEngineLayouts()) await LoadData();
+    if (UsesPageLifecycle) await LoadData();
     await base.OnInitializedAsync();
-  }
-
-  private bool UseBlazorEngineLayouts()
-  {
-    if (_useBlazorEngineLayoutsCached.HasValue)
-      return _useBlazorEngineLayoutsCached.Value;
-
-    var loadingBaseType = GetType().BaseType;
-    if (loadingBaseType == null)
-    {
-      _useBlazorEngineLayoutsCached = false;
-      return false;
-    }
-
-    var ret = loadingBaseType.IsGenericType && (
-      loadingBaseType.GetGenericTypeDefinition() == typeof(CardPage<>) ||
-      loadingBaseType.GetGenericTypeDefinition() == typeof(ListPage<>) ||
-      loadingBaseType.GetGenericTypeDefinition() == typeof(Worksheet<,>) ||
-      loadingBaseType.GetGenericTypeDefinition() == typeof(TwoList<,>));
-
-    _useBlazorEngineLayoutsCached = ret;
-    return ret;
   }
 
   internal async Task<bool> OnRefreshAsync()

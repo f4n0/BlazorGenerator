@@ -2,16 +2,16 @@ using BlazorEngine;
 using BlazorEngine.Services;
 using Microsoft.FluentUI.AspNetCore.Components;
 using TestShared.Services;
+using TestShared;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddBlazorEngine(); //.UseBlazorGeneratorAuthentication();
+builder.Services.AddBlazorEngine(DemoRegistration.Configure);
 
 BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
-BlazorEngineSettings.Instance.BaseColor = OfficeColor.Access;
 BlazorEngineSettings.Instance.ShowHelpButton = true;
 BlazorEngineSettings.Instance.ShowBackgroundTasks = true;
 

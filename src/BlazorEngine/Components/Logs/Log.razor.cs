@@ -1,111 +1,55 @@
-﻿using BlazorEngine.Components.Base;
-using BlazorEngine.Enum;
-using BlazorEngine.Models;
-using BlazorEngine.Services;
+using BlazorEngine.Components.Base;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace BlazorEngine.Components.Logs;
 
 public partial class Log : BlazorEngineComponentBase
 {
-  private FluentButton? _clearLogButton;
   private FluentButton? _logButton;
+  private bool _isOpen;
 
-  private ElementReference DivRef;
-  private bool Hidden { get; set; } = true;
-  private bool _focusClearAction;
-  private bool _restoreLauncherFocus;
-
-  [Inject] private IKeyCodeService? KeyCodeService { get; set; }
-
-  private void OnDismiss(DialogEventArgs args)
-  {
-    if (args.Reason is not null)
-      CloseLog();
-  }
-
-  private static Color ConvertToColor(LogType logType)
-  {
-    return logType switch
-    {
-      LogType.Error => Color.Error,
-      LogType.Info => Color.Neutral,
-      LogType.Warning => Color.Warning,
-      _ => Color.Neutral
-    };
-  }
+  [Inject] private IKeyCodeService KeyCodeService { get; set; } = default!;
 
   protected override void OnInitialized()
   {
-    UIServices.Logger.OnChange += UpdateLog;
-    KeyCodeService!.RegisterListener(OnKeyDownAsync);
+    KeyCodeService.RegisterListener(OnKeyDownAsync);
+    base.OnInitialized();
   }
 
   public async Task OnKeyDownAsync(FluentKeyCodeEventArgs args)
   {
-    if (args.AltKey && args.Key == KeyCode.KeyL)
-      await OpenLog();
-
-  }
-
-  protected override async Task OnAfterRenderAsync(bool firstRender)
-  {
-    if (_focusClearAction && !Hidden && _clearLogButton != null)
-    {
-      _focusClearAction = false;
-      await _clearLogButton.Element.FocusAsync();
-    }
-
-    if (_restoreLauncherFocus && Hidden && _logButton != null)
-    {
-      _restoreLauncherFocus = false;
-      await _logButton.Element.FocusAsync();
-    }
-
-    if (!Hidden)
-      await JSRuntime.InvokeVoidAsync("scrollToEnd", DivRef);
-
-    await base.OnAfterRenderAsync(firstRender);
-  }
-
-  private void UpdateLog()
-  {
-    _ = InvokeAsync(() => { StateHasChanged(); });
+    if (args.AltKey && args.Key == KeyCode.KeyL) await OpenLog();
   }
 
   private async Task OpenLog()
-
   {
-    _focusClearAction = true;
-    Hidden = false;
-    await InvokeAsync(StateHasChanged);
-  }
-
-  private void CloseLog()
-  {
-    Hidden = true;
-    _restoreLauncherFocus = true;
-  }
-
-  private void ClearLog()
-  {
-    UIServices.Logger.Logs = new CircularLogBuffer(BlazorEngineLogger.MaxLogEntries);
-    InvokeAsync(() => StateHasChanged());
+    if (_isOpen) return;
+    _isOpen = true;
+    var options = BlazorEngine.Services.UIServices.CreateDialogOptions("60vw", "60vh", Captions.Instance.Log);
+    options.Parameters[nameof(LogPanel.Logger)] = UIServices.Logger;
+    options.Footer.PrimaryAction.Visible = false;
+    options.Footer.SecondaryAction.Visible = false;
+    try
+    {
+      await UIServices.DialogService.ShowDialogAsync<LogPanel>(options);
+    }
+    finally
+    {
+      _isOpen = false;
+      if (_logButton != null) await _logButton.Element.FocusAsync();
+    }
   }
 
   public override void InternalDispose()
   {
-    UIServices.Logger.OnChange -= UpdateLog;
-    KeyCodeService?.UnregisterListener(OnKeyDownAsync);
+    KeyCodeService.UnregisterListener(OnKeyDownAsync);
     base.InternalDispose();
   }
 
   public override ValueTask InternalDisposeAsync()
   {
-    UIServices.Logger.OnChange -= UpdateLog;
-    KeyCodeService?.UnregisterListener(OnKeyDownAsync);
+    KeyCodeService.UnregisterListener(OnKeyDownAsync);
     return base.InternalDisposeAsync();
   }
 }

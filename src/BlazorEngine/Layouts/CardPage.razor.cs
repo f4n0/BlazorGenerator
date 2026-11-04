@@ -1,4 +1,5 @@
 ﻿using BlazorEngine.Components.Base;
+using BlazorEngine.Fields;
 using BlazorEngine.Components.Card;
 using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
@@ -6,8 +7,18 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace BlazorEngine.Layouts;
 
-public partial class CardPage<T> : BlazorEngineComponentBase, IDialogContentComponent<T>
+public partial class CardPage<T> : BlazorEngineComponentBase
 {
+  protected override bool UsesPageLifecycle => true;
+  protected virtual Task ConfigureFields(FieldListBuilder<T> fields) => Task.CompletedTask;
+
+  protected override async Task LoadVisibleFields()
+  {
+    var fields = new FieldListBuilder<T>();
+    await ConfigureFields(fields);
+    VisibleFields = fields.Build();
+  }
+
   private PermissionSet permissionSet = new();
   public virtual int GridSize => 6;
 
@@ -16,6 +27,8 @@ public partial class CardPage<T> : BlazorEngineComponentBase, IDialogContentComp
   private CardFields<T>? Card { get; set; }
 
   [Parameter] public required T Content { get; set; }
+
+  [CascadingParameter] public IDialogInstance? DialogInstance { get; set; }
 
   public virtual void OnSave(T entity)
   {

@@ -1,40 +1,36 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using BlazorEngine.Attributes;
+using BlazorEngine.Actions;
+using BlazorEngine.Fields;
 using BlazorEngine.Layouts;
 using BlazorEngine.Models;
-using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using TestShared.Data;
-using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size16;
 
 namespace TestShared.Views;
 
-[Route("CardWithGroups")]
-[AddToMenu(Title = "Card Page Groups", Icon=typeof(ApprovalsApp), Route = "CardWithGroups")]
+[Route(Route)]
 public class CardWithGroups : CardPage<Mock>
 {
+  public const string Route = "CardWithGroups";
   public override string Title => "Card Page Groups";
 
-  protected override Task LoadVisibleFields()
+  protected override Task ConfigureFields(FieldListBuilder<Mock> fields)
   {
-    VisibleFields = [];
-    VisibleFields.AddField(nameof(Mock.Id));
+    fields.Add(x => x.Id);
 
-    VisibleFields.AddField(nameof(Mock.Name))
-      .AddFieldProperty(p => p.Tooltip = "Lorem ipsum dolor sit admet, qui really long text!")
-      .AddFieldProperty(p => p.Required = true)
-      .AddFieldProperty(t => t.OnLookup = _ => new Dictionary<object, string>
+    fields.Add(x => x.Name)
+      .Tooltip("Lorem ipsum dolor sit admet, qui really long text!")
+      .Required()
+      .OnLookup(_ => new Dictionary<object, string>
         { { "test", "test <i>view</i>" }, { "test1", "test view 1" } });
-    VisibleFields.AddField(nameof(Mock.Price))
-      .AddFieldProperty(p => p.Group = "Other")
-      .AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
-    VisibleFields.AddField(nameof(Mock.Description), (ref o) => o.TextFieldType = TextFieldType.Password);
-    VisibleFields.AddField(nameof(Mock.OrderDate))
-      .AddFieldProperty(p => p.Group = "Other")
-      .AddFieldProperty(prop => prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
-    VisibleFields.AddField(nameof(Mock.Type));
-    VisibleFields.AddField(nameof(Mock.NullTest));
+    fields.Add(x => x.Price).Group("Other")
+      .OnDrillDown(args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
+    fields.Add(x => x.Description).TextInputType(TextInputType.Password);
+    fields.Add(x => x.OrderDate).Group("Other")
+      .OnDrillDown(args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
+    fields.Add(x => x.Type);
+    fields.Add(x => x.NullTest);
 
     return Task.CompletedTask;
   }
@@ -45,7 +41,21 @@ public class CardWithGroups : CardPage<Mock>
     return Task.CompletedTask;
   }
 
-  [PageAction(Caption = "ShowProgress")]
+  protected override IReadOnlyList<PageActionDefinition> CreatePageActions() =>
+  [
+    new("ShowProgress", ShowProgress),
+    new("Open Modal", OpenModal),
+    new("Ask User", AskUser),
+    new("Show Upload", UploadFiles),
+    new("Go To", GoTo),
+    new("No Cancellation", Test1, group: "grouped"),
+    new("With Cancellation", Test2, group: "grouped"),
+    new("Thorow Error", Test3),
+    new("Lock UI", Test4),
+    new("Write Log", Test5),
+    new("Test6", Test6)
+  ];
+
   public async Task ShowProgress()
   {
     UIServices!.ProgressService.StartProgress();
@@ -53,14 +63,12 @@ public class CardWithGroups : CardPage<Mock>
     UIServices!.ProgressService.StopProgress();
   }
 
-  [PageAction(Caption = "Open Modal")]
   public async Task OpenModal()
   {
     var mock = Mock.GetSingleMock();
     _ = await UIServices!.OpenModal(typeof(ModalView), mock);
   }
 
-  [PageAction(Caption = "Ask User")]
   public async Task AskUser()
   {
     _ = await UIServices!.UserInput(new UserInputData
@@ -82,7 +90,6 @@ public class CardWithGroups : CardPage<Mock>
     });
   }
 
-  [PageAction(Caption = "Show Upload")]
   public async Task UploadFiles()
   {
     var test = await UIServices.UploadFile();
@@ -91,19 +98,16 @@ public class CardWithGroups : CardPage<Mock>
         _ = file;
   }
 
-  [PageAction(Caption = "Go To")]
   public void GoTo()
   {
     NavManager.NavigateTo("WorksheetView", true);
   }
 
-  [PageAction(Caption = "No Cancellation", Group = "grouped")]
   public async Task Test1()
   {
     await LongProcedure();
   }
 
-  [PageAction(Caption = "With Cancellation", Group = "grouped")]
   public async Task Test2()
   {
     await LongProcedure();
@@ -112,16 +116,14 @@ public class CardWithGroups : CardPage<Mock>
   private async Task LongProcedure()
   {
     await Task.Delay(5000);
-    UIServices.DialogService.ShowInfo("Done");
+    await UIServices.DialogService.ShowInfoAsync("Done");
   }
 
-  [PageAction(Caption = "Thorow Error")]
   public void Test3()
   {
     throw new NotImplementedException();
   }
 
-  [PageAction(Caption = "Lock UI")]
   public async Task Test4()
   {
     UIServices.LockUI();
@@ -129,13 +131,11 @@ public class CardWithGroups : CardPage<Mock>
     UIServices.UnlockUI();
   }
 
-  [PageAction(Caption = "Write Log")]
   public void Test5()
   {
     for (var i = 0; i < 30; i++) UIServices.Logger.SendLogMessage($"Test{i}");
   }
 
-  [PageAction(Caption = "Test6")]
   [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
   public void Test6()
   {

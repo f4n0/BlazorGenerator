@@ -1,9 +1,21 @@
 .GridContainer {
-  overflow-x: auto;
+  overflow: hidden;
   height: 100%;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
   display: flex;
   flex-flow: column;
   gap: 4px;
+}
+
+.GridContainer ::deep .datagrid-keyboard-scope {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .GridContainer ::deep .datagrid-toolbar {
@@ -13,26 +25,73 @@
   background: transparent;
 }
 
-.GridContainer ::deep fluent-toolbar {
-  background: transparent;
-}
-
 .datagrid-table-wrapper {
   overflow: auto;
   flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
 .datagrid-header-add-btn {
-  width: 90%;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.datagrid-row-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.datagrid-table-wrapper ::deep th,
+.datagrid-table-wrapper ::deep td {
+  box-sizing: border-box;
+}
+
+/* V5 sets a 40px header minimum inline; match the compact row height. */
+.datagrid-table-wrapper ::deep th[cell-type="columnheader"] {
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 4px;
+}
+
+.datagrid-table-wrapper ::deep th[col-select="true"],
+.datagrid-table-wrapper ::deep td[col-select="true"] {
+  padding-block: 0 !important;
+}
+
+.datagrid-table-wrapper ::deep th [col-sort-button] {
+  height: 24px;
+  min-height: 24px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  font-size: var(--fontSizeBase200);
+  line-height: var(--lineHeightBase200);
+}
+
+.datagrid-table-wrapper ::deep th > fluent-menu {
+  display: contents;
+}
+
+.datagrid-table-wrapper ::deep td:not([col-select="true"]) {
+  padding-inline: 12px;
+}
+
+.datagrid-table-wrapper ::deep th.datagrid-row-menu-column,
+.datagrid-table-wrapper ::deep th.datagrid-actions-column,
+.datagrid-table-wrapper ::deep td.datagrid-row-menu-column,
+.datagrid-table-wrapper ::deep td.datagrid-actions-column {
+  padding-inline: 8px;
 }
 
 .datagrid-context-menu {
-  position: fixed;
-  z-index: 10;
+  display: contents;
 }
 
 .datagrid-loading {

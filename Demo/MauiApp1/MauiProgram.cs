@@ -2,6 +2,7 @@
 using BlazorEngine.Services;
 using Microsoft.Extensions.Logging;
 using TestShared.Services;
+using TestShared;
 
 namespace MauiApp1;
 
@@ -15,7 +16,7 @@ public static class MauiProgram
       .ConfigureFonts(fonts => fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"));
 
     builder.Services.AddMauiBlazorWebView();
-    builder.Services.AddBlazorEngine();
+    builder.Services.AddBlazorEngine(DemoRegistration.Configure);
 
     builder.Services.AddScoped<IHelpService, HelpService>();
 #if DEBUG

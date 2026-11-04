@@ -9,10 +9,14 @@ namespace BlazorEngine;
 
 public static class BlazorEngineServices
 {
-  public static IServiceCollection AddBlazorEngine(this IServiceCollection services)
+  public static IServiceCollection AddBlazorEngine(this IServiceCollection services,
+    Action<BlazorEngineOptions>? configure = null)
   {
+    var options = new BlazorEngineOptions();
+    configure?.Invoke(options);
+    services.AddSingleton(options);
     services.AddTransient<IMainLayout, DynamicMainLayout>();
-    services.AddFluentUIComponents();
+    services.AddFluentUIComponents(configuration => configuration.Toast.MaxToastCount = 10);
 
     services.AddScoped<BlazorEngineLogger>();
     services.AddScoped<ProgressService>();

@@ -1,5 +1,58 @@
 .navmenu {
-  background: var(--neutral-fill-stealth-rest);
+  background: var(--colorNeutralBackground2);
   height: 100%;
-  box-shadow: 1px 0 5px var(--neutral-fill-stealth-rest);
+  box-shadow: var(--shadow4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  min-width: 0;
+}
+
+.navmenu ::deep .navmenu-items {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.navmenu-header {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+.navmenu-header ::deep .navmenu-toggle {
+  width: 32px;
+  height: 32px;
+}
+
+.navmenu-collapsed {
+  overflow-x: hidden;
+}
+
+.navmenu-collapsed ::deep .fluent-navitem,
+.navmenu-collapsed ::deep .fluent-navcategoryitem {
+  font-size: 0;
+  min-height: 40px;
+  padding-inline: 8px;
+  justify-content: center;
+}
+
+.navmenu-collapsed ::deep .fluent-navitem > .icon,
+.navmenu-collapsed ::deep .fluent-navcategoryitem > .icon {
+  margin: 0;
+}
+
+.navmenu-collapsed ::deep .expand-icon,
+.navmenu-collapsed ::deep .fluent-navsubitemgroup {
+  display: none;
+}
+
+.navmenu-footer {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.navmenu-footer ::deep .navmenu-footer-links {
+  padding-bottom: 0;
 }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using BlazorEngine.Attributes;
+using BlazorEngine.Actions;
+using BlazorEngine.Fields;
 using BlazorEngine.Layouts;
 using BlazorEngine.Models;
 using BlazorEngine.Services;
@@ -11,39 +12,31 @@ using TestShared.Data;
 
 namespace TestShared.Views;
 
-[Route("card")]
-[AddToMenu(Title = "Card Page", Route = "card", OrderSequence = 1)]
+[Route(Route)]
 public class CardView : CardPage<Mock>
 {
+  public const string Route = "card";
   public override string Title => "br-labsdev2 Integration - Apps";
 
   [Inject] public required BackgroundExecutor BackgroundExecutor { get; set; }
 
-  protected override Task LoadVisibleFields()
+  protected override Task ConfigureFields(FieldListBuilder<Mock> fields)
   {
-    VisibleFields = [];
-    VisibleFields.AddField(nameof(Mock.Id));
-    VisibleFields.AddField(nameof(Mock.Name))
-      .AddFieldProperty(p => p.Tooltip = "Lorem ipsum dolor sit admet, qui really long text!")
-      .AddFieldProperty(p => p.Required = true)
-      .AddFieldProperty(t => t.OnLookup = _ => new Dictionary<object, string>
+    fields.Add(x => x.Id);
+    fields.Add(x => x.Name)
+      .Tooltip("Lorem ipsum dolor sit admet, qui really long text!")
+      .Required()
+      .OnLookup(_ => new Dictionary<object, string>
         { { "test", "test <i>view</i>" }, { "test1", "test view 1" } });
-    VisibleFields.AddField(nameof(Mock.Price)).AddFieldProperty(prop =>
-      prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
-    VisibleFields.AddField(nameof(Mock.Description), (ref o) =>
-      {
-        o.TextFieldType = TextFieldType.Password;
-        o.Additional = true;
-      }
-    );
+    fields.Add(x => x.Price).OnDrillDown(args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
+    fields.Add(x => x.Description).TextInputType(TextInputType.Password).Additional();
 
-    VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(p => p.Multiline = true);
-    VisibleFields.AddField(nameof(Mock.OrderDate)).AddFieldProperty(prop =>
-      prop.OnDrillDown = args => UIServices.DialogService.ShowInfo("DrillDown"));
-    VisibleFields.AddField(nameof(Mock.Type));
-    VisibleFields.AddField(nameof(Mock.NullTest)).AddFieldProperty(p => p.Additional = true);
-    VisibleFields.AddField(nameof(Mock.Enabled)).AddFieldProperty(p => p.Additional = true);
-    VisibleFields.AddCustomField("test custom", (data, field) => builder =>
+    fields.Add(x => x.Name).Multiline();
+    fields.Add(x => x.OrderDate).OnDrillDown(args => UIServices.DialogService.ShowInfoAsync("DrillDown"));
+    fields.Add(x => x.Type);
+    fields.Add(x => x.NullTest).Additional();
+    fields.Add(x => x.Enabled).Additional();
+    fields.Custom("test custom", (data, field) => builder =>
     {
       var value = true;
       var seq = 0;
@@ -59,7 +52,7 @@ public class CardView : CardPage<Mock>
       builder.CloseElement();
     });
 
-    VisibleFields.Add(new VisibleField<Mock>().Configure(field => field
+    fields.Add(new VisibleField<Mock>().Configure(field => field
       .FieldType(typeof(string))
       .Name("stani")
       .Caption("stani cap")
@@ -76,7 +69,22 @@ public class CardView : CardPage<Mock>
     return Task.CompletedTask;
   }
 
-  [PageAction(Caption = "ShowProgress")]
+  protected override IReadOnlyList<PageActionDefinition> CreatePageActions() =>
+  [
+    new("ShowProgress", ShowProgress),
+    new("Open Modal", OpenModal),
+    new("Ask User", AskUser),
+    new("Show Upload", UploadFiles),
+    new("Enqueue Action", Enqueue),
+    new("Go To", GoTo),
+    new("No Cancellation", Test1, group: "grouped"),
+    new("With Cancellation", Test2, group: "grouped"),
+    new("Thorow Error", Test3),
+    new("Lock UI", Test4),
+    new("Write Log", Test5Async),
+    new("Test6", Test6)
+  ];
+
   public async Task ShowProgress()
   {
     UIServices!.ProgressService.StartProgress();
@@ -85,14 +93,12 @@ public class CardView : CardPage<Mock>
     StateHasChanged();
   }
 
-  [PageAction(Caption = "Open Modal")]
   public async Task OpenModal()
   {
     var mock = Mock.GetSingleMock();
     var res = await UIServices!.OpenModal(typeof(ModalView), mock);
   }
 
-  [PageAction(Caption = "Ask User")]
   public async Task AskUser()
   {
     _ = await UIServices!.UserInput(new UserInputData
@@ -114,7 +120,6 @@ public class CardView : CardPage<Mock>
     });
   }
 
-  [PageAction(Caption = "Show Upload")]
   public async Task UploadFiles()
   {
     try
@@ -130,7 +135,6 @@ public class CardView : CardPage<Mock>
     }
   }
 
-  [PageAction(Caption = "Enqueue Action")]
   public async Task Enqueue()
   {
     BackgroundExecutor.QueueAction("Test", async (logger, ct) =>
@@ -163,19 +167,16 @@ public class CardView : CardPage<Mock>
     });
   }
 
-  [PageAction(Caption = "Go To")]
   public void GoTo()
   {
     NavManager.NavigateTo("WorksheetView", true);
   }
 
-  [PageAction(Caption = "No Cancellation", Group = "grouped")]
   public async Task Test1()
   {
     await LongProcedure();
   }
 
-  [PageAction(Caption = "With Cancellation", Group = "grouped")]
   public async Task Test2()
   {
     await LongProcedure(ComponentDetached);
@@ -184,16 +185,14 @@ public class CardView : CardPage<Mock>
   private async Task LongProcedure(CancellationToken cy = default)
   {
     await Task.Delay(5000, cy);
-    UIServices.DialogService.ShowInfo("Done");
+    await UIServices.DialogService.ShowInfoAsync("Done");
   }
 
-  [PageAction(Caption = "Thorow Error")]
   public void Test3()
   {
     throw new NotImplementedException();
   }
 
-  [PageAction(Caption = "Lock UI")]
   public async Task Test4()
   {
     UIServices.LockUI();
@@ -201,7 +200,6 @@ public class CardView : CardPage<Mock>
     UIServices.UnlockUI();
   }
 
-  [PageAction(Caption = "Write Log")]
   public async Task Test5Async()
   {
     await Task.Delay(1000);
@@ -212,7 +210,6 @@ public class CardView : CardPage<Mock>
     }
   }
 
-  [PageAction(Caption = "Test6")]
   [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Test Only")]
   public void Test6()
   {

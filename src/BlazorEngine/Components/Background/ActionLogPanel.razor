@@ -1,37 +1,34 @@
-@implements IDialogContentComponent<ActionLogger>
 @implements IDisposable
 @inject IJSRuntime JSRuntime
 
+<FluentDialogBody Class="blazorengine-dialog-body">
 <FluentSwitch @bind-Value="ShowVerbose"
               @bind-Value:after="Refresh"
               Style="margin-bottom:5px;"
               Label="Verbose Logs: ">
-    <span slot="checked-message">Show</span>
-    <span slot="unchecked-message">Hide</span>
 </FluentSwitch>
 
 <div class="action-log-panel" @ref="DivRef">
     @if (Content.Entries.Count == 0)
     {
-        <FluentLabel Color="Color.Neutral">No log entries yet.</FluentLabel>
+        <FluentText Color="Color.Default">No log entries yet.</FluentText>
     }
     else
     {
         <Virtualize Items="@logEntries">
             <ChildContent>
-                <FluentLabel Color="@GetColor(context.LogLevel)">
+                <FluentText Color="@GetColor(context.LogLevel)">
                     <span class="action-log-timestamp">@context.Timestamp.ToString("HH:mm:ss.fff")</span>
                     @context.Message
-                </FluentLabel>
+                </FluentText>
             </ChildContent>
         </Virtualize>
     }
 </div>
+</FluentDialogBody>
 
 @code {
     [Parameter] public ActionLogger Content { get; set; } = default!;
-
-    [CascadingParameter] public FluentDialog? Dialog { get; set; }
 
     private List<ActionLogEntry> logEntries = [];
     private ElementReference DivRef;
@@ -39,16 +36,14 @@
 
     protected override void OnInitialized()
     {
-        if (Dialog != null)
-            Dialog.Style = $"--dialog-width: {UISizeTokens.ActionLogDialogWidth}; --dialog-height: {UISizeTokens.ActionLogDialogHeight}; padding: 2rem;";
         Content.OnChange += Refresh;
         RefreshEntries();
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        JSRuntime.InvokeVoidAsync("scrollToEnd", DivRef);
-        base.OnAfterRender(firstRender);
+        await JSRuntime.InvokeVoidAsync("scrollToEnd", DivRef);
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     private void Refresh()
@@ -79,7 +74,7 @@
             LogLevel.Error or LogLevel.Critical => Color.Error,
             LogLevel.Warning => Color.Warning,
             LogLevel.Debug or LogLevel.Trace => Color.Lightweight,
-            _ => Color.Neutral
+            _ => Color.Default
         };
     }
 
@@ -91,8 +86,3 @@
     }
 
 }
-<script>
-    function scrollToEnd(element) {
-      element.scrollTop = element.scrollHeight;
-    }
-</script>
