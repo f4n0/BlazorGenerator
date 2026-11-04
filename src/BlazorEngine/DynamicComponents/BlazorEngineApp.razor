@@ -19,7 +19,8 @@
     </Router>
   </ChildContent>
   <ErrorContent>
-    <FluentDialog @ref="_myFluentDialog" aria-label="Error!" Modal="true" PreventDismissOnEscape="true" Style="z-index: 100000;">
+    <FluentDialog @ref="_myFluentDialog" Class="blazorengine-dialog" aria-label="Error!" Modal="true" PreventDismissOnEscape="true" Style="z-index: 100000;">
+      <FluentDialogBody Class="blazorengine-dialog-body">
       <div class="app-error-center">
         <h2>@Captions.Instance.ErrorTitle</h2>
         <b>@Captions.Instance.ErrorMessage</b><br/>
@@ -37,6 +38,7 @@
         <FluentButton Appearance="ButtonAppearance.Primary" AutoFocus="true"
                       OnClick="RecoverAsync">@Captions.Instance.ErrorRefresh</FluentButton>
       </FluentStack>
+      </FluentDialogBody>
     </FluentDialog>
     @{
       _showErrorDialog = true;

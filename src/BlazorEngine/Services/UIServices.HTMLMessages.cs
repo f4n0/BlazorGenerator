@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using BlazorEngine.Components.Modals;
 using Microsoft.FluentUI.AspNetCore.Components;
 using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size24;
 using Color = Microsoft.FluentUI.AspNetCore.Components.Color;
@@ -36,7 +37,16 @@ public partial class UIServices
     return ShowMessageBoxAsync(options);
   }
 
-  public Task<DialogResult> ShowMessageBoxAsync(MessageBoxOptions options) => DialogService.ShowMessageBoxAsync(options);
+  public Task<DialogResult> ShowMessageBoxAsync(MessageBoxOptions options)
+  {
+    var dialog = CreateDialogOptions("min(600px, calc(100vw - 2rem))", title: options.Title);
+    dialog.Parameters[nameof(MessageBoxContent.Content)] = options;
+    dialog.Footer.PrimaryAction.Label = options.PrimaryButton;
+    dialog.Footer.PrimaryAction.ShortCut = options.PrimaryShortCut;
+    dialog.Footer.SecondaryAction.Label = options.SecondaryButton;
+    dialog.Footer.SecondaryAction.ShortCut = options.SecondaryShortCut;
+    return DialogService.ShowDialogAsync<MessageBoxContent>(dialog);
+  }
 
   private static MessageBoxOptions CreateMessageOptions(string message, string? title, string defaultTitle,
     Icon icon, Color color) => new()

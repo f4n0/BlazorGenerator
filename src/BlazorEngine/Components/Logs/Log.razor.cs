@@ -26,14 +26,8 @@ public partial class Log : BlazorEngineComponentBase
   {
     if (_isOpen) return;
     _isOpen = true;
-    var options = new DialogOptions
-    {
-      Width = "60vw",
-      Height = "60vh",
-      Padding = "2rem",
-      Parameters = new Dictionary<string, object?> { [nameof(LogPanel.Logger)] = UIServices.Logger }
-    };
-    options.Header.CloseAction.Visible = false;
+    var options = BlazorEngine.Services.UIServices.CreateDialogOptions("60vw", "60vh", Captions.Instance.Log);
+    options.Parameters[nameof(LogPanel.Logger)] = UIServices.Logger;
     options.Footer.PrimaryAction.Visible = false;
     options.Footer.SecondaryAction.Visible = false;
     try

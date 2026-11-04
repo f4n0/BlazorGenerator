@@ -1,4 +1,6 @@
-<DynamicComponent Type="@PageType" Parameters="@_parameters" />
+<FluentDialogBody Class="blazorengine-dialog-body">
+  <DynamicComponent Type="@PageType" Parameters="@_parameters" />
+</FluentDialogBody>
 
 @code {
   [Parameter, EditorRequired] public required Type PageType { get; set; }

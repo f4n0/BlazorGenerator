@@ -6,12 +6,9 @@
   <FluentLayoutItem Area="LayoutArea.Header" Height="45px" Style="padding: 4px 8px;">
     <div class="layout-header">
       <div class="layout-header-start">
-        <FluentLayoutHamburger IconTitle="@Captions.Instance.Navigation" PanelHeader="@Captions.Instance.Navigation" />
-        @if (!_isMobile)
-        {
-          <FluentButton IconStart="@(new Size20.LineHorizontal3())" IconOnly="true"
-                        Title="@Captions.Instance.Navigation" OnClick="@(() => _navigationExpanded = !_navigationExpanded)" />
-        }
+        <FluentLayoutHamburger IconTitle="@Captions.Instance.Navigation" PanelHeader="@Captions.Instance.Navigation">
+          <NavMenu Collapsible="false" Expanded="true" />
+        </FluentLayoutHamburger>
         <Back />
       </div>
       <span class="layout-application-name">@BlazorEngineSettings.Instance.ApplicationName</span>
@@ -36,9 +33,10 @@
       </div>
     </div>
   </FluentLayoutItem>
-  <FluentLayoutItem Area="LayoutArea.Navigation" Width="@(_navigationExpanded ? "250px" : "0px")"
-                    Style="@(_navigationExpanded ? null : "overflow: hidden;")">
-    <NavMenu />
+  <FluentLayoutItem Area="LayoutArea.Navigation" Width="@(_navigationExpanded ? "250px" : "48px")"
+                    Style="min-width: 0; overflow: hidden;">
+    <NavMenu Collapsible="@(!_isMobile)" Expanded="@(_isMobile || _navigationExpanded)"
+             ExpandedChanged="@(expanded => _navigationExpanded = expanded)" />
   </FluentLayoutItem>
   <FluentLayoutItem Area="LayoutArea.Content" Style="padding: 10px 10px 1px; min-width: 0;">
     <FluentProviders />

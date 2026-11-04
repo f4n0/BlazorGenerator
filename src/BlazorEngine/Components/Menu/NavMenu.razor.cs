@@ -1,5 +1,7 @@
 ﻿using BlazorEngine.Attributes;
 using BlazorEngine.Services;
+using BlazorEngine.Utils;
+using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20;
 
@@ -7,6 +9,30 @@ namespace BlazorEngine.Components.Menu;
 
 public partial class NavMenu
 {
+  [Parameter] public bool Collapsible { get; set; } = true;
+  [Parameter] public bool Expanded { get; set; } = true;
+  [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
+
+  private static readonly Icon CollapsedDefaultIcon = new Microsoft.FluentUI.AspNetCore.Components.Icons.Regular.Size20.Document();
+
+  private Task ToggleExpandedAsync() => SetExpandedAsync(!Expanded);
+
+  private readonly Dictionary<string, bool> _expandedCategories = new(StringComparer.Ordinal);
+
+  private Task HandleCategoryExpandedAsync(string name, bool expanded)
+  {
+    _expandedCategories[name] = expanded || !Expanded;
+    return !Expanded ? SetExpandedAsync(true) : Task.CompletedTask;
+  }
+
+  private async Task SetExpandedAsync(bool expanded)
+  {
+    Expanded = expanded;
+    await ExpandedChanged.InvokeAsync(expanded);
+  }
+
+  private Icon? GetNavIcon(Type? icon) => icon?.ToFluentIcon() ?? (Expanded ? null : CollapsedDefaultIcon);
+
   // Cached icon
   private static readonly Icon HomeIcon = new Home();
 

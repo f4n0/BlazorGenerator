@@ -22,8 +22,7 @@
   private async Task OpenNotificationCenterAsync()
   {
     if (Executor.PanelExecutorRef != null) return;
-    var options = new DialogOptions { Width = UISizeTokens.PanelWidth };
-    options.Header.Title = "Background Tasks";
+    var options = UIServices.CreateDialogOptions(UISizeTokens.PanelWidth, height: null, title: "Background Tasks");
     options.Footer.PrimaryAction.Visible = false;
     options.Footer.SecondaryAction.Visible = false;
     options.OnStateChange = args =>

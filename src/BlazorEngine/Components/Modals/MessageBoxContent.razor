@@ -1,0 +1,21 @@
+@inherits FluentDialogInstance
+@inject LibraryConfiguration Configuration
+
+<FluentDialogBody Class="blazorengine-dialog-body">
+  <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="16px" VerticalAlignment="VerticalAlignment.Top">
+    @if (Content.Icon != null)
+    {
+      <FluentIcon Value="@Content.Icon" Color="@Content.IconColor" Width="32px" />
+    }
+    <div style="min-width: 0; overflow-wrap: anywhere;">
+      @((MarkupString)Configuration.MarkupSanitized.DefaultSanitizeHtml(Content.Message ?? string.Empty))
+    </div>
+  </FluentStack>
+</FluentDialogBody>
+
+@code {
+  [Parameter, EditorRequired] public required MessageBoxOptions Content { get; set; }
+
+  protected override Task OnActionClickedAsync(bool primary) =>
+    primary ? DialogInstance.CloseAsync(DialogResult.Ok()) : DialogInstance.CancelAsync();
+}

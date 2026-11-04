@@ -1,7 +1,15 @@
 @using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
 @inherits BlazorEngineComponentBase
 
-<div class="navmenu">
+<div class="@($"navmenu{(Expanded ? string.Empty : " navmenu-collapsed")}")">
+  @if (Collapsible)
+  {
+    <div class="navmenu-header">
+      <FluentButton Class="navmenu-toggle" IconStart="@(new Size20.LineHorizontal3())" IconOnly="true"
+                    Appearance="ButtonAppearance.Subtle" Title="@Captions.Instance.Navigation"
+                    aria-expanded="@(Expanded ? "true" : "false")" OnClick="ToggleExpandedAsync" />
+    </div>
+  }
   @if (_loading)
   {
     <FluentSpinner />
@@ -13,7 +21,7 @@
                      Tooltip="@Captions.Instance.Home">@Captions.Instance.Home</FluentNavItem>
       @foreach (var menu in _defaultMenus)
       {
-        <FluentNavItem Href="@menu.Route" Match="NavLinkMatch.All" IconRest="@(menu.Icon.ToFluentIcon())"
+        <FluentNavItem Href="@menu.Route" Match="NavLinkMatch.All" IconRest="@GetNavIcon(menu.Icon)"
                        Tooltip="@menu.Title">@menu.Title</FluentNavItem>
       }
       @foreach (var group in _nonDefaultGroups)
@@ -21,16 +29,18 @@
         @if (group.IsSingleItem)
         {
           var menu = group.Items[0];
-          <FluentNavItem Href="@menu.Route" Match="NavLinkMatch.All" IconRest="@(menu.Icon.ToFluentIcon())"
+          <FluentNavItem Href="@menu.Route" Match="NavLinkMatch.All" IconRest="@GetNavIcon(menu.Icon)"
                          Tooltip="@menu.Title">@menu.Title</FluentNavItem>
         }
         else
         {
           <FluentNavCategory Id="@(group.GroupName.Replace(" ", ""))" Title="@group.GroupName"
-                             IconRest="@(new Size16.ChevronRight())">
+                             IconRest="@(new Size16.ChevronRight())"
+                             Expanded="@_expandedCategories.GetValueOrDefault(group.GroupName)"
+                             ExpandedChanged="@(expanded => HandleCategoryExpandedAsync(group.GroupName, expanded))">
             @foreach (var menu in group.Items)
             {
-              <FluentNavItem Href="@menu.Route" Match="NavLinkMatch.All" IconRest="@(menu.Icon.ToFluentIcon())"
+              <FluentNavItem Href="@menu.Route" Match="NavLinkMatch.All" IconRest="@GetNavIcon(menu.Icon)"
                              Tooltip="@menu.Title">@menu.Title</FluentNavItem>
             }
           </FluentNavCategory>
@@ -42,7 +52,7 @@
       <div class="navmenu-footer">
         <FluentNav Width="100%">
           <FluentNavItem Href="@_footerLink.Route" Target="@(_footerLink.OpenNewWindow ? LinkTarget.Blank : LinkTarget.Self)"
-                         IconRest="@(_footerLink.Icon.ToFluentIcon())" Tooltip="@_footerLink.Title">
+                         IconRest="@GetNavIcon(_footerLink.Icon)" Tooltip="@_footerLink.Title">
             @_footerLink.Title
           </FluentNavItem>
         </FluentNav>

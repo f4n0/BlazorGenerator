@@ -26,8 +26,9 @@ public partial class UIServices(
   public async Task<T?> OpenModal<T>(Type pageType, T data) where T : class
   {
     ValidateCardPage<T>(pageType);
-    var result = await DialogService.ShowDialogAsync(pageType,
-      CreateContentOptions(data, UISizeTokens.DialogWidth));
+    var options = CreateContentOptions(data, UISizeTokens.DialogWidth);
+    options.Parameters[nameof(PageDialogContent.PageType)] = pageType;
+    var result = await DialogService.ShowDialogAsync<PageDialogContent>(options);
     return result.Cancelled ? null : result.GetValue<T>();
   }
 
@@ -42,6 +43,7 @@ public partial class UIServices(
       MaximumFileSize = maxFileSize
     };
     var options = CreateContentOptions(data, UISizeTokens.DialogWidth);
+    options.Header.Title = "Upload files";
     options.Height = UISizeTokens.UploadDialogHeight;
     options.Footer.PrimaryAction.Visible = false;
     options.Footer.SecondaryAction.Visible = false;
@@ -79,16 +81,27 @@ public partial class UIServices(
 
   private static DialogOptions CreateContentOptions<T>(T content, string width)
   {
-    var options = new DialogOptions
-    {
-      Width = width,
-      Height = "fit-content",
-      Parameters = new Dictionary<string, object?> { ["Content"] = content }
-    };
+    var options = CreateDialogOptions(width);
+    options.Parameters["Content"] = content;
     options.Footer.PrimaryAction.Label = "OK";
     options.Footer.PrimaryAction.OnClickAsync = instance => instance.CloseAsync(content);
     options.Footer.SecondaryAction.Label = Captions.Instance.Cancel;
     options.Footer.SecondaryAction.OnClickAsync = instance => instance.CancelAsync();
+    return options;
+  }
+
+  internal static DialogOptions CreateDialogOptions(string width, string? height = "fit-content", string? title = null)
+  {
+    var options = new DialogOptions
+    {
+      Class = "blazorengine-dialog",
+      Width = width,
+      Height = height
+    };
+    options.Header.Title = title;
+    options.Header.CloseAction.Visible = true;
+    options.Header.CloseAction.Title = Captions.Instance.Close;
+    options.Header.CloseAction.OnClickAsync = instance => instance.CancelAsync();
     return options;
   }
 

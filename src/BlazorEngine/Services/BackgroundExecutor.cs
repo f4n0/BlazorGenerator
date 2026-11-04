@@ -185,13 +185,9 @@ public class BackgroundExecutor : IAsyncDisposable
   public async Task OpenActionLogsAsync(ActionLogger logger)
   {
     if (PanelExecutorRef != null) await PanelExecutorRef.CancelAsync();
-    var options = new DialogOptions
-    {
-      Width = UISizeTokens.ActionLogDialogWidth,
-      Height = UISizeTokens.ActionLogDialogHeight,
-      Parameters = new Dictionary<string, object?> { [nameof(ActionLogPanel.Content)] = logger }
-    };
-    options.Header.Title = "Action Logs";
+    var options = UIServices.CreateDialogOptions(UISizeTokens.ActionLogDialogWidth,
+      UISizeTokens.ActionLogDialogHeight, "Action Logs");
+    options.Parameters[nameof(ActionLogPanel.Content)] = logger;
     options.Footer.PrimaryAction.Visible = false;
     options.Footer.SecondaryAction.Visible = false;
     await _dialogService.ShowDialogAsync<ActionLogPanel>(options);

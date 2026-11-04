@@ -1,20 +1,22 @@
 ﻿@using BlazorEngine.Models
 @inherits FluentDialogInstance
-<FluentText Size="TextSize.Size400">@Content.Message</FluentText>
-@switch (Content.InputType)
-{
-  case UserInputType.PlainText:
-    <FluentTextInput @bind-Value="Content.Result" TextInputType="TextInputType.Text" Style="width:100%"/>
-    break;
-  case UserInputType.Secret:
-    <FluentTextInput @bind-Value="Content.Result" TextInputType="TextInputType.Password" Style="width:100%"/>
-    break;
-  case UserInputType.Choice:
-    <FluentRadioGroup @bind-Value=Content.Result Orientation="Orientation.Vertical">
-      @foreach (var item in Content.Choices)
-      {
-        <FluentRadio Value="@item" Label="@item" />
-      }
-    </FluentRadioGroup>
-    break;
-}
+<FluentDialogBody Class="blazorengine-dialog-body">
+  <FluentText Size="TextSize.Size400">@Content.Message</FluentText>
+  @switch (Content.InputType)
+  {
+    case UserInputType.PlainText:
+      <FluentTextInput @bind-Value="Content.Result" TextInputType="TextInputType.Text" Style="width:100%"/>
+      break;
+    case UserInputType.Secret:
+      <FluentTextInput @bind-Value="Content.Result" TextInputType="TextInputType.Password" Style="width:100%"/>
+      break;
+    case UserInputType.Choice:
+      <FluentRadioGroup @bind-Value="Content.Result" Orientation="Orientation.Vertical">
+        @foreach (var item in Content.Choices)
+        {
+          <FluentRadio Value="@item" Label="@item" />
+        }
+      </FluentRadioGroup>
+      break;
+  }
+</FluentDialogBody>

@@ -1,6 +1,7 @@
 @implements IDisposable
 @inject IJSRuntime JSRuntime
 
+<FluentDialogBody Class="blazorengine-dialog-body">
 <FluentSwitch @bind-Value="ShowVerbose"
               @bind-Value:after="Refresh"
               Style="margin-bottom:5px;"
@@ -24,6 +25,7 @@
         </Virtualize>
     }
 </div>
+</FluentDialogBody>
 
 @code {
     [Parameter] public ActionLogger Content { get; set; } = default!;

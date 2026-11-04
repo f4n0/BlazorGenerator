@@ -48,3 +48,27 @@ fluent-checkbox::part(control), fluent-checkbox::part(root) {
   flex: 1;
   justify-content: flex-end;
 }
+
+fluent-dialog.blazorengine-dialog::part(dialog),
+fluent-drawer.blazorengine-dialog::part(dialog) {
+  box-sizing: border-box;
+}
+
+fluent-dialog[fuib].blazorengine-dialog fluent-dialog-body[fuib].blazorengine-dialog-body {
+  padding: 24px;
+  box-sizing: border-box;
+  min-height: 0;
+  max-height: calc(100dvh - 2rem);
+}
+
+fluent-drawer[fuib].blazorengine-dialog fluent-drawer-body[fuib].blazorengine-dialog-body:not([scrollable])::part(header) {
+  padding: 24px;
+}
+
+fluent-drawer[fuib].blazorengine-dialog fluent-drawer-body[fuib].blazorengine-dialog-body:not([scrollable])::part(content) {
+  padding: 0 24px 24px;
+}
+
+fluent-drawer[fuib].blazorengine-dialog fluent-drawer-body[fuib].blazorengine-dialog-body:not([scrollable])::part(footer) {
+  padding: 24px;
+}
