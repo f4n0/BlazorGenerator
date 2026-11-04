@@ -1,5 +1,6 @@
 ﻿using BlazorEngine;
 using Microsoft.Extensions.DependencyInjection;
+using TestShared;
 
 namespace BlazorWpf;
 
@@ -14,7 +15,7 @@ public partial class MainWindow
     var serviceCollection = new ServiceCollection();
     serviceCollection.AddHttpClient();
     serviceCollection.AddWpfBlazorWebView();
-    serviceCollection.AddBlazorEngine();
+    serviceCollection.AddBlazorEngine(DemoRegistration.Configure);
     serviceCollection.AddBlazorWebViewDeveloperTools();
     Resources.Add("services", serviceCollection.BuildServiceProvider());
   }

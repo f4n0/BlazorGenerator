@@ -1,5 +1,5 @@
 ﻿using BlazorEngine.Layouts;
-using BlazorEngine.Utils;
+using BlazorEngine.Fields;
 using TestShared.Data;
 
 namespace TestShared.Views;
@@ -11,20 +11,16 @@ public class MockEditForm : CardPage<Mock>
   public override bool ShowButtons => false;
   public override bool ShowActions => false;
 
-  protected override Task LoadVisibleFields()
+  protected override Task ConfigureFields(FieldListBuilder<Mock> fields)
   {
-    VisibleFields = [];
-    VisibleFields.AddField(nameof(Mock.Id));
-    VisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(pro =>
-    {
-      pro.Get = args => { return args.Data.Name; };
-    });
-    VisibleFields.AddField(nameof(Mock.Price));
-    VisibleFields.AddField(nameof(Mock.Description));
-    VisibleFields.AddField(nameof(Mock.OrderDate));
-    VisibleFields.AddField(nameof(Mock.Icon));
-    VisibleFields.AddField(nameof(Mock.Type));
-    VisibleFields.AddField(nameof(Mock.Enabled));
+    fields.Add(x => x.Id);
+    fields.Add(x => x.Name).Get(args => args.Data.Name);
+    fields.Add(x => x.Price);
+    fields.Add(x => x.Description);
+    fields.Add(x => x.OrderDate);
+    fields.Add(x => x.Icon);
+    fields.Add(x => x.Type);
+    fields.Add(x => x.Enabled);
     return Task.CompletedTask;
   }
 }

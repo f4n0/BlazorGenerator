@@ -54,6 +54,10 @@ else
         {
             @fragment
         }
+        else if (fieldType is not null && typeof(Icon).IsAssignableFrom(fieldType))
+        {
+            @IconField
+        }
         else if (fieldType?.IsEnum == true)
         {
             @EnumField
@@ -94,7 +98,7 @@ else
     {
         <FluentField LabelTemplate="@LabelContent" Required="@Field.Required"
                      LabelPosition="LabelPosition.Before" LabelWidth="20%" Style="width: 100%; margin: 0;">
-            <FluentIcon Value="@((CurrentValue as Type)?.ToFluentIcon())" />
+            <FluentIcon Value="@GetIcon(CurrentValue)" />
         </FluentField>
     };
 
@@ -169,9 +173,9 @@ else
         if (color != null) style += "color: " + color.ToAttributeValue() + ";";
         if (string.IsNullOrEmpty(link))
         {
-            if (Field.FieldType == typeof(Type))
+            if (current is Icon || Field.FieldType == typeof(Type))
             {
-                <FluentIcon Value="@((current as Type)?.ToFluentIcon())" />
+                <FluentIcon Value="@GetIcon(current)" />
             }
             else if (Field.FieldType == typeof(bool))
             {
@@ -185,9 +189,9 @@ else
         else
         {
             <a href="@link" title="@current" style="@style">
-                @if (Field.FieldType == typeof(Type))
+                @if (current is Icon || Field.FieldType == typeof(Type))
                 {
-                    <FluentIcon Value="@((current as Type)?.ToFluentIcon())" />
+                    <FluentIcon Value="@GetIcon(current)" />
                 }
                 else
                 {

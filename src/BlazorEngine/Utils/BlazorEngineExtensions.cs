@@ -50,7 +50,8 @@ public static class BlazorEngineExtensions
   [RequiresUnreferencedCode("DynamicBehavior is incompatible with trimming.")]
   public static Icon? ToFluentIcon(this Type icon)
   {
-    return Activator.CreateInstance(icon) as Icon;
+    // Compatibility for model fields holding an icon Type; registrations use live icons.
+    return typeof(Icon).IsAssignableFrom(icon) ? Activator.CreateInstance(icon) as Icon : null;
   }
 
   public static void AddRange<T>(this IList<T> list, IEnumerable<T> items)

@@ -1,4 +1,5 @@
 ﻿using BlazorEngine.Components.Base;
+using BlazorEngine.Fields;
 using BlazorEngine.Components.Card;
 using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
@@ -8,6 +9,16 @@ namespace BlazorEngine.Layouts;
 
 public partial class CardPage<T> : BlazorEngineComponentBase
 {
+  protected override bool UsesPageLifecycle => true;
+  protected virtual Task ConfigureFields(FieldListBuilder<T> fields) => Task.CompletedTask;
+
+  protected override async Task LoadVisibleFields()
+  {
+    var fields = new FieldListBuilder<T>();
+    await ConfigureFields(fields);
+    VisibleFields = fields.Build();
+  }
+
   private PermissionSet permissionSet = new();
   public virtual int GridSize => 6;
 

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.FluentUI.AspNetCore.Components;
 using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size16;
 
 namespace TestShared.Data;
@@ -14,7 +15,7 @@ public class Mock : ICloneable
 
   public float Price { get; set; }
   public string NullTest { get; set; } = null!;
-  public Type Icon { get; set; } = typeof(AddSquare);
+  public Icon Icon { get; set; } = new AddSquare();
   public MockEnum Type { get; set; }
   public bool Enabled { get; set; }
 

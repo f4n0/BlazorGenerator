@@ -1,6 +1,4 @@
-﻿using BlazorEngine.Attributes;
-using BlazorEngine.Services;
-using BlazorEngine.Utils;
+﻿using BlazorEngine.Menu;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using static Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20;
@@ -9,6 +7,7 @@ namespace BlazorEngine.Components.Menu;
 
 public partial class NavMenu
 {
+  [Inject] private BlazorEngineOptions Options { get; set; } = null!;
   [Parameter] public bool Collapsible { get; set; } = true;
   [Parameter] public bool Expanded { get; set; } = true;
   [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
@@ -31,48 +30,45 @@ public partial class NavMenu
     await ExpandedChanged.InvokeAsync(expanded);
   }
 
-  private Icon? GetNavIcon(Type? icon) => icon?.ToFluentIcon() ?? (Expanded ? null : CollapsedDefaultIcon);
+  private Icon? GetNavIcon(Icon? icon) => icon ?? (Expanded ? null : CollapsedDefaultIcon);
 
   // Cached icon
   private static readonly Icon HomeIcon = new Home();
 
   // Pre-computed menu structure
-  private List<AddToMenuAttribute> _defaultMenus = [];
-  private FooterLinkAttribute? _footerLink;
+  private List<MenuItemDefinition> _defaultMenus = [];
+  private IReadOnlyCollection<FooterItemDefinition> _footerLinks = [];
   private bool _loading;
   private List<MenuGroupData> _nonDefaultGroups = [];
 
-  protected override void OnInitialized()
+  protected override async Task OnInitializedAsync()
   {
     _loading = true;
-    _ = BuildMenuStructureAsync();
+    await BuildMenuStructureAsync();
+    await base.OnInitializedAsync();
   }
 
   private async Task BuildMenuStructureAsync()
   {
     try
     {
-      var allMenu = MetadataRegistry.GetMenuItems().ToList();
-      if (allMenu.Count == 0) return;
-      // Optional: parallelize permission checks (with a cap)
-      // 2. Batch permission check
+      var allMenu = Options.MenuItems;
+      // Preserve the host's session-aware ISecurity checks as well as registration restrictions.
       var permissions =
-        await Security.GetPermissionSets(allMenu.Select(m => m.Type)
-          .ToList()); // returns Dictionary<Type, PermissionSet>
+        await Security.GetPermissionSets(allMenu.Select(m => m.PageType));
 
-      // 3. Build results using the batch permissions
+      // Build results using the batch permissions.
       var authorizedMenus = allMenu
-        .Select(item => (item, allowed: permissions.TryGetValue(item.Type, out var perm) && perm.Execute))
+        .Select(item => (item, allowed: permissions.TryGetValue(item.PageType, out var perm) && perm.Execute))
         .Where(r => r.allowed)
-        .Select(r => (Attr: r.item.Attribute, r.item.Attribute.Group))
+        .Select(r => r.item)
         .ToList();
 
       // Pre-compute default group menus (sorted)
       _defaultMenus = authorizedMenus
         .Where(m => m.Group.Equals("default", StringComparison.OrdinalIgnoreCase))
-        .Select(m => m.Attr)
         .Distinct()
-        .OrderBy(m => m.OrderSequence)
+        .OrderBy(m => m.Order)
         .ToList();
 
       // Pre-compute non-default groups with their items (sorted)
@@ -82,16 +78,15 @@ public partial class NavMenu
         .Select(g => new MenuGroupData
         {
           GroupName = g.Key,
-          Items = g.Select(x => x.Attr)
+          Items = g
             .Distinct()
-            .OrderBy(x => x.OrderSequence)
+            .OrderBy(x => x.Order)
             .ToList()
         })
         .ToList();
 
-      // Footer link
-      var firstFooter = MetadataRegistry.GetFooterLinks().FirstOrDefault();
-      _footerLink = firstFooter.Attribute;
+      // Footer registrations are independent of page/menu permissions.
+      _footerLinks = Options.FooterItems;
     }
     finally
     {
@@ -104,7 +99,7 @@ public partial class NavMenu
   private class MenuGroupData
   {
     public required string GroupName { get; init; }
-    public required List<AddToMenuAttribute> Items { get; init; }
+    public required List<MenuItemDefinition> Items { get; init; }
     public bool IsSingleItem => Items.Count == 1;
   }
 }

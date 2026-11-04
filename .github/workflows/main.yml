@@ -18,16 +18,11 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
-      # Restore dependencies for BlazorEngine, BuildTasks, and TestShared
+      # Restore dependencies for BlazorEngine and TestShared
       - name: Restore dependencies
         run: |
           dotnet restore src/BlazorEngine/BlazorEngine.csproj
-          dotnet restore src/BlazorEngine.BuildTasks/BlazorEngine.BuildTasks.csproj
           dotnet restore Demo/TestShared/TestShared.csproj
-
-      # Build BlazorEngine.BuildTasks first
-      - name: Build BlazorEngine.BuildTasks
-        run: dotnet build src/BlazorEngine.BuildTasks/BlazorEngine.BuildTasks.csproj -c Release
 
       # Build all projects
       - name: Build all projects

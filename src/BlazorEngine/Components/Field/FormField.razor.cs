@@ -1,4 +1,5 @@
 using BlazorEngine.Models;
+using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.FluentUI.AspNetCore.Components.Extensions;
@@ -47,11 +48,15 @@ public partial class FormField<T>
     { typeof(decimal), DecimalField },
     { typeof(string), TextField },
     { typeof(DateTime), DateTimeField },
+    { typeof(Icon), IconField },
     { typeof(Type), IconField },
     { typeof(Action), ActionField }
   };
 
   private object? CurrentValue => Field.Get == null ? Field.InternalGet(Data) : _currentValue;
+
+  private static Icon? GetIcon(object? value) =>
+    value as Icon ?? (value is Type iconType ? iconType.ToFluentIcon() : null);
 
   private void SetFieldValue(object? value)
   {

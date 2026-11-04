@@ -12,20 +12,20 @@
           {
             var action = group.Actions[0];
             <FluentButton Appearance="ButtonAppearance.Subtle"
-                          OnClick="@(() => InvokeActionAsync(action.Method))"
-                          IconStart="@(action.Attribute.Icon.ToFluentIcon())">
-              @action.Attribute.Caption
+                          OnClick="@(() => InvokeActionAsync(action))"
+                          IconStart="@action.Icon">
+              @action.Caption
             </FluentButton>
           }
           else
           {
             var first = group.Actions[0];
-            <SplitButton Title="@first.Attribute.Caption" Icon="@first.Attribute.Icon.ToFluentIcon()"
-                         Appearance="ButtonAppearance.Subtle" OnClick="@(() => InvokeActionAsync(first.Method))">
+            <SplitButton Title="@first.Caption" Icon="@first.Icon"
+                         Appearance="ButtonAppearance.Subtle" OnClick="@(() => InvokeActionAsync(first))">
               @foreach (var action in group.Actions)
               {
-                <SplitButtonItem OnClick="@(() => InvokeActionAsync(action.Method))"
-                                 Label="@action.Attribute.Caption" IconStart="@action.Attribute.Icon.ToFluentIcon()" />
+                <SplitButtonItem OnClick="@(() => InvokeActionAsync(action))"
+                                 Label="@action.Caption" IconStart="@action.Icon" />
               }
             </SplitButton>
           }
@@ -48,9 +48,9 @@
               @foreach (var action in group.Actions)
               {
                 <FluentButton Appearance="ButtonAppearance.Subtle" Style="width: 100%; justify-content: flex-start;"
-                              OnClick="@(() => InvokeOverflowActionAsync(action.Method))"
-                              IconStart="@(action.Attribute.Icon.ToFluentIcon())">
-                  @action.Attribute.Caption
+                              OnClick="@(() => InvokeOverflowActionAsync(action))"
+                              IconStart="@action.Icon">
+                  @action.Caption
                 </FluentButton>
               }
             }

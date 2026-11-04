@@ -2,8 +2,9 @@
 @typeparam TSecondList
 @inherits BlazorEngineComponentBase
 @{
-  var pageActions = MetadataRegistry.GetPageActions(this);
-  var gridActions = MetadataRegistry.GetGridActions(this);
+  var pageActions = CreatePageActions();
+  var firstGridActions = CreateFirstListGridActions();
+  var secondGridActions = CreateSecondListGridActions();
 }
 <PageTitle>@Title</PageTitle>
 <div class="two-list-root">
@@ -27,7 +28,7 @@
                       PermissionSet="permissionSet"
                       @bind-Selected="FirstListSelected"
                       ShowButtons="ShowButtons"
-                      GridActions="gridActions"
+                      GridActions="firstGridActions"
                       ShowExportToExcel="ShowExportToExcelFirstList"
                       EditFormType="FirstListEditFormType"/>
       </FluentMultiSplitterPane>
@@ -41,7 +42,7 @@
                       PermissionSet="permissionSet"
                       @bind-Selected="SecondListSelected"
                       ShowButtons="ShowButtons"
-                      GridActions="gridActions"
+                      GridActions="secondGridActions"
                       ShowExportToExcel="ShowExportToExcelSecondList"
                       EditFormType="SecondListEditFormType"/>
       </FluentMultiSplitterPane>

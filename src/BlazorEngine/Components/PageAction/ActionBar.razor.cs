@@ -1,13 +1,11 @@
-﻿using System.Reflection;
-using BlazorEngine.Attributes;
-using BlazorEngine.Utils;
+﻿using BlazorEngine.Actions;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorEngine.Components.PageAction;
 
 public partial class ActionBar
 {
-  [Parameter] public IEnumerable<(MethodInfo Method, PageActionAttribute Attribute)> PageActions { get; set; } = [];
+  [Parameter] public IReadOnlyList<PageActionDefinition> PageActions { get; set; } = [];
 
   [Parameter] public required object Context { get; set; }
 
@@ -23,7 +21,7 @@ public partial class ActionBar
   {
     PopulateDictionary();
     _overflowGroups = [];
-    foreach (var group in PageActions.GroupBy(action => action.Attribute.Group))
+    foreach (var group in PageActions.GroupBy(action => action.Group))
     {
       var actions = group.ToList();
       if (group.Key.Equals("default", StringComparison.OrdinalIgnoreCase))
@@ -34,26 +32,26 @@ public partial class ActionBar
     base.OnParametersSet();
   }
 
-  private sealed record ActionGroup(string Name, List<(MethodInfo Method, PageActionAttribute Attribute)> Actions);
+  private sealed record ActionGroup(string Name, List<PageActionDefinition> Actions);
 
-  private Task InvokeActionAsync(MethodInfo method)
+  private static Task InvokeActionAsync(PageActionDefinition action)
   {
-    return ReflectionUtilites.InvokeAction(method, Context);
+    return action.ExecuteAsync();
   }
 
-  private Task InvokeOverflowActionAsync(MethodInfo method)
+  private Task InvokeOverflowActionAsync(PageActionDefinition action)
   {
     OpenMore = false;
-    return InvokeActionAsync(method);
+    return InvokeActionAsync(action);
   }
 
   private void PopulateDictionary()
   {
     ActionGroups = [];
     foreach (var item in PageActions)
-      if (ActionGroups.TryGetValue(item.Attribute.Group, out var value))
-        ActionGroups[item.Attribute.Group] = ++value;
+      if (ActionGroups.TryGetValue(item.Group, out var value))
+        ActionGroups[item.Group] = ++value;
       else
-        ActionGroups.Add(item.Attribute.Group, 1);
+        ActionGroups.Add(item.Group, 1);
   }
 }

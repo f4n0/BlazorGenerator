@@ -76,8 +76,8 @@
                                       <FluentMenuList>
                                         @foreach (var a in GridActions ?? [])
                                         {
-                                            <FluentMenuItem Label="@a.Attribute.Caption" OnClick="@(_ => InvokeGridAction(a.Method, context!))"
-                                                            IconStart="@(a.Attribute.GridIcon.ToFluentIcon())" />
+                                            <FluentMenuItem Label="@a.Caption" OnClick="@(_ => InvokeGridAction(a, context!))"
+                                                            IconStart="@a.Icon" />
                                         }
                                       </FluentMenuList>
                                     </FluentMenu>

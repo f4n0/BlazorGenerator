@@ -47,14 +47,17 @@
         }
       }
     </FluentNav>
-    @if (_footerLink != null)
+    @if (_footerLinks.Count > 0)
     {
       <div class="navmenu-footer">
         <FluentNav Width="100%" Class="navmenu-footer-links">
-          <FluentNavItem Href="@_footerLink.Route" Target="@(_footerLink.OpenNewWindow ? LinkTarget.Blank : LinkTarget.Self)"
-                         IconRest="@GetNavIcon(_footerLink.Icon)" Tooltip="@_footerLink.Title">
-            @_footerLink.Title
-          </FluentNavItem>
+          @foreach (var footer in _footerLinks)
+          {
+            <FluentNavItem Href="@footer.Route" Target="@(footer.OpenInNewTab ? LinkTarget.Blank : LinkTarget.Self)"
+                           IconRest="@GetNavIcon(footer.Icon)" Tooltip="@footer.Title">
+              @footer.Title
+            </FluentNavItem>
+          }
         </FluentNav>
       </div>
     }

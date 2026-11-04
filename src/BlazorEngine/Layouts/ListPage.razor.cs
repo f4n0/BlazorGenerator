@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using BlazorEngine.Actions;
+using BlazorEngine.Fields;
 using BlazorEngine.Components.Base;
 using BlazorEngine.Models;
 
@@ -6,6 +8,17 @@ namespace BlazorEngine.Layouts;
 
 public partial class ListPage<T> : BlazorEngineComponentBase where T : class
 {
+  protected override bool UsesPageLifecycle => true;
+  protected virtual IReadOnlyList<GridActionDefinition<T>> CreateGridActions() => [];
+  protected virtual Task ConfigureFields(FieldListBuilder<T> fields) => Task.CompletedTask;
+
+  protected override async Task LoadVisibleFields()
+  {
+    var fields = new FieldListBuilder<T>();
+    await ConfigureFields(fields);
+    VisibleFields = fields.Build();
+  }
+
   private PermissionSet permissionSet = new();
   public IEnumerable<T>? Content { get; set; }
   public required List<VisibleField<T>> VisibleFields { get; set; } = new();

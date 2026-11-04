@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Reflection;
-using BlazorEngine.Attributes;
+using BlazorEngine.Actions;
 using BlazorEngine.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -18,7 +17,7 @@ public partial class ListDataGrid<T>
 
   [Parameter] public PermissionSet? PermissionSet { get; set; }
 
-  [Parameter] public IEnumerable<(MethodInfo Method, GridActionAttribute Attribute)>? GridActions { get; set; } = [];
+  [Parameter] public IReadOnlyList<GridActionDefinition<T>> GridActions { get; set; } = [];
 
   [Parameter] public ObservableCollection<T> Selected { get; set; } = [];
 

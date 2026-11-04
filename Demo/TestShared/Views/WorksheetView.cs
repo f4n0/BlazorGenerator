@@ -1,18 +1,18 @@
 ﻿using System.Collections.Specialized;
-using BlazorEngine.Attributes;
+using BlazorEngine.Actions;
+using BlazorEngine.Fields;
 using BlazorEngine.Enum;
 using BlazorEngine.Layouts;
-using BlazorEngine.Utils;
 using Microsoft.AspNetCore.Components;
 using TestShared.Data;
 
 namespace TestShared.Views;
 
-[Route("WorksheetView")]
-[Route("WorksheetView/{Param}")]
-[AddToMenu(Title = "Worksheet Page", Route = "WorksheetView")]
+[Route(Route)]
+[Route(Route + "/{Param}")]
 public class WorksheetView : Worksheet<Mock, Mock>
 {
+  public const string Route = "WorksheetView";
   [Parameter] public string? Param { get; set; }
 
   public int Id { get; set; }
@@ -41,25 +41,28 @@ public class WorksheetView : Worksheet<Mock, Mock>
     }
   }
 
-  protected override Task LoadVisibleFields()
+  protected override Task ConfigureFields(FieldListBuilder<Mock> fields)
   {
     ShowButtons = false;
 
-    VisibleFields = [];
-    VisibleFields.AddField(nameof(Mock.Id));
-    VisibleFields.AddField(nameof(Mock.Name));
-    VisibleFields.AddField(nameof(Mock.Price));
-    VisibleFields.AddField(nameof(Mock.Description));
-    VisibleFields.AddField(nameof(Mock.OrderDate));
-
-    ListVisibleFields = [];
-    ListVisibleFields.AddField(nameof(Mock.Id));
-    ListVisibleFields.AddField(nameof(Mock.Name)).AddFieldProperty(prop => prop.TextStyle = _ => TextStyle.Italic);
-    ListVisibleFields.AddField(nameof(Mock.Description));
+    fields.Add(x => x.Id);
+    fields.Add(x => x.Name);
+    fields.Add(x => x.Price);
+    fields.Add(x => x.Description);
+    fields.Add(x => x.OrderDate);
     return Task.CompletedTask;
   }
 
-  [PageAction(Caption = "Test")]
+  protected override Task ConfigureListFields(FieldListBuilder<Mock> fields)
+  {
+    fields.Add(x => x.Id);
+    fields.Add(x => x.Name).TextStyle(_ => TextStyle.Italic);
+    fields.Add(x => x.Description);
+    return Task.CompletedTask;
+  }
+
+  protected override IReadOnlyList<PageActionDefinition> CreatePageActions() => [new("Test", Test)];
+
   public void Test()
   {
     ListContent = Mock.GetMultipleMock(2);

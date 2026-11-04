@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using BlazorEngine.Actions;
+using BlazorEngine.Fields;
 using BlazorEngine.Components.Base;
 using BlazorEngine.Components.Card;
 using BlazorEngine.Components.DataGrid;
@@ -8,6 +10,21 @@ namespace BlazorEngine.Layouts;
 
 public partial class Worksheet<TData, TList> : BlazorEngineComponentBase where TList : class
 {
+  protected override bool UsesPageLifecycle => true;
+  protected virtual IReadOnlyList<GridActionDefinition<TList>> CreateGridActions() => [];
+  protected virtual Task ConfigureFields(FieldListBuilder<TData> fields) => Task.CompletedTask;
+  protected virtual Task ConfigureListFields(FieldListBuilder<TList> fields) => Task.CompletedTask;
+
+  protected override async Task LoadVisibleFields()
+  {
+    var fields = new FieldListBuilder<TData>();
+    await ConfigureFields(fields);
+    VisibleFields = fields.Build();
+    var listFields = new FieldListBuilder<TList>();
+    await ConfigureListFields(listFields);
+    ListVisibleFields = listFields.Build();
+  }
+
   private PermissionSet permissionSet = new();
   public virtual int GridSize => 6;
   public TData? Content { get; set; }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
 using TestShared.Services;
+using TestShared;
 using WebAssembly;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -14,7 +15,7 @@ builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.H
 
 builder.Services.AddScoped<IHelpService, HelpService>();
 
-builder.Services.AddBlazorEngine();
+builder.Services.AddBlazorEngine(DemoRegistration.Configure);
 BlazorEngineSettings.Instance.ApplicationName = "BlazorEngine Demo App";
 BlazorEngineSettings.Instance.Theme = new ThemeSettings()
 {
