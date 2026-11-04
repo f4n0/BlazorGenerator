@@ -108,12 +108,12 @@ public partial class FormField<T>
 
     _commonAttributes.Clear();
     _commonAttributes["Id"] = _id;
-    _commonAttributes["Label"] = EffectiveShowLabel ? Field.Caption : string.Empty;
+    _commonAttributes["Label"] = string.Empty;
+    if (LabelContent is { } labelContent) _commonAttributes["LabelTemplate"] = labelContent;
     _commonAttributes["LabelPosition"] = LabelPosition.Before;
     _commonAttributes["LabelWidth"] = "20%";
     _commonAttributes["Required"] = Field.Required;
     _commonAttributes["AriaLabel"] = Field.Caption;
-    _commonAttributes["Tooltip"] = Field.Tooltip ?? Field.Caption;
     _commonAttributes["ReadOnly"] = Field.ReadOnly || Field.OnLookup != null;
     _commonAttributes["style"] = styles;
     _commonAttributes["class"] = className;

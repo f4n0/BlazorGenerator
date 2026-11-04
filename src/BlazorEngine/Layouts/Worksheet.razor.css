@@ -3,6 +3,8 @@
   flex-flow: column;
   height: 100%;
   gap: 4px;
+  min-height: 0;
+  min-width: 0;
 }
 
 .worksheet-header {
@@ -14,7 +16,15 @@
   flex: 0 0 auto;
 }
 
+.worksheet-card ::deep .card-fields-container {
+  height: auto;
+}
+
 .worksheet-list {
-  overflow: auto;
-  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }

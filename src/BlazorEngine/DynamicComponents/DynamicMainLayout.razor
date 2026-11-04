@@ -2,7 +2,7 @@
 @using Microsoft.FluentUI.AspNetCore.Components.Icons.Regular
 @implements IMainLayout
 
-<FluentLayout Height="100dvh" OnBreakpointEnter="@(mobile => _isMobile = mobile)">
+<FluentLayout Class="blazorengine-layout" Height="100dvh" OnBreakpointEnter="@(mobile => _isMobile = mobile)">
   <FluentLayoutItem Area="LayoutArea.Header" Height="45px" Style="padding: 4px 8px;">
     <div class="layout-header">
       <div class="layout-header-start">

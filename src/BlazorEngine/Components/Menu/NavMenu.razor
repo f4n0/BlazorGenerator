@@ -16,7 +16,7 @@
   }
   else
   {
-    <FluentNav Width="100%" aria-label="@Captions.Instance.Navigation">
+    <FluentNav Width="100%" Class="navmenu-items" aria-label="@Captions.Instance.Navigation">
       <FluentNavItem Href="@NavManager.BaseUri" Match="NavLinkMatch.All" IconRest="@HomeIcon"
                      Tooltip="@Captions.Instance.Home">@Captions.Instance.Home</FluentNavItem>
       @foreach (var menu in _defaultMenus)
@@ -50,7 +50,7 @@
     @if (_footerLink != null)
     {
       <div class="navmenu-footer">
-        <FluentNav Width="100%">
+        <FluentNav Width="100%" Class="navmenu-footer-links">
           <FluentNavItem Href="@_footerLink.Route" Target="@(_footerLink.OpenNewWindow ? LinkTarget.Blank : LinkTarget.Self)"
                          IconRest="@GetNavIcon(_footerLink.Icon)" Tooltip="@_footerLink.Title">
             @_footerLink.Title

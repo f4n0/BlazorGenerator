@@ -7,17 +7,16 @@
 }
 else if (Field.Get != null && _isValueLoading)
 {
-    <FluentField Label="@(EffectiveShowLabel ? Field.Caption : null)" Required="@Field.Required"
+    <FluentField LabelTemplate="@LabelContent" Required="@Field.Required"
                  LabelPosition="LabelPosition.Before" LabelWidth="20%" Style="width: 100%; margin: 0;">
         <FluentSpinner Size="SpinnerSize.Tiny" />
     </FluentField>
 }
 else if (Field.CustomContent != null)
 {
-    <FluentField Label="@(EffectiveShowLabel ? Field.Caption : null)" Required="@Field.Required" ForId="@_id"
+    <FluentField LabelTemplate="@LabelContent" Required="@Field.Required" ForId="@_id"
                  Class="form-field-custom"
-                 LabelPosition="LabelPosition.Before" LabelWidth="20%" Style="width: 100%; margin: 0;"
-                 title="@(Field.Tooltip ?? Field.Caption)">
+                 LabelPosition="LabelPosition.Before" LabelWidth="20%" Style="width: 100%; margin: 0;">
         @Field.CustomContent.Invoke(Data, Field)
     </FluentField>
 }
@@ -43,6 +42,11 @@ else
 }
 
 @code {
+    RenderFragment? LabelContent => !EffectiveShowLabel ? null : __builder =>
+    {
+        <FluentText Id="@(_id + "-label-text")" Tooltip="@(Field.Tooltip ?? Field.Caption)">@Field.Caption</FluentText>
+    };
+
     RenderFragment RenderField => __builder =>
     {
         var fieldType = Field.FieldType;
@@ -88,7 +92,7 @@ else
 
     RenderFragment IconField => __builder =>
     {
-        <FluentField Label="@(EffectiveShowLabel ? Field.Caption : null)" Required="@Field.Required"
+        <FluentField LabelTemplate="@LabelContent" Required="@Field.Required"
                      LabelPosition="LabelPosition.Before" LabelWidth="20%" Style="width: 100%; margin: 0;">
             <FluentIcon Value="@((CurrentValue as Type)?.ToFluentIcon())" />
         </FluentField>
@@ -171,7 +175,7 @@ else
             }
             else if (Field.FieldType == typeof(bool))
             {
-                <FluentCheckbox Value="@(Convert.ToBoolean(current))" ReadOnly="true" />
+                <FluentCheckbox Value="@(Convert.ToBoolean(current))" ReadOnly="true" Style="margin: 0;" />
             }
             else
             {

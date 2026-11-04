@@ -21,8 +21,12 @@ body {
 
   .navmenu {
     width: 100%;
-    height: fit-content !important;
   }
+}
+
+.blazorengine-layout fluent-drawer[hamburger] fluent-drawer-body > div:not([slot]) {
+  height: 100%;
+  min-height: 0;
 }
 
 
