@@ -3,40 +3,107 @@ name: BlazorEngine
 on:
   push:
     branches: [ main ]
+
   pull_request:
     branches: [ main ]
 
+# Prevent simultaneous releases from using the same version.
+concurrency:
+  group: blazorengine-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
       - name: Restore dependencies
         run: |
           dotnet restore src/BlazorEngine/BlazorEngine.csproj
+
       - name: Build all projects
         run: |
-          dotnet build src/BlazorEngine/BlazorEngine.csproj -c Release --no-restore
+          dotnet build src/BlazorEngine/BlazorEngine.csproj \
+            -c Release --no-restore
+
+      # Calculate the next package version
+      - name: Calculate package version
+        id: version
+        if: github.event_name != 'pull_request'
+        env:
+          MAJOR_MINOR: "2.0"
+          PREVIOUS_VERSION: ${{ vars.PACKAGE_VERSION_STATE }}
+        shell: bash
+        run: |
+          # Validate major/minor version
+          if [[ ! "$MAJOR_MINOR" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid MAJOR_MINOR: $MAJOR_MINOR"
+            exit 1
+          fi
+
+          # Extract previous patch counter
+          PATCH=0
+
+          if [[ "$PREVIOUS_VERSION" =~ ^${MAJOR_MINOR}\.([0-9]+)$ ]]; then
+            PATCH="${BASH_REMATCH[1]}"
+          fi
+
+          # Increment patch
+          PATCH=$((PATCH + 1))
+
+          VERSION="${MAJOR_MINOR}.${PATCH}"
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          echo "Package version: $VERSION"
+
       - name: Pack
         if: github.event_name != 'pull_request'
         run: |
-          dotnet pack "src/BlazorEngine/BlazorEngine.csproj" -c Release -o out -p:PackageVersion=2.0.${{ github.run_number }}
+          dotnet pack "src/BlazorEngine/BlazorEngine.csproj" \
+            -c Release \
+            -o out \
+            -p:PackageVersion=${{ steps.version.outputs.version }}
+
+      # Publish to GitHub Packages
       - name: Push generated package to GitHub registry
         if: github.event_name != 'pull_request'
-        run: dotnet nuget push ./out/*.nupkg --source "https://nuget.pkg.github.com/f4n0/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          dotnet nuget push ./out/*.nupkg \
+            --source "https://nuget.pkg.github.com/f4n0/index.json" \
+            --api-key "${{ secrets.GITHUB_TOKEN }}" \
+            --skip-duplicate
 
-      - name: Push generated package to Nuget registry
+      # Publish to NuGet.org
+      - name: Push generated package to NuGet registry
         if: github.event_name != 'pull_request'
         env:
-          NUGET_TOKEN: ${{secrets.NUGET_TOKEN}}
-        run: dotnet nuget push ./out/*.nupkg --source "https://api.nuget.org/v3/index.json" --api-key "$NUGET_TOKEN"
+          NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+        run: |
+          dotnet nuget push ./out/*.nupkg \
+            --source "https://api.nuget.org/v3/index.json" \
+            --api-key "$NUGET_TOKEN" \
+            --skip-duplicate
+
+      # Update the counter ONLY after both publishing operations succeed
+      - name: Update version counter
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.VERSION_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh variable set PACKAGE_VERSION_STATE --body "$VERSION"
+
+          echo "Version counter updated to $VERSION"
