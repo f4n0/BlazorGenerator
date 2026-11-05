@@ -77,25 +77,18 @@ jobs:
             -o out \
             -p:PackageVersion=${{ steps.version.outputs.version }}
 
-      # Publish to GitHub Packages
-      - name: Push generated package to GitHub registry
+      # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
         if: github.event_name != 'pull_request'
-        run: |
-          dotnet nuget push ./out/*.nupkg \
-            --source "https://nuget.pkg.github.com/f4n0/index.json" \
-            --api-key "${{ secrets.GITHUB_TOKEN }}" \
-            --skip-duplicate
-
-      # Publish to NuGet.org
-      - name: Push generated package to NuGet registry
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+    
+      # Push the package
+      - name: NuGet push
         if: github.event_name != 'pull_request'
-        env:
-          NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
-        run: |
-          dotnet nuget push ./out/*.nupkg \
-            --source "https://api.nuget.org/v3/index.json" \
-            --api-key "$NUGET_TOKEN" \
-            --skip-duplicate
+        run: dotnet nuget push ./out/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
 
       # Update the counter ONLY after both publishing operations succeed
       - name: Update version counter
