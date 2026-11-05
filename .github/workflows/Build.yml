@@ -39,36 +39,58 @@ jobs:
           dotnet build src/BlazorEngine/BlazorEngine.csproj \
             -c Release --no-restore
 
-      # Calculate the next package version
+ # Calculate next version using NuGet.org
       - name: Calculate package version
         id: version
         if: github.event_name != 'pull_request'
         env:
           MAJOR_MINOR: "2.0"
-          PREVIOUS_VERSION: ${{ vars.PACKAGE_VERSION_STATE }}
+          PACKAGE_ID: "BlazorEngine"
         shell: bash
         run: |
-          # Validate major/minor version
+          set -euo pipefail
+
+          # Validate configured version
           if [[ ! "$MAJOR_MINOR" =~ ^[0-9]+\.[0-9]+$ ]]; then
             echo "Invalid MAJOR_MINOR: $MAJOR_MINOR"
             exit 1
           fi
 
-          # Extract previous patch counter
-          PATCH=0
+          # Query NuGet.org package versions
+          URL="https://api.nuget.org/v3-flatcontainer/${PACKAGE_ID,,}/index.json"
+          VERSIONS_FILE="$RUNNER_TEMP/nuget-versions.json"
 
-          if [[ "$PREVIOUS_VERSION" =~ ^${MAJOR_MINOR}\.([0-9]+)$ ]]; then
-            PATCH="${BASH_REMATCH[1]}"
+          HTTP_STATUS=$(curl -sS \
+            -o "$VERSIONS_FILE" \
+            -w "%{http_code}" \
+            "$URL")
+
+          if [[ "$HTTP_STATUS" == "404" ]]; then
+            echo '{"versions":[]}' > "$VERSIONS_FILE"
+          elif [[ "$HTTP_STATUS" != "200" ]]; then
+            echo "NuGet API returned HTTP $HTTP_STATUS"
+            exit 1
           fi
 
+          # Find highest stable patch for current major/minor
+          LAST_PATCH=$(jq -r --arg prefix "${MAJOR_MINOR}." '
+            .versions[]?
+            | select(startswith($prefix))
+            | .[($prefix | length):]
+            | select(test("^[0-9]+$"))
+          ' "$VERSIONS_FILE" | sort -n | tail -1)
+
           # Increment patch
-          PATCH=$((PATCH + 1))
+          PATCH=$((${LAST_PATCH:-0} + 1))
 
           VERSION="${MAJOR_MINOR}.${PATCH}"
 
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-          echo "Package version: $VERSION"
+          echo "=================================="
+          echo "Previous patch: ${LAST_PATCH:-none}"
+          echo "New package version: $VERSION"
+          echo "=================================="
 
       - name: Pack
         if: github.event_name != 'pull_request'
@@ -90,14 +112,3 @@ jobs:
       - name: NuGet push
         if: github.event_name != 'pull_request'
         run: dotnet nuget push ./out/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
-
-      # Update the counter ONLY after both publishing operations succeed
-      - name: Update version counter
-        if: github.event_name != 'pull_request'
-        env:
-          GH_TOKEN: ${{ secrets.VERSION_TOKEN }}
-          VERSION: ${{ steps.version.outputs.version }}
-        run: |
-          gh variable set PACKAGE_VERSION_STATE --body "$VERSION"
-
-          echo "Version counter updated to $VERSION"
