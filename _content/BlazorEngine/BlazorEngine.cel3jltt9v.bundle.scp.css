@@ -1,0 +1,410 @@
+/* _content/BlazorEngine/Components/Background/ActionLogPanel.razor.rz.scp.css */
+.action-log-panel[b-6ic6060vzu] {
+  overflow-y: auto;
+  height: 80%;
+}
+
+.action-log-timestamp[b-6ic6060vzu] {
+  color: var(--colorNeutralForeground3);
+  margin-right: 0.5rem;
+}
+/* _content/BlazorEngine/Components/Background/BackgroundExecutorButton.razor.rz.scp.css */
+.bg-executor-wrapper[b-iin63j3oci]  fluent-badge-container {
+  display: flex;
+  align-items: center;
+}
+/* _content/BlazorEngine/Components/Card/CardFields.razor.rz.scp.css */
+.card-fields-container[b-43t64rwzfe] {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+.card-fields-container[b-43t64rwzfe]  .card-fields-main {
+  padding: 12px;
+  flex: 1 1 auto;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  border: 0;
+}
+
+.card-fields-container[b-43t64rwzfe]  .card-fields-grid {
+  align-items: flex-start;
+  align-content: flex-start;
+  row-gap: 24px;
+}
+
+.card-fields-container[b-43t64rwzfe]  .card-fields-groups {
+  margin-top: 4px;
+}
+
+.card-fields-container[b-43t64rwzfe]  .card-fields-group-card {
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border: 0;
+}
+
+.card-fields-container[b-43t64rwzfe]  .card-fields-actions {
+  padding: 8px 0;
+  flex-shrink: 0;
+}
+/* _content/BlazorEngine/Components/DataGrid/ListDataGrid.razor.rz.scp.css */
+.GridContainer[b-xrc8wk6f1p] {
+  overflow: hidden;
+  height: 100%;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-flow: column;
+  gap: 4px;
+}
+
+.GridContainer[b-xrc8wk6f1p]  .datagrid-keyboard-scope {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.GridContainer[b-xrc8wk6f1p]  .datagrid-toolbar {
+  padding: 4px 8px;
+  flex: 0 0 auto;
+  margin-bottom: 4px;
+  background: transparent;
+}
+
+.datagrid-table-wrapper[b-xrc8wk6f1p] {
+  overflow: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.datagrid-header-add-btn[b-xrc8wk6f1p] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.datagrid-row-actions[b-xrc8wk6f1p] {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.datagrid-table-wrapper[b-xrc8wk6f1p]  th,
+.datagrid-table-wrapper[b-xrc8wk6f1p]  td {
+  box-sizing: border-box;
+}
+
+/* V5 sets a 40px header minimum inline; match the compact row height. */
+.datagrid-table-wrapper[b-xrc8wk6f1p]  th[cell-type="columnheader"] {
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 4px;
+}
+
+.datagrid-table-wrapper[b-xrc8wk6f1p]  th[col-select="true"],
+.datagrid-table-wrapper[b-xrc8wk6f1p]  td[col-select="true"] {
+  padding-block: 0 !important;
+}
+
+.datagrid-table-wrapper[b-xrc8wk6f1p]  th [col-sort-button] {
+  height: 24px;
+  min-height: 24px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  font-size: var(--fontSizeBase200);
+  line-height: var(--lineHeightBase200);
+}
+
+.datagrid-table-wrapper[b-xrc8wk6f1p]  th > fluent-menu {
+  display: contents;
+}
+
+.datagrid-table-wrapper[b-xrc8wk6f1p]  td:not([col-select="true"]) {
+  padding-inline: 12px;
+}
+
+.datagrid-table-wrapper[b-xrc8wk6f1p]  th.datagrid-row-menu-column,
+.datagrid-table-wrapper[b-xrc8wk6f1p]  th.datagrid-actions-column,
+.datagrid-table-wrapper[b-xrc8wk6f1p]  td.datagrid-row-menu-column,
+.datagrid-table-wrapper[b-xrc8wk6f1p]  td.datagrid-actions-column {
+  padding-inline: 8px;
+}
+
+.datagrid-context-menu[b-xrc8wk6f1p] {
+  display: contents;
+}
+
+.datagrid-loading[b-xrc8wk6f1p] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+/* _content/BlazorEngine/Components/Logs/LogPanel.razor.rz.scp.css */
+.log-scroll[b-f1dkavd8k1] {
+  overflow-y: auto;
+  max-height: calc(60vh - 100px);
+}
+/* _content/BlazorEngine/Components/Menu/NavMenu.razor.rz.scp.css */
+.navmenu[b-wobnbdmcmn] {
+  background: var(--colorNeutralBackground2);
+  height: 100%;
+  box-shadow: var(--shadow4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+  min-width: 0;
+}
+
+.navmenu[b-wobnbdmcmn]  .navmenu-items {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.navmenu-header[b-wobnbdmcmn] {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  flex-shrink: 0;
+}
+
+.navmenu-header[b-wobnbdmcmn]  .navmenu-toggle {
+  width: 32px;
+  height: 32px;
+}
+
+.navmenu-collapsed[b-wobnbdmcmn] {
+  overflow-x: hidden;
+}
+
+.navmenu-collapsed[b-wobnbdmcmn]  .fluent-navitem,
+.navmenu-collapsed[b-wobnbdmcmn]  .fluent-navcategoryitem {
+  font-size: 0;
+  min-height: 40px;
+  padding-inline: 8px;
+  justify-content: center;
+}
+
+.navmenu-collapsed[b-wobnbdmcmn]  .fluent-navitem > .icon,
+.navmenu-collapsed[b-wobnbdmcmn]  .fluent-navcategoryitem > .icon {
+  margin: 0;
+}
+
+.navmenu-collapsed[b-wobnbdmcmn]  .expand-icon,
+.navmenu-collapsed[b-wobnbdmcmn]  .fluent-navsubitemgroup {
+  display: none;
+}
+
+.navmenu-footer[b-wobnbdmcmn] {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.navmenu-footer[b-wobnbdmcmn]  .navmenu-footer-links {
+  padding-bottom: 0;
+}
+/* _content/BlazorEngine/Components/PageAction/ActionBar.razor.rz.scp.css */
+.actionbar-wrapper[b-fi7f4mva1x]  .actionbar {
+  padding: 4px 8px;
+  flex: 0 0 auto;
+  width: 100%;
+  margin-bottom: 4px;
+  align-items: center;
+  background: transparent;
+}
+
+.actionbar-wrapper[b-fi7f4mva1x]  .actionbar-title {
+  margin-right: 16px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.actionbar-wrapper[b-fi7f4mva1x]  .actionbar-overflow {
+  flex: 1;
+  min-width: 0;
+  padding-right: 5px;
+}
+
+.actionbar-item[b-fi7f4mva1x] {
+  flex-shrink: 0;
+}
+/* _content/BlazorEngine/DynamicComponents/BlazorEngineApp.razor.rz.scp.css */
+.app-error-center[b-2tu7va2i5a] {
+  text-align: center;
+}
+/* _content/BlazorEngine/DynamicComponents/DynamicMainLayout.razor.rz.scp.css */
+.layout-header[b-aq81zavskm] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 8px;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.layout-header-start[b-aq81zavskm] {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.layout-application-name[b-aq81zavskm] {
+  justify-self: center;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layout-header-toolbar[b-aq81zavskm] {
+  justify-self: end;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.layout-header[b-aq81zavskm]  fluent-button[icon-only] {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+}
+
+.layout-content[b-aq81zavskm] {
+  display: flex;
+  flex-direction: column;
+  flex-flow: column;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .layout-header[b-aq81zavskm] {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 4px;
+  }
+
+  .layout-application-name[b-aq81zavskm] {
+    max-width: 100%;
+  }
+}
+/* _content/BlazorEngine/Layouts/CardPage.razor.rz.scp.css */
+.card-page-root[b-6e2av1n15w] {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  gap: 4px;
+  min-height: 0;
+  min-width: 0;
+}
+
+.card-page-header[b-6e2av1n15w] {
+  flex: 0 0 auto;
+}
+
+.card-page-content[b-6e2av1n15w] {
+  padding: 12px;
+  padding-bottom: 8px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* _content/BlazorEngine/Layouts/ListPage.razor.rz.scp.css */
+.list-page-root[b-6c4ap360fx] {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  gap: 4px;
+  min-height: 0;
+  min-width: 0;
+}
+
+.list-page-header[b-6c4ap360fx] {
+  flex: 0 0 auto;
+}
+
+.list-page-content[b-6c4ap360fx] {
+  padding: 8px 12px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+/* _content/BlazorEngine/Layouts/TwoList.razor.rz.scp.css */
+.two-list-root[b-h9ikj2uf3f] {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  gap: 4px;
+  min-height: 0;
+  min-width: 0;
+}
+
+.two-list-header[b-h9ikj2uf3f] {
+  flex: 0 0 auto;
+}
+
+.two-list-content[b-h9ikj2uf3f] {
+  padding: 8px 12px;
+  overflow: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+/* _content/BlazorEngine/Layouts/Worksheet.razor.rz.scp.css */
+.worksheet-root[b-ns8tetwyec] {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  gap: 4px;
+  min-height: 0;
+  min-width: 0;
+}
+
+.worksheet-header[b-ns8tetwyec] {
+  flex: 0 0 auto;
+}
+
+.worksheet-card[b-ns8tetwyec] {
+  padding: 12px;
+  flex: 0 0 auto;
+}
+
+.worksheet-card[b-ns8tetwyec]  .card-fields-container {
+  height: auto;
+}
+
+.worksheet-list[b-ns8tetwyec] {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}

@@ -1,0 +1,419 @@
+/*
+ * Microsoft Fluent UI Blazor library - Reboot v2.0.0
+ *
+ * Normalization of HTML elements, copied and ajusted from Bootstrap's Reboot which is based on Normalize.css
+ * Licensed under MIT (https://github.com/microsoft/fluentui-blazor/blob/dev/LICENSE.TXT)
+ *
+ * Normalize is licensed under MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md)
+ * Bootstrap is licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ *
+ * You can enable this style by setting the attribute `use-reboot` on the `body` element, in your source code.
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
+html {
+  font-family: var(--fontFamilyBase);
+}
+
+body {
+  margin: 0;
+  font-family: var(--fontFamilyBase);
+  font-size: var(--fontSizeBase300);
+  line-height: var(--lineHeightBase300);
+  font-weight: var(--fontWeightRegular);
+  color: var(--colorNeutralForeground1);
+  background-color: var(--colorNeutralBackground1);
+}
+
+hr {
+  margin: 1rem 0;
+  color: inherit;
+  border: 0;
+  border-top: 1px solid;
+  opacity: 0.25;
+}
+
+h6, h5, h4, h3, h2, h1 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-weight: var(--fontWeightMedium);
+  font-family: inherit;
+}
+
+h1 {
+  font-size: var(--fontSizeHero900);
+  line-height: var(--lineHeightHero900);
+}
+
+h2 {
+  font-size: var(--fontSizeHero800);
+  line-height: var(--lineHeightHero800);
+}
+
+h3 {
+  font-size: var(--fontSizeHero700);
+  line-height: var(--lineHeightHero700);
+}
+
+h4 {
+  font-size: var(--fontSizeBase600);
+  line-height: var(--lineHeightBase600);
+}
+
+h5 {
+  font-size: var(--fontSizeBase500);
+  line-height: var(--lineHeightBase500);
+}
+
+h6 {
+  font-size: var(--fontSizeBase400);
+  line-height: var(--lineHeightBase400);
+}
+
+
+p {
+  font-size: var(--fontSizeBase300);
+  line-height: var(--lineHeightBase300);
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-family: var(--fontFamilyBase);
+}
+
+blockquote {
+  border-left: 5px solid var(--colorBrandBackground);
+  border-right: none;
+  font-size: var(--fontSizeBase300);
+  font-style: italic;
+  padding: 2px 15px;
+}
+
+[dir='rtl'] blockquote {
+  border-left: none;
+  border-right: 5px solid var(--colorBrandBackground);
+}
+
+abbr[title] {
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline dotted;
+  cursor: help;
+  text-decoration-skip-ink: none;
+}
+
+address {
+  margin-bottom: 1rem;
+  font-style: normal;
+  line-height: inherit;
+}
+
+ol,
+ul {
+  padding-left: 2rem;
+}
+
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+  ol ol,
+  ul ul,
+  ol ul,
+  ul ol {
+    margin-bottom: 0;
+  }
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+small {
+  font-size: 0.875em;
+}
+
+mark {
+  padding: 0;
+  background-color: var(--highlight-bg);
+}
+
+sub,
+sup {
+  position: relative;
+  font-size: 0.75em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+a {
+  color: var(--colorBrandForegroundLink);
+  text-decoration: underline;
+}
+
+  a:hover {
+    color: var(--colorBrandForegroundLinkHover);
+  }
+
+  a:active {
+    color: var(--colorBrandForegroundLinkSelected);
+  }
+
+  a:not([href]):not([class]), a:not([href]):not([class]):hover {
+    color: inherit;
+    text-decoration: none;
+  }
+
+pre,
+code,
+samp {
+  font-family: var(--fontFamilyMonospace);
+  font-size: 1em;
+}
+
+kbd {
+  padding: 0.10rem 0.25rem;
+  font-family: var(--fontFamilyMonospace);
+  font-size: var(--fontSizeBase300);
+  color: var(--colorNeutralForeground1);
+  background-color: var(--colorNeutralBackground3);
+  border-radius: var(--borderRadiusMedium);
+  border: 1px solid var(--colorBrandForeground1);
+}
+
+  kbd kbd {
+    padding: 0;
+    font-size: 1em;
+  }
+
+pre {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  overflow: auto;
+  font-size: 0.875em;
+}
+
+  pre code {
+    font-size: inherit;
+    color: inherit;
+    word-break: normal;
+  }
+
+code {
+  word-wrap: break-word;
+}
+
+a > code {
+  color: inherit;
+}
+
+figure {
+  margin: 0 0 1rem;
+}
+
+table {
+  font-size: var(--fontSizeBase300);
+  line-height: var(--lineHeightBase300);
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  caption-side: bottom;
+  border-collapse: collapse;
+}
+
+caption {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: var(--colorBrandStroke1);
+  text-align: left;
+}
+
+th {
+  text-align: inherit;
+}
+
+thead,
+tbody,
+tfoot,
+tr,
+td,
+th {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+
+label {
+  display: inline-block;
+}
+
+button {
+  border-radius: var(--borderRadiusMedium);
+}
+
+  button:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+input,
+button,
+select,
+optgroup,
+textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+
+button,
+select {
+  text-transform: none;
+}
+
+[role=button] {
+  cursor: pointer;
+}
+
+select {
+  word-wrap: normal;
+}
+
+  select:disabled {
+    opacity: 1;
+  }
+
+[list]:not([type=date]):not([type=datetime-local]):not([type=month]):not([type=week]):not([type=time])::-webkit-calendar-picker-indicator {
+  display: none !important;
+}
+
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+  button:not(:disabled),
+  [type=button]:not(:disabled),
+  [type=reset]:not(:disabled),
+  [type=submit]:not(:disabled) {
+    cursor: pointer;
+  }
+
+::-moz-focus-inner {
+  padding: 0;
+  border-style: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  font-size: calc(1.275rem + 0.3vw);
+  line-height: inherit;
+}
+
+  legend + * {
+    clear: left;
+  }
+
+::-webkit-datetime-edit-fields-wrapper,
+::-webkit-datetime-edit-text,
+::-webkit-datetime-edit-minute,
+::-webkit-datetime-edit-hour-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-year-field {
+  padding: 0;
+}
+
+::-webkit-inner-spin-button {
+  height: auto;
+}
+
+[type=search] {
+  outline-offset: -2px;
+  -webkit-appearance: textfield;
+}
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+::-webkit-file-upload-button {
+  font: inherit;
+  -webkit-appearance: button;
+}
+
+::file-selector-button {
+  font: inherit;
+  -webkit-appearance: button;
+}
+
+output {
+  display: inline-block;
+}
+
+iframe {
+  border: 0;
+}
+
+summary {
+  display: list-item;
+  cursor: pointer;
+}
+
+progress {
+  vertical-align: baseline;
+}
+
+[hidden] {
+  display: none !important;
+}
